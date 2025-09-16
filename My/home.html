@@ -32,7 +32,7 @@
         .content-wraper,
         .top-info {
             width: 100%;
-            max-width: 1200px;
+            max-width: 1063.39px;
             margin: 0 auto;
             padding: 0 15px;
         }
@@ -44,7 +44,8 @@
         .top-info{
             width: 100%;
             height: 75px;
-            border: 1px solid #d9d9d9;
+            border-top: 1px solid #d9d9d9;
+            border-bottom: 1px solid #d9d9d9;
             background-color: #f2f2f2;
             display: flex;
             align-items: center;
@@ -54,7 +55,10 @@
             display: flex;
             justify-content: flex-end;
             align-items: center;
-            font-weight: 500;
+            font-weight: 700;
+            font-size: 18.03px;
+            color: #000;
+            margin-left: 50px;
         }
 
         .top-info .status{
@@ -68,10 +72,18 @@
             border-collapse: collapse;
         }
 
-        .status table th, td{
+        .status table th{
             font-size: 16px;
             font-weight: 400;
-            border-right: 1px solid #d9d9d9;
+            border-right: 1.47px solid #d9d9d9;
+            padding: 2px 10px;
+            text-align: center;
+        }
+
+        .status table td{
+            font-size: 16px;
+            font-weight: 400;
+            border-right: 1.47px solid #d9d9d9;
             padding: 2px 10px;
             text-align: center;
         }
@@ -83,6 +95,102 @@
         .status table td{
             font-size: 12px;
         }
+
+        .main-container{
+            display: flex;
+            gap: 0;
+        }
+
+        .side-menu{
+            width: 197px;
+            position: relative;
+            overflow-y: auto;
+            border-top: 1px solid #d9d9d9;
+            border-right: 1px solid #d9d9d9;
+        }
+
+        .menu-list{
+            text-align: left;
+            margin-left: 60px;
+        }
+
+        .side-menu ul{
+            padding: 20px 0;
+        }
+
+        .side-menu li{
+            padding: 7px 0;
+            font-size: 16px;
+            font-weight: 400;
+        }
+
+        .main-content{
+            flex: 1;
+            padding: 13px;
+            position: relative;
+            /*overflow-y: auto;*/
+            border-top: 1px solid #d9d9d9;
+            border-left: 1px solid #d9d9d9;
+        }
+
+        .banner-ad{
+            width: 810px;
+            height: 86px;
+            border: 1px solid #d9d9d9;
+        }
+
+        .banner-ad > img{
+            width: 810px;
+            height: 86px;
+        }
+
+        .content-top {
+            padding-bottom: 2px;
+            display: flex;
+        }
+
+        .content-title{
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .content-more{
+            display: block;
+            margin-left: auto;
+            margin-right: 20px;
+        }
+
+        .content-more a{
+            text-decoration: none;
+            color: black;
+            font-size: 14px;
+            font-weight: 400;
+        }
+
+        .main-content table{
+            border-top: 2px solid black;
+            width: 800px;
+            text-align: center;
+        }
+        
+        .main-content table th{
+            background-color: #a6a6a6;
+            color: white;
+            font-size: 14px;
+            font-weight: 400;
+            height: 43px;
+        }
+
+        .main-content table td{
+            border-bottom: 1px solid #d9d9d9;
+            padding: 5px;
+        }
+
+        .order{
+            width: 100%;
+            margin-top: 15px;
+        }
+
     </style>
 </head>
 <body>
@@ -109,118 +217,150 @@
                     </table>
                 </div>
             </div>
-            <div class="side-menu">
-                <ul>
-                    <li>전체주문내역</li>
-                    <li>포인트내역</li>
-                    <li>쿠폰</li>
-                    <li>나의리뷰</li>
-                    <li>문의하기</li>
-                    <li>나의설정</li>
-                </ul>
-            </div>
-            <div class="main-content">
-                <div class="banner-ad">
-                    <img src="#" alt="광고사진">
+            <div class="main-container">
+                <div class="side-menu">
+                    <div class="menu-list">
+                        <ul>
+                            <li>전체주문내역</li>
+                            <li>포인트내역</li>
+                            <li>쿠폰</li>
+                            <li>나의리뷰</li>
+                            <li>문의하기</li>
+                            <li>나의설정</li>
+                        </ul>
+                    </div>
                 </div>
-                <div class="order">
-                    <h4>최근주문내역</h4>
-                    <table border="1">
-                        <tr>
-                            <th>날짜</th>
-                            <th>상품정보</th>
-                            <th>상태</th>
-                            <th>확인/신청</th>
-                        </tr>
-                        <tr>
-                            <td>2022-12-13</td>
-                            <td>
-                                <div>
-                                    <img src="#" alt="상품사진">
-                                </div>
-                                <div>
-                                    <span>
-                                        주문번호 : 1012211341 <br>
-                                        (주)  상호명 <br>
-                                        상품명 <br>
-                                        수량 : 1개 <br>
-                                        <h4>34,000원</h4>
-                                    </span>
-                                </div>
-                            </td>
-                            <td>배송완료</td>
-                            <td>
-                                <button>구매확정</button><br>
-                                <button>상품평쓰기</button><br>
-                                <button>반품신청</button><br>
-                                <button>교환신청</button><br>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-                <div class="point">
-                    <h4>포인트적립내역</h4>
-                    <table border="1">
-                        <tr>
-                            <th>날짜</th>
-                            <th>구분</th>
-                            <th>주문번호</th>
-                            <th>적립금액</th>
-                            <th>비고</th>
-                            <th>유효기간</th>
-                        </tr>
-                        <tr>
-                            <td>2022-12-13</td>
-                            <td>적립</td>
-                            <td>2022121001</td>
-                            <td>340</td>
-                            <td>상품 구매확정</td>
-                            <td>2024-12-10</td>
-                        </tr>
-                    </table>
-                </div>
-                <div class="review">
-                    <h4>상품평</h4>
-                    <table border="1">
-                        <tr>
-                            <th>번호</th>
-                            <th>상품명</th>
-                            <th>내용</th>
-                            <th>평점</th>
-                            <th>작성일</th>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>상품번호/상품명</td>
-                            <td>배송이 빨라요</td>
-                            <td></td>
-                            <td>2022-12-10</td>
-                        </tr>
-                    </table>
-                </div>
-                <div class="qna">
-                    <h4>문의내역</h4>
-                    <table border="1">
-                        <tr>
-                            <th>번호</th>
-                            <th>문의채널</th>
-                            <th>문의유형</th>
-                            <th>제목</th>
-                            <th>작성일</th>
-                            <th>상태</th>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>고객센터</td>
-                            <td>주문/결제</td>
-                            <td>신용카드 결제 오류</td>
-                            <td>2022-12-12</td>
-                            <td>검토중</td>
-                        </tr>
-                    </table>
-                </div>
-                <div class="option">
-                    <h4>나의설정</h4>
+                <div class="main-content">
+                    <div class="banner-ad">
+                        <img src="#" alt="광고사진">
+                    </div>
+                    <div class="order">
+                        <div class="content-top">
+                            <div class="content-title">
+                                <span>최근구매내역</span>
+                            </div>
+                            <div class="content-more">
+                                <a href="#">더보기&nbsp&nbsp&nbsp></a>
+                            </div>
+                        </div>
+                        <table>
+                            <tr>
+                                <th>날짜</th>
+                                <th>상품정보</th>
+                                <th>상태</th>
+                                <th>확인/신청</th>
+                            </tr>
+                            <tr>
+                                <td>2022-12-13</td>
+                                <td>
+                                    <div>
+                                        <img src="#" alt="상품사진">
+                                    </div>
+                                    <div>
+                                        <span>
+                                            주문번호 : 1012211341 <br>
+                                            (주)  상호명 <br>
+                                            상품명 <br>
+                                            수량 : 1개 <br>
+                                            <h4>34,000원</h4>
+                                        </span>
+                                    </div>
+                                </td>
+                                <td>배송완료</td>
+                                <td>
+                                    <button>구매확정</button><br>
+                                    <button>상품평쓰기</button><br>
+                                    <button>반품신청</button><br>
+                                    <button>교환신청</button><br>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="point">
+                        <div class="content-top">
+                            <div class="content-title">
+                                <span>포인트적립내역</span>
+                            </div>
+                            <div class="content-more">
+                                <a href="#">더보기&nbsp&nbsp&nbsp></a>
+                            </div>
+                        </div>
+                        <table>
+                            <tr>
+                                <th>날짜</th>
+                                <th>구분</th>
+                                <th>주문번호</th>
+                                <th>적립금액</th>
+                                <th>비고</th>
+                                <th>유효기간</th>
+                            </tr>
+                            <tr>
+                                <td>2022-12-13</td>
+                                <td>적립</td>
+                                <td>2022121001</td>
+                                <td>340</td>
+                                <td>상품 구매확정</td>
+                                <td>2024-12-10</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="review">
+                        <div class="content-top">
+                            <div class="content-title">
+                                <span>상품평</span>
+                            </div>
+                            <div class="content-more">
+                                <a href="#">더보기&nbsp&nbsp&nbsp></a>
+                            </div>
+                        </div>
+                        <table>
+                            <tr>
+                                <th>번호</th>
+                                <th>상품명</th>
+                                <th>내용</th>
+                                <th>평점</th>
+                                <th>작성일</th>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                                <td>상품번호/상품명</td>
+                                <td>배송이 빨라요</td>
+                                <td></td>
+                                <td>2022-12-10</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="qna">
+                        <div class="content-top">
+                            <div class="content-title">
+                                <span>문의내역</span>
+                            </div>
+                            <div class="content-more">
+                                <a href="#">더보기&nbsp&nbsp&nbsp></a>
+                            </div>
+                        </div>
+                        <table>
+                            <tr>
+                                <th>번호</th>
+                                <th>문의채널</th>
+                                <th>문의유형</th>
+                                <th>제목</th>
+                                <th>작성일</th>
+                                <th>상태</th>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                                <td>고객센터</td>
+                                <td>주문/결제</td>
+                                <td>신용카드 결제 오류</td>
+                                <td>2022-12-12</td>
+                                <td>검토중</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="option">
+                        <h4>나의설정</h4>
+                    </div>
                 </div>
             </div>
         </div>
