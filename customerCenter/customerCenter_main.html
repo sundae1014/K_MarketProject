@@ -3,25 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>고객센터 > 메인1</title>
+    <title>고객센터 > 메인</title>
     <style>
-        html, body {
+        html, body { /* 기본 세팅 */
             margin: 0;
             padding: 0;
         }
 
-        * {
+        * { /* 기본 세팅 */
             box-sizing: border-box;
         }
 
-        .container {
-            border: 2px solid black;
+        .container { /* 메인 */
+            border: 2px solid #D9D9D9;
             margin: 0 auto;
             width:1063.39px;
         }
 
         #subtitle {
-            margin: 25px 0px;
+            margin: 30px 0px;
             text-align: center;
         }
         
@@ -37,23 +37,38 @@
         }
         #notice .notice_title h3, #qna .qna_title h3, #inquires .inquires_title h3, #consult .consult_title h3 {
             display: inline;
-            margin: 0;
+            margin: 0 0 0 15px;
         }
         #notice .notice_title a, #qna .qna_title a, #inquires .inquires_title a {
             color: black;
             margin: 0;
             text-decoration: none;            
         }
-
+        #notice .notice_title a img, #qna .qna_title a img, #inquires .inquires_title a img {
+            height: 15px;
+            margin-left: 20px;
+            width:15px;
+            
+        }
         .notice_text ul,.inquires_text ul {
             list-style: none;
-            margin:0px;
+            margin:0 0 0 15px;
             padding-left: 5px;
         }
         .notice_text ul li, .inquires_text ul li {
-            margin: 5px 0;
+            margin: 7px 0;
         }
+        .inquires_text ul li {
+            display: flex;               
+            justify-content: space-between; 
+            align-items: center;         
+        }
+        .inquires_text_span {
+            margin-right: 50px;
+        }
+
         .notice_date {
+            color: #A6A6A6;
             margin-left: 15px;
         }
 
@@ -61,7 +76,7 @@
             display:flex; 
             gap:35px;
             justify-content:center; 
-            margin: 30px 0px;
+            margin: 40px 0 40px 15px;
         }
         .qna_menu_btn {
             display:flex; 
@@ -91,14 +106,14 @@
             display: inline-block;
             font-weight: bold;
             text-decoration: none;
-            margin: 25px 0px;
+            margin: 25px 0 25px 20px;
         }
 
         .guides { /*이용안내, 판매상담*/
             display:flex;
             gap: 20px;
             justify-content: center;
-            margin-top: 15px;
+            margin: 20px 0;
         }
         .guide {
             border: 1px solid #D9D9D9;
@@ -106,13 +121,22 @@
             width: 324.45px; 
         }
         .guide h4 {
-            display: inline;
-            margin: 0 0 20px 10px; /*테스트중*/
+            display: inline-block;
+            margin: 5px 0 0 10px;
+        }
+        .guide_span {
+            display:block;
+            margin-left: 10px;
+        }
+        .guide_h2 {
+            display:inline;
+            margin:0px;
+            margin-left: 10px;
         }
     </style>
 </head>
 <body>
-    <header style="height: 121.44px;"></header>
+    <header style="height: 121.44px;"></header> <!-- 임시 배치 -->
     <main>
         <div class="container">
             <div id="subtitle">
@@ -122,7 +146,7 @@
             <div id="notice" style="margin-bottom: 40px;">
                 <div class="notice_title">
                     <h3>공지사항</h3>
-                    <a href="#">전체보기</a>
+                    <a href="#" style="margin-right:5px;">전체보기<img src="./images/right-arrow.png"></a>
                 </div>
                 <div class="notice_text" style="margin-top:10px">
                     <ul>
@@ -138,7 +162,7 @@
             <div id="qna">
                 <div class="qna_title">
                     <h3>자주하는 질문</h3>
-                    <a href="#">전체보기</a>
+                    <a href="#" style="margin-right:5px;">전체보기<img src="./images/right-arrow.png"></a>
                 </div>
 
                 <div id="qna_menu">
@@ -181,15 +205,40 @@
             <div id="inquires">
                 <div class="inquires_title">
                     <h3>문의하기</h3>
-                    <a href="#">전체보기</a>
+                    <a href="#" style="margin-right:5px;">전체보기<img src="./images/right-arrow.png"></a>
                 </div>
                 <div class="inquires_text">
                     <ul>
-                        <li>[ 회원 ] 개인 회원과 법인회원에 차이가 있나요?</li>
-                        <li>[ 쿠폰 / 이벤트 ] 스마일 포인트는 어디에 사용하나요?</li>
-                        <li>[ 배송 ] 주문한 상품은 언제 배송되나요?</li>
-                        <li>[ 주문 / 결제 ] 신용카드결제 중 오류가 난 경우 어떻게 하나요?</li>
-                        <li>[ 취소 / 반품 / 교환 ] 주문을 취소하고 싶어요.</li>
+                        <li>[ 회원 ] 개인 회원과 법인회원에 차이가 있나요?
+                            <span class="inquires_text_span">
+                                <span style="margin-right:5px;">chh**</span>
+                                <span style="color:#A6A6A6;margin-left:5px;">22.10.31</span>
+                            </span>
+                        </li>
+                        <li>[ 쿠폰 / 이벤트 ] 스마일 포인트는 어디에 사용하나요?
+                            <span class="inquires_text_span">
+                                <span style="margin-right:5px;">chh**</span>
+                                <span style="color:#A6A6A6;margin-left:5px;">22.10.31</span>
+                            </span>
+                        </li>
+                        <li>[ 배송 ] 주문한 상품은 언제 배송되나요?
+                            <span class="inquires_text_span">
+                                <span style="margin-right:5px;">chh**</span>
+                                <span style="color:#A6A6A6;margin-left:5px;">22.10.31</span>
+                            </span>
+                        </li>
+                        <li>[ 주문 / 결제 ] 신용카드결제 중 오류가 난 경우 어떻게 하나요?
+                            <span class="inquires_text_span">
+                                <span style="margin-right:5px;">chh**</span>
+                                <span style="color:#A6A6A6;margin-left:5px;">22.10.31</span>
+                            </span>
+                        </li>
+                        <li>[ 취소 / 반품 / 교환 ] 주문을 취소하고 싶어요.
+                            <span class="inquires_text_span">
+                                <span style="margin-right:5px;">chh**</span>
+                                <span style="color:#A6A6A6;margin-left:5px;">22.10.31</span>
+                            </span>
+                        </li>
                     </ul>
                     <a href="#" id="inquires_write">문의글 작성 &nbsp; > </a>
                 </div>     
@@ -201,28 +250,32 @@
                 </div>
 
                 <div class="guides">
-                    <div class="guide">
+                    <div class="guide" style="margin-right: 10px;">
                         <h4>이용안내</h4>
 
-                        <div>
-                            <span>일반회원 / 비회원</span>
-                            <h2 style="margin:0px;">1566 - 0001</h2><span>(평일 09:00 ~ 18:00)</span>
+                        <div class="guide_content" style="margin:20px 0px">
+                            <span class="guide_span">일반회원 / 비회원</span>
+                            <h2 class="guide_h2">1566 - 0001</h2><span>(평일 09:00 ~ 18:00)</span>
+                        </div>
+                        <div class="guide_content">
+                            <span class="guide_span">스마일클럽 전용</span>
+                            <h2 class="guide_h2">1566 - 0002</h2><span>(365일 09:00 ~ 18:00)</span>
                         </div>
                     </div>     
-                    <div class="guide">
+                    <div class="guide" style="margin-left: 10px;">
                         <h4>판매상담이용안내</h4>
 
-                        <div>
-                            <span>판매고객</span>
-                            <h2 style="margin:0px;">1566 - 5700</h2><span>(평일 09:00 ~ 18:00)</span>
+                        <div class="guide_content" style="margin:20px 0px">
+                            <span class="guide_span">판매고객</span>
+                            <h2 class="guide_h2">1566 - 5700</h2><span>(평일 09:00 ~ 18:00)</span>
                         </div>
+                        <h3 style="margin:0px;display:inline;margin-left: 10px;">판매자 가입 및 서류접수 안내</h3>
                     </div>     
                 </div>
-                
             </div>
         </div>
     </main>
 
-    <footer></footer>
+    <footer style="height: 121.44px;"></footer> <!-- 임시 배치 -->
 </body>
 </html>
