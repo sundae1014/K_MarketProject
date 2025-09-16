@@ -21,33 +21,93 @@
         }
 
         #subtitle {
+            margin: 25px 0px;
             text-align: center;
         }
         
-        #notice {
+        #notice, #qna, #inquires, #consult {
             border-top: 1px solid black;
             margin: 0 auto;
             width:796.87px;
         }
-        #notice .notice_title {
+        #notice .notice_title, #qna .qna_title, #inquires .inquires_title {
             align-items: center;
             display: flex;
             justify-content: space-between; 
         }
-        #notice .notice_title h3 {
+        #notice .notice_title h3, #qna .qna_title h3, #inquires .inquires_title h3, #consult .consult_title h3 {
             display: inline;
             margin: 0;
         }
-        #notice .notice_title a {
+        #notice .notice_title a, #qna .qna_title a, #inquires .inquires_title a {
             color: black;
             margin: 0;
             text-decoration: none;            
         }
 
-        .notice_text ul {
+        .notice_text ul,.inquires_text ul {
             list-style: none;
             margin:0px;
             padding-left: 5px;
+        }
+        .notice_text ul li, .inquires_text ul li {
+            margin: 5px 0;
+        }
+        .notice_date {
+            margin-left: 15px;
+        }
+
+        #qna_menu {
+            display:flex; 
+            gap:35px;
+            justify-content:center; 
+            margin: 30px 0px;
+        }
+        .qna_menu_btn {
+            display:flex; 
+            flex-direction:column; 
+            align-items:center;
+        }
+        .qna_menu_btn a {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none; 
+            color: black; 
+            gap: 5px; 
+        }
+        .qna_menu_btn img {
+            border:2px solid #b9b9b9;
+            border-radius: 50%;                        
+            height: 85px;
+            width: 85px;
+        }
+        .qna_menu_btn img:hover {
+            border:2px solid #557be6
+        }
+
+        #inquires_write { /*문의글 작성*/
+            color: #2771c3;
+            display: inline-block;
+            font-weight: bold;
+            text-decoration: none;
+            margin: 25px 0px;
+        }
+
+        .guides { /*이용안내, 판매상담*/
+            display:flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+        .guide {
+            border: 1px solid #D9D9D9;
+            height:227px;
+            width: 324.45px; 
+        }
+        .guide h4 {
+            display: inline;
+            margin: 0 0 20px 10px; /*테스트중*/
         }
     </style>
 </head>
@@ -59,21 +119,106 @@
                 <h3><span style="color:#00B050">케이마켓(임시)</span>이 도와드릴게요 !</h3>
             </div>
 
-            <div id="notice">
+            <div id="notice" style="margin-bottom: 40px;">
                 <div class="notice_title">
                     <h3>공지사항</h3>
                     <a href="#">전체보기</a>
                 </div>
-
-                <div class="notice_text">
+                <div class="notice_text" style="margin-top:10px">
                     <ul>
-                        <li>[ 안내 ] 해외 결제 사칭 문자주의 <span>22.10.31</span></li>
-                        <li>[ 안내 ] 해외 결제 사칭 문자주의 <span>22.10.31</span></li>
-                        <li>[ 안내 ] 해외 결제 사칭 문자주의 <span>22.10.31</span></li>
-                        <li>[ 안내 ] 해외 결제 사칭 문자주의 <span>22.10.31</span></li>
-                        <li>[ 안내 ] 해외 결제 사칭 문자주의 <span>22.10.31</span></li>
+                        <li>[ 안내 ] 해외 결제 사칭 문자주의 <span class="notice_date">22.10.31</span></li>
+                        <li>[ 안내 ] 해외 결제 사칭 문자주의 <span class="notice_date">22.10.31</span></li>
+                        <li>[ 안내 ] 해외 결제 사칭 문자주의 <span class="notice_date">22.10.31</span></li>
+                        <li>[ 안내 ] 해외 결제 사칭 문자주의 <span class="notice_date">22.10.31</span></li>
+                        <li>[ 안내 ] 해외 결제 사칭 문자주의 <span class="notice_date">22.10.31</span></li>
                     </ul>
                 </div>     
+            </div>
+
+            <div id="qna">
+                <div class="qna_title">
+                    <h3>자주하는 질문</h3>
+                    <a href="#">전체보기</a>
+                </div>
+
+                <div id="qna_menu">
+                    <div class="qna_menu_btn">
+                        <a href="#">
+                            <img src="./images/user.png" alt="회원" ><span>회원</span>
+                        </a>
+                         
+                    </div>
+                    <div class="qna_menu_btn">
+                        <a href="#">
+                            <img src="./images/coupon.png" alt="쿠폰 / 이벤트"><span>쿠폰 / 이벤트</span>
+                        </a>
+                         
+                    </div>
+                    <div class="qna_menu_btn">
+                        <a href="#">
+                            <img src="./images/receipt.png" alt="주문 / 결제" ><span>주문 / 결제</span>
+                        </a>
+                         
+                    </div>
+                    <div class="qna_menu_btn">
+                        <a href="#">
+                            <img src="./images/shipped.png" alt="배송"><span>배송</span>
+                        </a>  
+                    </div>
+                    <div class="qna_menu_btn">
+                        <a href="#">
+                            <img src="./images/return-box.png" alt="취소 / 반품 / 환불"><span>취소 / 반품 / 환불</span>
+                        </a>
+                    </div>
+                    <div class="qna_menu_btn">
+                        <a href="#">
+                            <img src="./images/lock.png" alt="안전결제"><span>안전결제</span>
+                        </a>  
+                    </div>
+                </div>     
+            </div>
+
+            <div id="inquires">
+                <div class="inquires_title">
+                    <h3>문의하기</h3>
+                    <a href="#">전체보기</a>
+                </div>
+                <div class="inquires_text">
+                    <ul>
+                        <li>[ 회원 ] 개인 회원과 법인회원에 차이가 있나요?</li>
+                        <li>[ 쿠폰 / 이벤트 ] 스마일 포인트는 어디에 사용하나요?</li>
+                        <li>[ 배송 ] 주문한 상품은 언제 배송되나요?</li>
+                        <li>[ 주문 / 결제 ] 신용카드결제 중 오류가 난 경우 어떻게 하나요?</li>
+                        <li>[ 취소 / 반품 / 교환 ] 주문을 취소하고 싶어요.</li>
+                    </ul>
+                    <a href="#" id="inquires_write">문의글 작성 &nbsp; > </a>
+                </div>     
+            </div>
+
+            <div id="consult">
+                <div class="consult_title">
+                    <h3>1:1 상담안내</h3>
+                </div>
+
+                <div class="guides">
+                    <div class="guide">
+                        <h4>이용안내</h4>
+
+                        <div>
+                            <span>일반회원 / 비회원</span>
+                            <h2 style="margin:0px;">1566 - 0001</h2><span>(평일 09:00 ~ 18:00)</span>
+                        </div>
+                    </div>     
+                    <div class="guide">
+                        <h4>판매상담이용안내</h4>
+
+                        <div>
+                            <span>판매고객</span>
+                            <h2 style="margin:0px;">1566 - 5700</h2><span>(평일 09:00 ~ 18:00)</span>
+                        </div>
+                    </div>     
+                </div>
+                
             </div>
         </div>
     </main>
