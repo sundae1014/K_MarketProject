@@ -147,6 +147,7 @@
         .content-top {
             padding-bottom: 2px;
             display: flex;
+            margin-top: 15px;
         }
 
         .content-title{
@@ -188,7 +189,68 @@
 
         .order{
             width: 100%;
-            margin-top: 15px;
+        }
+
+        .order table button{
+            width: 102px;
+            height: 31px;
+            margin-bottom: 3px;
+        }
+
+        .order .second-td{
+            display: flex;
+            padding: 20px;
+            padding-right: 0;
+            padding-bottom: 5px;
+            width: 414px;
+        }
+
+        .order .second-th{
+            width: 414px;
+        }
+
+        .order .btn1st, .btn2nd{
+            background-color: #558ED5;
+            color: white;
+            font-size: 12px;
+            font-weight: 400;
+            border: none;
+        }
+
+        .order .btn3rd, .btn4th{
+            background-color: #F2F2F2;
+            color: black;
+            font-size: 12px;
+            font-weight: 400;
+            border: 1.5px solid #808080;
+        }
+
+        .second-td .prod-img{
+            display: flex;
+            width: 119px;
+            height: 115px;
+            border: 1px solid black;
+            margin-left: 30px;
+        }
+
+        .second-td .prod-img img{
+            width: 118.32px;
+            height: 114.90px;
+        }
+
+        .second-td .prod-info{
+            flex: auto;
+            margin-left: 30px;
+            text-align: left;
+        }
+
+        .second-td .prod-info p{
+            margin-bottom: 4px;
+        }
+
+        .second-td .prod-info h4{
+            font-size: 18px;
+            font-weight: 700;
         }
 
     </style>
@@ -246,32 +308,32 @@
                         <table>
                             <tr>
                                 <th>날짜</th>
-                                <th>상품정보</th>
+                                <th class="second-th">상품정보</th>
                                 <th>상태</th>
                                 <th>확인/신청</th>
                             </tr>
                             <tr>
                                 <td>2022-12-13</td>
-                                <td>
-                                    <div>
+                                <td class="second-td">
+                                    <div class="prod-img">
                                         <img src="#" alt="상품사진">
                                     </div>
                                     <div>
                                         <span>
-                                            주문번호 : 1012211341 <br>
-                                            (주)  상호명 <br>
-                                            상품명 <br>
-                                            수량 : 1개 <br>
+                                            <p>주문번호 : 1012211341</p>
+                                            <p>(주)  상호명</p>
+                                            <p>상품명</p>
+                                            <p>수량 : 1개</p>
                                             <h4>34,000원</h4>
                                         </span>
                                     </div>
                                 </td>
                                 <td>배송완료</td>
                                 <td>
-                                    <button>구매확정</button><br>
-                                    <button>상품평쓰기</button><br>
-                                    <button>반품신청</button><br>
-                                    <button>교환신청</button><br>
+                                    <button class="btn1st">구매확정</button><br>
+                                    <button class="btn2nd">상품평쓰기</button><br>
+                                    <button class="btn3rd">반품신청</button><br>
+                                    <button class="btn4th">교환신청</button><br>
                                 </td>
                             </tr>
                         </table>
