@@ -153,6 +153,16 @@
             background-image: url('./images/btn-last-page.png');
         }
     </style>
+    <script> 
+        document.addEventListener('DOMContentLoaded', () => { // 네비게이션 포커싱
+            const nav = document.querySelectorAll(".navList_a");
+            const nt_h3 = document.querySelector("#notice_title_h3");
+            if("전체" === nt_h3.innerText) {
+                nav[0].style.color = "black";
+                nav[0].style.textDecoration = "underline";
+            }
+        });
+    </script>
 </head>
 <body>
     <header style="height: 121.44px;"></header> <!-- 임시 배치 -->
@@ -178,22 +188,22 @@
                 </div>
                 <div id="notice_all" style="width:900px;height:800px;">
                     <div id="notice_title">
-                        <h3>전체</h3>
+                        <h3 id="notice_title_h3">전체</h3>
                         <span>공지사항 전체 내용 입니다.</span>
                     </div>
                     <div style="border:1px solid black; float:right;width:814px;"></div>
                     <div id="notice_list">
                         <ul style="margin:0px;">
-                            <li><a href="#"><span class="text_title">[안내] 해외 결제 사칭 문자주의</span><span class="text_date">00.00.00</span></a></li>
+                            <li><a href="#"><span class="text_title">[안내] &nbsp;해외 결제 사칭 문자주의</span><span class="text_date">00.00.00</span></a></li>
                             <li><a href="#"><span class="text_title">[발표] 『G.Live X SK 스토어 (하남쭈꾸미)』 이벤트 당첨자</span><span class="text_date">00.00.00</span></a></li>
-                            <li><a href="#"><span class="text_title">[안내] 로젠택배 반품 / 교환수 거 지시지 연안 내</span><span class="text_date">00.00.00</span></a></li>
-                            <li><a href="#"><span class="text_title">[주의] SNS 기반 해외직구 사기사이트 피해 주의 안내</span><span class="text_date">00.00.00</span></a></li>
+                            <li><a href="#"><span class="text_title">[안내] &nbsp;로젠택배 반품 / 교환수 거 지시지 연안 내</span><span class="text_date">00.00.00</span></a></li>
+                            <li><a href="#"><span class="text_title">[주의] &nbsp;SNS 기반 해외직구 사기사이트 피해 주의 안내</span><span class="text_date">00.00.00</span></a></li>
                             <li><a href="#"><span class="text_title">[발표] 『해외여행 – 괌사이판 모두투어 라이브』 이벤트 당첨자</span><span class="text_date">00.00.00</span></a></li>
-                            <li><a href="#"><span class="text_title">[주의] 관세청, 화약식 타정총 등 위해물품 반입금지 안내</span><span class="text_date">00.00.00</span></a></li>
+                            <li><a href="#"><span class="text_title">[주의] &nbsp;관세청, 화약식 타정총 등 위해물품 반입금지 안내</span><span class="text_date">00.00.00</span></a></li>
                             <li><a href="#"><span class="text_title">[발표] 『닌텐도 스위치2 추첨 예약판매』 이벤트 당첨자</span><span class="text_date">00.00.00</span></a></li>
-                            <li><a href="#"><span class="text_title">[안내] 위치정보이용약관 개정 공지</span><span class="text_date">00.00.00</span></a></li>
-                            <li><a href="#"><span class="text_title">[안내] 구매 회원 이용약관 개정</span><span class="text_date">00.00.00</span></a></li>
-                            <li><a href="#"><span class="text_title">[안내] 씨티은행 시스템 점검에 따른 계좌, 체크카드 결제 서비스 일시 중단</span><span class="text_date">00.00.00</span></a></li>
+                            <li><a href="#"><span class="text_title">[안내] &nbsp;위치정보이용약관 개정 공지</span><span class="text_date">00.00.00</span></a></li>
+                            <li><a href="#"><span class="text_title">[안내] &nbsp;구매 회원 이용약관 개정</span><span class="text_date">00.00.00</span></a></li>
+                            <li><a href="#"><span class="text_title">[안내] &nbsp;씨티은행 시스템 점검에 따른 계좌, 체크카드 결제 서비스 일시 중단</span><span class="text_date">00.00.00</span></a></li>
                         </ul> 
                     </div>
 
