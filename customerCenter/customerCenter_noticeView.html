@@ -96,7 +96,21 @@
             text-align: center;
             width: 106px;
         }
+        #list_btn:hover {
+            background-color: #7a7a7a;
+            color:white;
+        }
     </style>
+    <script> 
+        document.addEventListener('DOMContentLoaded', () => { // 네비게이션 포커싱
+            const nav = document.querySelectorAll(".navList_a");
+            const nt_h3 = document.querySelector("#notice_title_h3");
+            if("전체" === nt_h3.innerText) {
+                nav[0].style.color = "black";
+                nav[0].style.textDecoration = "underline";
+            }
+        });
+    </script>
 </head>
 <body>
     <header style="height: 121.44px;"></header> <!-- 임시 배치 -->
@@ -122,7 +136,7 @@
                 </div>
                 <div id="notice_all" style="width:900px;height:800px;">
                     <div id="top_title">
-                        <h3>전체</h3>
+                        <h3 id="notice_title_h3">전체</h3>
                         <span>공지사항 전체 내용 입니다.</span>
                     </div>
                     <div style="border:1px solid black; float:right;width:814px;"></div>
