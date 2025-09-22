@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8"> <!-- 프린트 이미지 재배치, 현재 약관 하이라이트 추가, 그외 나머지 추가 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>구매회원 이용약관</title>  
     <style>
@@ -11,14 +11,13 @@
             box-sizing: border-box;
         }
 
-        main {
+        .container {
             display: flex;
             min-height: 100vh;
             max-width: 1200px;
             margin: 0 auto;
         }
 
-        /* 네비게이션 영역 */
         .navigation {
             width: 200px;
             background-color: #e8e8e8;
@@ -59,10 +58,9 @@
 
         .content-header {
             display: flex;
-            align-items: center;
-            margin-bottom: 30px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid #eee;
+            align-items: flex-start;
+            width:960px;
+            height: 130px;
         }
 
         .top-title {
@@ -70,121 +68,170 @@
             font-weight: bold;
             margin-right: 20px;
         }
+        #terms_box {
+            display:flex; 
+            gap:35px;
+            justify-content:center; 
+            margin: 0 0 0 120px;
+        }
+        .terms_link {
+            display:flex; 
+            flex-direction:column; 
+            align-items:center;
+        }
+        .terms_link a {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none; 
+            color: black; 
+            gap: 5px; 
+        }
+        .terms_link img {
+            border:2px solid #b9b9b9;
+            border-radius: 50%;                        
+            height: 75px;
+            width: 75px;
+        }
+        .terms_link span {color: #b9b9b9;}
+        .terms_link:hover img{border:2px solid black;}
+        .terms_link:hover a > span {color: black;}
 
         .content-body {
             line-height: 1.6;
         }
 
+        .title {
+            display: flex;
+            justify-content: space-between;
+        }
+        .print_btn {
+            background: none;
+            border:none;
+            cursor: pointer;
+            padding: 0;    
+        }
+        .print_btn img {
+            background-color: white;
+            height: 75px;
+            width: 75px;
+        }
+
         .section {
             margin-bottom: 30px;
         }
-
         .section-title {
-            font-size: 16px;
+            font-size: 18px;
             font-weight: bold;
             margin-bottom: 15px;
-            color: #333;
         }
-
         .section-content {
-            font-size: 14px;
-            color: #666;
+            color:#888;
+            font-size: 12px;
+            font-family: "돋움";
             line-height: 1.8;
         }
     </style>
 </head>
 <body>
     <header style="height: 121.44px;"></header> <!-- 임시 배치 -->
-    <main> <!-- 임시 틀 다시 배치 바꾸기 -->
-        <div class="navigation">
-            <div class="nav-item">
-                <span class="nav-icon">👤</span>
-                <span>패션○외룩○뷰티</span>
+    <main>
+        <div class="container">
+            <div class="navigation">
+                <div class="nav-item">
+                    <span class="nav-icon">👤</span>
+                    <span>패션○외룩○뷰티</span>
+                </div>
+                <div class="nav-item">
+                    <span class="nav-icon">💻</span>
+                    <span>가전○디지털</span>
+                </div>
+                <div class="nav-item active">
+                    <span class="nav-icon">🔧</span>
+                    <span>식품○생필품</span>
+                </div>
+                <div class="nav-item">
+                    <span class="nav-icon">🏠</span>
+                    <span>홈○문구○취미</span>
+                </div>
             </div>
-            <div class="nav-item">
-                <span class="nav-icon">💻</span>
-                <span>가전○디지털</span>
-            </div>
-            <div class="nav-item active">
-                <span class="nav-icon">🔧</span>
-                <span>식품○생필품</span>
-            </div>
-            <div class="nav-item">
-                <span class="nav-icon">🏠</span>
-                <span>홈○문구○취미</span>
+
+            <div class="content">
+                <div class="content-header">
+                    <h1 class="top-title">Kmarket 서비스 이용약관</h1>
+                    <div id="terms_box">
+                        <div class="terms_link">
+                            <a href="#">
+                                <img src="./images/bulk-buying.png" alt="test"><span>구매회원 약관</span>
+                            </a>
+                        </div>
+                        <div class="terms_link">
+                            <a href="#">
+                                <img src="./images/sale-tag.png" alt="판매회원 약관"><span>판매회원 약관</span>
+                            </a>
+                        </div>
+                        <div class="terms_link">
+                            <a href="#">
+                                <img src="./images/internet-banking.png" alt="전자금융거래"><span>전자금융거래</span>
+                            </a>
+                        </div>
+                        <div class="terms_link">
+                            <a href="#">
+                                <img src="./images/location-info.png" alt="위치정보 약관"><span>위치정보 약관</span>
+                            </a>
+                        </div>
+                        <div class="terms_link">
+                            <a href="#">
+                                <img src="./images/online-privacy.png" alt="개인정보처리"><span>개인정보처리</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-body">
+                    <div class="title">
+                        <h2 class="section-title" style="display: inline-block;">구매회원 이용약관</h2>
+                        <button onclick="window.print()" class="print_btn"><img src="./images/online-privacy.png" alt="프린트"></button>
+                    </div>
+
+                    <div class="section">
+                        <h3 class="section-title">제 1 조 (목적)</h3>
+                        <div class="section-content">
+                            이약관은주식회사케이마켓(이하"회사"라함)이 운영하는 케이마켓 인터넷 쇼핑몰에서 제공하는 서비스와 이를 이용하는 회원 간의 관계를 규정함을 목적으로 합니다.
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <h3 class="section-title">제 2 조 (약관의설정, 효력과개정)</h3>
+                        <div class="section-content">
+                            약관내용일 도 제공
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <h3 class="section-title">제 3 조</h3>
+                        <div class="section-content">
+                            약관내용일 도 제공
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <h3 class="section-title">제 4 조</h3>
+                        <div class="section-content">
+                            약관내용일 도 제공
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <h3 class="section-title">제 5 조</h3>
+                        <div class="section-content">
+                            약관내용일 도 제공
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-
         
-        <!-- 본문 영역 -->
-        <div class="content">
-            <div class="content-header">
-                <h1 class="top-title">Kmarket 서비스 이용약관</h1>
-                <div id="terms_box">
-                    <div class="terms_link">
-                        <a href="#"><img src="" alt="test"></a>
-                        <p>test</p>
-                    </div>
-                    <div class="terms_link">
-                        <a href="#"><img src="" alt="test"></a>
-                        <p>test</p>
-                    </div>
-                    <div class="terms_link">
-                        <a href="#"><img src="" alt="test"></a>
-                        <p>test</p>
-                    </div>
-                    <div class="terms_link">
-                        <a href="#"><img src="" alt="test"></a>
-                        <p>test</p>
-                    </div>
-                    <div class="terms_link">
-                        <a href="#"><img src="" alt="test"></a>
-                        <p>test</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="content-body">
-                <div class="section">
-                    <h2 class="section-title">구매회원 약관</h2>
-                </div>
-
-                <div class="section">
-                    <h3 class="section-title">제 1 조 (목적)</h3>
-                    <div class="section-content">
-                        이약관은주식회사케이마켓(이하"회사"라함)이 운영하는 케이마켓 인터넷 쇼핑몰에서 제공하는 서비스와 이를 이용하는 회원 간의 관계를 규정함을 목적으로 합니다.
-                    </div>
-                </div>
-
-                <div class="section">
-                    <h3 class="section-title">제 2 조 (약관의설정, 효력과개정)</h3>
-                    <div class="section-content">
-                        약관내용일 도 제공
-                    </div>
-                </div>
-
-                <div class="section">
-                    <h3 class="section-title">제 3 조</h3>
-                    <div class="section-content">
-                        약관내용일 도 제공
-                    </div>
-                </div>
-
-                <div class="section">
-                    <h3 class="section-title">제 4 조</h3>
-                    <div class="section-content">
-                        약관내용일 도 제공
-                    </div>
-                </div>
-
-                <div class="section">
-                    <h3 class="section-title">제 5 조</h3>
-                    <div class="section-content">
-                        약관내용일 도 제공
-                    </div>
-                </div>
-            </div>
-        </div>
     </main>
     <footer style="height: 121.44px;"></footer> <!-- 임시 배치 -->
 </body>
