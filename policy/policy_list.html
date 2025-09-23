@@ -96,6 +96,8 @@
         .terms_link span {color: #b9b9b9;}
         .terms_link:hover img{border:2px solid black;}
         .terms_link:hover a > span {color: black;}
+        .terms_link a.active img {border: 2px solid black;}
+        .terms_link a.active span { color: black;}
 
         .content-body {
             line-height: 1.6;
@@ -132,6 +134,23 @@
             line-height: 1.8;
         }
     </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const links = document.querySelectorAll(".terms_link a");
+            const img_box = document.querySelectorAll(".terms_link img");
+            const links_span = document.querySelectorAll(".terms_link span");
+
+            links.forEach(link => {
+                link.addEventListener("click",e => {
+                    e.preventDefault();
+
+                    links.forEach(link => link.classList.remove('active'));
+
+                    link.classList.add('active');
+                });
+            });
+        });
+    </script>
 </head>
 <body>
     <header style="height: 121.44px;"></header> <!-- 임시 배치 -->
@@ -140,19 +159,19 @@
             <div class="navigation">
                 <div class="nav-item">
                     <span class="nav-icon">👤</span>
-                    <span>패션○외룩○뷰티</span>
+                    <span>임시○임시○임시</span>
                 </div>
                 <div class="nav-item">
                     <span class="nav-icon">💻</span>
-                    <span>가전○디지털</span>
+                    <span>임시○임시</span>
                 </div>
                 <div class="nav-item active">
                     <span class="nav-icon">🔧</span>
-                    <span>식품○생필품</span>
+                    <span>임시○임시</span>
                 </div>
                 <div class="nav-item">
                     <span class="nav-icon">🏠</span>
-                    <span>홈○문구○취미</span>
+                    <span>임시○임시○임시</span>
                 </div>
             </div>
 
@@ -191,41 +210,45 @@
                 <div class="content-body">
                     <div class="title">
                         <h2 class="section-title" style="display: inline-block;">구매회원 이용약관</h2>
-                        <button onclick="window.print()" class="print_btn"><img src="./images/online-privacy.png" alt="프린트"></button>
+                        <button onclick="window.print()" class="print_btn"><img src="./images/electronic-device.png" alt="프린트"></button>
                     </div>
 
                     <div class="section">
                         <h3 class="section-title">제 1 조 (목적)</h3>
                         <div class="section-content">
-                            이약관은주식회사케이마켓(이하"회사"라함)이 운영하는 케이마켓 인터넷 쇼핑몰에서 제공하는 서비스와 이를 이용하는 회원 간의 관계를 규정함을 목적으로 합니다.
+                            이 약관은 주식회사 케이 마켓 쇼핑몰(이하"회사"라 함)가 운영하는 케이 마켓 인터넷 오픈마켓 사이트(www.Kmarket.co.kr, 이하
+                            "케이 마켓"이라 함)와 스마트폰 등 이동통신기기를 통해 제공되는 케이 마켓 모바일 애플리케이션 (이하 "모바일 케이 마켓"이라고 합니다)을 
+                            통해서 제공하는 전자상거래 관련 서비스 및 기타 서비스 (이하 "서비스"라 함)를 이용하는 자간의 권리, 의무를 확정하고 이를 이행함으로써
+                            상호 발전을 도모하는 것을 그 목적으로 합니다.                           
                         </div>
+                        <hr>
                     </div>
 
                     <div class="section">
-                        <h3 class="section-title">제 2 조 (약관의설정, 효력과개정)</h3>
+                        <h3 class="section-title">제 2 조 (약관의 명시, 효력과 개정)</h3>
                         <div class="section-content">
-                            약관내용일 도 제공
+                            약관내용별도 제공
                         </div>
                     </div>
 
                     <div class="section">
                         <h3 class="section-title">제 3 조</h3>
                         <div class="section-content">
-                            약관내용일 도 제공
+                            약관내용별도 제공
                         </div>
                     </div>
 
                     <div class="section">
                         <h3 class="section-title">제 4 조</h3>
                         <div class="section-content">
-                            약관내용일 도 제공
+                            약관내용별도 제공
                         </div>
                     </div>
 
                     <div class="section">
                         <h3 class="section-title">제 5 조</h3>
                         <div class="section-content">
-                            약관내용일 도 제공
+                            약관내용별도 제공
                         </div>
                     </div>
                 </div>
