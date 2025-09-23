@@ -120,7 +120,7 @@
 }
 
 
-/*구분 css*/
+/*////////////////////// 구분 css //////////////////////*/
 .welcome-mt{
   margin-top: 30px;
   text-align: center;
@@ -182,14 +182,14 @@
 }
 
 .select-individual:hover img {
-  content: url('/images/individual-icon-w.png');
+  content: url('/member/images/individual-icon-w.png');
 }
 
 .select-seller:hover img {
-  content: url('/images/seller-icon-w.png');
+  content: url('/member/images/seller-icon-w.png');
 }
 
-/* 약관 css */
+/*////////////////////// 약관 css //////////////////////*/
 .boardText {
     text-align: start;
     margin: 0;
@@ -253,7 +253,7 @@
     margin-top: 20px;  
 }
 
-/*아이디 찾기, 회원가입 등 테이블 들어가는 css*/
+/*////////////////////// 아이디 찾기, 회원가입 등 테이블 들어가는 css //////////////////////*/
 
 .auth-select{
   border-bottom: #ccc solid 1px;
