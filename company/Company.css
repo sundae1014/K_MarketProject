@@ -1,0 +1,418 @@
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+/* header영역 */
+.header-layout{
+    height: 104px;
+    margin: 0 auto;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.header-content{
+    width: 1200px;
+    margin: 0 auto;
+    height: 104px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+}
+
+.header-link{
+    display: flex;
+    gap: 50px;
+}
+
+.header-link a{
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+    font-size: 15px;
+}
+
+.header-link a:hover{
+    color: #436CFF;
+}
+
+/* footer영역 */
+.footer-layout{
+    height: 230px;
+    margin: 0 auto;
+    width: 100%;
+    background-color: #ECF0F2;
+}
+
+
+.footer-content{
+    width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: flex-start;
+    gap: 200px;
+    padding-top: 20px;
+}
+
+.about-link p{
+    margin: 0;
+    color: #2260A9;
+    font-size: 15px;
+    font-weight: 500;
+    padding-bottom: 5px;
+}
+
+.about-link a{
+    font-size: 13px;
+    padding-bottom:3px;
+    display: flex;
+    text-decoration: none;
+    color: #48535B;
+    font-weight: 500;
+}
+
+.about-company h2{
+    font-size: 13px;
+    color: #48535B;
+    font-weight: 400;
+    margin: 0;
+}
+.about-company a{
+    color: black;
+    font-size: 13px;
+}
+
+/* 스크롤바 */
+.scroll-down {
+    position: fixed;   
+    top: 50%;          
+    right: 2rem;       
+    transform: translateY(-50%); 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.scroll {
+    width: 1.5rem;
+    height: 3rem;
+    border: 2px solid black;
+    border-radius: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.scroll span {
+    width: 0.8rem;
+    height: 0.8rem;
+    border-radius: 50%;
+    background: #436CFF;
+    display: block;
+    animation: cursor 2s linear infinite;
+}
+
+
+.arrow-down {
+    width: 0.8rem;
+    height: 0.8rem;
+    border: 2px solid transparent;
+    border-right-color: black;
+    border-bottom-color: black;
+    transform: rotate(45deg);
+    margin-top: 0.3rem;
+    animation: arrow 1.15s linear infinite;
+}
+
+@keyframes cursor {
+    0% {
+        opacity: 0;
+        transform: translateY(-1rem);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(1rem);
+    }
+}
+
+@keyframes arrow{
+    0%{
+        opacity: 0;
+    }
+    25%{
+        opacity: 0.25;
+    }
+    50%{
+        opacity: 0.5;
+    }
+    75%{
+        opacity: 0.75;
+    }
+    100%{
+        opacity: 1;
+    }
+}
+
+/* main css*/
+.board {
+  width: 1200px;
+  margin: 0 auto;
+  padding-bottom: 100px;
+}
+
+/* index css */
+/* 메인#1 css*/
+.landing-area {
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+
+.landing-area img {
+    width: 100%;
+    height: 500px;
+    display: block;
+    opacity: 0;
+    animation: imgAppear 1.5s ease-out forwards;
+    animation-delay: 0.3s;
+}
+
+.landing-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: white;
+}
+
+.landing-text h1 {
+    width: 1000px;
+    font-size: 38px;
+    opacity: 0;
+    animation: focus-in-contract 2s cubic-bezier(0.25,0.46,0.45,0.94) both;
+    animation-delay: 0.8s;
+}
+
+.landing-text p {
+    font-size: 25px;
+    opacity: 0;
+    animation: focus-in-contract 2s cubic-bezier(0.25,0.46,0.45,0.94) both;
+    animation-delay: 1.5s;
+}
+
+@keyframes imgAppear {
+    from {
+        opacity: 0;
+        transform: scale(1.05);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@-webkit-keyframes focus-in-contract {
+  0% {
+    letter-spacing: 1em;
+    -webkit-filter: blur(12px);
+            filter: blur(12px);
+    opacity: 0;
+  }
+  100% {
+    -webkit-filter: blur(0px);
+            filter: blur(0px);
+    opacity: 1;
+  }
+}
+@keyframes focus-in-contract {
+  0% {
+    letter-spacing: 1em;
+    -webkit-filter: blur(12px);
+            filter: blur(12px);
+    opacity: 0;
+  }
+  100% {
+    -webkit-filter: blur(0px);
+            filter: blur(0px);
+    opacity: 1;
+  }
+}
+
+
+.highlight {
+    font-size: 2em;
+    color: #333;
+    font-weight: bold;
+    margin-bottom: 20px;
+    margin-top: 35px;
+
+}
+.subtext {
+    font-size: 1em;
+    color: #555555;
+}
+
+.subtext{
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 20px;
+}
+
+/* 메인#2 css*/
+/* 기본 스타일 */
+.slogan-slider {
+  width: 90%;
+  margin: 130px auto;
+  position: relative;
+}
+
+.slogan-header {
+  text-align: start;
+  margin-bottom: 25px;
+}
+
+.slogan-header h1 {
+  font-size: 30px;
+  font-weight: bold;
+  color: #333;
+}
+
+.slider-container {
+  position: relative;
+}
+
+.slides-wrapper {
+  overflow: hidden;
+}
+
+.slides {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+}
+
+.slide {
+  min-width: 50%;
+  box-sizing: border-box;
+  padding: 20px;
+}
+
+.slide img {
+  width: 500px;
+  height: 300px;
+}
+
+.slide h2 {
+  font-size: 22px;
+}
+
+.slide p {
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 30px;
+  background:  white;
+  color: #436CFF;
+  border: none;
+  cursor: pointer;
+  z-index: 10;
+
+}
+
+.prev { left: -60px; }  
+.next { right: -60px; } 
+
+.slider-dots {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.slider-dots .dot {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin: 0 6px;
+  background-color: #bbb;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.slider-dots .dot.active {
+  background-color: #436CFF; 
+}
+
+/* 메인#3 css*/
+.news-section {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.news-header h1 {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.news-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.news-list li {
+  display: block;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.news-date {
+  color: #888;
+  flex-shrink: 0;
+  width: 80px;
+}
+
+.news-title {
+  color: #333;
+  text-decoration: none;
+  font-size: 22px;
+  font-weight: 400;
+  display: flex;
+  justify-content: space-between; /* 텍스트 왼쪽, 화살표 오른쪽 */
+  align-items: center;
+  transition: color 0.3s;
+  flex-grow: 1;
+}
+
+.news-title:hover .arrow-right,
+.news-title:hover {
+  color: #0077cc;
+    border-right-color: #0077cc; /* 화살표 색 변경 */
+  border-bottom-color: #0077cc;
+}
+
+.arrow-right{
+  width: 0.6rem;
+  height: 0.6rem;
+  border: 2px solid transparent;
+  border-right-color: black;
+  border-bottom-color: black;
+  transform: rotate(-45deg);
+  margin-left: 10px;
+  flex-shrink: 0;
+}
+
+
+/* 메인#4 css*/
+
