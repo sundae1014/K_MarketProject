@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>상품목록</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .container {
+            display: flex;  
+            min-height: 100vh;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .navigation {
+            width: 200px;
+            background-color: #e8e8e8;
+            border-right: 1px solid #ccc;
+            padding: 20px 0;
+            flex-shrink: 0;
+        }
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            border-bottom: 1px solid #ccc;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .nav-item:hover {
+            background-color: #ddd;
+        }
+        .nav-item.active {
+            background-color: #d0d0d0;
+            font-weight: bold;
+        }
+        .nav-icon {
+            margin-right: 8px;
+            font-size: 16px;
+        }
+
+        /* 본문 영역 */
+        .content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .content-header {
+            align-items: flex-start;
+            border-bottom: 2px solid #808080;
+            display: flex;
+            justify-content: space-between;
+            padding-bottom: 10px;
+            width:960px;
+        }
+
+        .top-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-right: 20px;
+        }
+
+        #search-select {
+            appearance: none;
+            border: 2px solid #BFBFBF;
+            height: 35px;
+            outline: none;
+            padding-left: 10px;
+            width: 95px;
+        }
+        #search-input {
+            border: 2px solid #BFBFBF;
+            height: 35px;
+            outline: none;
+            padding-left: 10px;
+            width:148px;
+        }
+        .search-btn {
+            background-color: #BFBFBF;
+            border:none;
+            color:white;
+            height: 35px;
+            width: 62px;  
+        }
+        .search-btn:hover {
+            background-color: black;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <header style="height: 121.44px;"></header> <!-- 임시 배치 -->
+    <main>
+        <div class="container">
+            <div class="navigation">
+                <div class="nav-item">
+                    <span class="nav-icon">👤</span>
+                    <span>임시○임시○임시</span>
+                </div>
+                <div class="nav-item">
+                    <span class="nav-icon">💻</span>
+                    <span>임시○임시</span>
+                </div>
+                <div class="nav-item active">
+                    <span class="nav-icon">🔧</span>
+                    <span>임시○임시</span>
+                </div>
+                <div class="nav-item">
+                    <span class="nav-icon">🏠</span>
+                    <span>임시○임시○임시</span>
+                </div>
+            </div>
+
+            <div class="content">
+                <div class="content-header">
+                    <h1 class="top-title">상점목록</h1>
+                    <div>
+                        <span>HOME</span> &nbsp;&gt;&nbsp;
+                        <span>상점관리</span> &nbsp;&gt;&nbsp;
+                        <span style="font-weight: bold;">상점목록</span> <!-- 임시 위치 확인 bold-->
+                    </div>
+                </div>
+
+                <form style="margin-top: 20px;">
+                    <select id="search-select">
+                        <option>상호명</option>
+                    </select>
+                    <input type="text" id="search-input" placeholder="검색어 입력">
+                    <input type="button" class="search-btn" value="검색">
+                </form>
+                <div>
+                    <div style="float:right;">
+                        <span>운영 중</span>
+                        <span>운영 중지</span>
+                        <span>운영 준비</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer style="height: 121.44px;"></footer> <!-- 임시 배치 -->
+</body>
+</html>
