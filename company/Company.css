@@ -9,6 +9,7 @@ html, body {
     margin: 0 auto;
     width: 100%;
     box-sizing: border-box;
+
 }
 
 .header-content{
@@ -36,8 +37,10 @@ html, body {
     font-size: 15px;
 }
 
+.header-link a.active,
 .header-link a:hover{
-    color: #436CFF;
+    color: #4DB5DF;
+    font-weight: 600; 
 }
 
 /*////////////////////// footer영역 //////////////////////*/
@@ -46,6 +49,7 @@ html, body {
     margin: 0 auto;
     width: 100%;
     background-color: #ECF0F2;
+
 }
 
 
@@ -125,6 +129,8 @@ html, body {
 .board {
   width: 1200px;
   margin: 0 auto;
+
+  margin-bottom: 120px;
 }
 
 /*////////////////////// index css //////////////////////*/
@@ -468,4 +474,233 @@ html, body {
 .timeline-item .timeline-year-row:hover ~ ul li .evt {
   transform: translateX(5px);
   transition: transform 0.2s ease;
+}
+
+
+/*/////////////기업문화 css////////////////*/
+.landing-text-c {
+    position: absolute;
+    bottom: 40px;
+    left: 40px; 
+    color: white;
+    max-width: 700px;
+    font-family: 'Pretendard', sans-serif;
+}
+
+.landing-text-c h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    animation: focus-in-expand 3s ease forwards;
+}
+
+.landing-text-c p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    opacity: 0.9;
+    animation: focus-in-expand 3.5s ease forwards;
+    animation-delay: 0.5s;
+}
+
+@-webkit-keyframes focus-in-expand {
+  0% {
+    letter-spacing: -0.5em;
+    -webkit-filter: blur(12px);
+            filter: blur(12px);
+    opacity: 0;
+  }
+  100% {
+    -webkit-filter: blur(0px);
+            filter: blur(0px);
+    opacity: 1;
+  }
+}
+@keyframes focus-in-expand {
+  0% {
+    letter-spacing: -0.5em;
+    -webkit-filter: blur(12px);
+            filter: blur(12px);
+    opacity: 0;
+  }
+  100% {
+    -webkit-filter: blur(0px);
+            filter: blur(0px);
+    opacity: 1;
+  }
+}
+
+/*/////////////소식과 이야기 css////////////////*/
+.slogan-header p {
+  font-size: 18px;
+  color: #666;
+}
+
+.blog-cateLink button{
+  border: none;
+  outline: none;
+  background-color: inherit ;
+  cursor: pointer;
+
+  font-size: 15px;
+}
+
+.blog-cateLink button.active {
+    color: #8FCC17;
+    font-weight: bold;
+}
+
+.blog-item {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 74px;
+    justify-content: start;
+    margin-top: 20px;
+}
+
+.blog-post {
+    display: none;
+    width: 350px;
+}
+
+.blog-post.show {
+    display: block;
+}
+
+.blog-card {
+    border: 1px solid #e0e0e0;
+    overflow: hidden;
+    background-color: #fff;
+}
+
+.blog-card img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+}
+
+.card-content {
+    padding: 15px;
+}
+
+.card-content h3 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.card-content p {
+    font-size: 0.95rem;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+
+
+/*/////////////채용 css////////////////*/
+.recruit-table {
+  border-collapse: collapse;
+  width: 1150px;
+  margin-top: 40px;
+  margin-left: 20px;
+  border-top: 1px solid #ccc;
+}
+
+.recruit-table th, .recruit-table td {
+  padding: 15px;
+  border-bottom: 1px solid #ccc;
+  text-align: center;
+}
+
+.col-num { width: 50px; }
+.col-dept { width: 120px; }
+.col-career { width: 100px; }
+.col-type { width: 100px; }
+.col-title { width: 250px; }
+.col-status { width: 80px; }
+.col-period { width: 200px; }
+
+.recruit-table th {
+  background-color: #f0f0f0;
+  font-weight: bold;
+  border-bottom: 1px solid #ccc;
+}
+
+/* ===== 페이지네이션 ===== */
+    .page{
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        margin-top: 30px;      
+        gap:24px;               
+    }
+    
+    .page > .prev,
+    .page > .pagenumber,
+    .page > .last{
+        display:flex;
+        align-items:center;
+        gap:4px;               
+    }
+    
+    
+    .page .pagenumber a{
+        display:inline-flex;              
+        justify-content:center;
+        align-items:center;
+        width:32px;
+        height:29px;
+        color:#666;
+        text-decoration:none;
+        box-sizing:border-box;
+        line-height:1;  
+        font-weight: 350;
+        font-size: 15px;
+    }
+    
+    
+    .page .pagenumber a.active{
+        color:#4DB5DF;
+    }
+    
+    .page .prev a,
+    .page .last a{
+        display:inline-flex;
+        justify-content:center;
+        align-items:center;
+        width:32px;
+        height:32px;
+    }
+    .page a.paging img{
+        display:block;
+        max-width:18px;  
+        max-height:18px;
+    }
+
+
+
+
+/*/////////////미디어 css////////////////*/
+.media-item {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    margin-bottom: 50px;
+    margin-top: 15px;
+}
+.media-item iframe{
+  width: 350px;
+  height: 200px;
+}
+.media-info {
+    max-width: 700px;
+}
+
+.media-info h2 {
+    margin: 0 0 10px 0;
+    font-size: 1.5rem;
+}
+
+.media-info p {
+    margin: 0;
+    color: #555;
 }
