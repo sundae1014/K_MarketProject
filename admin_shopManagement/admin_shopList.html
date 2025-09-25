@@ -92,6 +92,12 @@
             background-color: black;
             cursor: pointer;
         }
+
+        .status {margin-left: 10px;}
+        .status::before {
+            content: "●";
+            margin-right: 5px;
+        }
     </style>
 </head>
 <body>
@@ -129,16 +135,47 @@
 
                 <form style="margin-top: 20px;">
                     <select id="search-select">
-                        <option>상호명</option>
+                        <option value="trade_name">상호명</option>
+                        <option value="ceo">대표자</option>
+                        <option value="business_num">사업자등록번호</option>
+                        <option value="hp">연락처</option>
                     </select>
                     <input type="text" id="search-input" placeholder="검색어 입력">
                     <input type="button" class="search-btn" value="검색">
                 </form>
                 <div>
                     <div style="float:right;">
-                        <span>운영 중</span>
-                        <span>운영 중지</span>
-                        <span>운영 준비</span>
+                        <span class="status" style="color: #00B050;">운영 중</span>
+                        <span class="status " style="color: #FF0000;">운영 중지</span>
+                        <span class="status" style="color: #0070C0;">운영 준비</span>
+                    </div>
+                    <div>
+                        <table>
+                            <thead>
+                                <tr><th><input type="checkbox"></th></tr>
+                                <tr>번호</tr>
+                                <tr>상호명</tr>
+                                <tr>대표</tr>
+                                <tr>사업자등록번호</tr>
+                                <tr>통신판매업번호</tr>
+                                <tr>연락처</tr>
+                                <tr>운영</tr>
+                                <tr>관리</tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><input type="checkbox"></td>
+                                    <td>5</td>
+                                    <td>(주)다나와</td>
+                                    <td>정우성</td>
+                                    <td>112-12-12345</td>
+                                    <td>2024-서울강남-04433</td>
+                                    <td>010-1234-1001</td>
+                                    <td><span></span></td>
+                                    <td>[승인]</td>
+                                </tr>
+                            </tbody>                  
+                        </table>
                     </div>
                 </div>
             </div>
