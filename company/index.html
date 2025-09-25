@@ -5,92 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>회사소개(메인)</title>
     <link rel="stylesheet" href="/company/Company.css">
-    <script>
-    document.addEventListener("DOMContentLoaded", () => {
-        const topBtn = document.getElementById("topBtn");
-
-        window.addEventListener("scroll", () => {
-            if (window.scrollY > 300) {
-                topBtn.classList.remove("hidden");
-            } else {
-                topBtn.classList.add("hidden");
-            }
-        });
-
-        topBtn.addEventListener("click", () => {
-            window.scrollTo({
-                top: 0,
-                behavior: "smooth"
-            });
-        });
-    });
-
-    document.addEventListener("DOMContentLoaded", () => {
-        const slides = document.querySelectorAll(".slide");
-        const slidesWrapper = document.querySelector(".slides");
-        const prevBtn = document.querySelector(".prev");
-        const nextBtn = document.querySelector(".next");
-        const dots = document.querySelectorAll(".dot");
-
-        let currentIndex = 0;
-        const totalSlides = slides.length;
-
-        // 슬라이드 1개 너비 + gap 계산
-        const gap = 20;
-        const slideWidth = slides[0].offsetWidth;
-
-        function updateSlider(index) {
-            slidesWrapper.style.transform = `translateX(-${index * slideWidth}px)`;
-
-            dots.forEach((dot, i) => {
-                dot.classList.toggle("active", i === index);
-            });
-        }
-
-        nextBtn.addEventListener("click", () => {
-            if (currentIndex < totalSlides - 1) {
-                currentIndex++;
-            } else {
-                currentIndex = 0;
-            }
-            updateSlider(currentIndex);
-        });
-
-        prevBtn.addEventListener("click", () => {
-            if (currentIndex > 0) {
-                currentIndex--;
-            } else {
-                currentIndex = totalSlides - 1;
-            }
-            updateSlider(currentIndex);
-        });
-
-        dots.forEach((dot, i) => {
-            dot.addEventListener("click", () => {
-                currentIndex = i;
-                updateSlider(currentIndex);
-            });
-        });
-
-        updateSlider(currentIndex);
-    });
-
-
-</script>
-
+    <script src="/company/js/top-btn.js" defer></script>
+    <script src="/company/js/slide.js" defer></script>
 </head>
 <body>
     <header>
         <div class="header-layout">
              <div class="header-content">
-                <img src="/company/images/cupang_logo(color).png" alt="로고">
-                
+                <a href="/company/index.html">
+                    <img src="/company/images/cupang_logo(color).png" alt="로고">
+                </a>
+
                 <div class="header-link">
-                    <a href="#">HOME</a>
-                    <a href="#">기업문화</a>
-                    <a href="#">소식과 이야기</a>
-                    <a href="#">채용</a>
-                    <a href="#">미디어</a>
+                    <a href="/company/index.html" class="active">HOME</a>
+                    <a href="/company/culture.html">기업문화</a>
+                    <a href="/company/story.html">소식과 이야기</a>
+                    <a href="/company/recruit.html">채용</a>
+                    <a href="/company/media.html">미디어</a>
                 </div>
             </div>
         </div>
@@ -304,16 +235,6 @@
                 </ul>
             </div>
 
-            <!-- 2019년 -->
-
-            <!-- 2018년 -->
-
-
-
-
-
-
-
         </div>
         </section>
 
@@ -338,11 +259,11 @@
                 <img src="/company/images/cupang_logo(color).png" alt="로고">
                 <div class="about-link">
                     <p>큐팡 회사소개</p>
-                    <a href="#">HOME</a>
-                    <a href="#">기업문화</a>
-                    <a href="#">소식과 이야기</a>
-                    <a href="#">채용</a>
-                    <a href="#">미디어</a>
+                    <a href="/company/index.html">HOME</a>
+                    <a href="/company/culture.html">기업문화</a>
+                    <a href="/company/story.html">소식과 이야기</a>
+                    <a href="/company/recruit.html">채용</a>
+                    <a href="/company/media.html">미디어</a>
                 </div>
                 <div class="about-link">
                     <p>큐팡 사이트</p>
@@ -352,7 +273,7 @@
             <div class="footer-content">
                 <div class="about-company">
                     <h2>(주)큐팡 대표자: 김철학 | 사업자 등록번호: 202-50-70702 | 부산광역시 해운대구 달맞이길 30 시그니엘 부산</h2>
-                    <a href="#">개인정보 처리방침</a>
+                    <a href="https://privacy.coupang.com/ko/land/aboutcoupang/">개인정보 처리방침</a>
                 </div>
             </div>
 
