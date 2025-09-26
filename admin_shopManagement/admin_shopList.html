@@ -4,19 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>상품목록</title>
+    
     <style>
-        * {
+        * { /* 기본 */
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        .container {
+        .container { /*전체 틀*/
             display: flex;  
             min-height: 100vh;
             max-width: 1200px;
             margin: 0 auto;
         }
 
+        /*네비게이션*/
         .navigation {
             width: 200px;
             background-color: #e8e8e8;
@@ -49,6 +51,9 @@
             flex: 1;
             padding: 20px;
             overflow-y: auto;
+
+            display: flex; /*추가*/
+            flex-direction: column;
         }
 
         .content-header {
@@ -93,12 +98,235 @@
             cursor: pointer;
         }
 
+        .table-container {
+            flex: 1;
+            margin-bottom: 20px;
+        }
+
         .status {margin-left: 10px;}
         .status::before {
             content: "●";
             margin-right: 5px;
         }
+
+        table {       
+            border-collapse: collapse;
+            font-size: 14px;
+            width: 100%;
+        }
+        th {
+            font-weight: 600;
+            padding: 12px 8px;
+            border-top: 1px solid #A6A6A6;
+            border-bottom: 1px solid #A6A6A6;
+            text-align: center;
+        }
+        td {
+            padding:15px;
+            text-align: center;
+            border-bottom: 1px solid #e9ecef;
+        }
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 5px;
+        }
+        .status-green {background-color: #00B050;}
+        .status-red {background-color: #FF0000;}        
+        .status-blue {background-color: #0070C0;}
+
+        .bottom-section {
+            margin-top: auto;
+            padding-top: 20px;
+        }
+
+        /*페이지네이션 부분*/
+        .pagenation {
+            width: 100%;
+            height: 62px;
+            padding:0px;
+            margin: 30px auto 0 auto;
+            text-align: center;
+        }
+        .pagenation li {
+            border: 1px solid #DEDEDE;
+            display: inline-block;
+            list-style: none;
+            width: 32px;
+            height: 32px;
+        }
+        .pagenation .page1 {
+            background-color: #1A528E;
+            
+            color: white;
+            display: block;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            text-decoration: none;
+        }
+        .pagenation .page2, .pagenation .page3 {
+            color: #888888;
+            display: block;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            text-decoration: none;
+        }
+        .pagenation li a {
+            display: block;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+        }
+        .pagenation li a span {
+            background-size: contain;
+            background-repeat: no-repeat;
+            display:inline-block;
+            width: 10px;
+            height: 10px;
+        }
+        .pagenation .first {
+            background-image: url('./images/btn-first-page.png');
+        }
+        .pagenation .prev {
+            background-image: url('./images/btn-prev-page.png');
+        }
+        .pagenation .next {
+            background-image: url('./images/btn-next-page.png');
+        }
+        .pagenation .last {
+            background-image: url('./images/btn-last-page.png');
+        }
+
+        .btn_box {
+            display:flex;
+            justify-content: space-between;
+        }
+        .shopList_Btn {
+            border:none;
+            color:white;
+            height: 38px;
+            width: 96px; 
+        }
+        .select_delete {background-color: #BFBFBF;} 
+        .select_delete:hover {
+            background-color: #706c6c;;
+            cursor: pointer;
+        }
+        .shop_regist {background-color: #8EB4E3;}
+        .shop_regist:hover {
+            background-color: #2a71c9;;
+            cursor: pointer;
+        }
+
+        /*모달 파트*/
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 999;
+            left: 0; top: 0;
+            width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+        .modal-content {
+            background: white;
+            border-radius: 8px;
+            height: 650px;
+            margin: 5% auto; 
+            width: 700px;
+        }
+        .close {
+            float: right;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .modal-header {
+            background-color: #404040;
+            color: white;
+            padding: 10px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .form-body {
+            border-top:1px solid black;
+            border-bottom: 1px solid black;
+            margin:10px 15px 25px 15px;
+        }
+        .form-row {
+            align-items: center;
+            display: flex;  
+        }
+        .form-label {
+            background-color: #F2F2F2;
+            display:inline-block;          
+            height: 40px;
+            padding: 10px;
+            width: 137px;      
+        }
+        .addr {height: 102.5px;}
+        .form-input {
+            border:2px solid #BFBFBF;
+            height: 26px;
+            outline: none;
+            padding-left: 10px;
+            margin-left: 10px; 
+        }
     </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const allSelect = document.querySelector(".all_select"); // 전체 선택 체크박스
+            const checkboxes = document.querySelectorAll("tbody input[type='checkbox']"); // 테이블 안 체크박스들
+
+            allSelect.addEventListener("change", function() {
+                checkboxes.forEach(cb => cb.checked = allSelect.checked);
+            });
+
+            const modal = document.getElementById("myModal");
+            const openBtn = document.querySelector(".shop_regist");
+            const closeBtn = modal.querySelector(".close");
+            const form = document.getElementById("shopForm");
+
+            openBtn.addEventListener("click", () => {
+                modal.style.display = "block";
+            });
+
+            closeBtn.addEventListener("click", () => modal.style.display = "none");
+            window.addEventListener("click", (e) => {
+                if (e.target === modal) modal.style.display = "none";
+            });
+
+            const modalContent = modal.querySelector(".modal-content");
+                modalContent.addEventListener("click", (e) => {
+                    e.stopPropagation(); // 클릭 이벤트가 부모로 전달되지 않도록 막음
+            });
+
+            form.addEventListener("submit", (e) => {
+                e.preventDefault();
+
+                const data = {
+                shopName: form.shopName.value,
+                shopOwner: form.shopOwner.value,
+                shopTel: form.shopTel.value,
+                shopAddress: form.shopAddress.value
+                };
+
+                console.log("폼 데이터:", data);
+
+                alert("상점이 등록되었습니다!");
+
+                form.reset();
+                modal.style.display = "none";
+            });
+        });
+    </script>
+    
 </head>
 <body>
     <header style="height: 121.44px;"></header> <!-- 임시 배치 -->
@@ -143,7 +371,7 @@
                     <input type="text" id="search-input" placeholder="검색어 입력">
                     <input type="button" class="search-btn" value="검색">
                 </form>
-                <div>
+                <div class="table-container">
                     <div style="float:right;">
                         <span class="status" style="color: #00B050;">운영 중</span>
                         <span class="status " style="color: #FF0000;">운영 중지</span>
@@ -152,15 +380,17 @@
                     <div>
                         <table>
                             <thead>
-                                <tr><th><input type="checkbox"></th></tr>
-                                <tr>번호</tr>
-                                <tr>상호명</tr>
-                                <tr>대표</tr>
-                                <tr>사업자등록번호</tr>
-                                <tr>통신판매업번호</tr>
-                                <tr>연락처</tr>
-                                <tr>운영</tr>
-                                <tr>관리</tr>
+                                <tr>
+                                    <th><input type="checkbox" class="all_select"></th>
+                                    <th>번호</th>
+                                    <th>상호명</th>
+                                    <th>대표</th>
+                                    <th>사업자등록번호</th>
+                                    <th>통신판매업번호</th>
+                                    <th>연락처</th>
+                                    <th>운영</th>
+                                    <th>관리</th>
+                                </tr>                         
                             </thead>
                             <tbody>
                                 <tr>
@@ -171,13 +401,141 @@
                                     <td>112-12-12345</td>
                                     <td>2024-서울강남-04433</td>
                                     <td>010-1234-1001</td>
-                                    <td><span></span></td>
+                                    <td><span class="status-dot status-green"></span></td>
+                                    <td>[중단]</td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox"></td>
+                                    <td>4</td>
+                                    <td>(주)멋남</td>
+                                    <td>이정재</td>
+                                    <td>112-12-12344</td>
+                                    <td>2024-서울강남-04438</td>
+                                    <td>010-1234-1002</td>
+                                    <td><span class="status-dot status-green"></span></td>
+                                    <td>[중단]</td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox"></td>
+                                    <td>3</td>
+                                    <td>(주)컴퓨존</td>
+                                    <td>장동건</td>
+                                    <td>112-12-12343</td>
+                                    <td>2024-서울강남-04429</td>
+                                    <td>010-1234-1003</td>
+                                    <td><span class="status-dot status-green"></span></td>
+                                    <td>[중단]</td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox"></td>
+                                    <td>2</td>
+                                    <td>누리푸드</td>
+                                    <td>조인성</td>
+                                    <td>112-12-12342</td>
+                                    <td>2024-부산진구-01139</td>
+                                    <td>010-1234-1004</td>
+                                    <td><span class="status-dot status-red"></span></td>
+                                    <td>[재개]</td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox"></td>
+                                    <td>1</td>
+                                    <td>강동원</td>
+                                    <td>정우성</td>
+                                    <td>112-12-12341</td>
+                                    <td>2024-서울강남-04425</td>
+                                    <td>010-1234-1005</td>
+                                    <td><span class="status-dot status-blue"></span></td>
                                     <td>[승인]</td>
                                 </tr>
                             </tbody>                  
                         </table>
+                    </div>          
+                </div>
+                <div class="bottom-section" style="position: relative;">
+                    <ul class="pagenation">
+                        <li><a href="#"><span class="first"></span></a></li>
+                        <li><a href="#"><span class="prev"></span></a></li>
+                        <li><a href="#" class="page1">1</a></li>
+                        <li><a href="#" class="page2">2</a></li>
+                        <li><a href="#" class="page3">3</a></li>
+                        <li><a href="#"><span class="next"></span></a></li>
+                        <li><a href="#"><span class="last"></span></a></li>
+                    </ul>
+                    <div class="btn_box">
+                        <button class="shopList_Btn select_delete">선택삭제</button>
+                        <button class="shopList_Btn shop_regist">상점등록</button>
                     </div>
                 </div>
+            </div>
+        </div>
+        <!-- 모달 박스 -->
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 style="font-size: 20px;">상점 등록</h3>
+                    <span class="close">&times;</span>
+                </div>
+
+                <form id="shopForm">
+                    <div class="form-body">
+                        <div class="form-row">
+                            <div class="form-label">아이디</div>
+                            <input type="text" name="id" class="form-input" required placeholder="아이디 입력">
+                            <span style="font-size:14px;margin-left: 10px;">영문, 숫자 4~12자 설정</span>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-label">비밀번호</div>
+                            <input type="password" name="passwd" class="form-input" required placeholder="비밀번호 입력">
+                            <span style="font-size:14px;margin-left: 10px;">영문, 숫자, 특수문자 8~12자 설정</span>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-label">비밀번호 확인</div>
+                            <input type="password" name="passwd_check" class="form-input" required placeholder="비밀번호 재입력">
+                        </div>
+                    </div>
+
+                    <div class="form-body">
+                        <div class="form-row">
+                            <div class="form-label">상호명</div>
+                            <input type="text" name="trade_name" class="form-input" required placeholder="상호명 입력">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-label">대표</div>
+                            <input type="text" name="ceo" class="form-input" required placeholder="이름 입력">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-label">사업자등록번호</div>
+                            <input type="text" name="business_num" class="form-input" required placeholder="사업자등록번호 입력">
+                            <span style="font-size:14px;margin-left: 10px;">- 포함 12자리 입력</span>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-label">통신판매업번호</div>
+                            <input type="text" name="communication_num" class="form-input" required placeholder="통신판매업번호 입력">
+                            <span style="font-size:14px;margin-left: 10px;">- 포함 12자리 입력</span>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-label">전화번호</div>
+                            <input type="text" name="hp" class="form-input" required placeholder="전화번호 입력">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-label">팩스</div>
+                            <input type="number" name="fax" class="form-input" required placeholder="팩스번호 입력">
+                        </div>
+                        <div class="form-row ">
+                            <div class="form-label addr">주소</div>
+                            <div style="padding: 10px 0;">
+                                <input type="text" id="address1" class="form-input" name="szip" placeholder="우편번호 검색"><br>
+	                            <input type="text" id="address2" class="form-input" name="saddr1" placeholder="기본주소 검색" style="width: 335px;"><br>
+	                            <input type="text" id="address3" class="form-input" name="saddr2" placeholder="상세주소 입력" style="width: 335px;"><br>
+                            </div>                  
+                        </div>
+                    </div>
+                    <div style="text-align: center;">
+                        <input type="submit" value="등록하기" style="background-color: #00B050;border:none;color:white;width: 133px;height: 40px;">
+                    </div>
+                    
+                </form>
             </div>
         </div>
     </main>
