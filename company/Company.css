@@ -256,8 +256,8 @@ html, body {
 .slides-wrapper {
     overflow: hidden;
     display: block;
-        width: 1150px; /* 예: 전체 영역 줄이기 */
-    margin: 0 auto; /* 중앙 정렬 */
+    width: 1150px; 
+    margin: 0 auto; 
 }
 
 .slides {
@@ -289,12 +289,11 @@ html, body {
   top: 50%;
   transform: translateY(-50%);
   font-size: 30px;
-  background:  white;
   color: #4DB5DF;
   border: none;
   cursor: pointer;
   z-index: 10;
-
+  background: transparent;
 }
 
 .prev { left: -5px; }  
@@ -311,6 +310,7 @@ html, body {
   height: 12px;
   margin: 0 6px;
   background-color: #bbb;
+
   border-radius: 50%;
   cursor: pointer;
   transition: background-color 0.3s;
@@ -670,15 +670,17 @@ html, body {
         width:32px;
         height:32px;
     }
-    .page a.paging img{
-        display:block;
-        max-width:18px;  
-        max-height:18px;
+
+    .page svg{
+      width: 24px;
+      height: 24px;
+      color: #666;
+      fill: none;
+      stroke: currentColor;
+      stroke-linecap: round;
+      stroke-linejoin: round; 
+      
     }
-
-
-
-
 /*/////////////미디어 css////////////////*/
 .media-item {
     display: flex;
