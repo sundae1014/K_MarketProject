@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>포인트 관리</title>
+    
+    <style>
+        * { /* 기본 */
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .container { /*전체 틀*/
+            display: flex;  
+            min-height: 100vh;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /*네비게이션*/
+        .navigation {
+            width: 200px;
+            background-color: #e8e8e8;
+            border-right: 1px solid #ccc;
+            padding: 20px 0;
+            flex-shrink: 0;
+        }
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            border-bottom: 1px solid #ccc;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .nav-item:hover {
+            background-color: #ddd;
+        }
+        .nav-item.active {
+            background-color: #d0d0d0;
+            font-weight: bold;
+        }
+        .nav-icon {
+            margin-right: 8px;
+            font-size: 16px;
+        }
+
+        /* 본문 영역 */
+        .content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .content-header {
+            align-items: flex-start;
+            border-bottom: 2px solid #808080;
+            display: flex;
+            justify-content: space-between;
+            padding-bottom: 10px;
+            width:960px;
+        }
+
+        .top-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-right: 20px;
+        }
+
+        #search-select {
+            appearance: none;
+            border: 2px solid #BFBFBF;
+            height: 35px;
+            outline: none;
+            padding-left: 10px;
+            width: 95px;
+        }
+        #search-input {
+            border: 2px solid #BFBFBF;
+            height: 35px;
+            outline: none;
+            padding-left: 10px;
+            width:148px;
+        }
+        .search-btn {
+            background-color: #BFBFBF;
+            border:none;
+            color:white;
+            height: 35px;
+            width: 62px;  
+        }
+        .search-btn:hover {
+            background-color: black;
+            cursor: pointer;
+        }
+
+        .table-container {
+            flex: 1;
+            margin-bottom: 20px;
+        }
+
+        table {       
+            border-collapse: collapse;
+            font-size: 14px;
+            width: 100%;
+        }
+        th {
+            font-weight: 600;
+            padding: 12px 8px;
+            border-top: 1px solid #A6A6A6;
+            border-bottom: 1px solid #A6A6A6;
+            text-align: center;
+        }
+        td {
+            padding:15px;
+            text-align: center;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .bottom-section {
+            margin-top: auto;
+            padding-top: 20px;
+        }
+
+        /*페이지네이션 부분*/
+        .pagenation {
+            width: 100%;
+            height: 62px;
+            padding:0px;
+            margin: 30px auto 0 auto;
+            text-align: center;
+        }
+        .pagenation li {
+            border: 1px solid #DEDEDE;
+            display: inline-block;
+            list-style: none;
+            width: 32px;
+            height: 32px;
+        }
+        .pagenation .page1 {
+            background-color: #1A528E;
+            
+            color: white;
+            display: block;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            text-decoration: none;
+        }
+        .pagenation .page2, .pagenation .page3 {
+            color: #888888;
+            display: block;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            text-decoration: none;
+        }
+        .pagenation li a {
+            display: block;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+        }
+        .pagenation li a span {
+            background-size: contain;
+            background-repeat: no-repeat;
+            display:inline-block;
+            width: 10px;
+            height: 10px;
+        }
+        .pagenation .first {
+            background-image: url('./images/btn-first-page.png');
+        }
+        .pagenation .prev {
+            background-image: url('./images/btn-prev-page.png');
+        }
+        .pagenation .next {
+            background-image: url('./images/btn-next-page.png');
+        }
+        .pagenation .last {
+            background-image: url('./images/btn-last-page.png');
+        }
+
+        .point_Btn {
+            border:none;
+            color:white;
+            height: 38px;
+            width: 96px; 
+        }
+        .select_delete {background-color: #BFBFBF;} 
+        .select_delete:hover {
+            background-color: #706c6c;;
+            cursor: pointer;
+        }
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const allSelect = document.querySelector(".all_select"); // 전체 선택 체크박스
+            const checkboxes = document.querySelectorAll("tbody input[type='checkbox']"); // 테이블 안 체크박스들
+
+            allSelect.addEventListener("change", function() {
+                checkboxes.forEach(cb => cb.checked = allSelect.checked);
+            });
+        });
+    </script>
+    
+</head>
+<body>
+    <header style="height: 121.44px;"></header> <!-- 임시 배치 -->
+    <main>
+        <div class="container">
+            <div class="navigation">
+                <div class="nav-item">
+                    <span class="nav-icon">👤</span>
+                    <span>임시○임시○임시</span>
+                </div>
+                <div class="nav-item">
+                    <span class="nav-icon">💻</span>
+                    <span>임시○임시</span>
+                </div>
+                <div class="nav-item active">
+                    <span class="nav-icon">🔧</span>
+                    <span>임시○임시</span>
+                </div>
+                <div class="nav-item">
+                    <span class="nav-icon">🏠</span>
+                    <span>임시○임시○임시</span>
+                </div>
+            </div>
+
+            <div class="content">
+                <div class="content-header">
+                    <h1 class="top-title">포인트 관리</h1>
+                    <div>
+                        <span>HOME</span> &nbsp;&gt;&nbsp;
+                        <span>회원관리</span> &nbsp;&gt;&nbsp;
+                        <span style="font-weight: bold;">포인트 관리</span> 
+                    </div>
+                </div>
+
+                <form style="margin: 20px 0;">
+                    <select id="search-select">
+                        <option value="id">아이디</option>
+                        <option value="name">이름</option>
+                        <option value="email">이메일</option>
+                        <option value="hp">휴대폰</option>
+                    </select>
+                    <input type="text" id="search-input" placeholder="검색어 입력">
+                    <input type="button" class="search-btn" value="검색">
+                </form>
+                <div class="table-container">
+                    <div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th><input type="checkbox" class="all_select"></th>
+                                    <th>번호</th>
+                                    <th>아이디</th>
+                                    <th>이름</th>
+                                    <th>지급 포인트</th>
+                                    <th>잔여 포인트</th>
+                                    <th>지급 내용</th>
+                                    <th>지급 날짜</th>
+                                </tr>                         
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><input type="checkbox"></td>
+                                    <td>5</td>
+                                    <td>abc1234</td>
+                                    <td>정우성</td>
+                                    <td>1,000</td>
+                                    <td>15,000</td>
+                                    <td>구매확정 포인트 지급</td>
+                                    <td>0000-00-00 00:00:00</td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox"></td>
+                                    <td>4</td>
+                                    <td>abc1234</td>
+                                    <td>정우성</td>
+                                    <td>1,000</td>
+                                    <td>14,000</td>
+                                    <td>이벤트 참여</td>
+                                    <td>0000-00-00 00:00:00</td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox"></td>
+                                    <td>3</td>
+                                    <td>kang771</td>
+                                    <td>강동원</td>
+                                    <td>-17,000</td>
+                                    <td>100</td>
+                                    <td>주문 결제 내용</td>
+                                    <td>0000-00-00 00:00:00</td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox"></td>
+                                    <td>2</td>
+                                    <td>eqpac112</td>
+                                    <td>한예슬</td>
+                                    <td>1,000</td>
+                                    <td>3,500</td>
+                                    <td>상품 리뷰 작성</td>
+                                    <td>0000-00-00 00:00:00</td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox"></td>
+                                    <td>1</td>
+                                    <td>qeimn3</td>
+                                    <td>이정재</td>
+                                    <td>1,000</td>
+                                    <td>2,700</td>
+                                    <td>회원가입 축하</td>
+                                    <td>0000-00-00 00:00:00</td>
+                                </tr>
+                            </tbody>                  
+                        </table>
+                    </div>          
+                </div>
+                <div class="bottom-section" style="position: relative;">
+                    <ul class="pagenation">
+                        <li><a href="#"><span class="first"></span></a></li>
+                        <li><a href="#"><span class="prev"></span></a></li>
+                        <li><a href="#" class="page1">1</a></li>
+                        <li><a href="#" class="page2">2</a></li>
+                        <li><a href="#" class="page3">3</a></li>
+                        <li><a href="#"><span class="next"></span></a></li>
+                        <li><a href="#"><span class="last"></span></a></li>
+                    </ul>
+                    <div>
+                        <button class="point_Btn select_delete">선택삭제</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer style="height: 121.44px;"></footer> <!-- 임시 배치 -->
+</body>
+</html>

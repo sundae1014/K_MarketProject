@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>상품목록</title>
+    <title>상점목록</title>
     
     <style>
         * { /* 기본 */
@@ -234,9 +234,9 @@
         .modal-content {
             background: white;
             border-radius: 8px;
-            height: 650px;
+            height: 700px;
             margin: 5% auto; 
-            width: 700px;
+            width: 680px;
         }
         .close {
             float: right;
@@ -254,10 +254,15 @@
             border-radius: 8px 8px 0 0;
         }
 
+        .form-head {
+            border-top:1px solid black;
+            border-bottom: 1px solid black;
+            margin:10px 15px 12px 15px;
+        }
         .form-body {
             border-top:1px solid black;
             border-bottom: 1px solid black;
-            margin:10px 15px 25px 15px;
+            margin:10px 15px 35px 15px;
         }
         .form-row {
             align-items: center;
@@ -265,18 +270,33 @@
         }
         .form-label {
             background-color: #F2F2F2;
-            display:inline-block;          
+            display:flex;          
             height: 40px;
             padding: 10px;
             width: 137px;      
         }
-        .addr {height: 102.5px;}
+        .addr {align-items: center;height: 116px;}
         .form-input {
             border:2px solid #BFBFBF;
             height: 26px;
             outline: none;
             padding-left: 10px;
             margin-left: 10px; 
+        }
+        .form-address {
+            border:2px solid #BFBFBF;
+            height: 26px;
+            outline: none;
+            padding-left: 10px;
+            margin: 3px 3px 3px 10px; 
+        }
+        .form_btn {
+            background-color: #00B050;
+            border:none;
+            color:white;
+            cursor: pointer;
+            height: 40px;
+            width: 133px;
         }
     </style>
     <script>
@@ -311,13 +331,20 @@
                 e.preventDefault();
 
                 const data = {
-                shopName: form.shopName.value,
-                shopOwner: form.shopOwner.value,
-                shopTel: form.shopTel.value,
-                shopAddress: form.shopAddress.value
+                id: form.id.value,
+                passwd: form.passwd.value,
+                trade_name: form.trade_name.value,
+                ceo: form.ceo.value,
+                business_num: form.business_num.value,
+                communication_num: form.communication_num.value,
+                hp: form.hp.value,
+                fax: form.fax.value,
+                address1: form.address1.value,
+                address2: form.address2.value,
+                address3: form.address3.value
                 };
 
-                console.log("폼 데이터:", data);
+                console.log("폼 데이터: ", data);
 
                 alert("상점이 등록되었습니다!");
 
@@ -357,7 +384,7 @@
                     <div>
                         <span>HOME</span> &nbsp;&gt;&nbsp;
                         <span>상점관리</span> &nbsp;&gt;&nbsp;
-                        <span style="font-weight: bold;">상점목록</span> <!-- 임시 위치 확인 bold-->
+                        <span style="font-weight: bold;">상점목록</span> 
                     </div>
                 </div>
 
@@ -372,7 +399,7 @@
                     <input type="button" class="search-btn" value="검색">
                 </form>
                 <div class="table-container">
-                    <div style="float:right;">
+                    <div style="float:right;margin-bottom: 5px;">
                         <span class="status" style="color: #00B050;">운영 중</span>
                         <span class="status " style="color: #FF0000;">운영 중지</span>
                         <span class="status" style="color: #0070C0;">운영 준비</span>
@@ -440,8 +467,8 @@
                                 <tr>
                                     <td><input type="checkbox"></td>
                                     <td>1</td>
+                                    <td>굿바디스포츠</td>
                                     <td>강동원</td>
-                                    <td>정우성</td>
                                     <td>112-12-12341</td>
                                     <td>2024-서울강남-04425</td>
                                     <td>010-1234-1005</td>
@@ -477,8 +504,8 @@
                     <span class="close">&times;</span>
                 </div>
 
-                <form id="shopForm">
-                    <div class="form-body">
+                <form action="#" method="post" id="shopForm">
+                    <div class="form-head">
                         <div class="form-row">
                             <div class="form-label">아이디</div>
                             <input type="text" name="id" class="form-input" required placeholder="아이디 입력">
@@ -522,19 +549,18 @@
                             <div class="form-label">팩스</div>
                             <input type="number" name="fax" class="form-input" required placeholder="팩스번호 입력">
                         </div>
-                        <div class="form-row ">
+                        <div class="form-row">
                             <div class="form-label addr">주소</div>
                             <div style="padding: 10px 0;">
-                                <input type="text" id="address1" class="form-input" name="szip" placeholder="우편번호 검색"><br>
-	                            <input type="text" id="address2" class="form-input" name="saddr1" placeholder="기본주소 검색" style="width: 335px;"><br>
-	                            <input type="text" id="address3" class="form-input" name="saddr2" placeholder="상세주소 입력" style="width: 335px;"><br>
+                                <input type="text" id="address1" class="form-address" name="szip" placeholder="우편번호 검색"><br>
+	                            <input type="text" id="address2" class="form-address" name="saddr1" placeholder="기본주소 검색" style="width: 335px;"><br>
+	                            <input type="text" id="address3" class="form-address" name="saddr2" placeholder="상세주소 입력" style="width: 335px;"><br>
                             </div>                  
                         </div>
                     </div>
                     <div style="text-align: center;">
-                        <input type="submit" value="등록하기" style="background-color: #00B050;border:none;color:white;width: 133px;height: 40px;">
+                        <input type="submit" value="등록하기" class="form_btn">
                     </div>
-                    
                 </form>
             </div>
         </div>
