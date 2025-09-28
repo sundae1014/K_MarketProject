@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>채용하기 목록</title>
     <link rel="stylesheet" href="/admin_cs_recruit/Recruit.css">
-    <script src="/admin_cs_recruit/sidebarAction.js" defer></script>
+    <script src="/admin_cs_recruit/js/checkboxAction.js" defer></script>
+    <script src="/admin_cs_recruit/js/sidebarAction.js" defer></script>
 </head>
 <body>
     
@@ -80,12 +81,21 @@
             <div class="content">
                 <div class="boardUpper">
                     <h2 class="boardText-login">채용하기 목록</h2>
+                    <div class="boardUpper-link">
+                        <a href="#">HOME</a>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right-icon lucide-chevron-right"><path d="m9 18 6-6-6-6"/></svg>
+                        <a href="#">고객센터</a>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right-icon lucide-chevron-right"><path d="m9 18 6-6-6-6"/></svg>
+                        <a href="#" class="active">채용하기</a>
+                    </div>
                 </div>
                 <div class="search-area">
 
                     <select name="recruit" id="recruit">
-                        <option value="">채용번호</option>
-                        <option value="test">test</option>
+                        <option value="col-num">채용번호</option>
+                        <option value="col-dept">채용부서</option>
+                        <option value="col-type">채용형태</option>
+                        <option value="col-title">제목</option>
                     </select>
 
                     <input type="text" placeholder="검색어 입력" class="search-lang" id="recruit">
@@ -93,6 +103,76 @@
                     <input type="submit" value="검색" class="search-btn" id="recruit"/>
                 
                     </div>
+
+                    <table class="recruit-table">                        
+                        <tr>
+                            <th><input type="checkbox" id="checkAll"></th>
+                            <th class="col-num">번호</th>
+                            <th class="col-dept">채용부서</th>
+                            <th class="col-career">경력사항</th>
+                            <th class="col-type">채용형태</th>
+                            <th class="col-title">제목</th>
+                            <th class="col-writer">작성자</th>
+                            <th class="col-status">상태</th>
+                            <th class="col-period">모집기간</th>
+                            <th class="col-write">작성일</th>
+                        </tr>    
+                        <tr>
+                            <td><input type="checkbox" class="row-check"></td>
+                            <td class="col-num">120</td>
+                            <td class="col-dept">광고사업</td>
+                            <td class="col-career">경력 4 ~ 15년</td>
+                            <td class="col-type">정규직</td>
+                            <td class="col-title">광고 플랫폼 기획</td>
+                            <td class="col-writer">관리자</td>
+                            <td class="col-status status-open">모집중</td>
+                            <td class="col-period">0000-00-00 ~ 0000-00-00</td>
+                            <td class="col-write">0000-00-00 ~ 0000-00-00</td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-check"></td>
+                            <td class="col-num">1</td>
+                            <td class="col-dept">경영</td>
+                            <td class="col-career">신입</td>
+                            <td class="col-type">계약직</td>
+                            <td class="col-title">경영지원 직원 채용공고</td>
+                            <td class="col-writer">관리자</td>
+                            <td class="col-status status-closed">종료</td>
+                            <td class="col-period">0000-00-00 ~ 0000-00-00</td>
+                            <td class="col-write">0000-00-00 ~ 0000-00-00</td>
+                        </tr>
+                    </table>
+
+                    <div class="delete-or-register">
+                        <input type="submit" value="선택삭제" class="delete-btn" id="select-delete"/>
+                        <input type="submit" value="채용등록" class="register-btn" id="recruit-register"/>
+                    </div>
+                    
+                     <div class="page">
+                        <div class="prev">
+                            <a href="#" class="paging">
+                                <img src="/company/images/btn-first-page.png">
+                            </a>
+                            <a href="#" class="paging">
+                                <img src="/company/images/btn-prev-page.png">
+                            </a>
+                        </div>
+                        <div class="pagenumber">
+                            <a href="#" class="active">1</a>
+                            <a href="#">2</a>
+                            <a href="#">3</a>
+                        </div>
+                        <div class="last">
+                            <a href="#" class="paging">
+                                <img src="/company/images/btn-next-page.png">
+                            </a>
+                            <a href="#" class="paging">
+                                <img src="/company/images/btn-last-page.png">
+                            </a>
+                        </div>
+                    </div>
+
+
                 </div>
 
             

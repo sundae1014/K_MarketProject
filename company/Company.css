@@ -39,7 +39,7 @@ html, body {
 
 .header-link a.active,
 .header-link a:hover{
-    color: #4DB5DF;
+    color: #436CFF;
     font-weight: 600; 
 }
 
@@ -256,8 +256,8 @@ html, body {
 .slides-wrapper {
     overflow: hidden;
     display: block;
-    width: 1150px; 
-    margin: 0 auto; 
+        width: 1150px; /* 예: 전체 영역 줄이기 */
+    margin: 0 auto; /* 중앙 정렬 */
 }
 
 .slides {
@@ -289,11 +289,12 @@ html, body {
   top: 50%;
   transform: translateY(-50%);
   font-size: 30px;
-  color: #4DB5DF;
+  background:  white;
+  color: #436CFF;
   border: none;
   cursor: pointer;
   z-index: 10;
-  background: transparent;
+
 }
 
 .prev { left: -5px; }  
@@ -310,14 +311,13 @@ html, body {
   height: 12px;
   margin: 0 6px;
   background-color: #bbb;
-
   border-radius: 50%;
   cursor: pointer;
   transition: background-color 0.3s;
 }
 
 .slider-dots .dot.active {
-  background-color: #4DB5DF; 
+  background-color: #436CFF; 
 }
 
 /*////////////////////// 메인#3 css //////////////////////*/
@@ -364,8 +364,9 @@ html, body {
 .news-title:hover .arrow-right,
 .news-title:hover {
   color: #8E5122;
-    border-right-color: #8E5122;
+  border-right-color: #8E5122;
   border-bottom-color: #8E5122;
+  font-weight: 600;
 }
 
 .arrow-right{
@@ -602,10 +603,15 @@ html, body {
   width: 1150px;
   margin-top: 40px;
   margin-left: 20px;
-  border-top: 1px solid #ccc;
+  font-size: 14px;
 }
-
-.recruit-table th, .recruit-table td {
+.recruit-table th{
+    padding: 15px;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+      background-color: #f0f0f0;
+}
+.recruit-table td {
   padding: 15px;
   border-bottom: 1px solid #ccc;
   text-align: center;
@@ -619,68 +625,69 @@ html, body {
 .col-status { width: 80px; }
 .col-period { width: 200px; }
 
-.recruit-table th {
-  background-color: #f0f0f0;
+.status-open {
+  color: #8FCC17;
   font-weight: bold;
-  border-bottom: 1px solid #ccc;
+}
+
+.status-closed {
+  color: gray;
 }
 
 /* ===== 페이지네이션 ===== */
-    .page{
-        display:flex;
-        justify-content:center;
-        align-items:center;
-        margin-top: 30px;      
-        gap:24px;               
-    }
-    
-    .page > .prev,
-    .page > .pagenumber,
-    .page > .last{
-        display:flex;
-        align-items:center;
-        gap:4px;               
-    }
-    
-    
-    .page .pagenumber a{
-        display:inline-flex;              
-        justify-content:center;
-        align-items:center;
-        width:32px;
-        height:29px;
-        color:#666;
-        text-decoration:none;
-        box-sizing:border-box;
-        line-height:1;  
-        font-weight: 350;
-        font-size: 15px;
-    }
-    
-    
-    .page .pagenumber a.active{
-        color:#4DB5DF;
-    }
-    
-    .page .prev a,
-    .page .last a{
-        display:inline-flex;
-        justify-content:center;
-        align-items:center;
-        width:32px;
-        height:32px;
-    }
+.page{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    margin-top: 50px;     
+    gap:24px;               
+}
 
-    .page svg{
-      width: 24px;
-      height: 24px;
-      color: #666;
-      fill: none;
-      stroke: currentColor;
-      stroke-linecap: round;
-      stroke-linejoin: round; 
-      
-    }
+.page > .prev,
+.page > .pagenumber,
+.page > .last{
+    display:flex;
+    align-items:center;
+    gap:4px;               
+}
+
+
+.page .pagenumber a{
+    display:inline-flex;              
+    justify-content:center;
+    align-items:center;
+    width:32px;
+    height:29px;
+    color:#666;
+    text-decoration:none;
+    box-sizing:border-box;
+    line-height:1;  
+    font-weight: 350;
+    font-size: 15px;
+}
+
+
+.page .pagenumber a.active{
+    color:#436CFF;
+}
+
+.page .prev a,
+.page .last a{
+    display:inline-flex;
+    justify-content:center;
+    align-items:center;
+    width:32px;
+    height:32px;
+}
+.page a.paging img{
+    display:block;
+    max-width:18px;  
+    max-height:18px;
+}
+
+
+
+
 /*/////////////미디어 css////////////////*/
 .media-item {
     display: flex;

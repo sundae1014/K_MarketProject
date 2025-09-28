@@ -46,16 +46,18 @@
   background-color: #436CFF;
   color: #ffffff;;
   border: none; 
+  cursor: pointer;
   }
 
 .check-autoLogin {
     vertical-align: middle;
+    cursor: pointer;
 }
 
 .check-autoLogin+label{
     display: inline-block;
     font-size: 10px;
-    color: #6c757d
+    color: #6c757d;
 }
 
 .link-container {
@@ -134,9 +136,12 @@
 .welcome-mt h2{
   margin: 0;
   font-size: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.welcome-mt span{
-  color: #436CFF;
+.welcome-mt img{
+  width: 130px;
 }
 
 .select-area{
