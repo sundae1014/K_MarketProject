@@ -6,16 +6,44 @@
     <title>관리자 메인</title>
     <link rel="stylesheet" href="/admin_main/Admin.css">
     <script src="/company/js/top-btn.js" defer></script>
- <script src="/admin_cs_recruit/js/sidebarAction.js" defer></script>
- <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
- <script src="/admin_main/js/chart.js" defer></script>
+    <script src="/admin_cs_recruit/sidebarAction.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+    <script src="/admin_main/chart.js" defer></script>
 
 </head>
 <body>
+
+       <header>
+        <div class="header-layout">
+             <div class="header-content">
+                <a href="/admin_main/admin.html">
+                    <img src="/admin_main/images/cupangMS_logo(color).png" alt="로고">
+                </a>
+
+                
+                <div class="header-link">
+                    <div class="header-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-house-icon lucide-house"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+                        <a href="#">HOME</a>
+                    </div>
+
+                    <div class="header-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-headset-icon lucide-headset"><path d="M3 11h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-5Zm0 0a9 9 0 1 1 18 0m0 0v5a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3Z"/><path d="M21 16v2a4 4 0 0 1-4 4h-5"/></svg>
+                        <a href="#">고객센터</a>
+                    </div>
+
+                    <a href="#">
+                        <button>로그아웃</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+       
+    </header>
     
     <main>
         <div class="board">
-            <div class="sidebar">
+            <aside class="sidebar">
                 <div class="side-item">
                     <div class="main-menu">
                         <a href="#"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-settings-icon lucide-settings"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"/><circle cx="12" cy="12" r="3"/></svg>환경설정</a>
@@ -76,7 +104,7 @@
                     </ul>
                 </div>
 
-            </div>
+            </aside>
             
 
 
@@ -177,7 +205,9 @@
                         <table class="notice-table">
                             <tr>
                                 <td>
-                                    [안내] 공지사항 불러오기 최신 5건
+                                    <a href="#">
+                                        [안내] 고객문의 불러오기 최신 5건
+                                    </a>
                                 </td>
                                 <td>
                                     25.01.01
@@ -185,7 +215,9 @@
                             </tr>
                             <tr>
                                 <td>
-                                    [안내] 공지사항 불러오기 최신 5건
+                                    <a href="#">
+                                        [안내] 고객문의 불러오기 최신 5건
+                                    </a>
                                 </td>
                                 <td>
                                     25.01.01
@@ -193,7 +225,9 @@
                             </tr>
                             <tr>
                                 <td>
-                                    [안내] 공지사항 불러오기 최신 5건
+                                   <a href="#">
+                                        [안내] 고객문의 불러오기 최신 5건
+                                    </a>
                                 </td>
                                 <td>
                                     25.01.01
@@ -201,7 +235,9 @@
                             </tr>
                             <tr>
                                 <td>
-                                    [안내] 공지사항 불러오기 최신 5건
+                                    <a href="#">
+                                        [안내] 고객문의 불러오기 최신 5건
+                                    </a>
                                 </td>
                                 <td>
                                     25.01.01
@@ -209,7 +245,9 @@
                             </tr>
                             <tr>
                                 <td>
-                                    [안내] 공지사항 불러오기 최신 5건
+                                    <a href="#">
+                                        [안내] 고객문의 불러오기 최신 5건
+                                    </a>
                                 </td>
                                 <td>
                                     25.01.01
@@ -223,7 +261,9 @@
                         <table class="qna-table">
                             <tr>
                                 <td>
-                                    [안내] 고객문의 불러오기 최신 5건
+                                    <a href="#">
+                                        [안내] 고객문의 불러오기 최신 5건
+                                    </a>
                                 </td>
                                 <td>
                                     25.01.01
@@ -231,7 +271,9 @@
                             </tr>
                             <tr>
                                 <td>
-                                    [안내] 고객문의 불러오기 최신 5건
+                                    <a href="#">
+                                        [안내] 고객문의 불러오기 최신 5건
+                                    </a>
                                 </td>
                                 <td>
                                     25.01.01
@@ -239,7 +281,9 @@
                             </tr>
                             <tr>
                                 <td>
-                                    [안내] 고객문의 불러오기 최신 5건
+                                    <a href="#">
+                                        [안내] 고객문의 불러오기 최신 5건
+                                    </a>
                                 </td>
                                 <td>
                                     25.01.01
@@ -247,7 +291,9 @@
                             </tr>
                             <tr>
                                 <td>
-                                    [안내] 고객문의 불러오기 최신 5건
+                                    <a href="#">
+                                        [안내] 고객문의 불러오기 최신 5건
+                                    </a>
                                 </td>
                                 <td>
                                     25.01.01
@@ -255,7 +301,9 @@
                             </tr>
                             <tr>
                                 <td>
-                                    [안내] 고객문의 불러오기 최신 5건
+                                    <a href="#">
+                                        [안내] 고객문의 불러오기 최신 5건
+                                    </a>
                                 </td>
                                 <td>
                                     25.01.01
@@ -282,5 +330,43 @@
                 <path d="m17 18-5-5-5 5"/>
             </svg>
         </button>
+
+
+        <footer>
+        <div class="footer-layout">
+            <div class="footer-content">
+                <img src="/admin_main/images/cupangMS_logo(color).png" alt="로고">
+                <div class="about-company">
+                    <h2>(주)큐팡</h2>
+                    <h2>대표이사 이름(db)</h2>
+                    <h2>|</h2>
+                    <h2>사업자등록번호</h2>
+                    <h2>123-132-1231232(db)</h2>
+                    <h2>|</h2>
+                    <h2>통신판매업신고</h2>
+                    <h2>2023-부산 해운대구-1232(db)</h2>
+                    <h2>|</h2>
+                    <h2>부산광역시 부산진구 중앙동(db)</h2>
+                    <h2>(삼성동, green빌딩) 7층(db)</h2>
+                </div>
+                <div class="about-company">
+                    <h2>고객센터</h2>
+                    <h2>|</h2>
+                    <h2>02-1234-1231</h2>
+                    <h2>평일 09:00 ~ 18:00(db)</h2>
+
+                    <h2>이메일</h2>
+                    <h2>abc@cupang(db)</h2>
+
+                    <h2>전자금융거래 분쟁담당</h2>
+                    <h2>12321-12321(db)</h2>
+                </div>
+                <h2>Copyright@cupang.All.rights.reserved (db)</h2>
+            </div>
+
+        </div>
+
+    </footer>
+
 </body>
 </html>
