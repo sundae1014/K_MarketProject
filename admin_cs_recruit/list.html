@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="/admin_cs_recruit/Recruit.css">
     <script src="/admin_cs_recruit/js/checkboxAction.js" defer></script>
     <script src="/admin_cs_recruit/js/sidebarAction.js" defer></script>
+    <script src="/admin_cs_recruit/js/modal.js" defer></script>
 </head>
 <body>
     
@@ -145,16 +146,17 @@
 
                     <div class="delete-or-register">
                         <input type="submit" value="선택삭제" class="delete-btn" id="select-delete"/>
-                        <input type="submit" value="채용등록" class="register-btn" id="recruit-register"/>
+                        <button type="button" class="modal-openBtn">채용등록</button>
                     </div>
                     
                      <div class="page">
                         <div class="prev">
+
                             <a href="#" class="paging">
-                                <img src="/company/images/btn-first-page.png">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="lucide lucide-chevrons-left-icon lucide-chevrons-left"><path d="m11 17-5-5 5-5"/><path d="m18 17-5-5 5-5"/></svg>
                             </a>
                             <a href="#" class="paging">
-                                <img src="/company/images/btn-prev-page.png">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="lucide lucide-chevron-left-icon lucide-chevron-left"><path d="m15 18-6-6 6-6"/></svg>
                             </a>
                         </div>
                         <div class="pagenumber">
@@ -164,10 +166,10 @@
                         </div>
                         <div class="last">
                             <a href="#" class="paging">
-                                <img src="/company/images/btn-next-page.png">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="lucide lucide-chevron-right-icon lucide-chevron-right"><path d="m9 18 6-6-6-6"/></svg>
                             </a>
                             <a href="#" class="paging">
-                                <img src="/company/images/btn-last-page.png">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="lucide lucide-chevrons-right-icon lucide-chevrons-right"><path d="m6 17 5-5-5-5"/><path d="m13 17 5-5-5-5"/></svg>
                             </a>
                         </div>
                     </div>
@@ -181,6 +183,70 @@
 
         </div>
 
+        <div class="modal">
+            <div class="modal_body">
+                <div class="modal-head">
+                    <h2>채용등록</h2>
+                    <button class="close-modal">&#10006;</button>
+                </div>
+                 <table class="modal-table" id="modal-table">
+                <tr>
+                    <th>제목</th>
+                    <td>
+                        <input type="text" id="modal-title">
+                    </td>
+                </tr>
+                <tr>
+                    <th>채용부서</th>
+                    <td>
+                        <select name="recruit-team" id="recruit-team">
+                            <option value="">채용부서 선택</option>
+                            <option value="recruit-team">test</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>경력사항</th>
+                    <td>
+                        <select name="recruit-terms" id="recruit-terms">
+                            <option value="">경력사항 선택</option>
+                            <option value="recruit-terms">test</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>채용형태</th>
+                    <td>
+                        <select name="recruit-form" id="recruit-form">
+                            <option value="">채용형태 선택</option>
+                            <option value="recruit-form">test</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>모집기간</th>
+                    <td>
+                        <input type="date" name="start-date">
+                        <p>~</p>
+                        <input type="date" name="end-date">
+                    </td>
+                </tr>
+                <tr>
+                    <th>비고</th>
+                    <td>
+                        <input type="text" id="modal-etc">
+                    </td>
+                </tr>
+            </table>
+            <div class="modalBtn-area">
+                <button class="close-modal">취소</button>
+                <input type="submit" class="register-btn" value="등록"></input>
+            </div>
+            </div>
+        </div>
+
     </main>
+
+
 </body>
 </html>
