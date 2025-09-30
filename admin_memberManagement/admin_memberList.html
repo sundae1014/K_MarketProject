@@ -301,6 +301,8 @@
             resize: none;
         }
     </style>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script src="./js/postcode.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const allSelect = document.querySelector(".all_select"); // 전체 선택 체크박스
@@ -349,16 +351,14 @@
 
                 const data = {
                 id: form.id.value,
-                passwd: form.passwd.value,
-                trade_name: form.trade_name.value,
-                ceo: form.ceo.value,
-                business_num: form.business_num.value,
-                communication_num: form.communication_num.value,
+                name: form.name.value,
+                gender: form.gender.value,
+                grade: form.grade.value,
+                email: form.email.value,
                 hp: form.hp.value,
-                fax: form.fax.value,
-                address1: form.address1.value,
-                address2: form.address2.value,
-                address3: form.address3.value
+                zip: form.zip.value,
+                addr1: form.addr1.value,
+                addr2: form.addr2.value
                 };
 
                 console.log("폼 데이터: ", data);
@@ -625,17 +625,17 @@
                         </div>
                         <div class="form-row">
                             <div class="form-label">우편번호</div>
-                            <input type="text" name="address1" class="form-input" value="12345">
-                            <button class="addr_btn" style="color:#77933C;cursor: pointer;">검색</button>
+                            <input type="text" name="zip" id="zip" class="form-input" value="12345">
+                            <button type="button" class="addr_btn" onclick="postcode()" style="color:#77933C;cursor: pointer;">검색</button>
                         </div>
                         <div class="form-row">
                             <div class="form-label">기본주소</div>
-                            <input type="text" name="address2" class="form-address" value="부산광역시 부산 진구 부전동 123" style="width: 335px;"><br>
+                            <input type="text" name="addr1" id="addr1" class="form-address" value="부산광역시 부산 진구 부전동 123" style="width: 335px;"><br>
                         </div>
                         <div class="form-row">
                             <div class="form-label">상세주소</div>
                             <div>
-                                <input type="text" name="address3" class="form-address" value="oo 빌딩 3층 301호" style="width: 335px;"><br>
+                                <input type="text" name="addr2" id="addr2" class="form-address" value="oo 빌딩 3층 301호" style="width: 335px;"><br>
                             </div>                  
                         </div>
                         <div class="form-row">
