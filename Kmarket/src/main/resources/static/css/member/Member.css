@@ -187,11 +187,11 @@
 }
 
 .select-individual:hover img {
-  content: url('/member/images/individual-icon-w.png');
+  content: url('../../images/member/individual-icon-w.png');
 }
 
 .select-seller:hover img {
-  content: url('/member/images/seller-icon-w.png');
+  content: url('../../images/member/seller-icon-w.png');
 }
 
 /*////////////////////// 약관 css //////////////////////*/
