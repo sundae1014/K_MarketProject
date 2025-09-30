@@ -1,0 +1,109 @@
+/* //////////////////// 장바구니 테이블 //////////////////// */
+
+.cart-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 30px;
+    font-size: 14px;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* 테이블 헤더 */
+.cart-table thead {
+    background: var(--gray-100);
+}
+
+.cart-table th,
+.cart-table td {
+    padding: 12px 10px;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+}
+
+.cart-table th {
+    font-weight: 600;
+    color: var(--gray-800);
+    font-size: 15px;
+}
+
+.cart-table td {
+    color: var(--gray-700);
+    vertical-align: middle;
+}
+
+/* 상품 정보 셀 */
+.cart-table .prod-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-align: left;
+}
+
+.cart-table .prod-info img {
+    width: 60px;
+    height: 60px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    object-fit: cover;
+}
+
+.cart-table .prod-info .name {
+    font-weight: 600;
+    color: #000;
+    margin-bottom: 4px;
+    font-size: 14px;
+}
+
+.cart-table .prod-info .desc {
+    font-size: 12px;
+    color: var(--gray-600);
+}
+
+/* //////////////////// 합계 영역 //////////////////// */
+
+.cart-total {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px;
+    background: #fafafa;
+    font-size: 14px;
+    color: var(--gray-800);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    max-width: 400px;
+    margin-left: auto; /* 우측 정렬 */
+}
+
+.cart-total p {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+}
+
+.cart-total p span {
+    font-weight: 600;
+    color: #000;
+}
+
+/* 주문하기 버튼 */
+.cart-total .btn-order {
+    margin-top: 15px;
+    width: 100%;
+    padding: 12px;
+    font-size: 15px;
+    font-weight: 700;
+    background: var(--blue);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.cart-total .btn-order:hover {
+    background: #2454d1;
+}

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cupang::장바구니</title>
+    <link rel="stylesheet" th:href="@{/css/style_index.css}">
+    <link rel="stylesheet" th:href="@{/css/style_prodList.css}">
+    <link rel="stylesheet" th:href="@{/css/style_prodCart.css}">
+    <link rel="stylesheet" th:href="@{/css/style_header.css}">
+    <link rel="stylesheet" th:href="@{/css/style_footer.css}">
+
+    <!-- 유저별 권한 기능 -->
+    <script th:src="@{/js/user-menu.js}" defer></script>
+    <!-- 검색 기능 -->
+    <script th:src="@{/js/search.js}" defer></script>
+    <!-- 전체 카테고리 구현 기능 -->
+    <script th:src="@{/js/category.js}" defer></script>
+    <!-- 베스트상품 온앤오프 & 스크롤 기능 -->
+    <script th:src="@{/js/best.js}" defer></script>
+    <!-- TOP 버튼(맨 위로) 기능 -->
+    <script th:src="@{/js/top-btn.js}" defer></script>
+</head>
+<body>
+    <main class="page">
+
+        <!-- header -->
+        <div th:replace="_header :: headerFragment"></div>
+
+        <!-- 장바구니 레이아웃 -->
+        <div class="list-wrap container">
+
+            <!-- 좌측: 베스트상품 -->
+            <aside class="col-a">
+                <div class="best-panel">
+                    <h3 class="section-title">베스트상품</h3>
+                    <ol class="best-num-list" id="best-num-list">
+                        <li><button data-idx="0">NO.1</button></li>
+                        <li><button data-idx="1">NO.2</button></li>
+                        <li><button data-idx="2">NO.3</button></li>
+                        <li><button data-idx="3">NO.4</button></li>
+                        <li><button data-idx="4">NO.5</button></li>
+                    </ol>
+                </div>
+            </aside>
+
+            <!-- 우측: 장바구니 -->
+            <section class="col-b">
+                <div class="list-header">
+                    <h2 class="list-title">장바구니</h2>
+                </div>
+
+                <!-- 장바구니 테이블 -->
+                <table class="cart-table">
+                    <thead>
+                    <tr>
+                        <th><input type="checkbox" id="chkAll"></th>
+                        <th>상품명</th>
+                        <th>수량</th>
+                        <th>판매가</th>
+                        <th>할인</th>
+                        <th>포인트</th>
+                        <th>배송비</th>
+                        <th>합계</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td><input type="checkbox" name="chk"></td>
+                        <td class="prod-info">
+                            <img th:src="@{/images/thumb.png}" alt="상품썸네일">
+                            <div>
+                                <p class="name">상품명 예시</p>
+                                <p class="desc">상품 설명 예시</p>
+                            </div>
+                        </td>
+                        <td>1</td>
+                        <td>27,000원</td>
+                        <td>-1,350원</td>
+                        <td>270P</td>
+                        <td>무료배송</td>
+                        <td>25,650원</td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <!-- 전체 합계 -->
+                <div class="cart-total">
+                    <p>상품수 : <span>1</span></p>
+                    <p>상품금액 : <span>27,000원</span></p>
+                    <p>할인금액 : <span>-1,350원</span></p>
+                    <p>배송비 : <span>0원</span></p>
+                    <p>전체주문금액 : <span>25,650원</span></p>
+                    <p>적립 포인트 : <span>270P</span></p>
+                    <button class="btn-order">주문하기</button>
+                </div>
+            </section>
+        </div>
+
+        <!-- footer -->
+        <div th:replace="_footer :: footerFragment"></div>
+    </main>
+</body>
+</html>
