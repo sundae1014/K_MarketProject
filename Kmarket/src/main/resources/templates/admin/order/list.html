@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+            crossorigin="anonymous"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        main {
+            flex: 1;
+        }
+
+        a:hover{
+            cursor: pointer;
+        }
+
+        .content-wraper {
+            width: 100%;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        .content-title {
+            width: 100%;
+            margin: 10px 0;
+        }
+
+        .title-items {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #cfcfcf;
+        }
+
+        .item1 {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .item2 {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            font-weight: 400;
+        }
+
+        .title-items h6 {
+            font-size: 14px;
+            font-weight: 700;
+            margin: 0;
+            line-height: 1.1;
+        }
+
+        .search{
+            width: 100%;
+            margin: 20px 0;
+        }
+
+        .main-content{
+            width: 100%;
+        }
+
+        .orders-table{
+            width: 100%;
+            border-top: 1.5px solid #a6a6a6;
+        }
+
+        .orders-table a{
+            text-decoration: underline !important;
+            color: black;
+        }
+
+        .orders-table th{
+            border-bottom: 0.5px solid #a6a6a6;
+            font-size: 12px;
+            font-weight: 700;
+            text-align: center;
+            padding: 15px;
+        }
+
+        .orders-table td{
+            border-bottom: 0.5px solid #a6a6a6;
+            font-size: 12px;
+            font-weight: 400;
+            padding: 30px;
+        }
+
+        .btn-white{
+            border: 1px solid #0070C0;
+            color: #0070C0;
+            font-size: 14px;
+            font-weight: 400;
+            width: 59px;
+            height: 33px;
+            padding: 0;
+        }
+
+        .pageNum{
+            font-size: 18px;
+            font-weight: 400;
+            color: black;
+            text-align: center;
+            padding: 40px;
+        }
+    </style>
+</head>
+<body>
+<main>
+    <div class="content-wraper">
+        <div class="content-title">
+            <div class="title-items">
+                <div class="item1">
+                    <h4>주문현황</h4>
+                </div>
+                <div class="item2">
+                    <span>HOME&nbsp>&nbsp주문관리&nbsp>&nbsp</span>
+                    <h6>주문현황</h6>
+                </div>
+            </div>
+        </div>
+        <div class="search">
+            <div class="search-box">
+                <form>
+                    <input type="text" value="주문번호" readonly>
+                    <input type="text" name="" placeholder="검색어 입력">
+                    <input type="submit" value="검색">
+                </form>
+            </div>
+        </div>
+        <div class="main-content">
+            <table class="orders-table">
+                <tr>
+                    <th>주문번호</th>
+                    <th>주문자</th>
+                    <th>주문자명</th>
+                    <th>주문건수</th>
+                    <th>주문합계</th>
+                    <th>결제수단</th>
+                    <th>주문상태</th>
+                    <th>주문일</th>
+                    <th>배송</th>
+                </tr>
+                <tr>
+                    <td>
+                        <a data-bs-toggle="modal" data-bs-target="#orderModal">10121211341</a>
+                    </td>
+                    <td>abc123</td>
+                    <td>김유신</td>
+                    <td>2</td>
+                    <td>102,900</td>
+                    <td>신용카드</td>
+                    <td>결제완료</td>
+                    <td>0000-00-00 00:00:00</td>
+                    <td>
+                        <button class="btn btn-white" data-bs-toggle="modal" data-bs-target="#addressModal">
+                            배송하기
+                        </button>
+                    </td>
+                </tr>
+            </table>
+            <div class="pageNum">
+                <a>이전</a>
+                <a>다음</a>
+            </div>
+        </div>
+    </div>
+</main>
+<div th:insert="~{admin/order/modal/order-modal :: modal}"></div>
+<div th:insert="~{admin/order/modal/address-modal :: modal}"></div>
+</body>
+</html>
