@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>공지사항 수정</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: #f5f5f5;
+    }
+
+    .container {
+      display: flex;
+      padding: 20px;
+    }
+
+    /* 사이드바 */
+    .sidebar {
+      width: 200px;
+      background-color: #e0e0e0;
+      padding: 20px;
+      border-radius: 4px;
+      flex-shrink: 0;
+    }
+
+    .sidebar h2 { font-size: 18px; margin-bottom: 10px; }
+    .sidebar ul { list-style: none; padding: 0; }
+    .sidebar ul li { margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid #ccc; }
+    .sidebar ul li a { text-decoration: none; color: #000; display: block; padding-left: 10px; }
+    .sidebar ul li a.active { font-weight: bold; }
+    .sidebar ul li ul { background-color: #fff; padding: 5px 0; margin-top: 5px; border-radius: 4px; border: 1px solid #ddd; border-bottom: none; }
+    .sidebar ul li ul li { padding: 8px 15px; margin-bottom: 0; border-bottom: 1px solid #ddd; }
+    .sidebar ul li ul li:last-child { border-bottom: none; }
+    .sidebar ul li ul li a { color: #000; text-decoration: none; display: block; }
+    .sidebar ul li ul li a.active { font-weight: bold; }
+
+    /* 메인 콘텐츠 */
+    .content { flex: 1; padding-left: 40px; background-color: #fff; }
+    .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px solid #000; padding-bottom: 10px; }
+    .header-top h1 { font-size: 20px; margin: 0; }
+    .breadcrumb { font-size: 14px; }
+    .breadcrumb a { text-decoration: none; color: #007bff; }
+    .breadcrumb span { color: #555; }
+
+    table { width: 100%; border-collapse: collapse; font-size: 14px; margin-bottom: 20px; }
+    th { width: 120px; text-align: left; vertical-align: top; padding: 10px 5px; }
+    td { padding: 5px; }
+
+    /* 입력 박스 */
+    .input-box {
+      width: 100%;
+      padding: 6px 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      background-color: #fff;
+      box-sizing: border-box;
+      font-size: 14px;
+    }
+
+    textarea.input-box {
+      height: 150px;
+      resize: none; /* 고정 크기 */
+    }
+
+    /* 버튼 영역 오른쪽 정렬 */
+    .bottom-bar {
+      display: flex;
+      justify-content: flex-end; /* 오른쪽 정렬 */
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .btn { padding: 6px 12px; background-color: #3693c2; color: white; border: none; cursor: pointer; }
+    .btn2 { padding: 6px 12px; background-color: #bfbfbf; color: white; border: none; cursor: pointer; }
+    .btn:hover { background-color: #2980b9; }
+  </style>
+</head>
+<body>
+
+<div class="top-bar" style="background-color:#eee; padding:10px 20px;">
+  <div>
+    <a href="#">홈</a> | <a href="#">로그아웃</a> | <a href="#">고객센터</a>
+  </div>
+</div>
+
+<div class="container">
+  <!-- 사이드바 -->
+  <div class="sidebar">
+    <h2>관리 메뉴</h2>
+    <ul>
+      <li><a href="#">환경설정</a></li>
+      <li><a href="#">상품관리</a></li>
+      <li><a href="#">회원관리</a></li>
+      <li><a href="#">상점관리</a></li>
+      <li><a href="#">주문관리</a></li>
+      <li><a href="#" class="active">고객센터</a>
+        <ul>
+          <li><a href="#" class="active">공지사항</a></li>
+          <li><a href="#">자주묻는질문</a></li>
+          <li><a href="#">문의하기</a></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+
+  <!-- 메인 콘텐츠 -->
+  <div class="content">
+    <div class="header-top">
+      <h1>공지사항 수정</h1>
+      <div class="breadcrumb">
+        <a href="#">HOME</a> &gt; 
+        <a href="#">고객센터</a> &gt; 
+        <span>공지사항</span>
+      </div>
+    </div>
+
+    <table>
+      <tbody>
+        <!-- 유형 박스 하드코딩, 박스 형태 유지 -->
+        <tr>
+          <th>유형</th>
+          <td>
+            <input type="text" value="고객서비스" class="input-box" readonly>
+          </td>
+        </tr>
+        <!-- 제목 입력 가능 -->
+        <tr>
+          <th>제목</th>
+          <td>
+            <input type="text" class="input-box" value="제목을 입력하세요">
+          </td>
+        </tr>
+        <!-- 내용 입력 가능 -->
+        <tr>
+          <th>내용</th>
+          <td>
+            <textarea class="input-box">
+공지사항 내용을 입력하세요.
+
+한줄 띄어쓰기
+
+
+두줄띄어쓰기
+            </textarea>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="bottom-bar">
+      <button class="btn2">취소하기</button>
+      <button class="btn">등록하기</button>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

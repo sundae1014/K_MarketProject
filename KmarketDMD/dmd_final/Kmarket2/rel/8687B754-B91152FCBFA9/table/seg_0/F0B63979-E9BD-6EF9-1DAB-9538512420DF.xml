@@ -1,0 +1,60 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="F0B63979-E9BD-6EF9-1DAB-9538512420DF" name="Category">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 02:09:30 UTC</createdTime>
+<ownerDesignName>Kmarket2</ownerDesignName>
+<ordsAlias>table_13</ordsAlias>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="Cate_cd" id="253B3A6F-50C6-1F88-D86E-5AB138648BCB">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 02:11:16 UTC</createdTime>
+<commentInRDBMS><![CDATA[카테고리 코드(1 - 유제품 2 - 가전제품 등)]]></commentInRDBMS>
+<ownerDesignName>Kmarket2</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="up_cate_cd" id="55686B7D-5189-A4C5-09CB-AECE56FA1305">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 02:11:16 UTC</createdTime>
+<commentInRDBMS><![CDATA[상위 카테고리 코드(10001-우유 10002-요거트 20001 전자렌지 등)]]></commentInRDBMS>
+<ownerDesignName>Kmarket2</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="Cate_name" id="22FEF06A-8717-A7AA-ADB5-C6610A0A60D5">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 02:11:16 UTC</createdTime>
+<commentInRDBMS><![CDATA[카테고리 이름]]></commentInRDBMS>
+<ownerDesignName>Kmarket2</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>300 BYTE</dataTypeSize>
+<ownDataTypeParameters>300 BYTE,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="BFD5DFCB-CB39-6509-7C3B-E115920F1143" name="Category_PK">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 02:11:16 UTC</createdTime>
+<ownerDesignName>Kmarket2</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="253B3A6F-50C6-1F88-D86E-5AB138648BCB"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

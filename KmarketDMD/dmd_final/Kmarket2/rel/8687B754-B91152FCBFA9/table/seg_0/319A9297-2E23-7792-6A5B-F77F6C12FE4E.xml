@@ -1,0 +1,101 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="319A9297-2E23-7792-6A5B-F77F6C12FE4E" name="CsBoard">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 01:41:59 UTC</createdTime>
+<ownerDesignName>Kmarket2</ownerDesignName>
+<ordsAlias>table_12</ordsAlias>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="Cs_cd" id="4DBAB185-D5EA-CC9F-0360-F1F11F8DBE90">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 02:15:43 UTC</createdTime>
+<ownerDesignName>Kmarket2</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="34B8F16C-F5A5-7BB1-B4C8-9C13E03DB130" referredColumn="937A7FB4-EEE5-2629-0B5A-9F3A06FE1FAD"/>
+</associations>
+</Column>
+<Column name="Number" id="353BE720-E500-A77A-BB91-94CA663E38F0">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 02:18:03 UTC</createdTime>
+<commentInRDBMS><![CDATA[상담번호 등 (시퀀스값 설정)]]></commentInRDBMS>
+<ownerDesignName>Kmarket2</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementColumn>true</autoIncrementColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="Title" id="9D15BABB-FBE0-FD31-1971-4F4B5E730B49">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 02:18:03 UTC</createdTime>
+<commentInRDBMS><![CDATA[제목]]></commentInRDBMS>
+<ownerDesignName>Kmarket2</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>100 BYTE</dataTypeSize>
+<ownDataTypeParameters>100 BYTE,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="main" id="60E59D82-66DD-FBAA-F746-2A15EE5FF3B7">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 02:18:03 UTC</createdTime>
+<commentInRDBMS><![CDATA[내용]]></commentInRDBMS>
+<ownerDesignName>Kmarket2</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>1000 BYTE</dataTypeSize>
+<ownDataTypeParameters>1000 BYTE,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="W_date" id="87735C9D-18E2-A1C6-4F3C-BA7FEFB143EB">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 02:18:03 UTC</createdTime>
+<commentInRDBMS><![CDATA[작성일자]]></commentInRDBMS>
+<ownerDesignName>Kmarket2</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT008</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="stat" id="ACE86C87-B4DB-8948-4F1E-70E53DDB22EC">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 02:18:03 UTC</createdTime>
+<commentInRDBMS><![CDATA[상태 (1-답변완료 2-답변대기 3-답변중 등)]]></commentInRDBMS>
+<ownerDesignName>Kmarket2</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="4DEE0968-E094-5F2C-3FE6-C5B446D8F50E" name="CsBoard_Cs_FK">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 02:15:43 UTC</createdTime>
+<ownerDesignName>Kmarket2</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="4DBAB185-D5EA-CC9F-0360-F1F11F8DBE90"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>
