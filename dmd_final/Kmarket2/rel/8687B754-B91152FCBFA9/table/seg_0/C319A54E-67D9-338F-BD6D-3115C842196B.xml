@@ -1,0 +1,86 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="C319A54E-67D9-338F-BD6D-3115C842196B" name="OrderDetail">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 01:41:45 UTC</createdTime>
+<ownerDesignName>Kmarket2</ownerDesignName>
+<ordsAlias>table_10</ordsAlias>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="OrderNumber" id="A7644909-D15F-D810-9254-F889FB6011DB">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 02:05:23 UTC</createdTime>
+<ownerDesignName>Kmarket2</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="5231898A-626E-0C31-DDE8-0ED89469B318" referredColumn="CD0FC020-A4A7-1234-0A46-A0DC90B8D12A"/>
+</associations>
+</Column>
+<Column name="Prod_number" id="AF5206E0-FD80-51F2-E7B9-8FB8ABE57D97">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 02:05:28 UTC</createdTime>
+<ownerDesignName>Kmarket2</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="A26BD285-A8FE-5E1F-837A-5254D2CF948F" referredColumn="102A866B-8891-1FAA-70F0-9C72954119A7"/>
+</associations>
+</Column>
+<Column name="piece" id="3311FEC7-7111-6649-B28A-368FD5D0EDB3">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 02:05:16 UTC</createdTime>
+<commentInRDBMS><![CDATA[상품 갯수]]></commentInRDBMS>
+<ownerDesignName>Kmarket2</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="Price" id="9B685798-E2D3-C894-E92E-F19E3015B90E">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 02:05:16 UTC</createdTime>
+<commentInRDBMS><![CDATA[상품 총 가격 ]]></commentInRDBMS>
+<ownerDesignName>Kmarket2</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="D9E130E2-64B4-8BE1-91B5-A594ED3A7FE7" name="OrderDetail_Order_FK">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 02:05:23 UTC</createdTime>
+<ownerDesignName>Kmarket2</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="A7644909-D15F-D810-9254-F889FB6011DB"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="9EFD5B99-D889-AAC3-51F1-038E62E91636" name="OrderDetail_Product_FK">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 02:05:28 UTC</createdTime>
+<ownerDesignName>Kmarket2</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="AF5206E0-FD80-51F2-E7B9-8FB8ABE57D97"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>
