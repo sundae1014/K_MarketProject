@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>관리자 메인</title>
-    <link rel="stylesheet" href="/admin_main/Admin.css">
-    <script src="/company/js/top-btn.js" defer></script>
-    <script src="/admin_cs_recruit/sidebarAction.js" defer></script>
+    <link rel="stylesheet" th:href="@{/css/admin/main/Admin.css}">
+    <script th:src="@{js/company/top-btn.js}" defer></script>
+    <script th:src="@{/js/admin/cs/recruit/sidebarAction.js}" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
-    <script src="/admin_main/chart.js" defer></script>
+    <script th:src="@{/js/admin/main/chart.js}" defer></script>
 
 </head>
 <body>
@@ -16,21 +16,21 @@
        <header>
         <div class="header-layout">
              <div class="header-content">
-                <a href="/admin">
-                    <img src="/admin_main/images/cupangMS_logo(color).png" alt="로고">
+                <a th:href="@{/admin}">
+                    <img th:src="@{/images/admin/main/cupangMS_logo(color).png}" alt="로고">
                 </a>
 
                 
                 <div class="header-link">
                     <div class="header-item">
-                        <a href="/">
+                        <a th:href="@{/}">
                         <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-house-icon lucide-house"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
                         <p>HOME</p>
                         </a>
                     </div>
 
                     <div class="header-item">
-                        <a href="/cs/index">
+                        <a th:href="@{/cs/index}">
                         <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-headset-icon lucide-headset"><path d="M3 11h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-5Zm0 0a9 9 0 1 1 18 0m0 0v5a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3Z"/><path d="M21 16v2a4 4 0 0 1-4 4h-5"/></svg>
                         <p>고객센터</p>
                         </a>
@@ -53,11 +53,11 @@
                        <p>환경설정</p>
                     </div>
                     <ul class="sub-menu">
-                        <li><a href="/admin/config/basic" class="sub-link">기본설정</a></li>
-                        <li><a href="/admin/config/banner" class="sub-link">배너관리</a></li>
-                        <li><a href="/admin/config/policy" class="sub-link">약관관리</a></li>
-                        <li><a href="/admin/config/category" class="sub-link">카테고리</a></li>
-                        <li><a href="/admin/config/version" class="sub-link">버전관리</a></li>
+                        <li><a th:href="@{/admin/config/basic}" class="sub-link">기본설정</a></li>
+                        <li><a th:href="@{/admin/config/banner}" class="sub-link">배너관리</a></li>
+                        <li><a th:href="@{/admin/config/policy}" class="sub-link">약관관리</a></li>
+                        <li><a th:href="@{/admin/config/category}" class="sub-link">카테고리</a></li>
+                        <li><a th:href="@{/admin/config/version}" class="sub-link">버전관리</a></li>
                     </ul>
                 </div>
                 <div class="side-item">
@@ -66,8 +66,8 @@
                         <p>상점관리</p>
                     </div>
                     <ul class="sub-menu">
-                        <li><a href="/admin/shop/list" class="sub-link">상점목록</a></li>
-                        <li><a href="/admin/shop/sales" class="sub-link">매출현황</a></li>
+                        <li><a th:href="@{/admin/shop/list}" class="sub-link">상점목록</a></li>
+                        <li><a th:href="@{/admin/shop/sales}" class="sub-link">매출현황</a></li>
                     </ul>
                 </div>
                 <div class="side-item">
@@ -76,8 +76,8 @@
                         <p>회원관리</p>
                     </div>
                     <ul class="sub-menu">
-                        <li><a href="/admin/member/list" class="sub-link">회원목록</a></li>
-                        <li><a href="/admin/member/point" class="sub-link">포인트관리</a></li>
+                        <li><a th:href="@{/admin/member/list}" class="sub-link">회원목록</a></li>
+                        <li><a th:href="@{/admin/member/point}" class="sub-link">포인트관리</a></li>
                     </ul>
                 </div>
                 <div class="side-item">
@@ -86,8 +86,8 @@
                         <p>상품관리</p>
                     </div>
                     <ul class="sub-menu">
-                        <li><a href="/admin/product/list" class="sub-link">상품목록</a></li>
-                        <li><a href="/admin/product/register" class="sub-link">상품등록</a></li>
+                        <li><a th:href="@{/admin/product/list}" class="sub-link">상품목록</a></li>
+                        <li><a th:href="@{/admin/product/register}" class="sub-link">상품등록</a></li>
                     </ul>
                 </div>
                 <div class="side-item">
@@ -96,8 +96,8 @@
                        <p>주문관리</p>
                     </div>
                     <ul class="sub-menu">
-                        <li><a href="/admin/order/list" class="sub-link">주문현황</a></li>
-                        <li><a href="/admin/order/delivery" class="sub-link">배송현황</a></li>
+                        <li><a th:href="@{/admin/order/list}" class="sub-link">주문현황</a></li>
+                        <li><a th:href="@{/admin/order/delivery}" class="sub-link">배송현황</a></li>
                     </ul>
                 </div>
                 <div class="side-item">
@@ -106,8 +106,8 @@
                        <p>쿠폰관리</p>
                     </div>
                     <ul class="sub-menu">
-                        <li><a href="/admin/coupon/list" class="sub-link">쿠폰목록</a></li>
-                        <li><a href="/admin/coupon/issued" class="sub-link">쿠폰발급현황</a></li>
+                        <li><a th:href="@{/admin/coupon/list}" class="sub-link">쿠폰목록</a></li>
+                        <li><a th:href="@{/admin/coupon/issued}" class="sub-link">쿠폰발급현황</a></li>
                     </ul>
                 </div>
                 <div class="side-item">
@@ -116,10 +116,10 @@
                         <p>고객센터</p>
                     </div>
                     <ul class="sub-menu">
-                        <li><a href="/admin/cs/notice/list" class="sub-link">공지사항</a></li>
-                        <li><a href="/admin/cs/faq/list" class="sub-link">자주묻는질문</a></li>
-                        <li><a href="/admin/cs/qna/list" class="sub-link">문의하기</a></li>
-                        <li><a href="/admin/cs/recruit/list" class="sub-link">채용하기</a></li>
+                        <li><a th:href="@{/admin/cs/notice/list}" class="sub-link">공지사항</a></li>
+                        <li><a th:href="@{/admin/cs/faq/list}" class="sub-link">자주묻는질문</a></li>
+                        <li><a th:href="@{/admin/cs/qna/list}" class="sub-link">문의하기</a></li>
+                        <li><a th:href="@{/admin/cs/recruit/list}" class="sub-link">채용하기</a></li>
                     </ul>
                 </div>
 
@@ -131,9 +131,9 @@
                 <div class="boardUpper">
                     <h2 class="boardText-login">관리자 메인</h2>
                     <div class="boardUpper-link">
-                        <a href="#">HOME</a>
+                        <a th:href="@{/admin}">HOME</a>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right-icon lucide-chevron-right"><path d="m9 18 6-6-6-6"/></svg>
-                        <a href="#" class="active">관리자 메인</a>
+                        <a th:href="@{/admin}" class="active">관리자 메인</a>
                     </div>
                 </div>
 
@@ -354,7 +354,7 @@
         <footer>
         <div class="footer-layout">
             <div class="footer-content">
-                <img src="/admin_main/images/cupangMS_logo(color).png" alt="로고">
+                <img th:src="@{/images/admin/main/cupangMS_logo(color).png}" alt="로고">
                 <div class="about-company">
                     <h2>(주)큐팡</h2>
                     <h2>대표이사 이름(db)</h2>

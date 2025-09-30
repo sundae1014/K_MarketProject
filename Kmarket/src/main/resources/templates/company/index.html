@@ -4,30 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>회사소개(메인)</title>
-    <link rel="stylesheet" href="/company/Company.css">
-    <script src="/company/js/top-btn.js" defer></script>
-    <script src="/company/js/slide.js" defer></script>
+    <link rel="stylesheet" th:href="@{/css/company/Company.css}">
+    <script th:src="@{/js/company/top-btn.js}" defer></script>
+    <script th:src="@{/js/company/slide.js}" defer></script>
 </head>
 <body>
     <header>
         <div class="header-layout">
-             <div class="header-content">
-                <a href="/company/index.html">
-                    <img src="/company/images/cupang_logo(color).png" alt="로고">
+            <div class="header-content">
+                <a href="index">
+                    <img th:src="@{/images/company/cupangIntro_logo(color).png}" alt="로고">
                 </a>
 
                 <div class="header-link">
-                    <a href="/company/index.html" class="active">HOME</a>
-                    <a href="/company/culture.html">기업문화</a>
-                    <a href="/company/story.html">소식과 이야기</a>
-                    <a href="/company/recruit.html">채용</a>
-                    <a href="/company/media.html">미디어</a>
+                    <a th:href="@{index}" class="active">HOME</a>
+                    <a th:href="@{culture}">기업문화</a>
+                    <a th:href="@{story}">소식과 이야기</a>
+                    <a th:href="@{recruit}">채용</a>
+                    <a th:href="@{media}">미디어</a>
                 </div>
             </div>
         </div>
-       
-    </header>
 
+    </header>
     <main>
 
         <a href="#" class="scroll-down">
@@ -39,7 +38,7 @@
 
         <div class="board">
             <div class="landing-area">
-                <img src="/company/images/companybd.PNG" alt="회사사옥">
+                <img th:src="@{/images/company/companybd.PNG}" alt="회사사옥">
                 <div class="landing-text">
                     <h1>더 빠르게, 더 편리하게, 모두를 위한 쇼핑 경험</h1>
                     <p>큐팡, 일상의 즐거움을 연결하다</p>
@@ -73,7 +72,7 @@
                     <div class="slides-wrapper">
                         <div class="slides">
                             <div class="slide">
-                                <img src="/company/images/slides1.png" alt="슬라이드 이미지 1">
+                                <img th:src="@{/images/company/slides1.png}" alt="슬라이드 이미지 1">
                                 <h2>순간을 놓치지 않는 초고속 배송</h2>
                                 <p>큐팡은 단순한 배송이 아니라, 고객이 원하는 시간을 정확히 지키는 초고속 배송을 실현합니다.<br>
                                 빠른 배송으로 기다림 없는 만족을 제공합니다.<br>
@@ -81,7 +80,7 @@
                             </div>
 
                             <div class="slide">
-                                <img src="/company/images/slides2.png" alt="슬라이드 이미지 2">
+                                <img th:src="@{/images/company/slides2.png}" alt="슬라이드 이미지 2">
                                 <h2>고객 중심 맞춤 서비스</h2>
                                 <p>고객 행동 데이터를 분석하여 개인별 맞춤 추천과 서비스를 제공합니다.<br>
                                 추천 상품, 할인, 배송 옵션까지 고객 취향에 최적화된 경험을 제공합니다.<br>
@@ -89,7 +88,7 @@
                             </div>
 
                             <div class="slide">
-                                <img src="/company/images/slides3.png" alt="슬라이드 이미지 3">
+                                <img th:src="@{/images/company/slides3.png}" alt="슬라이드 이미지 3">
                                 <h2>모든 상품, 합리적인 가격과 품질 보장</h2>
                                 <p>고객이 진정으로 원하는 가치는 가격과 품질의 완벽한 균형입니다.<br>
                                 큐팡은 믿을 수 있는 상품만을 선별하여 합리적인 가격으로 제공합니다.<br>
@@ -97,7 +96,7 @@
                             </div>
 
                             <div class="slide">
-                                <img src="/company/images/slides4.png" alt="슬라이드 이미지 4">
+                                <img th:src="@{/images/company/slides4.png}" alt="슬라이드 이미지 4">
                                 <h2>안심하고 믿을 수 있는 쇼핑 환경</h2>
                                 <p>결제부터 배송, 교환·환불까지 안전하고 투명한 과정을 제공합니다.<br>
                                 큐팡은 고객 신뢰를 최우선으로 생각하며, 언제나 책임 있는 서비스를 제공합니다.<br>
@@ -256,18 +255,18 @@
     <footer>
         <div class="footer-layout">
             <div class="footer-content">
-                <img src="/company/images/cupang_logo(color).png" alt="로고">
+                <img th:src="@{/images/company/cupangIntro_logo(color).png}" alt="로고">
                 <div class="about-link">
                     <p>큐팡 회사소개</p>
-                    <a href="/company/index.html">HOME</a>
-                    <a href="/company/culture.html">기업문화</a>
-                    <a href="/company/story.html">소식과 이야기</a>
-                    <a href="/company/recruit.html">채용</a>
-                    <a href="/company/media.html">미디어</a>
+                    <a th:href="@{/company/index}" class="active">>HOME</a>
+                    <a th:href="@{/company/culture}">기업문화</a>
+                    <a th:href="@{/company/story}">소식과 이야기</a>
+                    <a th:href="@{/company/recruit}">채용</a>
+                    <a th:href="@{/company/media}">미디어</a>
                 </div>
                 <div class="about-link">
                     <p>큐팡 사이트</p>
-                    <a href="#">큐팡</a>
+                    <a th:href="@{/}">큐팡</a>
                 </div>
             </div>
             <div class="footer-content">
