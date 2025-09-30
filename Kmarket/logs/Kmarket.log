@@ -1,0 +1,320 @@
+2025-09-29T00:41:47.393+09:00  INFO 3932 --- [Kmarket] [restartedMain] kr.co.kmarket.KmarketApplication         : Starting KmarketApplication v0.0.1-SNAPSHOT using Java 21.0.8 with PID 3932 (C:\Users\PC\OneDrive\바탕 화면\v1\K_Market V1\Kmarket\build\classes\java\main started by PC in C:\Users\PC\OneDrive\바탕 화면\v1\K_Market V1\Kmarket)
+2025-09-29T00:41:47.398+09:00  INFO 3932 --- [Kmarket] [restartedMain] kr.co.kmarket.KmarketApplication         : No active profile set, falling back to 1 default profile: "default"
+2025-09-29T00:41:47.434+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.s.b.devtools.restart.ChangeableUrls    : The Class-Path manifest attribute in C:\Users\PC\.gradle\caches\modules-2\files-2.1\com.oracle.database.jdbc\ojdbc11\23.7.0.25.01\665f52abef9122ce003b5cfc1d9d44f7302e2cfe\ojdbc11-23.7.0.25.01.jar referenced one or more files that do not exist: file:/C:/Users/PC/.gradle/caches/modules-2/files-2.1/com.oracle.database.jdbc/ojdbc11/23.7.0.25.01/665f52abef9122ce003b5cfc1d9d44f7302e2cfe/oraclepki.jar
+2025-09-29T00:41:47.434+09:00  INFO 3932 --- [Kmarket] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-09-29T00:41:47.434+09:00  INFO 3932 --- [Kmarket] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-09-29T00:41:48.090+09:00  INFO 3932 --- [Kmarket] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-09-29T00:41:48.101+09:00  INFO 3932 --- [Kmarket] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 4 ms. Found 0 JPA repository interfaces.
+2025-09-29T00:41:48.219+09:00  WARN 3932 --- [Kmarket] [restartedMain] o.m.s.mapper.ClassPathMapperScanner      : No MyBatis mapper was found in '[kr.co.kmarket]' package. Please check your configuration.
+2025-09-29T00:41:48.535+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-09-29T00:41:48.548+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-09-29T00:41:48.549+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.46]
+2025-09-29T00:41:48.598+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.a.c.c.C.[.[localhost].[/Kmarket]       : Initializing Spring embedded WebApplicationContext
+2025-09-29T00:41:48.598+09:00  INFO 3932 --- [Kmarket] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1163 ms
+2025-09-29T00:41:48.773+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-09-29T00:41:48.822+09:00  INFO 3932 --- [Kmarket] [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.29.Final
+2025-09-29T00:41:48.852+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-09-29T00:41:49.137+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-09-29T00:41:49.162+09:00  INFO 3932 --- [Kmarket] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-09-29T00:41:49.166+09:00  WARN 3932 --- [Kmarket] [restartedMain] c.zaxxer.hikari.util.DriverDataSource    : Registered driver with driverClassName=oracle.jdbc.driver.OracleDriver was not found, trying direct instantiation.
+2025-09-29T00:41:49.637+09:00  INFO 3932 --- [Kmarket] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection oracle.jdbc.driver.T4CConnection@72ebcab1
+2025-09-29T00:41:49.638+09:00  INFO 3932 --- [Kmarket] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-09-29T00:41:49.988+09:00  INFO 3932 --- [Kmarket] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 21.3
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-09-29T00:41:50.275+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-09-29T00:41:50.279+09:00  INFO 3932 --- [Kmarket] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-09-29T00:41:50.323+09:00  WARN 3932 --- [Kmarket] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-09-29T00:41:50.348+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2025-09-29T00:41:50.761+09:00  INFO 3932 --- [Kmarket] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-09-29T00:41:50.905+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2025-09-29T00:41:50.935+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/Kmarket'
+2025-09-29T00:41:50.940+09:00  INFO 3932 --- [Kmarket] [restartedMain] kr.co.kmarket.KmarketApplication         : Started KmarketApplication in 4.284 seconds (process running for 5.413)
+2025-09-29T00:42:06.084+09:00  INFO 3932 --- [Kmarket] [http-nio-8080-exec-1] o.a.c.c.C.[.[localhost].[/Kmarket]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-09-29T00:42:06.084+09:00  INFO 3932 --- [Kmarket] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-09-29T00:42:06.086+09:00  INFO 3932 --- [Kmarket] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2025-09-29T00:48:10.591+09:00  INFO 3932 --- [Kmarket] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 127 class path changes (22 additions, 0 deletions, 105 modifications)
+2025-09-29T00:48:10.593+09:00  INFO 3932 --- [Kmarket] [Thread-7] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-09-29T00:48:10.598+09:00  INFO 3932 --- [Kmarket] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-09-29T00:48:10.601+09:00  INFO 3932 --- [Kmarket] [Thread-7] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-09-29T00:48:10.604+09:00  INFO 3932 --- [Kmarket] [Thread-7] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-09-29T00:48:10.723+09:00  INFO 3932 --- [Kmarket] [Thread-7] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-09-29T00:48:10.842+09:00  INFO 3932 --- [Kmarket] [restartedMain] kr.co.kmarket.KmarketApplication         : Starting KmarketApplication v0.0.1-SNAPSHOT using Java 21.0.8 with PID 3932 (C:\Users\PC\OneDrive\바탕 화면\v1\K_Market V1\Kmarket\build\classes\java\main started by PC in C:\Users\PC\OneDrive\바탕 화면\v1\K_Market V1\Kmarket)
+2025-09-29T00:48:10.843+09:00  INFO 3932 --- [Kmarket] [restartedMain] kr.co.kmarket.KmarketApplication         : No active profile set, falling back to 1 default profile: "default"
+2025-09-29T00:48:11.112+09:00  INFO 3932 --- [Kmarket] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-09-29T00:48:11.113+09:00  INFO 3932 --- [Kmarket] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 1 ms. Found 0 JPA repository interfaces.
+2025-09-29T00:48:11.162+09:00  WARN 3932 --- [Kmarket] [restartedMain] o.m.s.mapper.ClassPathMapperScanner      : No MyBatis mapper was found in '[kr.co.kmarket]' package. Please check your configuration.
+2025-09-29T00:48:11.212+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-09-29T00:48:11.213+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-09-29T00:48:11.214+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.46]
+2025-09-29T00:48:11.244+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.a.c.c.C.[.[localhost].[/Kmarket]       : Initializing Spring embedded WebApplicationContext
+2025-09-29T00:48:11.244+09:00  INFO 3932 --- [Kmarket] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 398 ms
+2025-09-29T00:48:11.273+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-09-29T00:48:11.279+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-09-29T00:48:11.292+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-09-29T00:48:11.295+09:00  INFO 3932 --- [Kmarket] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Starting...
+2025-09-29T00:48:11.295+09:00  WARN 3932 --- [Kmarket] [restartedMain] c.zaxxer.hikari.util.DriverDataSource    : Registered driver with driverClassName=oracle.jdbc.driver.OracleDriver was not found, trying direct instantiation.
+2025-09-29T00:48:11.430+09:00  INFO 3932 --- [Kmarket] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-2 - Added connection oracle.jdbc.driver.T4CConnection@76bc9293
+2025-09-29T00:48:11.430+09:00  INFO 3932 --- [Kmarket] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Start completed.
+2025-09-29T00:48:11.509+09:00  INFO 3932 --- [Kmarket] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-2)']
+	Database driver: undefined/unknown
+	Database version: 21.3
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-09-29T00:48:11.530+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-09-29T00:48:11.530+09:00  INFO 3932 --- [Kmarket] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-09-29T00:48:11.547+09:00  WARN 3932 --- [Kmarket] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-09-29T00:48:11.556+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2025-09-29T00:48:11.645+09:00  INFO 3932 --- [Kmarket] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-09-29T00:48:11.663+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2025-09-29T00:48:11.671+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/Kmarket'
+2025-09-29T00:48:11.673+09:00  INFO 3932 --- [Kmarket] [restartedMain] kr.co.kmarket.KmarketApplication         : Started KmarketApplication in 0.881 seconds (process running for 386.146)
+2025-09-29T00:48:11.674+09:00  INFO 3932 --- [Kmarket] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2025-09-29T00:50:02.773+09:00  INFO 3932 --- [Kmarket] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 127 class path changes (0 additions, 0 deletions, 127 modifications)
+2025-09-29T00:50:02.774+09:00  INFO 3932 --- [Kmarket] [Thread-9] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-09-29T00:50:02.777+09:00  INFO 3932 --- [Kmarket] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-09-29T00:50:02.778+09:00  INFO 3932 --- [Kmarket] [Thread-9] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-09-29T00:50:02.779+09:00  INFO 3932 --- [Kmarket] [Thread-9] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown initiated...
+2025-09-29T00:50:02.900+09:00  INFO 3932 --- [Kmarket] [Thread-9] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown completed.
+2025-09-29T00:50:03.001+09:00  INFO 3932 --- [Kmarket] [restartedMain] kr.co.kmarket.KmarketApplication         : Starting KmarketApplication v0.0.1-SNAPSHOT using Java 21.0.8 with PID 3932 (C:\Users\PC\OneDrive\바탕 화면\v1\K_Market V1\Kmarket\build\classes\java\main started by PC in C:\Users\PC\OneDrive\바탕 화면\v1\K_Market V1\Kmarket)
+2025-09-29T00:50:03.002+09:00  INFO 3932 --- [Kmarket] [restartedMain] kr.co.kmarket.KmarketApplication         : No active profile set, falling back to 1 default profile: "default"
+2025-09-29T00:50:03.294+09:00  INFO 3932 --- [Kmarket] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-09-29T00:50:03.295+09:00  INFO 3932 --- [Kmarket] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 1 ms. Found 0 JPA repository interfaces.
+2025-09-29T00:50:03.357+09:00  WARN 3932 --- [Kmarket] [restartedMain] o.m.s.mapper.ClassPathMapperScanner      : No MyBatis mapper was found in '[kr.co.kmarket]' package. Please check your configuration.
+2025-09-29T00:50:03.397+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-09-29T00:50:03.398+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-09-29T00:50:03.399+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.46]
+2025-09-29T00:50:03.432+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.a.c.c.C.[.[localhost].[/Kmarket]       : Initializing Spring embedded WebApplicationContext
+2025-09-29T00:50:03.432+09:00  INFO 3932 --- [Kmarket] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 426 ms
+2025-09-29T00:50:03.464+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-09-29T00:50:03.470+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-09-29T00:50:03.480+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-09-29T00:50:03.481+09:00  INFO 3932 --- [Kmarket] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Starting...
+2025-09-29T00:50:03.482+09:00  WARN 3932 --- [Kmarket] [restartedMain] c.zaxxer.hikari.util.DriverDataSource    : Registered driver with driverClassName=oracle.jdbc.driver.OracleDriver was not found, trying direct instantiation.
+2025-09-29T00:50:03.623+09:00  INFO 3932 --- [Kmarket] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-3 - Added connection oracle.jdbc.driver.T4CConnection@4cd7187c
+2025-09-29T00:50:03.623+09:00  INFO 3932 --- [Kmarket] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Start completed.
+2025-09-29T00:50:03.710+09:00  INFO 3932 --- [Kmarket] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-3)']
+	Database driver: undefined/unknown
+	Database version: 21.3
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-09-29T00:50:03.729+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-09-29T00:50:03.729+09:00  INFO 3932 --- [Kmarket] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-09-29T00:50:03.743+09:00  WARN 3932 --- [Kmarket] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-09-29T00:50:03.751+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2025-09-29T00:50:03.826+09:00  INFO 3932 --- [Kmarket] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-09-29T00:50:03.846+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2025-09-29T00:50:03.854+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/Kmarket'
+2025-09-29T00:50:03.855+09:00  INFO 3932 --- [Kmarket] [restartedMain] kr.co.kmarket.KmarketApplication         : Started KmarketApplication in 0.898 seconds (process running for 498.328)
+2025-09-29T00:50:03.856+09:00  INFO 3932 --- [Kmarket] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2025-09-29T00:52:40.333+09:00  INFO 3932 --- [Kmarket] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 127 class path changes (0 additions, 0 deletions, 127 modifications)
+2025-09-29T00:52:40.334+09:00  INFO 3932 --- [Kmarket] [Thread-13] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-09-29T00:52:40.336+09:00  INFO 3932 --- [Kmarket] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-09-29T00:52:40.337+09:00  INFO 3932 --- [Kmarket] [Thread-13] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-09-29T00:52:40.338+09:00  INFO 3932 --- [Kmarket] [Thread-13] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Shutdown initiated...
+2025-09-29T00:52:40.458+09:00  INFO 3932 --- [Kmarket] [Thread-13] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Shutdown completed.
+2025-09-29T00:52:40.529+09:00  INFO 3932 --- [Kmarket] [restartedMain] kr.co.kmarket.KmarketApplication         : Starting KmarketApplication v0.0.1-SNAPSHOT using Java 21.0.8 with PID 3932 (C:\Users\PC\OneDrive\바탕 화면\v1\K_Market V1\Kmarket\build\classes\java\main started by PC in C:\Users\PC\OneDrive\바탕 화면\v1\K_Market V1\Kmarket)
+2025-09-29T00:52:40.529+09:00  INFO 3932 --- [Kmarket] [restartedMain] kr.co.kmarket.KmarketApplication         : No active profile set, falling back to 1 default profile: "default"
+2025-09-29T00:52:40.746+09:00  INFO 3932 --- [Kmarket] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-09-29T00:52:40.748+09:00  INFO 3932 --- [Kmarket] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 1 ms. Found 0 JPA repository interfaces.
+2025-09-29T00:52:40.792+09:00  WARN 3932 --- [Kmarket] [restartedMain] o.m.s.mapper.ClassPathMapperScanner      : No MyBatis mapper was found in '[kr.co.kmarket]' package. Please check your configuration.
+2025-09-29T00:52:40.835+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-09-29T00:52:40.836+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-09-29T00:52:40.836+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.46]
+2025-09-29T00:52:40.860+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.a.c.c.C.[.[localhost].[/Kmarket]       : Initializing Spring embedded WebApplicationContext
+2025-09-29T00:52:40.860+09:00  INFO 3932 --- [Kmarket] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 329 ms
+2025-09-29T00:52:40.891+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-09-29T00:52:40.895+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-09-29T00:52:40.905+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-09-29T00:52:40.905+09:00  INFO 3932 --- [Kmarket] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Starting...
+2025-09-29T00:52:40.905+09:00  WARN 3932 --- [Kmarket] [restartedMain] c.zaxxer.hikari.util.DriverDataSource    : Registered driver with driverClassName=oracle.jdbc.driver.OracleDriver was not found, trying direct instantiation.
+2025-09-29T00:52:41.059+09:00  INFO 3932 --- [Kmarket] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-4 - Added connection oracle.jdbc.driver.T4CConnection@7fdbd86c
+2025-09-29T00:52:41.059+09:00  INFO 3932 --- [Kmarket] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Start completed.
+2025-09-29T00:52:41.157+09:00  INFO 3932 --- [Kmarket] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-4)']
+	Database driver: undefined/unknown
+	Database version: 21.3
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-09-29T00:52:41.176+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-09-29T00:52:41.176+09:00  INFO 3932 --- [Kmarket] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-09-29T00:52:41.191+09:00  WARN 3932 --- [Kmarket] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-09-29T00:52:41.198+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2025-09-29T00:52:41.274+09:00  INFO 3932 --- [Kmarket] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-09-29T00:52:41.290+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2025-09-29T00:52:41.298+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/Kmarket'
+2025-09-29T00:52:41.300+09:00  INFO 3932 --- [Kmarket] [restartedMain] kr.co.kmarket.KmarketApplication         : Started KmarketApplication in 0.8 seconds (process running for 655.773)
+2025-09-29T00:52:41.301+09:00  INFO 3932 --- [Kmarket] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2025-09-29T00:53:40.042+09:00  INFO 3932 --- [Kmarket] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 133 class path changes (6 additions, 0 deletions, 127 modifications)
+2025-09-29T00:53:40.044+09:00  INFO 3932 --- [Kmarket] [Thread-17] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-09-29T00:53:40.045+09:00  INFO 3932 --- [Kmarket] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-09-29T00:53:40.047+09:00  INFO 3932 --- [Kmarket] [Thread-17] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-09-29T00:53:40.047+09:00  INFO 3932 --- [Kmarket] [Thread-17] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Shutdown initiated...
+2025-09-29T00:53:40.169+09:00  INFO 3932 --- [Kmarket] [Thread-17] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Shutdown completed.
+2025-09-29T00:53:40.244+09:00  INFO 3932 --- [Kmarket] [restartedMain] kr.co.kmarket.KmarketApplication         : Starting KmarketApplication v0.0.1-SNAPSHOT using Java 21.0.8 with PID 3932 (C:\Users\PC\OneDrive\바탕 화면\v1\K_Market V1\Kmarket\build\classes\java\main started by PC in C:\Users\PC\OneDrive\바탕 화면\v1\K_Market V1\Kmarket)
+2025-09-29T00:53:40.244+09:00  INFO 3932 --- [Kmarket] [restartedMain] kr.co.kmarket.KmarketApplication         : No active profile set, falling back to 1 default profile: "default"
+2025-09-29T00:53:40.433+09:00  INFO 3932 --- [Kmarket] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-09-29T00:53:40.435+09:00  INFO 3932 --- [Kmarket] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 1 ms. Found 0 JPA repository interfaces.
+2025-09-29T00:53:40.481+09:00  WARN 3932 --- [Kmarket] [restartedMain] o.m.s.mapper.ClassPathMapperScanner      : No MyBatis mapper was found in '[kr.co.kmarket]' package. Please check your configuration.
+2025-09-29T00:53:40.516+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-09-29T00:53:40.517+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-09-29T00:53:40.517+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.46]
+2025-09-29T00:53:40.541+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.a.c.c.C.[.[localhost].[/Kmarket]       : Initializing Spring embedded WebApplicationContext
+2025-09-29T00:53:40.541+09:00  INFO 3932 --- [Kmarket] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 295 ms
+2025-09-29T00:53:40.573+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-09-29T00:53:40.577+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-09-29T00:53:40.586+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-09-29T00:53:40.587+09:00  INFO 3932 --- [Kmarket] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-5 - Starting...
+2025-09-29T00:53:40.588+09:00  WARN 3932 --- [Kmarket] [restartedMain] c.zaxxer.hikari.util.DriverDataSource    : Registered driver with driverClassName=oracle.jdbc.driver.OracleDriver was not found, trying direct instantiation.
+2025-09-29T00:53:40.725+09:00  INFO 3932 --- [Kmarket] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-5 - Added connection oracle.jdbc.driver.T4CConnection@741c17c1
+2025-09-29T00:53:40.725+09:00  INFO 3932 --- [Kmarket] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-5 - Start completed.
+2025-09-29T00:53:40.804+09:00  INFO 3932 --- [Kmarket] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-5)']
+	Database driver: undefined/unknown
+	Database version: 21.3
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-09-29T00:53:40.823+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-09-29T00:53:40.823+09:00  INFO 3932 --- [Kmarket] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-09-29T00:53:40.842+09:00  WARN 3932 --- [Kmarket] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-09-29T00:53:40.849+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2025-09-29T00:53:40.920+09:00  INFO 3932 --- [Kmarket] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-09-29T00:53:40.936+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2025-09-29T00:53:40.948+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/Kmarket'
+2025-09-29T00:53:40.950+09:00  INFO 3932 --- [Kmarket] [restartedMain] kr.co.kmarket.KmarketApplication         : Started KmarketApplication in 0.733 seconds (process running for 715.423)
+2025-09-29T00:53:40.951+09:00  INFO 3932 --- [Kmarket] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2025-09-29T00:55:34.512+09:00  INFO 3932 --- [Kmarket] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 146 class path changes (13 additions, 0 deletions, 133 modifications)
+2025-09-29T00:55:34.513+09:00  INFO 3932 --- [Kmarket] [Thread-21] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-09-29T00:55:34.515+09:00  INFO 3932 --- [Kmarket] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-09-29T00:55:34.516+09:00  INFO 3932 --- [Kmarket] [Thread-21] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-09-29T00:55:34.517+09:00  INFO 3932 --- [Kmarket] [Thread-21] com.zaxxer.hikari.HikariDataSource       : HikariPool-5 - Shutdown initiated...
+2025-09-29T00:55:34.635+09:00  INFO 3932 --- [Kmarket] [Thread-21] com.zaxxer.hikari.HikariDataSource       : HikariPool-5 - Shutdown completed.
+2025-09-29T00:55:34.714+09:00  INFO 3932 --- [Kmarket] [restartedMain] kr.co.kmarket.KmarketApplication         : Starting KmarketApplication v0.0.1-SNAPSHOT using Java 21.0.8 with PID 3932 (C:\Users\PC\OneDrive\바탕 화면\v1\K_Market V1\Kmarket\build\classes\java\main started by PC in C:\Users\PC\OneDrive\바탕 화면\v1\K_Market V1\Kmarket)
+2025-09-29T00:55:34.714+09:00  INFO 3932 --- [Kmarket] [restartedMain] kr.co.kmarket.KmarketApplication         : No active profile set, falling back to 1 default profile: "default"
+2025-09-29T00:55:34.948+09:00  INFO 3932 --- [Kmarket] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-09-29T00:55:34.950+09:00  INFO 3932 --- [Kmarket] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 1 ms. Found 0 JPA repository interfaces.
+2025-09-29T00:55:34.993+09:00  WARN 3932 --- [Kmarket] [restartedMain] o.m.s.mapper.ClassPathMapperScanner      : No MyBatis mapper was found in '[kr.co.kmarket]' package. Please check your configuration.
+2025-09-29T00:55:35.037+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-09-29T00:55:35.038+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-09-29T00:55:35.038+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.46]
+2025-09-29T00:55:35.062+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.a.c.c.C.[.[localhost].[/Kmarket]       : Initializing Spring embedded WebApplicationContext
+2025-09-29T00:55:35.062+09:00  INFO 3932 --- [Kmarket] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 347 ms
+2025-09-29T00:55:35.093+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-09-29T00:55:35.096+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-09-29T00:55:35.107+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-09-29T00:55:35.109+09:00  INFO 3932 --- [Kmarket] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-6 - Starting...
+2025-09-29T00:55:35.109+09:00  WARN 3932 --- [Kmarket] [restartedMain] c.zaxxer.hikari.util.DriverDataSource    : Registered driver with driverClassName=oracle.jdbc.driver.OracleDriver was not found, trying direct instantiation.
+2025-09-29T00:55:35.245+09:00  INFO 3932 --- [Kmarket] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-6 - Added connection oracle.jdbc.driver.T4CConnection@783d615a
+2025-09-29T00:55:35.246+09:00  INFO 3932 --- [Kmarket] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-6 - Start completed.
+2025-09-29T00:55:35.326+09:00  INFO 3932 --- [Kmarket] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-6)']
+	Database driver: undefined/unknown
+	Database version: 21.3
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-09-29T00:55:35.345+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-09-29T00:55:35.345+09:00  INFO 3932 --- [Kmarket] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-09-29T00:55:35.359+09:00  WARN 3932 --- [Kmarket] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-09-29T00:55:35.366+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2025-09-29T00:55:35.438+09:00  INFO 3932 --- [Kmarket] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-09-29T00:55:35.454+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2025-09-29T00:55:35.461+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/Kmarket'
+2025-09-29T00:55:35.463+09:00  INFO 3932 --- [Kmarket] [restartedMain] kr.co.kmarket.KmarketApplication         : Started KmarketApplication in 0.782 seconds (process running for 829.936)
+2025-09-29T00:55:35.463+09:00  INFO 3932 --- [Kmarket] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2025-09-29T01:00:14.149+09:00  INFO 3932 --- [Kmarket] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 150 class path changes (4 additions, 0 deletions, 146 modifications)
+2025-09-29T01:00:14.150+09:00  INFO 3932 --- [Kmarket] [Thread-25] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-09-29T01:00:14.154+09:00  INFO 3932 --- [Kmarket] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-09-29T01:00:14.155+09:00  INFO 3932 --- [Kmarket] [Thread-25] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-09-29T01:00:14.157+09:00  INFO 3932 --- [Kmarket] [Thread-25] com.zaxxer.hikari.HikariDataSource       : HikariPool-6 - Shutdown initiated...
+2025-09-29T01:00:14.275+09:00  INFO 3932 --- [Kmarket] [Thread-25] com.zaxxer.hikari.HikariDataSource       : HikariPool-6 - Shutdown completed.
+2025-09-29T01:00:14.355+09:00  INFO 3932 --- [Kmarket] [restartedMain] kr.co.kmarket.KmarketApplication         : Starting KmarketApplication v0.0.1-SNAPSHOT using Java 21.0.8 with PID 3932 (C:\Users\PC\OneDrive\바탕 화면\v1\K_Market V1\Kmarket\build\classes\java\main started by PC in C:\Users\PC\OneDrive\바탕 화면\v1\K_Market V1\Kmarket)
+2025-09-29T01:00:14.355+09:00  INFO 3932 --- [Kmarket] [restartedMain] kr.co.kmarket.KmarketApplication         : No active profile set, falling back to 1 default profile: "default"
+2025-09-29T01:00:14.587+09:00  INFO 3932 --- [Kmarket] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-09-29T01:00:14.588+09:00  INFO 3932 --- [Kmarket] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 1 ms. Found 0 JPA repository interfaces.
+2025-09-29T01:00:14.631+09:00  WARN 3932 --- [Kmarket] [restartedMain] o.m.s.mapper.ClassPathMapperScanner      : No MyBatis mapper was found in '[kr.co.kmarket]' package. Please check your configuration.
+2025-09-29T01:00:14.681+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-09-29T01:00:14.682+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-09-29T01:00:14.682+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.46]
+2025-09-29T01:00:14.707+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.a.c.c.C.[.[localhost].[/Kmarket]       : Initializing Spring embedded WebApplicationContext
+2025-09-29T01:00:14.707+09:00  INFO 3932 --- [Kmarket] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 349 ms
+2025-09-29T01:00:14.734+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-09-29T01:00:14.739+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-09-29T01:00:14.749+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-09-29T01:00:14.750+09:00  INFO 3932 --- [Kmarket] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-7 - Starting...
+2025-09-29T01:00:14.750+09:00  WARN 3932 --- [Kmarket] [restartedMain] c.zaxxer.hikari.util.DriverDataSource    : Registered driver with driverClassName=oracle.jdbc.driver.OracleDriver was not found, trying direct instantiation.
+2025-09-29T01:00:14.890+09:00  INFO 3932 --- [Kmarket] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-7 - Added connection oracle.jdbc.driver.T4CConnection@671178de
+2025-09-29T01:00:14.890+09:00  INFO 3932 --- [Kmarket] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-7 - Start completed.
+2025-09-29T01:00:14.971+09:00  INFO 3932 --- [Kmarket] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-7)']
+	Database driver: undefined/unknown
+	Database version: 21.3
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-09-29T01:00:14.993+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-09-29T01:00:14.993+09:00  INFO 3932 --- [Kmarket] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-09-29T01:00:15.011+09:00  WARN 3932 --- [Kmarket] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-09-29T01:00:15.020+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2025-09-29T01:00:15.106+09:00  INFO 3932 --- [Kmarket] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-09-29T01:00:15.122+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2025-09-29T01:00:15.130+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/Kmarket'
+2025-09-29T01:00:15.131+09:00  INFO 3932 --- [Kmarket] [restartedMain] kr.co.kmarket.KmarketApplication         : Started KmarketApplication in 0.81 seconds (process running for 1109.604)
+2025-09-29T01:00:15.132+09:00  INFO 3932 --- [Kmarket] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2025-09-29T01:01:35.487+09:00  INFO 3932 --- [Kmarket] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 157 class path changes (7 additions, 0 deletions, 150 modifications)
+2025-09-29T01:01:35.488+09:00  INFO 3932 --- [Kmarket] [Thread-29] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-09-29T01:01:35.491+09:00  INFO 3932 --- [Kmarket] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-09-29T01:01:35.492+09:00  INFO 3932 --- [Kmarket] [Thread-29] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-09-29T01:01:35.492+09:00  INFO 3932 --- [Kmarket] [Thread-29] com.zaxxer.hikari.HikariDataSource       : HikariPool-7 - Shutdown initiated...
+2025-09-29T01:01:35.607+09:00  INFO 3932 --- [Kmarket] [Thread-29] com.zaxxer.hikari.HikariDataSource       : HikariPool-7 - Shutdown completed.
+2025-09-29T01:01:35.686+09:00  INFO 3932 --- [Kmarket] [restartedMain] kr.co.kmarket.KmarketApplication         : Starting KmarketApplication v0.0.1-SNAPSHOT using Java 21.0.8 with PID 3932 (C:\Users\PC\OneDrive\바탕 화면\v1\K_Market V1\Kmarket\build\classes\java\main started by PC in C:\Users\PC\OneDrive\바탕 화면\v1\K_Market V1\Kmarket)
+2025-09-29T01:01:35.686+09:00  INFO 3932 --- [Kmarket] [restartedMain] kr.co.kmarket.KmarketApplication         : No active profile set, falling back to 1 default profile: "default"
+2025-09-29T01:01:35.912+09:00  INFO 3932 --- [Kmarket] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-09-29T01:01:35.914+09:00  INFO 3932 --- [Kmarket] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 1 ms. Found 0 JPA repository interfaces.
+2025-09-29T01:01:35.963+09:00  WARN 3932 --- [Kmarket] [restartedMain] o.m.s.mapper.ClassPathMapperScanner      : No MyBatis mapper was found in '[kr.co.kmarket]' package. Please check your configuration.
+2025-09-29T01:01:35.996+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-09-29T01:01:35.997+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-09-29T01:01:35.997+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.46]
+2025-09-29T01:01:36.022+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.a.c.c.C.[.[localhost].[/Kmarket]       : Initializing Spring embedded WebApplicationContext
+2025-09-29T01:01:36.022+09:00  INFO 3932 --- [Kmarket] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 333 ms
+2025-09-29T01:01:36.051+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-09-29T01:01:36.055+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-09-29T01:01:36.063+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-09-29T01:01:36.064+09:00  INFO 3932 --- [Kmarket] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-8 - Starting...
+2025-09-29T01:01:36.065+09:00  WARN 3932 --- [Kmarket] [restartedMain] c.zaxxer.hikari.util.DriverDataSource    : Registered driver with driverClassName=oracle.jdbc.driver.OracleDriver was not found, trying direct instantiation.
+2025-09-29T01:01:36.199+09:00  INFO 3932 --- [Kmarket] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-8 - Added connection oracle.jdbc.driver.T4CConnection@39f1303a
+2025-09-29T01:01:36.200+09:00  INFO 3932 --- [Kmarket] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-8 - Start completed.
+2025-09-29T01:01:36.278+09:00  INFO 3932 --- [Kmarket] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-8)']
+	Database driver: undefined/unknown
+	Database version: 21.3
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-09-29T01:01:36.297+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-09-29T01:01:36.297+09:00  INFO 3932 --- [Kmarket] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-09-29T01:01:36.312+09:00  WARN 3932 --- [Kmarket] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-09-29T01:01:36.322+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2025-09-29T01:01:36.391+09:00  INFO 3932 --- [Kmarket] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-09-29T01:01:36.407+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2025-09-29T01:01:36.419+09:00  INFO 3932 --- [Kmarket] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/Kmarket'
+2025-09-29T01:01:36.421+09:00  INFO 3932 --- [Kmarket] [restartedMain] kr.co.kmarket.KmarketApplication         : Started KmarketApplication in 0.77 seconds (process running for 1190.894)
+2025-09-29T01:01:36.422+09:00  INFO 3932 --- [Kmarket] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>주문상세</title>
+</head>
+<body>
+    <div th:fragment="modal">
+        <div class="modal fade modal-top" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="confirmModalLabel">구매확정</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="닫기"></button>
+                    </div>
+                    <div class="modal-body confirm-contents">
+                        <div class="confirm-content-1">
+                            <p>상품을 받으셨나요?</p>
+                            <p>상품을 받으신 분 만 구매확정을 해주세요.</p>
+                        </div>
+                        <div class="confirm-content-2">
+                            <button type="submit" class="btn-submit">확인</button>
+                            <button type="button" class="btn-cancel" data-bs-dismiss="modal">취소</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
