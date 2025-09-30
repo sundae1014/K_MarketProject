@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>문의하기</title>
+</head>
+<body>
+    <div th:fragment="modal">
+        <div class="modal fade modal-top" id="qnaModal" tabindex="-1" aria-labelledby="qnaModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="qnaModalLabel">문의하기</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="닫기"></button>
+                    </div>
+                    <div class="modal-body qna-contents">
+                        <div class="qna-content-1">
+                            <form class="qna-form">
+                                <div>
+                                    <table id="common-table">
+                                        <tr>
+                                            <th>문의종류</th>
+                                            <td>
+                                                <div class="qna-types">
+                                                    <div class="qna-type">
+                                                        <input type="radio" id="product" name="qnaType" value="상품">
+                                                        <label for="product">상품</label>
+                                                    </div>
+                                                    <div class="qna-type">
+                                                        <input type="radio" id="delivery" name="qnaType" value="배송">
+                                                        <label for="delivery">배송</label>
+                                                    </div>
+                                                    <div class="qna-type">
+                                                        <input type="radio" id="return" name="qnaType" value="반품/취소">
+                                                        <label for="return">반품/취소</label>
+                                                    </div>
+                                                    <div class="qna-type">
+                                                        <input type="radio" id="exchange" name="qnaType" value="교환">
+                                                        <label for="exchange">교환</label>
+                                                    </div>
+                                                    <div class="qna-type">
+                                                        <input type="radio" id="etc" name="qnaType" value="기타">
+                                                        <label for="etc">기타</label>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Email</th>
+                                            <td>
+                                                <input type="email" name="email" class="form-input" placeholder="이메일을 입력해주세요" required>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>제목</th>
+                                            <td>
+                                                <input type="text" name="title" class="form-input" placeholder="제목을 입력해주세요" required>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>내용</th>
+                                            <td>
+                                                <textarea name="content" class="form-textarea" placeholder="문의 내용을 자세히 입력해주세요" required></textarea>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="qna-content-2">
+                                    <button type="submit" class="btn-submit">등록하기</button>
+                                    <button type="button" class="btn-cancel" data-bs-dismiss="modal">취소</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

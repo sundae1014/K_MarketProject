@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>판매자정보</title>
+</head>
+<body>
+    <div th:fragment="modal">
+        <div class="modal fade modal-top" id="reviewModal" tabindex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="reviewModalLabel">상품평작성하기</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="닫기"></button>
+                    </div>
+                    <div class="modal-body review-contents">
+                        <form id="reviewForm">
+                            <table class="review-table">
+                                <tr>
+                                    <th>상품명</th>
+                                    <td>
+                                        <div class="product-info">
+                                            상품명 출력
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>만족도</th>
+                                    <td>
+                                        <div class="star-rating" id="starRating">
+                                            <span class="star" data-rating="1">★</span>
+                                            <span class="star" data-rating="2">★</span>
+                                            <span class="star" data-rating="3">★</span>
+                                            <span class="star" data-rating="4">★</span>
+                                            <span class="star" data-rating="5">★</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>내용</th>
+                                    <td>
+                                    <textarea name="reviewContent" class="review-textarea"
+                                              placeholder="최소 10자 이상, 200자 내외로 작성하세요." required ></textarea>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>사진</th>
+                                    <td>
+                                        <div class="file-upload-container">
+                                            <div class="file-upload-buttons">
+                                                <button type="button" class="file-upload-btn" onclick="selectFileType('file1')">
+                                                    파일선택
+                                                </button>
+                                                <button type="button" class="file-upload-btn" onclick="selectFileType('file2')">
+                                                    파일선택
+                                                </button>
+                                                <button type="button" class="file-upload-btn" onclick="selectFileType('file3')">
+                                                    파일선택
+                                                </button>
+                                            </div>
+                                            <input type="file" class="file-input" id="fileInput" multiple accept="image/*" onchange="handleFileUpload(event)">
+                                            <div class="file-preview" id="filePreview"></div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <div class="review-content-2">
+                                <button type="submit" class="btn-submit">작성완료</button>
+                                <button type="button" class="btn-cancel" data-bs-dismiss="modal">취소</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
