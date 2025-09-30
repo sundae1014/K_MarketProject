@@ -1,0 +1,175 @@
+/* 공통 적용 사항 */
+:root {
+    --blue: #336AFD;
+    --deep-gray: #2f2f2f;
+    --gray-900: #1f2937;
+    --gray-800: #374151;
+    --gray-700: #4b5563;
+    --gray-600: #6b7280;
+    --gray-500: #9F9F9F;
+    --gray-100: #f3f4f6;
+    --gray-50: #f9fafb;
+    --border: #e5e7eb;
+    --danger: #ff4d4f;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Noto Sans KR, Apple SD Gothic Neo,
+    Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+    color: var(--gray-900);
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* //////////////////// Footer 시작 //////////////////// */
+.footer {
+    margin-top: 120px;
+    margin-bottom: 20px;
+}
+
+.footer-bar {
+    max-width: 1920px;
+    min-width: 1200px;
+    width: 100%;   /* 컨테이너 폭 */
+    border-top: 2px solid var(--border);
+    border-bottom: 1px solid var(--border);
+}
+
+.footer-links {
+    max-width: 900px;        /* 1200px → 900px */
+    margin: 0 auto;          /* 중앙 정렬 */
+    padding: 18px 0;         /* 위/아래 여백 복구 */
+}
+
+.footer-links ul {
+    display: flex;
+    justify-content: center;
+    gap: 100px;               /* 항목 간격 */
+}
+
+.footer-links li {
+    position: relative;
+}
+
+.footer-links li::after {
+    content: "|";
+    position: absolute;
+    right: -50px;            /* 간격 맞춤 */
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--gray-500);
+    font-weight: normal;
+}
+
+.footer-links li:last-child::after {
+    content: none;           /* 마지막 항목은 | 제거 */
+}
+
+.footer-links a {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--gray-700);
+    text-decoration: none;
+}
+
+.footer-links a:hover {
+    color: var(--blue);
+    font-weight: 700;
+}
+
+/* Footer 3단 레이아웃 */
+.footer-info {
+    display: grid;
+    grid-template-columns: 150px 2fr 2fr;
+    gap: 40px;
+    max-width: 900px;
+    margin: 30px auto 0;
+    text-align: left;
+    align-items: flex-start;
+}
+
+.footer-logo {
+    width: auto;
+    height: 35px;
+    display: block;
+    margin-top: 4px;
+}
+
+/* 고객센터 타이틀 */
+.footer-col .footer-ce {
+    font-size: 14px;
+    font-weight: 500;
+    margin: 0 0 1px;
+    color: var(--gray-900);
+}
+
+/* 고객센터 번호 */
+.footer-col .footer-ph {
+    font-size: 22px;
+    font-weight: 800;
+    margin: 0 0 5px;
+    line-height: 1.2;
+    color: var(--gray-900);
+}
+
+.footer-col p {
+    font-size: 14px;
+    font-weight: 500;
+    margin: 1px 0;
+    line-height: 1.5;
+    color: #757575;
+}
+
+/* 호스팅 서비스 안내문 */
+.footer-sub {
+    max-width: 900px;;
+    margin: 10px auto 0;
+    text-align: left;
+}
+
+.sub-title {
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 1px;
+    color: #000000;
+}
+
+.sub-text {
+    font-size: 10px;
+    font-weight: 300;
+    line-height: 1.5;
+    color: #9F9F9F;
+}
+/* //////////////////// Footer 끝 //////////////////// */

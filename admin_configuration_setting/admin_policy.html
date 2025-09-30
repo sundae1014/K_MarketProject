@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>약관 관리</title>
+    
+    <style>
+        * { /* 기본 */
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .container { /*전체 틀*/
+            display: flex;  
+            min-height: 100vh;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /*네비게이션*/
+        .navigation {
+            width: 200px;
+            background-color: #e8e8e8;
+            border-right: 1px solid #ccc;
+            padding: 20px 0;
+            flex-shrink: 0;
+        }
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            border-bottom: 1px solid #ccc;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .nav-item:hover {
+            background-color: #ddd;
+        }
+        .nav-item.active {
+            background-color: #d0d0d0;
+            font-weight: bold;
+        }
+        .nav-icon {
+            margin-right: 8px;
+            font-size: 16px;
+        }
+
+        /* 본문 영역 */
+        .content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .content-header {
+            align-items: flex-start;
+            border-bottom: 2px solid #808080;
+            display: flex;
+            justify-content: space-between;
+            padding-bottom: 10px;
+            width:960px;
+        }
+
+        .top-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-right: 20px;
+        }
+
+        /* 상품등록 메인*/
+        .title_p {
+            background-color: #F2F2F2;
+            padding: 13px;
+        }
+        #policy_box {
+            border-top: 1px solid #A6A6A6; 
+            border-bottom: 1px solid #A6A6A6;
+            margin-top: 10px;
+        }
+        .line_row {
+            align-items: center;
+            border-bottom: 1px solid #A6A6A6;
+            display: flex;
+        }
+        .line_row_last {
+            align-items: center;
+            display: flex;
+        }
+        .policy_title {
+            background-color: #DCE6F2;
+            display: inline-block;
+            height: 180px; 
+            line-height: 180px;
+            padding: 7px 10px 10px 10px;
+            width: 90px;
+        }
+
+        .option_title {
+            background-color: #DCE6F2;
+            height: 40px; 
+            display: inline-block;
+            padding: 7px 10px 10px 10px;
+            width: 97px;
+        }
+        .option_content {
+            border:1px solid #BFBFBF;
+            height: 30px;
+            outline: none;
+            padding-left: 5px;
+            margin-left: 5px; 
+            width: 236px;
+        }
+        .modify_btn {
+            background-color: #8EB4E3; 
+            border: none;
+            color: white; 
+            cursor: pointer;
+            height: 37px; 
+            margin-top: 10px; 
+            width: 96px; 
+        }
+        .modify_btn:hover {background-color: #2a71c9; } 
+
+        .textarea_content {
+            border:2px solid #BFBFBF;
+            height: 170px;
+            margin-left: 5px;
+            outline: none;
+            padding: 10px;
+            resize: none;
+            width: 860px;    
+        }
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            let optionCount = 3;
+
+            function addRow() {
+                optionCount++;
+
+                const option_box = document.querySelector(".option_box");
+                const newDiv = document.createElement("div");
+                newDiv.className = "line_row";
+                newDiv.innerHTML = `
+                    <div class="option_title">옵션${optionCount}</div>
+                    <input type="text" name="option${optionCount}" class="option_content">
+                    <div class="option_title" style="margin-left: 20px;">옵션${optionCount} 항목</div>
+                    <input type="text" name="option${optionCount}_detail" class="option_content">
+                `;
+                option_box.appendChild(newDiv);
+            }
+            
+            document.querySelector(".option_pls").addEventListener("click", function() {
+                addRow();
+            });
+        });
+    </script>
+    
+</head>
+<body>
+    <header style="height: 121.44px;"></header> <!-- 임시 배치 -->
+    <main>
+        <div class="container">
+            <div class="navigation">
+                <div class="nav-item">
+                    <span class="nav-icon">👤</span>
+                    <span>임시○임시○임시</span>
+                </div>
+                <div class="nav-item">
+                    <span class="nav-icon">💻</span>
+                    <span>임시○임시</span>
+                </div>
+                <div class="nav-item active">
+                    <span class="nav-icon">🔧</span>
+                    <span>임시○임시</span>
+                </div>
+                <div class="nav-item">
+                    <span class="nav-icon">🏠</span>
+                    <span>임시○임시○임시</span>
+                </div>
+            </div>
+
+            <div class="content">
+                <div class="content-header">
+                    <h1 class="top-title">약관관리</h1>
+                    <div>
+                        <span>HOME</span> &nbsp;&gt;&nbsp;
+                        <span>환경설정</span> &nbsp;&gt;&nbsp;
+                        <span style="font-weight: bold;">약관관리</span> 
+                    </div>
+                </div>
+
+                <div id="purchase_policy">
+                    <div style="margin-top: 10px;">
+                        <h4>구매회원 약관</h4>
+                        <p class="title_p">회원가입 및 정책 페이지 노출 약관 입니다.</p>
+                    </div>
+
+                    <form action="#">
+                        <div id="policy_box">
+                            <div class="line_row_last">
+                                <div class="policy_title">약관 내용</div>
+                                <textarea name="textarea_content" class="textarea_content">제 1조 (목적)
+                                    &#10;이 약관은 주식회사 케이 마켓 쇼핑몰(이하 회사라 함)가 운영하는 케이 마켓 인터넷 오픈마켓 사이트
+                                    &#10;(www.Kmarket.co.kr 이하 케이 마켓이라고 합니다.)와 스마트폰 등 이동통신기기를 통해 제공되는 케이 마켓
+                                    &#10;모바일 애플리케이션 (이하 모바일 케이 마켓이라고 합니다.)을 통해서 제공하는 전자상거래 관련 서비스
+                                    &#10;및 기타서비스(이하 서비스라 함)를 이용하는 자간의 관리, 의무를 확정하고 이를 이행함으로써 상호
+                                    &#10;발전을 도모하는 것을 그 목적으로 합니다.
+                                </textarea>
+                            </div>
+                        </div>   
+                        <div style="display: flex; justify-content: flex-end;">
+                            <input type="submit" value="수정하기" class="modify_btn">
+                        </div>
+                    </form>
+                </div>
+
+                <div id="sale_policy">
+                    <div style="margin-top: 10px;">
+                        <h4>판매회원 약관</h4>
+                        <p class="title_p">회원가입 및 정책 페이지 노출 약관 입니다.</p>
+                    </div>
+
+                    <form action="#">
+                        <div id="policy_box">
+                            <div class="line_row_last">
+                                <div class="policy_title">약관 내용</div>
+                                <textarea name="textarea_content" class="textarea_content">제 1조 (목적)
+                                    &#10;이 약관은 주식회사 케이 마켓 쇼핑몰(이하 회사라 함)가 운영하는 케이 마켓 인터넷 오픈마켓 사이트
+                                    &#10;(www.Kmarket.co.kr 이하 케이 마켓이라고 합니다.)와 스마트폰 등 이동통신기기를 통해 제공되는 케이 마켓
+                                    &#10;모바일 애플리케이션 (이하 모바일 케이 마켓이라고 합니다.)을 통해서 제공하는 전자상거래 관련 서비스
+                                    &#10;및 기타서비스(이하 서비스라 함)를 이용하는 자간의 관리, 의무를 확정하고 이를 이행함으로써 상호
+                                    &#10;발전을 도모하는 것을 그 목적으로 합니다.
+                                </textarea>
+                            </div>
+                        </div>   
+                        <div style="display: flex; justify-content: flex-end;">
+                            <input type="submit" value="수정하기" class="modify_btn">
+                        </div>
+                    </form>
+                </div>
+
+                <div id="transaction_policy">
+                    <div style="margin-top: 10px;">
+                        <h4>전자금융거래 약관</h4>
+                        <p class="title_p">회원가입 및 정책 페이지 노출 약관 입니다.</p>
+                    </div>
+
+                    <form action="#">
+                        <div id="policy_box">
+                            <div class="line_row_last">
+                                <div class="policy_title">약관 내용</div>
+                                <textarea name="textarea_content" class="textarea_content">제 1조 (목적)
+                                    &#10;이 약관은 주식회사 케이 마켓 쇼핑몰(이하 회사라 함)가 운영하는 케이 마켓 인터넷 오픈마켓 사이트
+                                    &#10;(www.Kmarket.co.kr 이하 케이 마켓이라고 합니다.)와 스마트폰 등 이동통신기기를 통해 제공되는 케이 마켓
+                                    &#10;모바일 애플리케이션 (이하 모바일 케이 마켓이라고 합니다.)을 통해서 제공하는 전자상거래 관련 서비스
+                                    &#10;및 기타서비스(이하 서비스라 함)를 이용하는 자간의 관리, 의무를 확정하고 이를 이행함으로써 상호
+                                    &#10;발전을 도모하는 것을 그 목적으로 합니다.
+                                </textarea>
+                            </div>
+                        </div>   
+                        <div style="display: flex; justify-content: flex-end;">
+                            <input type="submit" value="수정하기" class="modify_btn">
+                        </div>
+                    </form>
+                </div>
+
+                <div id="location_policy">
+                    <div style="margin-top: 10px;">
+                        <h4>위치정보 이용약관</h4>
+                        <p class="title_p">회원가입 및 정책 페이지 노출 약관 입니다.</p>
+                    </div>
+
+                    <form action="#">
+                        <div id="policy_box">
+                            <div class="line_row_last">
+                                <div class="policy_title">약관 내용</div>
+                                <textarea name="textarea_content" class="textarea_content">제 1조 (목적)
+                                    &#10;이 약관은 주식회사 케이 마켓 쇼핑몰(이하 회사라 함)가 운영하는 케이 마켓 인터넷 오픈마켓 사이트
+                                    &#10;(www.Kmarket.co.kr 이하 케이 마켓이라고 합니다.)와 스마트폰 등 이동통신기기를 통해 제공되는 케이 마켓
+                                    &#10;모바일 애플리케이션 (이하 모바일 케이 마켓이라고 합니다.)을 통해서 제공하는 전자상거래 관련 서비스
+                                    &#10;및 기타서비스(이하 서비스라 함)를 이용하는 자간의 관리, 의무를 확정하고 이를 이행함으로써 상호
+                                    &#10;발전을 도모하는 것을 그 목적으로 합니다.
+                                </textarea>
+                            </div>
+                        </div>   
+                        <div style="display: flex; justify-content: flex-end;">
+                            <input type="submit" value="수정하기" class="modify_btn">
+                        </div>
+                    </form>
+                </div>
+
+                <div id="personal_policy">
+                    <div style="margin-top: 10px;">
+                        <h4>개인정보처리 방침</h4>
+                        <p class="title_p">회원가입 및 정책 페이지 노출 약관 입니다.</p>
+                    </div>
+
+                    <form action="#">
+                        <div id="policy_box">
+                            <div class="line_row_last">
+                                <div class="policy_title">약관 내용</div>
+                                <textarea name="textarea_content" class="textarea_content">제 1조 (목적)
+                                    &#10;이 약관은 주식회사 케이 마켓 쇼핑몰(이하 회사라 함)가 운영하는 케이 마켓 인터넷 오픈마켓 사이트
+                                    &#10;(www.Kmarket.co.kr 이하 케이 마켓이라고 합니다.)와 스마트폰 등 이동통신기기를 통해 제공되는 케이 마켓
+                                    &#10;모바일 애플리케이션 (이하 모바일 케이 마켓이라고 합니다.)을 통해서 제공하는 전자상거래 관련 서비스
+                                    &#10;및 기타서비스(이하 서비스라 함)를 이용하는 자간의 관리, 의무를 확정하고 이를 이행함으로써 상호
+                                    &#10;발전을 도모하는 것을 그 목적으로 합니다.
+                                </textarea>
+                            </div>
+                        </div>   
+                        <div style="display: flex; justify-content: flex-end;">
+                            <input type="submit" value="수정하기" class="modify_btn">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer style="height: 121.44px;"></footer> <!-- 임시 배치 -->
+</body>
+</html>
