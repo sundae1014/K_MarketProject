@@ -4,28 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>회사소개(소식과 이야기)</title>
-    <link rel="stylesheet" href="/company/Company.css">
-    <script src="/company/js/top-btn.js" defer></script>
-    <script src="/company/js/blog-show.js" defer></script>
+    <link rel="stylesheet" th:href="@{/css/company/Company.css}">
+    <script th:src="@{/js/company/top-btn.js}" defer></script>
+    <script th:src="@{/js/company/blog-show.js}" defer></script>
 </head>
 <body>
     <header>
         <div class="header-layout">
-             <div class="header-content">
-                <a href="/company/index">
-                    <img src="/company/images/cupang_logo(color).png" alt="로고">
+            <div class="header-content">
+                <a href="index">
+                    <img th:src="@{/images/company/cupangIntro_logo(color).png}" alt="로고">
                 </a>
 
                 <div class="header-link">
-                    <a href="/company/index" class="active">HOME</a>
-                    <a href="/company/culture">기업문화</a>
-                    <a href="/company/story">소식과 이야기</a>
-                    <a href="/company/recruit">채용</a>
-                    <a href="/company/media">미디어</a>
+                    <a th:href="@{index}">HOME</a>
+                    <a th:href="@{culture}">기업문화</a>
+                    <a th:href="@{story}" class="active">소식과 이야기</a>
+                    <a th:href="@{recruit}">채용</a>
+                    <a th:href="@{media}">미디어</a>
                 </div>
             </div>
         </div>
-       
+
     </header>
 
     <main>
@@ -57,7 +57,7 @@
                 <div class="blog-item">
                     <div class="blog-post" data-cate="culture">
                         <div class="blog-card">
-                            <img src="/company/images/test.PNG" alt="기업문화 이미지">
+                            <img th:src="@{/images/company/test.PNG}" alt="기업문화 이미지">
                             <div class="card-content">
                                 <h3>직원 이야기: 개발팀 하루</h3>
                                 <p>큐팡 개발팀의 하루를 소개합니다. 어떤 과정을 거쳐 서비스를 개선하는지 생생하게 볼 수 있습니다.</p>
@@ -67,7 +67,7 @@
 
                     <div class="blog-post" data-cate="interview">
                         <div class="blog-card">
-                            <img src="/company/images/test.PNG" alt="인터뷰 이미지">
+                            <img th:src="@{/images/company/test.PNG}" alt="인터뷰 이미지">
                             <div class="card-content">
                                 <h3>신입 개발자 인터뷰</h3>
                                 <p>큐팡 신입 개발자가 입사 후 경험한 실제 프로젝트 이야기와 성장 과정 인터뷰.</p>
@@ -77,7 +77,7 @@
 
                     <div class="blog-post" data-cate="recruit">
                         <div class="blog-card">
-                            <img src="/company/images/test.PNG" alt="채용 이미지">
+                            <img th:src="@{/images/company/test.PNG}" alt="채용 이미지">
                             <div class="card-content">
                                 <h3>채용 공고: 2025 상반기</h3>
                                 <p>큐팡에서 진행하는 상반기 채용 정보를 확인하고 지원 방법을 안내합니다.</p>
@@ -87,7 +87,7 @@
 
                     <div class="blog-post" data-cate="news">
                         <div class="blog-card">
-                            <img src="/company/images/test.PNG" alt="보도자료 이미지">
+                            <img th:src="@{/images/company/test.PNG}" alt="보도자료 이미지">
                             <div class="card-content">
                                 <h3>큐팡, 새로운 물류 센터 오픈</h3>
                                 <p>큐팡의 최신 물류 센터 오픈 소식을 전하고, 서비스 향상을 위한 계획을 소개합니다.</p>
@@ -97,7 +97,7 @@
 
                     <div class="blog-post" data-cate="esg">
                         <div class="blog-card">
-                            <img src="/company/images/test.PNG" alt="ESG 이미지">
+                            <img th:src="@{/images/company/test.PNG}" alt="ESG 이미지">
                             <div class="card-content">
                                 <h3>큐팡 ESG 활동 소개</h3>
                                 <p>환경과 사회, 거버넌스를 고려한 큐팡의 지속가능한 활동과 프로젝트를 공유합니다.</p>
@@ -125,49 +125,25 @@
     <footer>
         <div class="footer-layout">
             <div class="footer-content">
-                <img src="/company/images/cupangIntro_logo(color).png" alt="로고">
+                <img th:src="@{/images/company/cupangIntro_logo(color).png}" alt="로고">
                 <div class="about-link">
                     <p>큐팡 회사소개</p>
-                    <a href="/company/index">HOME</a>
-                    <a href="/company/culture">기업문화</a>
-                    <a href="/company/story">소식과 이야기</a>
-                    <a href="/company/recruit">채용</a>
-                    <a href="/company/media">미디어</a>
+                    <a th:href="@{index}">HOME</a>
+                    <a th:href="@{culture}">기업문화</a>
+                    <a th:href="@{story}">소식과 이야기</a>
+                    <a th:href="@{recruit}">채용</a>
+                    <a th:href="@{media}">미디어</a>
                 </div>
                 <div class="about-link">
                     <p>큐팡 사이트</p>
-                    <a href="/">큐팡</a>
+                    <a th:href="@{/}">큐팡</a>
                 </div>
             </div>
             <div class="footer-content">
                 <div class="about-company">
-                    <div class="about-company">
-                    <h2>(주)큐팡</h2>
-                    <h2>대표이사 이름(db)</h2>
-                    <h2>|</h2>
-                    <h2>사업자등록번호</h2>
-                    <h2>123-132-1231232(db)</h2>
-                    <h2>|</h2>
-                    <h2>통신판매업신고</h2>
-                    <h2>2023-부산 해운대구-1232(db)</h2>
-                    <h2>|</h2>
-                    <h2>부산광역시 부산진구 중앙동(db)</h2>
-                    <h2>(삼성동, green빌딩) 7층(db)</h2>
+                    <h2>(주)큐팡 대표자: 김철학 | 사업자 등록번호: 202-50-70702 | 부산광역시 해운대구 달맞이길 30 시그니엘 부산</h2>
+                    <a href="https://privacy.coupang.com/ko/land/aboutcoupang/">개인정보 처리방침</a>
                 </div>
-                <div class="about-company">
-                    <h2>고객센터</h2>
-                    <h2>|</h2>
-                    <h2>02-1234-1231</h2>
-                    <h2>평일 09:00 ~ 18:00(db)</h2>
-
-                    <h2>이메일</h2>
-                    <h2>abc@cupang(db)</h2>
-
-                    <h2>전자금융거래 분쟁담당</h2>
-                    <h2>12321-12321(db)</h2>
-                </div>
-                <h2>Copyright@cupang.All.rights.reserved (db)</h2>
-                 <a href="https://privacy.coupang.com/ko/land/aboutcoupang/">개인정보 처리방침</a>
             </div>
 
         </div>

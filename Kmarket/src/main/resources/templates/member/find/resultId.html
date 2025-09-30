@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원(아이디 찾기 결과)</title>
+    <link rel="stylesheet" th:href="@{/css/member/Member.css}">
+</head>
+<body>
+    
+    <main>
+        <div class="board">
+            <div class="boardUpper">
+                <h2 class="boardText">아이디 찾기 결과</h2>
+            </div>
+
+          
+            <table class="auth-table" id="authEmailTable">
+                <tr>
+                    <th>이름</th>
+                    <td>홍길동</td>
+                </tr>
+                <tr>
+                    <th>아이디</th>
+                    <td>honggidong</td>
+                </tr>
+                <tr>
+                    <th>이메일</th>
+                    <td>honggidong@gmail.com</td>
+                </tr>
+                <tr>
+                    <th>가입일</th>
+                    <td>2022-11-16 10:20:22</td>
+                </tr>
+            </table>
+
+
+            
+            <h2 class="auth-mt">고객님의 정보와 일치하는 아이디 입니다.</h2>
+                
+            <div class="pre-or-next">
+                <button type="button" id="loginBtn" class="pre">로그인</button>
+                <button type="button" id="searchPdBtn" class="next">비밀번호 찾기</button> 
+            </div>
+        
+        </div>
+    </main>
+
+</body>
+</html>

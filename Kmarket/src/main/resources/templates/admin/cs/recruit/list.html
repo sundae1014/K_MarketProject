@@ -4,29 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>채용하기 목록</title>
-    <link rel="stylesheet" href="/admin_cs_recruit/Recruit.css">
-    <script src="/admin_cs_recruit/js/checkboxAction.js" defer></script>
-    <script src="/admin_cs_recruit/js/sidebarAction.js" defer></script>
-    <script src="/admin_cs_recruit/js/modal.js" defer></script>
+    <link rel="stylesheet" th:href="@{/css/admin/cs/recruit/Recruit.css}">
+    <script th:src="@{/js/admin/cs/recruit/checkboxAction.js}" defer></script>
+    <script th:src="@{/js/admin/cs/recruit/sidebarAction.js}" defer></script>
 </head>
 <body>
     
     <main>
         <div class="board">
 
-
             <aside class="sidebar">
                 <div class="side-item">
                     <div class="main-menu">
-                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-settings-icon lucide-settings"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"/><circle cx="12" cy="12" r="3"/></svg>
-                       <p>환경설정</p>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-settings-icon lucide-settings"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"/><circle cx="12" cy="12" r="3"/></svg>
+                        <p>환경설정</p>
                     </div>
                     <ul class="sub-menu">
-                        <li><a href="/admin/config/basic" class="sub-link">기본설정</a></li>
-                        <li><a href="/admin/config/banner" class="sub-link">배너관리</a></li>
-                        <li><a href="/admin/config/policy" class="sub-link">약관관리</a></li>
-                        <li><a href="/admin/config/category" class="sub-link">카테고리</a></li>
-                        <li><a href="/admin/config/version" class="sub-link">버전관리</a></li>
+                        <li><a th:href="@{/admin/config/basic}" class="sub-link">기본설정</a></li>
+                        <li><a th:href="@{/admin/config/banner}" class="sub-link">배너관리</a></li>
+                        <li><a th:href="@{/admin/config/policy}" class="sub-link">약관관리</a></li>
+                        <li><a th:href="@{/admin/config/category}" class="sub-link">카테고리</a></li>
+                        <li><a th:href="@{/admin/config/version}" class="sub-link">버전관리</a></li>
                     </ul>
                 </div>
                 <div class="side-item">
@@ -35,8 +33,8 @@
                         <p>상점관리</p>
                     </div>
                     <ul class="sub-menu">
-                        <li><a href="/admin/shop/list" class="sub-link">상점목록</a></li>
-                        <li><a href="/admin/shop/sales" class="sub-link">매출현황</a></li>
+                        <li><a th:href="@{/admin/shop/list}" class="sub-link">상점목록</a></li>
+                        <li><a th:href="@{/admin/shop/sales}" class="sub-link">매출현황</a></li>
                     </ul>
                 </div>
                 <div class="side-item">
@@ -45,8 +43,8 @@
                         <p>회원관리</p>
                     </div>
                     <ul class="sub-menu">
-                        <li><a href="/admin/member/list" class="sub-link">회원목록</a></li>
-                        <li><a href="/admin/member/point" class="sub-link">포인트관리</a></li>
+                        <li><a th:href="@{/admin/member/list}" class="sub-link">회원목록</a></li>
+                        <li><a th:href="@{/admin/member/point}" class="sub-link">포인트관리</a></li>
                     </ul>
                 </div>
                 <div class="side-item">
@@ -55,28 +53,28 @@
                         <p>상품관리</p>
                     </div>
                     <ul class="sub-menu">
-                        <li><a href="/admin/product/list" class="sub-link">상품목록</a></li>
-                        <li><a href="/admin/product/register" class="sub-link">상품등록</a></li>
+                        <li><a th:href="@{/admin/product/list}" class="sub-link">상품목록</a></li>
+                        <li><a th:href="@{/admin/product/register}" class="sub-link">상품등록</a></li>
                     </ul>
                 </div>
                 <div class="side-item">
-                   <div class="main-menu">
-                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-receipt-text-icon lucide-receipt-text"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z"/><path d="M14 8H8"/><path d="M16 12H8"/><path d="M13 16H8"/></svg>
-                       <p>주문관리</p>
+                    <div class="main-menu">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-receipt-text-icon lucide-receipt-text"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z"/><path d="M14 8H8"/><path d="M16 12H8"/><path d="M13 16H8"/></svg>
+                        <p>주문관리</p>
                     </div>
                     <ul class="sub-menu">
-                        <li><a href="/admin/order/list" class="sub-link">주문현황</a></li>
-                        <li><a href="/admin/order/delivery" class="sub-link">배송현황</a></li>
+                        <li><a th:href="@{/admin/order/list}" class="sub-link">주문현황</a></li>
+                        <li><a th:href="@{/admin/order/delivery}" class="sub-link">배송현황</a></li>
                     </ul>
                 </div>
                 <div class="side-item">
-                   <div class="main-menu">
-                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-ticket-percent-icon lucide-ticket-percent"><path d="M2 9a3 3 0 1 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 1 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M9 9h.01"/><path d="m15 9-6 6"/><path d="M15 15h.01"/></svg>
-                       <p>쿠폰관리</p>
+                    <div class="main-menu">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-ticket-percent-icon lucide-ticket-percent"><path d="M2 9a3 3 0 1 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 1 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M9 9h.01"/><path d="m15 9-6 6"/><path d="M15 15h.01"/></svg>
+                        <p>쿠폰관리</p>
                     </div>
                     <ul class="sub-menu">
-                        <li><a href="/admin/coupon/list" class="sub-link">쿠폰목록</a></li>
-                        <li><a href="/admin/coupon/issued" class="sub-link">쿠폰발급현황</a></li>
+                        <li><a th:href="@{/admin/coupon/list}" class="sub-link">쿠폰목록</a></li>
+                        <li><a th:href="@{/admin/coupon/issued}" class="sub-link">쿠폰발급현황</a></li>
                     </ul>
                 </div>
                 <div class="side-item">
@@ -85,15 +83,15 @@
                         <p>고객센터</p>
                     </div>
                     <ul class="sub-menu">
-                        <li><a href="/admin/cs/notice/list" class="sub-link">공지사항</a></li>
-                        <li><a href="/admin/cs/faq/list" class="sub-link">자주묻는질문</a></li>
-                        <li><a href="/admin/cs/qna/list" class="sub-link">문의하기</a></li>
-                        <li><a href="/admin/cs/recruit/list" class="sub-link">채용하기</a></li>
+                        <li><a th:href="@{/admin/cs/notice/list}" class="sub-link">공지사항</a></li>
+                        <li><a th:href="@{/admin/cs/faq/list}" class="sub-link">자주묻는질문</a></li>
+                        <li><a th:href="@{/admin/cs/qna/list}" class="sub-link">문의하기</a></li>
+                        <li><a th:href="@{/admin/cs/recruit/list}" class="sub-link">채용하기</a></li>
                     </ul>
                 </div>
 
             </aside>
-            
+
             <div class="content">
                 <div class="boardUpper">
                     <h2 class="boardText-login">채용하기 목록</h2>
@@ -107,7 +105,7 @@
                 </div>
                 <div class="search-area">
 
-                   <select name="recruit" id="recruit-cate">
+                    <select name="recruit" id="recruit-cate">
                         <option value="col-num">채용번호</option>
                         <option value="col-dept">채용부서</option>
                         <option value="col-type">채용형태</option>
@@ -161,17 +159,16 @@
 
                     <div class="delete-or-register">
                         <input type="submit" value="선택삭제" class="delete-btn" id="select-delete"/>
-                        <button type="button" class="modal-openBtn">채용등록</button>
+                        <input type="submit" value="채용등록" class="register-btn" id="recruit-register"/>
                     </div>
                     
                      <div class="page">
                         <div class="prev">
-
                             <a href="#" class="paging">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="lucide lucide-chevrons-left-icon lucide-chevrons-left"><path d="m11 17-5-5 5-5"/><path d="m18 17-5-5 5-5"/></svg>
+                                <img th:src="@{/images/company/btn-first-page.png}">
                             </a>
                             <a href="#" class="paging">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="lucide lucide-chevron-left-icon lucide-chevron-left"><path d="m15 18-6-6 6-6"/></svg>
+                                <img th:src="@{/images/company/btn-prev-page.png}">
                             </a>
                         </div>
                         <div class="pagenumber">
@@ -181,10 +178,10 @@
                         </div>
                         <div class="last">
                             <a href="#" class="paging">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="lucide lucide-chevron-right-icon lucide-chevron-right"><path d="m9 18 6-6-6-6"/></svg>
+                                <img th:src="@{/images/company/btn-next-page.png}">
                             </a>
                             <a href="#" class="paging">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="lucide lucide-chevrons-right-icon lucide-chevrons-right"><path d="m6 17 5-5-5-5"/><path d="m13 17 5-5-5-5"/></svg>
+                                <img th:src="@{/images/company/btn-last-page.png}">
                             </a>
                         </div>
                     </div>
@@ -198,70 +195,6 @@
 
         </div>
 
-        <div class="modal">
-            <div class="modal_body">
-                <div class="modal-head">
-                    <h2>채용등록</h2>
-                    <button class="close-modal">&#10006;</button>
-                </div>
-                 <table class="modal-table" id="modal-table">
-                <tr>
-                    <th>제목</th>
-                    <td>
-                        <input type="text" id="modal-title">
-                    </td>
-                </tr>
-                <tr>
-                    <th>채용부서</th>
-                    <td>
-                        <select name="recruit-team" id="recruit-team">
-                            <option value="">채용부서 선택</option>
-                            <option value="recruit-team">test</option>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <th>경력사항</th>
-                    <td>
-                        <select name="recruit-terms" id="recruit-terms">
-                            <option value="">경력사항 선택</option>
-                            <option value="recruit-terms">test</option>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <th>채용형태</th>
-                    <td>
-                        <select name="recruit-form" id="recruit-form">
-                            <option value="">채용형태 선택</option>
-                            <option value="recruit-form">test</option>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <th>모집기간</th>
-                    <td>
-                        <input type="date" name="start-date">
-                        <p>~</p>
-                        <input type="date" name="end-date">
-                    </td>
-                </tr>
-                <tr>
-                    <th>비고</th>
-                    <td>
-                        <input type="text" id="modal-etc">
-                    </td>
-                </tr>
-            </table>
-            <div class="modalBtn-area">
-                <button class="close-modal">취소</button>
-                <input type="submit" class="register-btn" value="등록"></input>
-            </div>
-            </div>
-        </div>
-
     </main>
-
-
 </body>
 </html>
