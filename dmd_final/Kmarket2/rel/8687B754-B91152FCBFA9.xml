@@ -1,0 +1,8 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<relationalModel class="oracle.dbtools.crest.model.design.relational.RelationalDesign" name="Relational_2" id="8687B754-CC68-A5C2-FC63-B91152FCBFA9" mainViewID="810B8913-1FC2-F9C7-4EDA-99CC115598B5">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 01:40:05 UTC</createdTime>
+<ownerDesignName>Kmarket2</ownerDesignName>
+<shouldBeOpen>false</shouldBeOpen>
+<selectedRDBMSSite>32076570-2523-435C-2E92-BF29817DFF70</selectedRDBMSSite>
+</relationalModel>
