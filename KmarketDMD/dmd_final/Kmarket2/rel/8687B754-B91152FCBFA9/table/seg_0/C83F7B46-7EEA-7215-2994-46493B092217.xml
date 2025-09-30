@@ -1,0 +1,97 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="C83F7B46-7EEA-7215-2994-46493B092217" name="Review">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 01:40:27 UTC</createdTime>
+<ownerDesignName>Kmarket2</ownerDesignName>
+<ordsAlias>table_2</ordsAlias>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="Cust_number" id="074ACA81-3CAF-705D-3D75-079367703221">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 01:47:33 UTC</createdTime>
+<ownerDesignName>Kmarket2</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="B7322FF4-FB25-BA86-E3DA-ECB7EEFAC49E" referredColumn="337D7C1C-D951-0112-78B6-C2F384EEB041"/>
+</associations>
+</Column>
+<Column name="Number" id="992AE9E1-0445-AD75-BD8E-B44CB3412755">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 01:49:15 UTC</createdTime>
+<commentInRDBMS><![CDATA[리뷰 번호 (시퀀스 값 설정)]]></commentInRDBMS>
+<ownerDesignName>Kmarket2</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementColumn>true</autoIncrementColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="W_date" id="A3ABF5E4-7530-B885-3D20-18A1F715EAA5">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 01:49:15 UTC</createdTime>
+<commentInRDBMS><![CDATA[리뷰 작성 시간]]></commentInRDBMS>
+<ownerDesignName>Kmarket2</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT008</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="Answer" id="0D9BC8E7-86FB-9030-C762-F4077FDB6B72">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 01:49:15 UTC</createdTime>
+<commentInRDBMS><![CDATA[답변 ]]></commentInRDBMS>
+<ownerDesignName>Kmarket2</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="A_date" id="B86382AF-80C0-F344-D42F-CC8823638ECF">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 01:49:15 UTC</createdTime>
+<commentInRDBMS><![CDATA[답변 일자]]></commentInRDBMS>
+<ownerDesignName>Kmarket2</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT008</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="E74D1072-9991-7657-C1D9-87F8D1B38794" name="Review_PK">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 01:49:15 UTC</createdTime>
+<ownerDesignName>Kmarket2</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="992AE9E1-0445-AD75-BD8E-B44CB3412755"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="D6A0E159-6CA4-9299-0A53-4AF5A22C12A3" name="Review_Member_FK">
+<createdBy>GGG</createdBy>
+<createdTime>2025-09-30 01:47:33 UTC</createdTime>
+<ownerDesignName>Kmarket2</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="074ACA81-3CAF-705D-3D75-079367703221"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>
