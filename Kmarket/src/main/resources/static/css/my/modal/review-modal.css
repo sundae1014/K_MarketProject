@@ -1,0 +1,218 @@
+#reviewModal{
+    --bs-modal-width: 736px;
+}
+
+.review-contents{
+    padding: 20px;
+}
+
+/* 테이블 스타일링 */
+.review-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 25px;
+}
+
+.review-table th {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    padding: 15px;
+    font-weight: 600;
+    color: #495057;
+    font-size: 14px;
+    text-align: left;
+    width: 100px;
+    vertical-align: top;
+}
+
+.review-table td {
+    border: 1px solid #dee2e6;
+    padding: 15px;
+    vertical-align: top;
+}
+
+/* 상품 정보 스타일링 */
+.product-info {
+    font-size: 14px;
+    color: #333;
+    font-weight: 500;
+}
+
+/* 별점 스타일링 */
+.star-rating {
+    display: flex;
+    gap: 5px;
+    font-size: 24px;
+    margin-bottom: 5px;
+}
+
+.star {
+    cursor: pointer;
+    color: #ddd;
+    transition: color 0.2s ease;
+    user-select: none;
+}
+
+.star:hover,
+.star.active {
+    color: #ffc107;
+}
+
+.star.hover {
+    color: #ffed4e;
+}
+
+/* 텍스트에리어 스타일링 */
+.review-textarea {
+    width: 100%;
+    height: 120px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    padding: 12px;
+    font-size: 14px;
+    color: #495057;
+    background-color: white;
+    resize: vertical;
+    font-family: inherit;
+    line-height: 1.5;
+}
+
+.review-textarea:focus {
+    outline: none;
+    border-color: #4a90e2;
+    box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+}
+
+.review-textarea::placeholder {
+    color: #adb5bd;
+    font-style: italic;
+}
+
+/* 파일 업로드 스타일링 */
+.file-upload-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.file-upload-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.file-upload-btn {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.file-upload-btn:hover {
+    background-color: #5a6268;
+}
+
+.file-upload-btn.selected {
+    background-color: #4a90e2;
+}
+
+.file-input {
+    display: none;
+}
+
+.file-preview {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.file-preview-item {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    overflow: hidden;
+    background-color: #f8f9fa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.file-preview-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.file-preview-item .remove-file {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.file-info {
+    font-size: 11px;
+    color: #6c757d;
+    margin-top: 5px;
+}
+
+/* 버튼 스타일링 */
+.review-content-2 {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+    padding-top: 20px;
+}
+
+.btn-submit {
+    background: linear-gradient(135deg, #4a90e2, #357abd);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-submit:hover {
+    background: linear-gradient(135deg, #357abd, #2e6ba0);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.btn-cancel {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-cancel:hover {
+    background-color: #5a6268;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}

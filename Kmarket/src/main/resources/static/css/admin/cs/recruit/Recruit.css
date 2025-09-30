@@ -1,0 +1,266 @@
+.board {
+  width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: flex-start;
+  gap: 30px;
+}
+
+/*///////////////////사이드 바///////////////////*/
+.sidebar {
+    width: 170px;
+    display: flex;
+    flex-direction: column;
+    background-color: #e0e0e0;
+}
+
+.sidebar a {
+    text-decoration: none;
+}
+
+.side-item:first-child {
+    border-top: 1px solid #ccc;
+}
+.side-item {
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+}
+.main-menu a {
+    display: flex;
+    align-items: center; 
+    color: black;
+    font-size: 16px;
+}
+
+.main-menu{
+    display: flex;
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+}
+.sub-menu{
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    display: none;
+}
+
+.sub-menu.active {
+  display: flex;
+}
+.sub-menu a{
+    color: black;
+    font-size: 14px;
+}
+
+.sub-menu ul,
+.sub-menu li {
+    margin: 0;
+    list-style-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10"  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/></svg>');
+}
+
+.main-menu svg{
+    width: 17px;
+    height: 17px; 
+    margin-right: 10px;
+}
+
+.side-item .main-menu:hover{
+    background-color: #ccc;
+}
+
+.side-item.active .main-menu {
+    background-color: #666;
+}
+
+.side-item.active .main-menu a {
+    color: white;
+    font-weight: 500;
+}
+
+.sub-menu a.active {
+    font-weight: bold;
+}
+
+
+
+
+/*///////////////////본문///////////////////*/
+.content {
+  display: flex;
+  flex-direction: column;
+  width: 1000px;
+}
+.boardUpper {
+  width: 100%;
+  border-bottom: 1px solid #ccc;
+  padding: 10px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  
+}
+.boardUpper-link{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+.boardUpper-link a{
+    text-decoration: none;
+    color: #666;
+    font-size: 14px;
+}
+.boardUpper-link a.active{
+    font-weight: 600;
+}
+.boardUpper-link svg{
+    width: 15px;
+    height: 15px;
+    color: #666;
+}
+
+.boardText-login {
+    text-align: start;
+    margin: 0;
+}
+
+.search-area{
+    margin-top: 25px;
+    display: flex;
+    gap: 10px;
+}
+.search-area select{
+  border-color: #ccc;
+  padding:10px 20px;
+}
+
+.search-lang{
+  border: #ccc solid 1px;
+  height: 17px;
+  padding:10px 20px;
+  width: 120px;
+  outline: none;
+  box-shadow: none;
+
+}
+.search-btn{
+    border: #ccc solid 1px;
+    background-color: #666;
+    color: white;
+    width: 50px;
+    cursor: pointer;
+}
+
+.recruit-table {
+  border-collapse: collapse;
+  width: 1000px;
+  margin-top: 25px;
+  font-size: 14px;
+}
+.recruit-table th{
+    padding: 15px;
+    border-top: 1px solid #666;
+    border-bottom: 1px solid #666;
+}
+
+.recruit-table td {
+  padding: 15px;
+  border-bottom: 1px solid #ccc;
+  text-align: center;
+}
+
+.col-num { width: 40px; }
+.col-dept { width: 80px; }
+.col-career { width: 100px; }
+.col-type { width: 70px; }
+.col-title { width: 190px; }
+.col-writer { width: 60px;}
+.col-status { width: 60px; }
+.col-period { width: 110px; }
+.col-write { width: 110px; }
+
+
+.status-open {
+  color: #8FCC17;
+  font-weight: bold;
+}
+
+.status-closed {
+  color: gray;
+}
+
+/* ===== 페이지네이션 css ===== */
+.page{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    margin-top: 50px;      
+    gap:24px;               
+}
+
+.page > .prev,
+.page > .pagenumber,
+.page > .last{
+    display:flex;
+    align-items:center;
+    gap:4px;               
+}
+
+
+.page .pagenumber a{
+    display:inline-flex;              
+    justify-content:center;
+    align-items:center;
+    width:32px;
+    height:29px;
+    color:#666;
+    text-decoration:none;
+    box-sizing:border-box;
+    line-height:1;  
+    font-weight: 350;
+    font-size: 15px;
+}
+
+
+.page .pagenumber a.active{
+    color:#436CFF;
+}
+
+.page .prev a,
+.page .last a{
+    display:inline-flex;
+    justify-content:center;
+    align-items:center;
+    width:32px;
+    height:32px;
+}
+.page a.paging img{
+    display:block;
+    max-width:18px;  
+    max-height:18px;
+}
+
+.delete-or-register{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+.delete-btn{
+    border: #ccc solid 1px;
+    background-color: #666;
+    color: white;
+    width: 80px;
+    height: 35px;
+    cursor: pointer;
+}
+
+.register-btn{
+    border: #ccc solid 1px;
+    background-color: #436CFF;
+    color: white;
+    width: 80px;
+    height: 35px;
+    cursor: pointer;
+}

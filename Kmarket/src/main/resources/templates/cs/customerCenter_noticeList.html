@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>공지사항 목록</title>
+    <style>
+        html, body { /* 기본 세팅 */
+            margin: 0;
+            padding: 0;
+        }
+
+        * { /* 기본 세팅 */
+            box-sizing: border-box;
+        }
+
+        .container { /* 메인 */
+            margin: 0 auto;
+            width:1063.39px;
+        }
+
+        #home_notice h4 { /* 홈 > 공지사항 */
+            margin: 17px 30px;
+        }
+
+        #notice_hr { 
+            width: 100vw;             
+            margin-left: calc(-50vw + 50%); 
+            border: none;              
+            border-top: 1px solid #d9d9d9;  
+            height: 0;                 
+        }
+
+        #notice_box { /*공지사항과 전체 나누기*/
+            /*border-top: 1px solid #D9D9D9;*/
+            display:flex;
+        }
+        #nav { /*공지사항 네비*/
+            align-items: center;
+            border-right: 1px solid #D9D9D9;
+            display: flex;
+            flex-direction: column;
+            
+            width: 220px;
+        }
+        #navList {
+            display: inline;
+            list-style: none;
+            margin: 6px 0px;
+            padding: 0px;
+        }
+        .navList_a {
+            color:#9e9e9e;
+            display: block;
+            font-weight: bold;
+            line-height: 40px;
+            text-decoration: none;
+        }
+        .navList_a:hover {
+            color:black;
+            text-decoration:underline;
+        }
+        
+        #notice_title {
+            margin: 20px 0px 20px 40px;
+        }
+        #notice_title h3 {
+            margin: 0 0 10px 0;
+        }
+        #notice_title span {
+            color:#808080;
+            display:block;
+        }
+
+        #notice_list ul li {
+            border-bottom: 1px solid #ccc;
+            list-style: none;
+        }
+        #notice_list ul li:hover {
+            background-color: #f7f7f7;
+        }
+        #notice_list ul li a {
+            color: black;
+            display:block;
+            overflow: hidden;
+            padding: 20px;
+            text-decoration: none;
+        }
+        .text_title {
+            float: left; 
+            line-height: 20px;
+        }
+        .text_date {
+            float: right;
+            line-height: 20px;
+        }
+
+        .pagenation {
+            width: 100%;
+            height: 62px;
+            padding:0px;
+            margin: 30px auto 0 auto;
+            text-align: center;
+        }
+        .pagenation li {
+            border: 1px solid #DEDEDE;
+            display: inline-block;
+            list-style: none;
+            width: 32px;
+            height: 32px;
+        }
+        .pagenation .page1 {
+            background-color: #1A528E;
+            
+            color: white;
+            display: block;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            text-decoration: none;
+        }
+        .pagenation .page2, .pagenation .page3 {
+            color: #888888;
+            display: block;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            text-decoration: none;
+        }
+        .pagenation li a {
+            display: block;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+        }
+        .pagenation li a span {
+            background-size: contain;
+            background-repeat: no-repeat;
+            display:inline-block;
+            width: 10px;
+            height: 10px;
+        }
+        .pagenation .first {
+            background-image: url('./images/btn-first-page.png');
+        }
+        .pagenation .prev {
+            background-image: url('./images/btn-prev-page.png');
+        }
+        .pagenation .next {
+            background-image: url('./images/btn-next-page.png');
+        }
+        .pagenation .last {
+            background-image: url('./images/btn-last-page.png');
+        }
+    </style>
+    <script> 
+        document.addEventListener('DOMContentLoaded', () => { // 네비게이션 포커싱
+            const nav = document.querySelectorAll(".navList_a");
+            const nt_h3 = document.querySelector("#notice_title_h3");
+            if("전체" === nt_h3.innerText) {
+                nav[0].style.color = "black";
+                nav[0].style.textDecoration = "underline";
+            }
+        });
+    </script>
+</head>
+<body>
+    <header style="height: 121.44px;"></header> <!-- 임시 배치 -->
+    <main>
+        <div class="container">
+            <div id="home_notice">
+                <h4>홈 &nbsp;>&nbsp; 공지사항</h4>
+            </div>
+
+            <div id="notice_hr"></div>
+
+            <div id="notice_box">
+                <div id="nav">
+                    <h3 style="display:inline;">공지사항</h3>
+
+                    <ul id="navList">
+                        <li><a href="#" class="navList_a">전체</a></li>
+                        <li><a href="#" class="navList_a">고객서비스</a></li>
+                        <li><a href="#" class="navList_a">안전거래</a></li>
+                        <li><a href="#" class="navList_a">위해상품</a></li>
+                        <li><a href="#" class="navList_a">이벤트 당첨</a></li>
+                    </ul>
+                </div>
+                <div id="notice_all" style="width:900px;height:800px;">
+                    <div id="notice_title">
+                        <h3 id="notice_title_h3">전체</h3>
+                        <span>공지사항 전체 내용 입니다.</span>
+                    </div>
+                    <div style="border:1px solid black; float:right;width:814px;"></div>
+                    <div id="notice_list">
+                        <ul style="margin:0px;">
+                            <li><a href="#"><span class="text_title">[안내] &nbsp;해외 결제 사칭 문자주의</span><span class="text_date">00.00.00</span></a></li>
+                            <li><a href="#"><span class="text_title">[발표] 『G.Live X SK 스토어 (하남쭈꾸미)』 이벤트 당첨자</span><span class="text_date">00.00.00</span></a></li>
+                            <li><a href="#"><span class="text_title">[안내] &nbsp;로젠택배 반품 / 교환수 거 지시지 연안 내</span><span class="text_date">00.00.00</span></a></li>
+                            <li><a href="#"><span class="text_title">[주의] &nbsp;SNS 기반 해외직구 사기사이트 피해 주의 안내</span><span class="text_date">00.00.00</span></a></li>
+                            <li><a href="#"><span class="text_title">[발표] 『해외여행 – 괌사이판 모두투어 라이브』 이벤트 당첨자</span><span class="text_date">00.00.00</span></a></li>
+                            <li><a href="#"><span class="text_title">[주의] &nbsp;관세청, 화약식 타정총 등 위해물품 반입금지 안내</span><span class="text_date">00.00.00</span></a></li>
+                            <li><a href="#"><span class="text_title">[발표] 『닌텐도 스위치2 추첨 예약판매』 이벤트 당첨자</span><span class="text_date">00.00.00</span></a></li>
+                            <li><a href="#"><span class="text_title">[안내] &nbsp;위치정보이용약관 개정 공지</span><span class="text_date">00.00.00</span></a></li>
+                            <li><a href="#"><span class="text_title">[안내] &nbsp;구매 회원 이용약관 개정</span><span class="text_date">00.00.00</span></a></li>
+                            <li><a href="#"><span class="text_title">[안내] &nbsp;씨티은행 시스템 점검에 따른 계좌, 체크카드 결제 서비스 일시 중단</span><span class="text_date">00.00.00</span></a></li>
+                        </ul> 
+                    </div>
+
+                    <ul class="pagenation">
+                        <li><a href="#"><span class="first"></span></a></li>
+                        <li><a href="#"><span class="prev"></span></a></li>
+                        <li><a href="#" class="page1">1</a></li>
+                        <li><a href="#" class="page2">2</a></li>
+                        <li><a href="#" class="page3">3</a></li>
+                        <li><a href="#"><span class="next"></span></a></li>
+                        <li><a href="#"><span class="last"></span></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer style="height: 121.44px;"></footer> <!-- 임시 배치 -->
+</body>
+</html>
