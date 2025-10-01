@@ -32,4 +32,9 @@ public class CompanyController {
     public String story(){
         return "company/story";
     }
+
+    @GetMapping("/story/detail")
+    public String detail() {
+        return "company/story/detail";
+    }
 }
