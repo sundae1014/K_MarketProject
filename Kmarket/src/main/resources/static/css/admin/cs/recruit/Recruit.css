@@ -2,96 +2,19 @@
   width: 1200px;
   margin: 0 auto;
   display: flex;
-  align-items: flex-start;
+  align-items: stretch;
   gap: 30px;
 }
 
-/*///////////////////사이드 바///////////////////*/
-.sidebar {
-    width: 170px;
-    display: flex;
-    flex-direction: column;
-    background-color: #e0e0e0;
-}
-
-.sidebar a {
-    text-decoration: none;
-}
-
-.side-item:first-child {
-    border-top: 1px solid #ccc;
-}
-.side-item {
-    border-left: 1px solid #ccc;
-    border-right: 1px solid #ccc;
-    border-bottom: 1px solid #ccc;
-}
-.main-menu a {
-    display: flex;
-    align-items: center; 
-    color: black;
-    font-size: 16px;
-}
-
-.main-menu{
-    display: flex;
-    width: 100%;
-    padding: 10px;
-    box-sizing: border-box;
-}
-.sub-menu{
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    display: none;
-}
-
-.sub-menu.active {
-  display: flex;
-}
-.sub-menu a{
-    color: black;
-    font-size: 14px;
-}
-
-.sub-menu ul,
-.sub-menu li {
-    margin: 0;
-    list-style-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10"  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/></svg>');
-}
-
-.main-menu svg{
-    width: 17px;
-    height: 17px; 
-    margin-right: 10px;
-}
-
-.side-item .main-menu:hover{
-    background-color: #ccc;
-}
-
-.side-item.active .main-menu {
-    background-color: #666;
-}
-
-.side-item.active .main-menu a {
-    color: white;
-    font-weight: 500;
-}
-
-.sub-menu a.active {
-    font-weight: bold;
-}
-
-
-
-
 /*///////////////////본문///////////////////*/
 .content {
-  display: flex;
-  flex-direction: column;
-  width: 1000px;
+    display: flex;
+    flex-direction: column;
+    width: 970px;
+    gap: 30px;
+    margin-bottom: 120px; /*푸터랑 간격 띄우기(footer에다 margin-top주면 사이드바 안늘어남*/
 }
+
 .boardUpper {
   width: 100%;
   border-bottom: 1px solid #ccc;

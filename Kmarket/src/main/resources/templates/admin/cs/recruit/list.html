@@ -1,15 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>채용하기 목록</title>
-    <link rel="stylesheet" th:href="@{/css/admin/cs/recruit/Recruit.css}">
-    <script th:src="@{/js/admin/cs/recruit/checkboxAction.js}" defer></script>
-    <script th:src="@{/js/admin/cs/recruit/sidebarAction.js}" defer></script>
-</head>
-<body>
-    
+<!-- 헤더 본인 파일로 복붙 시 경로 추가하기 -->
+<div th:replace="~{admin/cs/recruit/_head.html}"></div>
     <main>
         <div class="board">
 
@@ -91,6 +81,7 @@
                 </div>
 
             </aside>
+
 
             <div class="content">
                 <div class="boardUpper">
@@ -196,5 +187,4 @@
         </div>
 
     </main>
-</body>
-</html>
+<div th:replace="~{admin/cs/recruit/_tail.html}"></div>

@@ -1,0 +1,78 @@
+
+/*///////////////////사이드 바///////////////////*/
+.sidebar {
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    background-color: #e0e0e0;
+
+}
+
+.sidebar a {
+    text-decoration: none;
+}
+
+
+.side-item {
+    border-bottom: 1px solid #ccc;
+}
+.main-menu p {
+    color: black;
+    font-size: 15px;
+    cursor: pointer;
+    margin: 0;
+
+}
+
+.main-menu{
+    display: flex;
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+}
+.sub-menu{
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    display: none;
+}
+
+.sub-menu.active {
+    display: flex;
+}
+.sub-menu a{
+    color: black;
+    font-size: 14px;
+}
+
+.sub-menu ul,
+.sub-menu li {
+    margin: 0;
+    list-style-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10"  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/></svg>');
+}
+
+.main-menu svg{
+    width: 17px;
+    height: 17px;
+    margin-right: 10px;
+}
+
+.side-item .main-menu:hover{
+    background-color: #ccc;
+}
+
+.side-item.active .main-menu {
+    background-color: #666;
+}
+
+.side-item.active .main-menu,
+.side-item.active .main-menu p{
+    color: white;
+    font-weight: 500;
+}
+
+.sub-menu a.active {
+    font-weight: bold;
+}

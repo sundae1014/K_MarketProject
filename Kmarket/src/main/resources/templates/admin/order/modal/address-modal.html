@@ -11,13 +11,13 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="addressModalLabel">배송입력</h5>
-                    <p class="modal-sm-title">주문번호 출력</p>
+                    <p class="modal-sm-title">10121211341</p>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="닫기"></button>
                 </div>
                 <div class="modal-body">
                     <div class="addr-form">
                         <form action="">
-                            <table>
+                            <table class="addr-table">
                                 <tr>
                                     <th>주문번호</th>
                                     <td>
@@ -53,25 +53,29 @@
                                     <td>
                                         <select>
                                             <option>택배사선택</option>
+                                            <option>한진택배</option>
+                                            <option>CJ 대한통운</option>
+                                            <option>로젠택배</option>
+                                            <option>롯데택배</option>
                                         </select>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>운송장번호</th>
                                     <td>
-                                        <input type="number" name="" placeholder="발급받은 택배사 송장 번호 입력">
+                                        <input type="number" name="" id="" placeholder="발급받은 택배사 송장 번호 입력">
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>기타</th>
                                     <td>
-                                        <textarea placeholder="기타 정보 입력">
+                                        <textarea placeholder="기타 정보 입력" name="" id="text-area">
                                         </textarea>
                                     </td>
                                 </tr>
                             </table>
-                            <div>
-                                <button>등록하기</button>
+                            <div class="btn-area">
+                                <button class="submit-btn">등록하기</button>
                             </div>
                         </form>
                     </div>
