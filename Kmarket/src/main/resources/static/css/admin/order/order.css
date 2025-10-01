@@ -1,0 +1,169 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main {
+    flex: 1;
+}
+
+a:hover{
+    cursor: pointer;
+}
+
+.content-wraper {
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+.content-title {
+    width: 100%;
+    margin: 10px 0;
+}
+
+.title-items {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #cfcfcf;
+}
+
+.item1 {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.item2 {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.title-items h6 {
+    font-size: 14px;
+    font-weight: 700;
+    margin: 0;
+    line-height: 1.1;
+}
+
+.search{
+    width: 100%;
+    margin: 20px 0;
+}
+
+.main-content{
+    width: 100%;
+}
+
+.orders-table{
+    width: 100%;
+    border-top: 1.5px solid #a6a6a6;
+}
+
+.orders-table a{
+    text-decoration: underline !important;
+    color: black;
+}
+
+.orders-table th{
+    border-bottom: 0.5px solid #a6a6a6;
+    font-size: 12px;
+    font-weight: 700;
+    text-align: center;
+    padding: 15px;
+}
+
+.orders-table td{
+    border-bottom: 0.5px solid #a6a6a6;
+    font-size: 12px;
+    font-weight: 400;
+    padding: 30px 20px;
+}
+
+.btn-white{
+    border: 1px solid #0070C0;
+    color: #0070C0;
+    font-size: 14px;
+    font-weight: 400;
+    width: 59px;
+    height: 33px;
+    padding: 0;
+}
+
+.bottom-section {
+    margin-top: auto;
+    padding-top: 20px;
+}
+
+/*페이지네이션 부분*/
+.pagenation {
+    width: 100%;
+    height: 62px;
+    padding:0px;
+    margin: 30px auto 0 auto;
+    text-align: center;
+}
+.pagenation li {
+    border: 1px solid #DEDEDE;
+    display: inline-block;
+    list-style: none;
+    width: 32px;
+    height: 32px;
+}
+.pagenation .page1 {
+    background-color: #1A528E;
+
+    color: white;
+    display: block;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    text-decoration: none;
+}
+.pagenation .page2, .pagenation .page3 {
+    color: #888888;
+    display: block;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    text-decoration: none;
+}
+.pagenation li a {
+    display: block;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+.pagenation li a span {
+    background-size: contain;
+    background-repeat: no-repeat;
+    display:inline-block;
+    width: 10px;
+    height: 10px;
+}
+.pagenation .first {
+    background-image: url('../../../images/admin/order/btn-first-page.png');
+}
+.pagenation .prev {
+    background-image: url('../../../images/admin/order/btn-prev-page.png');
+}
+.pagenation .next {
+    background-image: url('../../../images/admin/order/btn-next-page.png');
+}
+.pagenation .last {
+    background-image: url('../../../images/admin/order/btn-last-page.png');
+}
+
