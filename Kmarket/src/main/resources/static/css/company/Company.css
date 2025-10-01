@@ -574,11 +574,16 @@ html, body {
     overflow: hidden;
     background-color: #fff;
 }
-
+.blog-card a{
+    text-decoration: none;
+}
 .blog-card img {
     width: 100%;
     height: 220px;
     object-fit: cover;
+}
+.blog-card:hover{
+    background-color: #dcdcdc;
 }
 
 .card-content {
@@ -595,6 +600,43 @@ html, body {
     font-size: 0.95rem;
     color: #666;
     margin-bottom: 10px;
+}
+
+.blog-detail {
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.6;
+    display: block;
+    justify-items: center;
+}
+.blog-detail img{
+    display: flex;
+}
+
+.blog-detail h1 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.blog-detail .meta {
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+}
+
+.blog-detail .content p {
+    margin: 0;
+    margin-bottom: 5px;
+
+}
+
+.detail-area a{
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+    color: #666;
+    font-weight: 500;
 }
 
 
