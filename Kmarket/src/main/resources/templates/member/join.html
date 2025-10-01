@@ -6,7 +6,7 @@
     <title>회원(구분)</title>
     <link rel="stylesheet" th:href="@{/css/member/Member.css}">
 </head>
-<body>
+<body th:data-type="${type}">
 
     <main>
         <div class="board">
@@ -17,7 +17,7 @@
             </div>
 
             <div class="select-area">
-                <a href="/member/register.html">
+                <a th:href="@{/member/signup(type='individual')}">
                      <div class="select-individual">
                         <h3>일반회원가입</h3>
                          <img th:src="@{/images/member/individual-icon.png}" alt="개인아이콘">
@@ -26,7 +26,7 @@
                     </div>
                 </a>
                
-                <a href="/member/registerSeller.html">
+                <a th:href="@{/member/signup(type='seller')}">
                      <div class="select-seller">
                         <h3>판매회원가입</h3>
                          <img th:src="@{/images/member/seller-icon.png}" alt="판매자아이콘">

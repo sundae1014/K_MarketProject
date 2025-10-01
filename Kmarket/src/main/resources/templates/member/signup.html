@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>회원(약관)</title>
     <link rel="stylesheet" th:href="@{/css/member/Member.css}">
+    <script th:src="@{/js/member/submit-agree.js}" defer></script>
 </head>
-<body>
+<body th:attr="data-type=${type}">
     <main >
           <div class="board">
             <div class="boardUpper">
@@ -15,6 +16,7 @@
             <div class="boardLower">
 
                 <div class="terms-area">
+
                     <div class="terms-section">
                         <h2><span class="terms-es">(필수)</span>이용약관</h2>
                         <div class="terms-box">
@@ -22,15 +24,14 @@
                         </div>
                         <label><input type="checkbox" class="terms">동의합니다.</label>
                     </div>
-                   
                     <div class="terms-section">
                         <h2><span class="terms-es">(필수)</span>전자금융 이용약관</h2>
                         <div class="terms-box">
-                            <p>내용</p>    
+                            <p>내용</p>
                         </div>
                          <label><input type="checkbox" class="finance">동의합니다.</label>
                     </div>
-                
+
                     <div class="terms-section">
                         <h2><span class="terms-es">(필수)</span>개인정보 수집동의</h2>
                         <div class="terms-box">
@@ -38,8 +39,8 @@
                         </div>
                         <label><input type="checkbox" class="privacy">동의합니다.</label>
                     </div>
-                    
-                    <div class="terms-section">
+
+                    <div class="terms-section" th:if="${type == 'individual'}">
                         <h2><span class="terms-se">(선택)</span>위치정보 이용약관</h2>
                         <div class="terms-box">
                             <p>내용</p>
@@ -47,7 +48,7 @@
                         <label><input type="checkbox" class="location">동의합니다.</label>
                     </div>
                     <div class="btn-wrap">
-                        <input type="submit" value="동의하기" class="agree-btn">
+                        <button type="button" value="동의하기" class="agree-btn">동의하기</button>
                     </div>
                 </div>
 
