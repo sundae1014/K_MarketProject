@@ -1,14 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>회원(약관)</title>
-    <link rel="stylesheet" th:href="@{/css/member/Member.css}">
-    <script th:src="@{/js/member/submit-agree.js}" defer></script>
-</head>
-<body th:attr="data-type=${type}">
-    <main >
+<div th:replace="~{member/_head.html}"></div>
+    <main th:attr="data-type=${type}">
           <div class="board">
             <div class="boardUpper">
                 <h2 class="boardText">약관동의</h2>
@@ -56,5 +47,4 @@
             </div>
         </div>
     </main>
-</body>
-</html>
+    <div th:replace="~{member/_tail.html}"></div>

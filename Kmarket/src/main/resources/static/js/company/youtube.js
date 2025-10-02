@@ -4,6 +4,8 @@ const PLAYLIST_ID = "PLZGDyqLjHoLQpBJ59m1lRHGP__TCvSDF2";
 async function loadPlaylist() {
     const container = document.getElementById("playlist-container");
 
+    if (!container) return;
+
     let nextPageToken = "";
     do {
         const res = await fetch(`https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${PLAYLIST_ID}&maxResults=10&pageToken=${nextPageToken}&key=${API_KEY}`);
