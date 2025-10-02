@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>관리자 메인</title>
+    <!-- header/footer css -->
+    <link rel="stylesheet" th:href="@{/css/admin/main/header_footer.css}">
+
+    <!-- 사이드바 동작 js 및 css -->
+    <!-- 1. 사이드바 필요 시 admin.html main 부분 aside영역 복붙
+         2. main부분 영역 담당 레이아웃에
+              display: flex;
+              align-items: stretch;
+              추가해야 푸터까지 늘어남
+         3. 사이드바 추가 시 푸터랑 붙어있으므로 본인 영역에 맞게 마진 주기
+            (footer에다 margin-top주면 사이드바 안늘어남)
+            margin-bottom: 120px;
+    -->
+    <script th:src="@{/js/admin/cs/recruit/sidebarAction.js}" defer></script>
+    <link rel="stylesheet" th:href="@{/css/admin/main/sidebar.css}">
+
+    <!-- 개인 필요 및 작업 css, js -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" th:href="@{/css/admin/order/order.css}">
+    <link rel="stylesheet" th:href="@{/css/admin/order/order-modal.css}">
+    <link rel="stylesheet" th:href="@{/css/admin/order/address-modal.css}">
+    <link rel="stylesheet" th:href="@{/css/admin/order/delivery-modal.css}">
+
+</head>
+<body>
+
+<header>
+    <div class="header-layout">
+        <div class="header-content">
+            <a th:href="@{/admin}">
+                <img th:src="@{/images/admin/main/cupangMS_logo(color).png}" alt="로고">
+            </a>
+
+
+            <div class="header-link">
+                <div class="header-item">
+                    <a th:href="@{/}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-house-icon lucide-house"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+                        <p>HOME</p>
+                    </a>
+                </div>
+
+                <div class="header-item">
+                    <a th:href="@{/cs/index}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-headset-icon lucide-headset"><path d="M3 11h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-5Zm0 0a9 9 0 1 1 18 0m0 0v5a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3Z"/><path d="M21 16v2a4 4 0 0 1-4 4h-5"/></svg>
+                        <p>고객센터</p>
+                    </a>
+                </div>
+
+                <button>로그아웃</button>
+            </div>
+        </div>
+    </div>
+
+</header>
