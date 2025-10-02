@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <title>공지사항 등록</title>
+  <title>문의하기 보기</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -14,13 +14,18 @@
         margin: 0;
         padding: 0;
     }
-
     .container {
       display: flex;
       padding-left: 20px;
       height: 800px;
     }
-/*////////////////////// header영역 //////////////////////*/
+
+    /* 첫 번째 tr 전체 위쪽에 선 추가 */
+    table tbody tr:first-child th,
+    table tbody tr:first-child td {
+    border-top: 2px solid #000; /* 선 굵기와 색상 조절 가능 */
+    }
+  /*////////////////////// header영역 //////////////////////*/
 
 .header-layout{
     height: 60px;
@@ -118,6 +123,8 @@
     font-size: 13px;
 }
 
+  /* 사이드바 */
+
 /*///////////////////사이드 바///////////////////*/
 .sidebar {
     width: 200px;
@@ -196,63 +203,43 @@
     font-weight: bold;
 }
 
+
     /* 메인 콘텐츠 */
-    .content { flex: 1; padding: 40px; background-color: #fff; }
-    .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px solid #000; padding-bottom: 10px; }
+    .content { flex: 1; padding: 20px; background-color: #fff; }
+    .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 60px; border-bottom: 2px solid #000; padding-bottom: 10px; }
     .header-top h1 { font-size: 20px; margin: 0; }
     .breadcrumb { font-size: 14px; }
     .breadcrumb a { text-decoration: none; color: #007bff; }
     .breadcrumb span { color: #555; }
 
     table { width: 100%; border-collapse: collapse; font-size: 14px; margin-bottom: 20px; }
-    th { width: 120px; text-align: left; vertical-align: top; padding: 10px 5px; }
-    td { padding: 5px; }
-
-    /* 입력 박스 */
-    .input-box {
-      width: 100%;
-      max-width: 100%;
+    
+    /* 왼쪽 열(th) 중앙, 오른쪽 열(td) 오른쪽 정렬 */
+    th {
+      width: 15%;
+      text-align: center;
+      vertical-align: middle;
     }
 
-    select, input[type="text"], textarea {
-      width: 100%;
-      padding: 6px 10px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      box-sizing: border-box;
-      font-size: 14px;
+    td {
+      width: 85%;
+      text-align: left;
+      vertical-align: middle;
     }
 
-    textarea {
-      height: 150px;
-      resize: none;
-    }
+    /* 유형, 제목, 내용 높이 2칸, 답변 4칸 */
+    tr td:nth-child(2):not(:last-child) { height: 2em; }
+    tr td:last-child { height: 4em; }
 
-    /* 1차, 2차 선택 한 줄 */
-    .select-row {
-      display: flex;
-      gap: 10px;
-    }
-    .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 60px; border-bottom: 2px solid #000; padding-bottom: 10px; }
-    /* 버튼 영역 오른쪽 정렬 */
-    .bottom-bar {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      margin-top: 20px;
-    }
-    /* 첫 번째 tr 전체 위쪽에 선 추가 */
-    table tbody tr:first-child th,
-    table tbody tr:first-child td {
-      border-top: 2px solid #000; /* 선 굵기와 색상 조절 가능 */
-    }
+    /* bottom-bar */
+    .bottom-bar { display: flex; justify-content: flex-end; gap: 10px; }
     .btn { padding: 6px 12px; background-color: #3693c2; color: white; border: none; cursor: pointer; }
     .btn2 { padding: 6px 12px; background-color: #bfbfbf; color: white; border: none; cursor: pointer; }
     .btn:hover { background-color: #2980b9; }
   </style>
 </head>
 <body>
-  <head>
+<head>
     <link rel="stylesheet" th:href="@{/css/admin/main/header_footer.css}">
 
     <!-- 사이드바 동작 js 및 css -->
@@ -275,7 +262,8 @@
 
 </head>
 <body>
-  <header>
+
+<header>
     <div class="header-layout">
         <div class="header-content">
             <a th:href="@{/admin}">
@@ -300,13 +288,10 @@
             </div>
         </div>
     </div>
+
 </header>
-
-
 <div class="container">
-  <!-- 사이드바 -->
-    <!-- 사이드바 -->
-<aside class="sidebar">
+  <aside class="sidebar">
                 <div class="side-item">
                     <div class="main-menu">
                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-settings-icon lucide-settings"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"/><circle cx="12" cy="12" r="3"/></svg>
@@ -385,14 +370,13 @@
 
             </aside>
 
-  <!-- 메인 콘텐츠 -->
   <div class="content">
     <div class="header-top">
-      <h1>자주묻는질문 작성</h1>
+      <h1>문의하기 보기</h1>
       <div class="breadcrumb">
         <a href="#">HOME</a> &gt; 
         <a href="#">고객센터</a> &gt; 
-        <span>자주묻는질문</span>
+        <span>문의하기</span>
       </div>
     </div>
 
@@ -400,44 +384,28 @@
       <tbody>
         <tr>
           <th>유형</th>
-          <td>
-            <div class="input-box select-row">
-              <select>
-                <option>1차선택</option>
-                <option>고객서비스</option>
-                <option>이벤트 안내</option>
-                <option>업데이트</option>
-              </select>
-              <select>
-                <option>2차선택</option>
-                <option>가입</option>
-                <option>탈퇴</option>
-              </select>
-            </div>
-          </td>
+          <td>회원 - 가입</td>
         </tr>
         <tr>
           <th>제목</th>
-          <td>
-            <div class="input-box">
-              <input type="text" placeholder="제목을 입력하세요">
-            </div>
-          </td>
+          <td>아이디를 여러개 사용할 수 있나요 ?</td>
         </tr>
         <tr>
           <th>내용</th>
-          <td>
-            <div class="input-box">
-              <textarea placeholder="내용을 입력하세요"></textarea>
-            </div>
+          <td>개인적인 사정으로 아이디를 3개 사용했으면 하는데 사용할 수 있나요 ?</td>
+        </tr>
+        <tr>
+          <th>답변</th>
+          <td>대한민국 No.1 오픈마켓 Kmarket <br>
+            안녕하세요.dream 고객님 저희 케이 마켓을 이용해 주셔서 감사합니다. 안타깝게도 개인 회원은 1개의 계정만 사용 할 수 있습니다.
           </td>
         </tr>
       </tbody>
     </table>
 
     <div class="bottom-bar">
-      <button class="btn2">취소하기</button>
-      <button class="btn">등록하기</button>
+      <button class="btn2">삭제</button>
+      <button class="btn">목록</button>
     </div>
   </div>
 </div>
@@ -476,5 +444,6 @@
     </div>
 
 </footer>
+
 </body>
 </html>

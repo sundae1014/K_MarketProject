@@ -1,25 +1,17 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <title>공지사항 등록</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      background-color: #f5f5f5;
-    }
-    /*///////////////헤더 푸터 삽입 시 공백 제거///////////////////*/
-    html, body {
-        margin: 0;
-        padding: 0;
-    }
+<meta charset="UTF-8">
+<title>쿠폰 목록</title>
+<style>
+  body { font-family: Arial, sans-serif; margin: 0; background-color: #f5f5f5; }
+  .container { display: flex; padding-left: 20px; height: 800px; }
+/*///////////////헤더 푸터 삽입 시 공백 제거///////////////////*/
+html, body {
+    margin: 0;
+    padding: 0;
+}
 
-    .container {
-      display: flex;
-      padding-left: 20px;
-      height: 800px;
-    }
 /*////////////////////// header영역 //////////////////////*/
 
 .header-layout{
@@ -118,6 +110,8 @@
     font-size: 13px;
 }
 
+  /* 사이드바 */
+
 /*///////////////////사이드 바///////////////////*/
 .sidebar {
     width: 200px;
@@ -196,63 +190,79 @@
     font-weight: bold;
 }
 
-    /* 메인 콘텐츠 */
-    .content { flex: 1; padding: 40px; background-color: #fff; }
-    .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px solid #000; padding-bottom: 10px; }
-    .header-top h1 { font-size: 20px; margin: 0; }
-    .breadcrumb { font-size: 14px; }
-    .breadcrumb a { text-decoration: none; color: #007bff; }
-    .breadcrumb span { color: #555; }
 
-    table { width: 100%; border-collapse: collapse; font-size: 14px; margin-bottom: 20px; }
-    th { width: 120px; text-align: left; vertical-align: top; padding: 10px 5px; }
-    td { padding: 5px; }
+  .content { flex: 1; padding: 20px; background-color: #fff; }
+  .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px solid #000; padding-bottom: 10px; }
+  .header-top h1 { font-size: 20px; margin: 0; }
+  .breadcrumb { font-size: 14px; }
+  .breadcrumb a { text-decoration: none; color: #007bff; }
+  .breadcrumb span { color: #555; }
+  .breadcrumb a:hover { text-decoration: underline; }
 
-    /* 입력 박스 */
-    .input-box {
-      width: 100%;
-      max-width: 100%;
-    }
+  /* 검색바 */
+  .search-bar { margin-bottom: 10px; display: flex; gap: 5px; align-items: center; }
+  .search-bar select, .search-bar input, .search-bar button { padding: 5px; }
 
-    select, input[type="text"], textarea {
-      width: 100%;
-      padding: 6px 10px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      box-sizing: border-box;
-      font-size: 14px;
-    }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th, td { border: 1px solid #ddd; padding: 10px; text-align: center; }
+  th { background-color: #f0f0f0; }
 
-    textarea {
-      height: 150px;
-      resize: none;
-    }
+  .status.active { color: #2ecc71; font-weight: bold; }
+  .status.expired { color: #888; }
 
-    /* 1차, 2차 선택 한 줄 */
-    .select-row {
-      display: flex;
-      gap: 10px;
-    }
-    .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 60px; border-bottom: 2px solid #000; padding-bottom: 10px; }
-    /* 버튼 영역 오른쪽 정렬 */
-    .bottom-bar {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      margin-top: 20px;
-    }
-    /* 첫 번째 tr 전체 위쪽에 선 추가 */
-    table tbody tr:first-child th,
-    table tbody tr:first-child td {
-      border-top: 2px solid #000; /* 선 굵기와 색상 조절 가능 */
-    }
-    .btn { padding: 6px 12px; background-color: #3693c2; color: white; border: none; cursor: pointer; }
-    .btn2 { padding: 6px 12px; background-color: #bfbfbf; color: white; border: none; cursor: pointer; }
-    .btn:hover { background-color: #2980b9; }
-  </style>
+  .bottom-bar { margin-top: 15px; display: flex; justify-content: space-between; align-items: center; }
+  .pagination { flex: 1; text-align: center; }
+  .pagination a { margin: 0 5px; text-decoration: none; color: #000; }
+  .btn { padding: 6px 12px; background-color: #3693c2; color: white; border: none; cursor: pointer; }
+  .btn:hover { background-color: #2980b9; }
+  td a { color: #007bff; text-decoration: none; cursor: pointer; }
+  td a:hover { text-decoration: underline; }
+
+  /* 팝업 공통 */
+  .popup-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5); display: none; justify-content: center; align-items: center; z-index: 1000;
+  }
+  .popup { background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+  .popup-header { background: #333; color: #fff; padding: 12px 16px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; }
+  .popup-header span#couponId { font-weight: normal; margin-left: 0; }
+  .popup-header .close-btn { cursor: pointer; font-weight: bold; }
+  .popup-content { padding: 24px; font-size: 15px; }
+  .popup-content table { width: 100%; border-collapse: collapse; }
+  .popup-content th, .popup-content td { text-align: left; padding: 10px 0; border: none; }
+  .popup-content tr { border-bottom: 1px solid #ddd; }
+  .popup-footer { text-align: center; padding: 12px; }
+  .popup-footer button { background: #4CAF50; color: #fff; border: none; padding: 8px 20px; border-radius: 4px; cursor: pointer; }
+  .popup-footer button:hover { background: #45a049; }
+
+  /* 각 팝업 크기 */
+  #detailPopup .popup { width: 800px; }
+  #registerPopup .popup { width: 800px; }
+
+  /* 혜택 라디오 버튼 정렬: 5개씩 */
+  #registerPopup td {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  #registerPopup td label {
+    width: calc(20% - 12px); /* 한 줄에 5개 */
+    display: flex;
+    align-items: center;
+  }
+  #registerPopup input[type="radio"] {
+    margin-right: 6px;
+  }
+</style>
 </head>
 <body>
-  <head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>쿠폰 리스트</title>
+    <!-- header/footer css -->
     <link rel="stylesheet" th:href="@{/css/admin/main/header_footer.css}">
 
     <!-- 사이드바 동작 js 및 css -->
@@ -275,12 +285,15 @@
 
 </head>
 <body>
-  <header>
+
+<header>
     <div class="header-layout">
         <div class="header-content">
             <a th:href="@{/admin}">
                 <img th:src="@{/images/admin/main/cupangMS_logo(color).png}" alt="로고">
             </a>
+
+
             <div class="header-link">
                 <div class="header-item">
                     <a th:href="@{/}">
@@ -300,12 +313,11 @@
             </div>
         </div>
     </div>
-</header>
 
+</header>
 
 <div class="container">
   <!-- 사이드바 -->
-    <!-- 사이드바 -->
 <aside class="sidebar">
                 <div class="side-item">
                     <div class="main-menu">
@@ -388,56 +400,111 @@
   <!-- 메인 콘텐츠 -->
   <div class="content">
     <div class="header-top">
-      <h1>자주묻는질문 작성</h1>
+      <h1>쿠폰 목록</h1>
       <div class="breadcrumb">
         <a href="#">HOME</a> &gt; 
-        <a href="#">고객센터</a> &gt; 
-        <span>자주묻는질문</span>
+        <a href="#">쿠폰관리</a> &gt; 
+        <span>쿠폰목록</span>
       </div>
     </div>
 
+    <!-- 검색바 -->
+    <div class="search-bar">
+      <select>
+        <option value="couponNo">쿠폰번호</option>
+        <option value="couponName">쿠폰명</option>
+        <option value="issuer">발급자</option>
+      </select>
+      <input type="text" placeholder="검색어 입력">
+      <button>검색</button>
+    </div>
+
+    <!-- 테이블 -->
     <table>
+      <thead>
+        <tr>
+          <th>쿠폰번호</th>
+          <th>쿠폰종류</th>
+          <th>쿠폰명</th>
+          <th>혜택</th>
+          <th>사용기간</th>
+          <th>발급자</th>
+          <th>발급수</th>
+          <th>사용수</th>
+          <th>상태</th>
+          <th>발급일</th>
+          <th>관리</th>
+        </tr>
+      </thead>
       <tbody>
         <tr>
-          <th>유형</th>
-          <td>
-            <div class="input-box select-row">
-              <select>
-                <option>1차선택</option>
-                <option>고객서비스</option>
-                <option>이벤트 안내</option>
-                <option>업데이트</option>
-              </select>
-              <select>
-                <option>2차선택</option>
-                <option>가입</option>
-                <option>탈퇴</option>
-              </select>
-            </div>
-          </td>
+          <td><a href="#" onclick="openDetail('1012121212')">1012121212</a></td>
+          <td>개별상품 할인</td>
+          <td>10월 한달 감사 쿠폰</td>
+          <td>2,000원 할인</td>
+          <td>2025.09.17 ~ 2025.09.17</td>
+          <td>(주)다있어</td>
+          <td>102</td>
+          <td>43</td>
+          <td class="status active">발급중</td>
+          <td>2025.09.17 00:00:00</td>
+          <td><a href="#">종료</a></td>
         </tr>
         <tr>
-          <th>제목</th>
-          <td>
-            <div class="input-box">
-              <input type="text" placeholder="제목을 입력하세요">
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <th>내용</th>
-          <td>
-            <div class="input-box">
-              <textarea placeholder="내용을 입력하세요"></textarea>
-            </div>
-          </td>
+          <td><a href="#" onclick="openDetail('201910101')">201910101</a></td>
+          <td>주문상품 할인</td>
+          <td>회원가입 축하 쿠폰</td>
+          <td>15% 할인</td>
+          <td>발급일로 100일 이내</td>
+          <td>최고관리자</td>
+          <td>567</td>
+          <td>262</td>
+          <td class="status active">발급중</td>
+          <td>2025.09.17 00:00:00</td>
+          <td><a href="#">종료</a></td>
         </tr>
       </tbody>
     </table>
 
+    <!-- 하단 바 -->
     <div class="bottom-bar">
-      <button class="btn2">취소하기</button>
-      <button class="btn">등록하기</button>
+      <div class="pagination">
+        <a href="#">이전</a>
+        <a href="#">1</a>
+        <a href="#">2</a>
+        <a href="#">3</a>
+        <a href="#">다음</a>
+      </div>
+      <div>
+        <button class="btn" onclick="openRegister()">쿠폰등록</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 쿠폰 상세 팝업 -->
+<div class="popup-overlay" id="detailPopup">
+  <div class="popup">
+    <div class="popup-header">
+      쿠폰정보<span id="couponId"></span>
+      <span class="close-btn" onclick="closeDetail()">X</span>
+    </div>
+    <div class="popup-content">
+      <table>
+        <tr>
+          <th>쿠폰번호</th><td id="modalCouponNo">-</td>
+          <th>발급처</th><td id="modalIssuer">-</td>
+        </tr>
+        <tr><th>쿠폰종류</th><td colspan="3" id="modalType">-</td></tr>
+        <tr><th>쿠폰명</th><td colspan="3" id="modalName">-</td></tr>
+        <tr><th>혜택</th><td colspan="3" id="modalBenefit">-</td></tr>
+        <tr><th>사용기간</th><td colspan="3" id="modalPeriod">-</td></tr>
+        <tr><th>유의사항</th><td colspan="3" id="modalNote">-</td></tr>
+      </table>
+      
+    </div>
+    <div class="popup-footer">
+      <button onclick="closeDetail()">닫기</button>
     </div>
   </div>
 </div>
@@ -476,5 +543,88 @@
     </div>
 
 </footer>
+
+</body>
+</html>
+<!-- 쿠폰 등록 팝업 -->
+<div class="popup-overlay" id="registerPopup">
+  <div class="popup">
+    <div class="popup-header">
+      쿠폰등록
+      <span class="close-btn" onclick="closeRegister()">X</span>
+    </div>
+    <div class="popup-content">
+      <table>
+        <tr>
+          <th>발급처</th><td><input type="text" id="newIssuer" placeholder="발급처 입력"></td>
+        </tr>
+        <tr>
+          <th>쿠폰종류</th><td><input type="text" id="newType" placeholder="쿠폰종류 입력"></td>
+        </tr>
+        <tr>
+          <th>혜택</th>
+          <td>
+            <label><input type="radio" name="benefit" value="1,000원 할인"> 1,000원 할인</label>
+            <label><input type="radio" name="benefit" value="2,000원 할인"> 2,000원 할인</label>
+            <label><input type="radio" name="benefit" value="3,000원 할인"> 3,000원 할인</label>
+            <label><input type="radio" name="benefit" value="4,000원 할인"> 4,000원 할인</label>
+            <label><input type="radio" name="benefit" value="5,000원 할인"> 5,000원 할인</label>
+            <label><input type="radio" name="benefit" value="10% 할인"> 10% 할인</label>
+            <label><input type="radio" name="benefit" value="20% 할인"> 20% 할인</label>
+            <label><input type="radio" name="benefit" value="30% 할인"> 30% 할인</label>
+            <label><input type="radio" name="benefit" value="40% 할인"> 40% 할인</label>
+            <label><input type="radio" name="benefit" value="50% 할인"> 50% 할인</label>
+            <label><input type="radio" name="benefit" value="배송비무료"> 배송비무료</label>
+          </td>
+        </tr>
+        <tr>
+          <th>사용기간</th><td><input type="text" id="newPeriod" placeholder="YYYY-MM-DD ~ YYYY-MM-DD"></td>
+        </tr>
+        <tr>
+          <th>유의사항</th><td><textarea id="newNote" placeholder="유의사항 입력" rows="3" style="width:100%;"></textarea></td>
+        </tr>
+      </table>
+    </div>
+    <div class="popup-footer">
+      <button onclick="registerCoupon()">등록</button>
+      <button onclick="closeRegister()">닫기</button>
+    </div>
+  </div>
+  
+</div>
+
+<script>
+  // 쿠폰 상세 팝업
+  const issuers = { '1012121212':'(주)다있어', '201910101':'최고관리자' };
+  function openDetail(couponNo) {
+    document.getElementById('couponId').textContent = couponNo;
+    document.getElementById('modalCouponNo').textContent = couponNo;
+    document.getElementById('modalIssuer').textContent = issuers[couponNo] || '-';
+    document.getElementById('modalType').textContent = '개별상품 할인';
+    document.getElementById('modalName').textContent = '10월 한달 감사 쿠폰 이벤트';
+    document.getElementById('modalBenefit').textContent = '2,000원 할인';
+    document.getElementById('modalPeriod').textContent = '2025-09-17 ~ 2025-09-17';
+    document.getElementById('modalNote').textContent = '상품 중복 할인 쿠폰\n- 상품 1개 사용 가능\n- 다른 할인 쿠폰과 중복 가능\n사용처: '+(issuers[couponNo]||'-');
+    document.getElementById('detailPopup').style.display='flex';
+  }
+  function closeDetail(){ document.getElementById('detailPopup').style.display='none'; }
+
+  // 쿠폰 등록 팝업
+  function openRegister(){ document.getElementById('registerPopup').style.display='flex'; }
+  function closeRegister(){ document.getElementById('registerPopup').style.display='none'; }
+
+  function registerCoupon(){
+    const issuer = document.getElementById('newIssuer').value;
+    const type = document.getElementById('newType').value;
+    const benefit = document.querySelector('input[name="benefit"]:checked')?.value || '';
+    const period = document.getElementById('newPeriod').value;
+    const note = document.getElementById('newNote').value;
+
+    alert(`등록된 쿠폰 내용:\n발급처: ${issuer}\n쿠폰종류: ${type}\n혜택: ${benefit}\n사용기간: ${period}\n유의사항: ${note}`);
+    closeRegister();
+  }
+
+</script>
+
 </body>
 </html>
