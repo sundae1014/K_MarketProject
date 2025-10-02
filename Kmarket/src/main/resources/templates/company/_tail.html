@@ -1,0 +1,38 @@
+<!-- TOP 버튼 -->
+<button id="topBtn" class="top-btn" aria-label="맨 위로 이동">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+         class="lucide lucide-chevrons-up-icon lucide-chevrons-up">
+        <path d="m17 11-5-5-5 5"/>
+        <path d="m17 18-5-5-5 5"/>
+    </svg>
+</button>
+<footer>
+    <div class="footer-layout">
+        <div class="footer-content">
+            <img th:src="@{/images/company/cupangIntro_logo(color).png}" alt="로고">
+            <div class="about-link">
+                <p>큐팡 회사소개</p>
+                <a th:href="@{index}">HOME</a>
+                <a th:href="@{culture}">기업문화</a>
+                <a th:href="@{story}">소식과 이야기</a>
+                <a th:href="@{recruit}">채용</a>
+                <a th:href="@{media}">미디어</a>
+            </div>
+            <div class="about-link">
+                <p>큐팡 사이트</p>
+                <a th:href="@{/}">큐팡</a>
+            </div>
+        </div>
+        <div class="footer-content">
+            <div class="about-company">
+                <h2>(주)큐팡 대표자: 김철학 | 사업자 등록번호: 202-50-70702 | 부산광역시 해운대구 달맞이길 30 시그니엘 부산</h2>
+                <a href="https://privacy.coupang.com/ko/land/aboutcoupang/">개인정보 처리방침</a>
+            </div>
+        </div>
+
+    </div>
+
+</footer>
+</body>
+</html>
