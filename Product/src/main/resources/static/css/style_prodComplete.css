@@ -103,77 +103,191 @@
 }
 /* ////////////////// 경로 네비게이션 끝 /////////////////// */
 
-/* ==================== 완료 메시지 ==================== */
-.order-complete-title {
-    font-size: 26px;
-    font-weight: 700;
-    color: var(--blue);
-    text-align: center;
-    margin-bottom: 10px;
+/* 2단 레이아웃 */
+.order-grid {
+    display: grid;
+    grid-template-columns: 640px 280px;
+    justify-content: space-between;
+    gap: 20px;
+    align-items: start;
+    min-height: 100%;
 }
 
-.order-info {
-    text-align: center;
-    font-size: 15px;
-    color: var(--gray-600);
-    margin-bottom: 30px;
+/* 항목별 컨테이너 */
+.order-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 
-/* ==================== 박스 공통 ==================== */
 .order-section {
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    background: #fff;
     padding: 20px;
+    margin-bottom: 10px;
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+}
+
+.section-header h3 {
+    font-size: 16px;
+    font-weight: 700;
     margin-bottom: 20px;
 }
 
-.order-section h3 {
-    font-size: 16px;
-    font-weight: 700;
-    margin-bottom: 12px;
-    color: var(--gray-800);
+/* ///////////////// 주문 완료 메세지 시작 ///////////////// */
+.complete-message {
+    padding: 80px 0;
+    text-align: center;
+    border-top: 3px solid #336AFD;
 }
 
-/* ==================== 텍스트 출력 ==================== */
-.info-text {
+.complete-message h2 {
+    margin-bottom: 10px;
+    font-size: 23px;
+    font-weight: 700;
+    color: var(--blue);
+}
+
+.complete-message p {
     font-size: 14px;
-    margin-bottom: 8px;
+    font-weight: 500;
+    color: #000000;
+}
+/* ///////////////// 주문 완료 메세지 끝 ///////////////// */
+
+/* ////////////////// 배송지 주소 시작 ////////////////// */
+.delivery-box {
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 20px;
+    background: #fff;
+}
+
+.delivery-info p {
+    margin-bottom: 15px;
+    font-size: 14px;
+    font-weight: 700;     /* Bold */
+    color: #333333;
+}
+
+.delivery-info p:last-child {
+    margin-bottom: 0;
+}
+
+.delivery-info .form-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.delivery-info .form-row label {
+    width: 80px;
+    font-weight: 700;
+    font-size: 14px;
     color: #333;
 }
 
-.info-text strong {
-    display: inline-block;
-    min-width: 80px;
-    color: var(--gray-800);
+.delivery-info .form-row input {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    font-size: 14px;
+    background: #f9fafb; /* 살짝 회색 배경 */
+}
+/* ////////////////// 배송지 주소 끝 ////////////////// */
+
+.point-benefit p {
+    font-size: 14px;
+    font-weight: 500;
+    color: #333333;
 }
 
-/* ==================== 상품 요약 ==================== */
-.product-info {
+/* ///////////// 홈으로/주문내역 확인 버튼 ///////////// */
+.final-complete-btn {
     display: flex;
-    align-items: flex-start;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
     gap: 15px;
-    margin-bottom: 15px;
 }
 
-.product-thumb {
+.final-complete-btn a {
+    display: inline-block;
+    padding: 12px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 3px;
+    text-decoration: none;
+    transition: background 0.2s;
+}
+
+.final-complete-btn .btn-home {
+    flex: 1;
+    background: #ffffff;
+    color: #000000;
+    border: 1px solid var(--border);
+}
+
+.final-complete-btn .btn-order {
+    flex: 1;
+    background: var(--blue);
+    color: #ffffff;
+    border: none;
+}
+
+.final-complete-btn .btn-home:hover {
+    background: #f3f4f6;
+}
+
+.final-complete-btn .btn-order:hover {
+    background: #0e51ff;
+}
+/* /////////////// 홈으로/주문내역 버튼 끝 /////////////// */
+
+/* ///////////////// 최종 주문정보 시작 ///////////////// */
+.order-summary {
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 20px;
+    background: #fafafa;
+    position: sticky;
+    top: 100px;
+}
+
+.order-summary h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.order-summary .product-info {
+    display: flex;
+    text-align: left;
+    gap: 10px;
+    border-bottom: 1px solid #c8c8c8;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+}
+
+.product-info .product-thumb {
     width: 80px;
     height: 80px;
     border: 1px solid var(--border);
-    border-radius: 4px;
+    border-radius: 3px;
     object-fit: cover;
 }
 
 .product-detail .product-name {
-    font-size: 15px;
+    font-size: 13px;
     font-weight: 600;
-    margin-bottom: 4px;
+    margin-bottom: 3px;
 }
 
 .product-detail .product-option {
-    font-size: 13px;
+    font-size: 11px;
     color: var(--gray-600);
-    margin-bottom: 6px;
+    margin-bottom: 3px;
 }
 
 .product-detail .product-price {
@@ -181,61 +295,28 @@
     font-weight: 600;
 }
 
-/* ==================== 결제 요약 ==================== */
-.order-summary ul {
+/* 결제상세 */
+.final-product-info ul {
     list-style: none;
-    margin: 0;
     padding: 0;
 }
 
-.order-summary li {
+.final-product-info li {
     display: flex;
     justify-content: space-between;
     font-size: 14px;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
 }
 
-.order-total {
+.final-product-info p {
     text-align: right;
     font-size: 18px;
     border-top: 1px solid var(--border);
-    padding-top: 10px;
     margin-top: 10px;
+    padding-top: 10px;
 }
 
-/* ==================== 버튼 영역 ==================== */
-.order-buttons {
-    text-align: center;
-    margin-top: 20px;
+.order-total strong {
+    font-size: 20px;
 }
-
-.order-buttons a {
-    display: inline-block;
-    padding: 10px 20px;
-    font-size: 14px;
-    font-weight: 600;
-    border-radius: 4px;
-    text-decoration: none;
-    transition: background 0.2s;
-}
-
-.order-buttons .btn-home {
-    background: var(--blue);
-    color: var(--gray-600);
-    border: 1px solid var(--border);
-    margin-right: 8px;
-}
-
-.order-buttons .btn-orders {
-    background: var(--blue);
-    color: #fff;
-    border: none;
-}
-
-.order-buttons .btn-home:hover {
-    background: #f3f4f6;
-}
-
-.order-buttons .btn-orders:hover {
-    background: var(--blue);
-}
+/* ///////////////// 최종 주문정보 끝 ///////////////// */

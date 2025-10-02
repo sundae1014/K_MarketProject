@@ -70,6 +70,14 @@
     grid-column: 3 / 4;
 }
 
+/* //////////////// 베스트 상품 시작 //////////////// */
+/* 베스트상품 패널 */
+.best-panel {
+    flex: 0 0 220px;
+    position: sticky;
+    align-self: flex-start;
+}
+
 /* 베스트상품 넘버 버튼 */
 .best-num-list {
     margin: 10px 0 0;
