@@ -1,0 +1,241 @@
+/* 공통 적용 사항 */
+:root {
+    --blue: #336AFD;
+    --deep-gray: #2f2f2f;
+    --gray-900: #1f2937;
+    --gray-800: #374151;
+    --gray-700: #4b5563;
+    --gray-600: #6b7280;
+    --gray-550: #757575;
+    --gray-500: #9F9F9F;
+    --gray-100: #f3f4f6;
+    --gray-50: #f9fafb;
+    --border: #e5e7eb;
+    --danger: #ff4d4f;
+}
+
+/*.order-wrap {*/
+/*    max-width: 800px;*/
+/*    margin: 40px auto;*/
+/*    padding: 0 20px;*/
+/*}*/
+
+.order-wrap {
+    display: flex;
+    align-items: flex-start;
+    max-width: 1200px;
+    width: 100%;
+    margin: 35px auto 0 auto;
+    gap: 40px;
+}
+
+/* //////////////// 베스트 상품 시작 //////////////// */
+/* 베스트상품 패널 */
+.best-panel {
+    flex: 0 0 220px;
+    position: sticky;
+    align-self: flex-start;
+}
+
+/* 베스트상품 넘버 버튼 */
+.best-num-list {
+    margin: 10px 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.best-num-list li+li {
+    margin-top: 8px;
+}
+
+.best-num-list button {
+    width: 220px;
+    height: 50px;
+    border-radius: 8px;
+    border: 1px solid #e5e5e5;
+    background: rgba(51,106,253,.12);
+    color: #336AFD;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.15s;
+}
+
+.best-num-list button:hover {
+    background: rgba(51,106,253,.18);
+}
+
+.best-num-list button.active  {
+    background: #336AFD;
+    color: #fff;
+    border-color: #336AFD;
+}
+
+/* //////////////////// 베스트 상품 끝 //////////////////// */
+
+/* ///////////////// 경로 네비게이션 시작 ///////////////// */
+.cart-steps {
+    font-size: 14px;
+    color: var(--gray-600);
+}
+
+.cart-steps ol {
+    list-style: none;
+    display: flex;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+}
+
+.cart-steps li {
+    color: var(--gray-500);
+}
+
+.cart-steps li+li::before {
+    content: ">";
+    margin: 0 6px;
+    color: var(--gray-500);
+}
+
+.cart-steps li.active {
+    color: var(--blue);
+    font-weight: 700;
+}
+/* ////////////////// 경로 네비게이션 끝 /////////////////// */
+
+/* ==================== 완료 메시지 ==================== */
+.order-complete-title {
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--blue);
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.order-info {
+    text-align: center;
+    font-size: 15px;
+    color: var(--gray-600);
+    margin-bottom: 30px;
+}
+
+/* ==================== 박스 공통 ==================== */
+.order-section {
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: #fff;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.order-section h3 {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: var(--gray-800);
+}
+
+/* ==================== 텍스트 출력 ==================== */
+.info-text {
+    font-size: 14px;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+.info-text strong {
+    display: inline-block;
+    min-width: 80px;
+    color: var(--gray-800);
+}
+
+/* ==================== 상품 요약 ==================== */
+.product-info {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.product-thumb {
+    width: 80px;
+    height: 80px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    object-fit: cover;
+}
+
+.product-detail .product-name {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.product-detail .product-option {
+    font-size: 13px;
+    color: var(--gray-600);
+    margin-bottom: 6px;
+}
+
+.product-detail .product-price {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+/* ==================== 결제 요약 ==================== */
+.order-summary ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.order-summary li {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    margin-bottom: 6px;
+}
+
+.order-total {
+    text-align: right;
+    font-size: 18px;
+    border-top: 1px solid var(--border);
+    padding-top: 10px;
+    margin-top: 10px;
+}
+
+/* ==================== 버튼 영역 ==================== */
+.order-buttons {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.order-buttons a {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: background 0.2s;
+}
+
+.order-buttons .btn-home {
+    background: var(--blue);
+    color: var(--gray-600);
+    border: 1px solid var(--border);
+    margin-right: 8px;
+}
+
+.order-buttons .btn-orders {
+    background: var(--blue);
+    color: #fff;
+    border: none;
+}
+
+.order-buttons .btn-home:hover {
+    background: #f3f4f6;
+}
+
+.order-buttons .btn-orders:hover {
+    background: var(--blue);
+}

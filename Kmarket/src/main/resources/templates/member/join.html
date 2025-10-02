@@ -1,11 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=\, initial-scale=1.0">
-    <title>회원(구분)</title>
-    <link rel="stylesheet" th:href="@{/css/member/Member.css}">
-</head>
+<div th:replace="~{member/_head.html}"></div>
 <body th:data-type="${type}">
 
     <main>
@@ -40,5 +33,4 @@
         </div>
 
     </main>
-</body>
-</html>
+    <div th:replace="~{member/_tail.html}"></div>

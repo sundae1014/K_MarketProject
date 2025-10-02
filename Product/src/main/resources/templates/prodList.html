@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <title>Cupang::상품목록</title>
     <link rel="stylesheet" th:href="@{/css/style_index.css}">
-    <link rel="stylesheet" th:href="@{/css/style_prodView.css}">
     <link rel="stylesheet" th:href="@{/css/style_prodList.css}">
+    <link rel="stylesheet" th:href="@{/css/style_prodView.css}">
     <link rel="stylesheet" th:href="@{/css/style_header.css}">
     <link rel="stylesheet" th:href="@{/css/style_footer.css}">
 
@@ -37,7 +37,11 @@
         <!-- 상품 경로 -->
         <div class="container">
             <nav class="nav-path">
-                <ol></ol>
+                <ol>
+                    <li><a th:href="@{/}">HOME</a></li>
+                    <li><a href="#">식품</a></li>
+                    <li><a href="#">식품 선물세트</a></li>
+                </ol>
             </nav>
         </div>
 
@@ -281,6 +285,7 @@
             </svg>
         </button>
 
+        <!-- 푸터 -->
         <div th:replace="_footer :: footerFragment"></div>
     </main>
 </body>

@@ -39,11 +39,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // 더미 데이터
     const bestList = [
-        { id: 101, name: "샘플 상품1", regular: 10000, sale: 8000, discount: 20, image: "/images/Hit-product_1.png" },
-        { id: 102, name: "샘플 상품2", regular: 20000, sale: 15000, discount: 25, image: "/images/Hit-product_2.png" },
-        { id: 103, name: "샘플 상품3", regular: 30000, sale: 27000, discount: 10, image: "/images/Hit-product_3.png" },
-        { id: 104, name: "샘플 상품4", regular: 40000, sale: 25000, discount: 38, image: "/images/Hit-product_4.png" },
-        { id: 105, name: "샘플 상품5", regular: 50000, sale: 30000, discount: 40, image: "/images/Hit-product_5.png" },
+        { id: 101, name: "샘플 상품1", regular: 10000, sale: 8000, discount: 20, image: "/cupang/images/Hit-product_1.png" },
+        { id: 102, name: "샘플 상품2", regular: 20000, sale: 15000, discount: 25, image: "/cupang/images/Hit-product_2.png" },
+        { id: 103, name: "샘플 상품3", regular: 30000, sale: 27000, discount: 10, image: "/cupang/images/Hit-product_3.png" },
+        { id: 104, name: "샘플 상품4", regular: 40000, sale: 25000, discount: 38, image: "/cupang/images/Hit-product_4.png" },
+        { id: 105, name: "샘플 상품5", regular: 50000, sale: 30000, discount: 40, image: "/cupang/images/Hit-product_5.png" },
     ];
 
     const list = document.getElementById('best-num-list');

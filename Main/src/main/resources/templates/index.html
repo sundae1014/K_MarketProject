@@ -14,6 +14,8 @@
     <script th:src="@{/js/search.js}" defer></script>
     <!-- 전체 카테고리 구현 기능 -->
     <script th:src="@{/js/category.js}" defer></script>
+    <!-- 헤더 바로가기 기능 -->
+    <script th:src="@{/js/header-actions.js}" defer></script>
     <!-- bxSlider 슬라이드 배너 기능 -->
     <link rel="stylesheet" th:href="@{https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.css}">
     <script th:src="@{https://code.jquery.com/jquery-3.6.0.min.js}"></script>
@@ -25,8 +27,9 @@
     <script th:src="@{/js/top-btn.js}" defer></script>
 </head>
 <body>
-    <div class="page">
+    <main class="page">
 
+        <!-- 헤더 -->
         <div th:replace="_header :: headerFragment"></div>
 
         <!-- 슬라이드 배너 -->
@@ -533,8 +536,8 @@
             </svg>
         </button>
 
+        <!-- 푸터 -->
         <div th:replace="_footer :: footerFragment"></div>
-
-    </div>
+    </main>
 </body>
 </html>

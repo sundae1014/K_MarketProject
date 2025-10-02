@@ -5,8 +5,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const prevBtn = document.querySelector(".prev");
     const nextBtn = document.querySelector(".next");
     const dots = document.querySelectorAll(".dot");
-
     let currentIndex = 0;
+
+    if (!slidesWrapper || slides.length === 0 || !prevBtn || !nextBtn || dots.length === 0) return;
+
+
     const totalSlides = slides.length;
 
     // 슬라이드 1개 너비 + gap 계산
