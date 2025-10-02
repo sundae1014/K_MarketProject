@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8"> <!-- 프린트 이미지 재배치, 현재 약관 하이라이트 추가, 그외 나머지 추가 -->
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>구매회원 이용약관</title>  
+    <title>구매회원 이용약관</title>
     <style>
         * {
             margin: 0;
@@ -16,37 +16,6 @@
             min-height: 100vh;
             max-width: 1200px;
             margin: 0 auto;
-        }
-
-        .navigation {
-            width: 200px;
-            background-color: #e8e8e8;
-            border-right: 1px solid #ccc;
-            padding: 20px 0;
-            flex-shrink: 0;
-        }
-
-        .nav-item {
-            display: flex;
-            align-items: center;
-            padding: 12px 20px;
-            border-bottom: 1px solid #ccc;
-            cursor: pointer;
-            font-size: 14px;
-        }
-
-        .nav-item:hover {
-            background-color: #ddd;
-        }
-
-        .nav-item.active {
-            background-color: #d0d0d0;
-            font-weight: bold;
-        }
-
-        .nav-icon {
-            margin-right: 8px;
-            font-size: 16px;
         }
 
         /* 본문 영역 */
@@ -69,27 +38,27 @@
             margin-right: 20px;
         }
         #terms_box {
-            display:flex; 
+            display:flex;
             gap:35px;
-            justify-content:center; 
+            justify-content:center;
             margin: 0 0 0 120px;
         }
         .terms_link {
-            display:flex; 
-            flex-direction:column; 
+            display:flex;
+            flex-direction:column;
             align-items:center;
         }
         .terms_link a {
             display: flex;
             flex-direction: column;
             align-items: center;
-            text-decoration: none; 
-            color: black; 
-            gap: 5px; 
+            text-decoration: none;
+            color: black;
+            gap: 5px;
         }
         .terms_link img {
             border:2px solid #b9b9b9;
-            border-radius: 50%;                        
+            border-radius: 50%;
             height: 75px;
             width: 75px;
         }
@@ -111,7 +80,7 @@
             background: none;
             border:none;
             cursor: pointer;
-            padding: 0;    
+            padding: 0;
         }
         .print_btn img {
             background-color: white;
@@ -133,12 +102,488 @@
             font-family: "돋움";
             line-height: 1.8;
         }
+
+        /* 공통 적용 사항 */
+        :root {
+            --blue: #336AFD;
+            --deep-gray: #2f2f2f;
+            --gray-900: #1f2937;
+            --gray-800: #374151;
+            --gray-700: #4b5563;
+            --gray-600: #6b7280;
+            --gray-500: #9F9F9F;
+            --gray-100: #f3f4f6;
+            --gray-50: #f9fafb;
+            --border: #e5e7eb;
+            --danger: #ff4d4f;
+        }
+        header, footer {
+            margin: 0;
+            padding: 0;
+            font-family: system-ui, -apple-system, Segoe UI, Roboto, Noto Sans KR, Apple SD Gothic Neo,
+            Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+            color: var(--gray-900);
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0,0,0,0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        /* ////////////////////// 헤더 시작 ////////////////////// */
+        .sub-container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        /* 헤더 영역 컨테이너 영역 */
+        .header {
+            position: relative;
+            border-bottom: 1px solid var(--border);
+            background: #fff;
+        }
+
+        /* 최상단 배너 */
+        .top-banners {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .top-banner {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 46px;
+            border-radius: 6px;
+            font-weight: 600;
+        }
+
+        .top-banner-promo {
+            background: #fff6e6;
+            color: #a04900;
+        }
+
+        /* 서브 링크(로그인/회원가입/고객센터) */
+        .utility-nav {
+            width: 100%;
+            background-color: #F3FBFF;
+        }
+
+        .utility-nav .inner {
+            max-width: 1200px;   /* 컨테이너 폭 */
+            margin: 0 auto;      /* 가운데 정렬 */
+            display: flex;
+            justify-content: flex-end;  /* 오른쪽 정렬 */
+            padding: 7px 0;
+        }
+
+        .utility-list {
+            display: flex;
+            gap: 16px;
+            font-size: 13px;
+            font-weight: bold;
+            color: var(--gray-700);
+        }
+
+        .utility a {
+            color: var(--gray-600);
+        }
+
+        .utility a:hover {
+            color: var(--blue);
+            text-decoration: underline;
+        }
+
+        /* 브랜드 로고 + 검색창 + 바로가기 버튼 묶음 영역 */
+        .brand-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 25px 0 5px 0;
+        }
+
+        .logo {
+            flex: 0 0 auto;
+            display: inline-flex;
+            align-items: flex-end;
+            gap: 2px;
+        }
+
+        .logo-img {
+            width: auto;
+            height: 40px;
+            display: block;
+        }
+
+        /* 검색창 전체 + 인풋박스 + 검색 버튼 */
+        .search-bar {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+        }
+
+        .search-bar_group {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            max-width: 600px;
+            border: 2px solid var(--blue);
+            overflow: hidden;
+        }
+
+        .search-bar_category,
+        .search-bar_input,
+        .search-bar_button {
+            border: none;
+            outline: none;
+            height: 40px;
+        }
+
+        .search-bar_category {
+            flex: 0 0 100px;
+            padding: 0 15px;
+            background-color: white;
+            appearance: none;
+            font-weight: 600;
+            color: var(--gray-800);
+        }
+
+        .search-bar_category option {
+            background-color: white;
+            color: var(--gray-800);
+        }
+
+        .search-bar_input {
+            flex: 1;
+            padding: 0 20px;
+            font-size: 15px;
+        }
+
+        .search-bar_input:focus {
+            outline: none;
+        }
+
+        .search-bar_button {
+            flex: 0 0 50px;
+            background: transparent;
+            color: var(--blue);
+            cursor: pointer;
+        }
+
+        /* 바로가기 버튼 묶음 */
+        .quick-actions {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            margin-left: auto;
+        }
+
+        .quick-action {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            color: var(--gray-700);
+            font-size: 12px;
+            text-align: center;
+        }
+
+        .quick-action svg {
+            width: 28px;
+            height: 28px;
+            flex-shrink: 0;
+            color: var(--gray-600);
+        }
+
+        .quick-action:hover {
+            color: var(--blue);
+        }
+
+        .quick-action:hover svg {
+            color: var(--blue);
+        }
+
+        /* GNB 전체 영역 */
+        .main-nav {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            padding: 13px 0;
+            position: relative;
+        }
+
+        /* 전체 카테고리 버튼 부분 */
+        .main-nav_left {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 14px;
+            font-size: 15px;
+            font-weight: 600;
+            background: #ffffff;
+            border: none;
+            cursor: pointer;
+        }
+
+        .main-nav_left.is-open {
+            color: var(--blue);
+        }
+
+        .main-nav_left:hover {
+            color: var(--blue);
+        }
+
+        .main-nav_left svg {
+            display: block;
+            stroke: currentColor; /* 부모 색상 상속 */
+        }
+
+        /* 상품 카테고리 버튼 부분 */
+        .main-nav_right {
+            display: flex;
+            gap: 30px;
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .main-nav_right a {
+            color: var(--gray-800);
+            padding: 8px 6px;
+        }
+
+        .main-nav_right a:hover {
+            color: var(--blue);
+        }
+
+        /* 전체 카테고리 드롭 다운 */
+        .category-drawer {
+            position: absolute;
+            top: calc(100% + 0px);
+            left: 15px;
+            width: 360px;
+            border: 2px solid var(--blue);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.25);
+            display: none;
+            z-index: 20;
+            overflow: hidden;
+
+            /* 구멍 방지용 배경색 */
+            background: #fff;
+        }
+
+        .category-drawer_open {
+            display: flex;
+            align-items: stretch; /* 좌/우 컬럼을 같은 높이로 늘려서 하단 비는 공간 제거 */
+        }
+
+        /* 1차 카테고리 */
+        .category-drawer_lv1 {
+            width: 160px;
+            background: var(--gray-100);
+        }
+
+        .category-drawer_lv1 li {
+            display: flex;
+            align-items: center;
+            padding: 15px 10px;
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        .category-drawer_lv1 li:hover {
+            background: #eee;
+        }
+
+        .category-drawer_lv1 li.is-active {
+            background: var(--gray-500);
+            color: #ffffff;
+            font-weight: 700;
+        }
+
+        /* 2차 카테고리 */
+        .category-drawer_lv2 {
+            flex: 0 0 auto; /* grow:0(무조건 완전 확대), shrink:0(필요시 유동적 확대), basis:0(최소폭) */
+            width: 200px;
+            min-height: 100%;
+            background: #ffffff;
+            display: flex;
+            z-index: 30;
+            flex-direction: column;
+        }
+
+        .category-drawer_lv2 a {
+            display: block;
+            padding: 15px 10px;
+            font-size: 15px;
+            font-weight: 400;
+            color: var(--gray-700);
+        }
+
+        .category-drawer_lv2 a:hover {
+            color: var(--blue);
+            font-weight: 600;
+        }
+        /* /////////////////////// 헤더 끝 /////////////////////// */
+
+        /* //////////////////// Footer 시작 //////////////////// */
+        .footer {
+            margin-top: 120px;
+            margin-bottom: 20px;
+        }
+
+        ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .footer-bar {
+            width: 100%;
+            border-top: 2px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .footer-links {
+            max-width: 900px;        /* 1200px → 900px */
+            margin: 0 auto;          /* 중앙 정렬 */
+            padding: 18px 0;         /* 위/아래 여백 복구 */
+        }
+
+        .footer-links ul {
+            display: flex;
+            justify-content: center;
+            gap: 100px;               /* 항목 간격 */
+        }
+
+        .footer-links li {
+            position: relative;
+        }
+
+        .footer-links li::after {
+            content: "|";
+            position: absolute;
+            right: -50px;            /* 간격 맞춤 */
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray-500);
+            font-weight: normal;
+        }
+
+        .footer-links li:last-child::after {
+            content: none;           /* 마지막 항목은 | 제거 */
+        }
+
+        .footer-links a {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--gray-700);
+            text-decoration: none;
+        }
+
+        .footer-links a:hover {
+            color: var(--blue);
+            font-weight: 700;
+        }
+
+        /* Footer 3단 레이아웃 */
+        .footer-info {
+            display: grid;
+            grid-template-columns: 150px 2fr 2fr;
+            gap: 40px;
+            max-width: 900px;
+            margin: 30px auto 0;
+            text-align: left;
+            align-items: flex-start;
+        }
+
+        .footer-logo {
+            width: auto;
+            height: 35px;
+            display: block;
+            margin-top: 4px;
+        }
+
+        /* 고객센터 타이틀 */
+        .footer-col .footer-ce {
+            font-size: 14px;
+            font-weight: 500;
+            margin: 0 0 1px;
+            color: var(--gray-900);
+        }
+
+        /* 고객센터 번호 */
+        .footer-col .footer-ph {
+            font-size: 22px;
+            font-weight: 800;
+            margin: 0 0 5px;
+            line-height: 1.2;
+            color: var(--gray-900);
+        }
+
+        .footer-col p {
+            font-size: 14px;
+            font-weight: 500;
+            margin: 1px 0;
+            line-height: 1.5;
+            color: #757575;
+        }
+
+        /* 호스팅 서비스 안내문 */
+        .footer-sub {
+            max-width: 900px;;
+            margin: 10px auto 0;
+            text-align: left;
+        }
+
+        .sub-title {
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 1px;
+            color: #000000;
+        }
+
+        .sub-text {
+            font-size: 10px;
+            font-weight: 300;
+            line-height: 1.5;
+            color: #9F9F9F;
+        }
+        /* //////////////////// Footer 끝 //////////////////// */
     </style>
+    <!-- 검색 기능 -->
+    <script th:src="@{/js/main/search.js}" defer></script>
+    <!-- 1/2차 카테고리 기능 -->
+    <script th:src="@{/js/main/category.js}" defer></script>
+
+    <!-- 베스트+히트 상품 기능 -->
+    <script th:src="@{/js/main/best.js}" defer></script>
+
+    <!-- Top 버튼 기능 -->
+    <script th:src="@{/js/main/top-btn.js}" defer></script>
+
+    <!-- 로그인/로그아웃/관리자 메뉴 기능 -->
+    <script th:src="@{/js/main/user-menu.js}" defer></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const links = document.querySelectorAll(".terms_link a");
-            const img_box = document.querySelectorAll(".terms_link img");
-            const links_span = document.querySelectorAll(".terms_link span");
 
             links.forEach(link => {
                 link.addEventListener("click",e => {
@@ -153,55 +598,161 @@
     </script>
 </head>
 <body>
-    <header style="height: 121.44px;"></header> <!-- 임시 배치 -->
+    <!-- Header -->
+    <header class="header" role="banner">
+
+        <!-- 최상단 광고 배너 -->
+        <div class="top-banners">
+            <a href="#" class="top-banner" aria-label="오늘 12시까지 주문 시 배송 내일 도착">
+                <img th:src="@{/images/main/상단배너img_1.png}" alt="상단 광고 배너 1">
+            </a>
+            <a href="#" class="top-banner" aria-label="얼리버드 할인 이벤트">
+                <img th:src="@{/images/main/상단배너img_2.png}" alt="상단 광고 배너 2">
+            </a>
+        </div>
+
+        <!-- 로그인 + 회원가입 + 고객센터 -->
+        <div class="utility-nav">
+            <div class="inner">
+                <ul class="utility-list" id="utility-menu">
+                    <!-- 기본 상태 : 로그인 전 -->
+                    <li><a href="#">로그인</a></li>
+                    <li><a href="#">회원가입</a></li>
+                    <li><a href="#">고객센터</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 검색창 전체 + 인풋박스 + 검색 버튼 -->
+        <div class="brand-row sub-container">
+            <a th:href="@{/}" class="logo" aria-label="큐팡 홈">
+                <img th:src="@{/images/main/cupang_logo(color).png}" alt="큐팡 로고" class="logo-img">
+            </a>
+
+            <form class="search-bar" role="search" aria-label="사이트 검색">
+                <label for="search-input" class="visually-hidden">검색어</label>
+                <div class="search-bar_group">
+                    <select class="search-bar_category" aria-label="카테고리 선택">
+                        <option value="all">전체</option>
+                        <option>패션의류/잡화</option>
+                        <option>뷰티</option>
+                        <option>출산/유아동</option>
+                        <option>식품</option>
+                        <option>주방용품</option>
+                        <option>생활용품</option>
+                        <option>홈인테리어</option>
+                        <option>가전디지털</option>
+                        <option>스포츠/레저</option>
+                        <option>문구/오피스</option>
+                        <option>헬스/건강식품</option>
+                        <option>반려동물</option>
+                    </select>
+                    <input id="search-input" class="search-bar_input" type="search" placeholder="찾고 싶은 상품을 검색해보세요" />
+                    <button type="submit" class="search-bar_button" aria-label="검색">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                             stroke-linejoin="round" class="lucide lucide-search-icon lucide-search">
+                            <path d="m21 21-4.34-4.34"/>
+                            <circle cx="11" cy="11" r="8"/>
+                        </svg>
+                    </button>
+                </div>
+            </form>
+
+            <!-- 바로가기 버튼 묶음 -->
+            <!-- 웹아이콘 : https://lucide.dev/ 이용 -->
+            <div class="quick-actions" aria-label="바로가기">
+                <a href="#" class="quick-action" aria-label="찜">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2"
+                         stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart-plus-icon lucide-heart-plus">
+                        <path d="m14.479 19.374-.971.939a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5a5.2 5.2 0 0 1-.219 1.49"/>
+                        <path d="M15 15h6"/>
+                        <path d="M18 12v6"/>
+                    </svg>
+                    <span>찜</span>
+                </a>
+                <a href="#" class="quick-action" aria-label="마이페이지">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2"
+                         stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-round-icon lucide-user-round">
+                        <circle cx="12" cy="8" r="5"/>
+                        <path d="M20 21a8 8 0 0 0-16 0"/>
+                    </svg>
+                    <span>마이페이지</span>
+                </a>
+                <a href="#" class="quick-action" aria-label="장바구니">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2"
+                         stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shopping-cart-icon lucide-shopping-cart">
+                        <circle cx="8" cy="21" r="1"/>
+                        <circle cx="19" cy="21" r="1"/>
+                        <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
+                    </svg>
+                    <span>장바구니</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- GNB -->
+        <nav class="main-nav sub-container" aria-label="메인 메뉴">
+            <!-- 전체 카테고리 버튼 -->
+            <button class="main-nav_left" id="category-toggle" aria-label="전체 카테고리" aria-expanded="false">
+                        <span class="menu-icon" aria-hidden="true">
+                            <!-- 기본 햄버거 메뉴 아이콘 -->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                 viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                 stroke-width="2" stroke-linecap="round">
+                                <line x1="4" y1="6" x2="20" y2="6"/>
+                                <line x1="4" y1="12" x2="20" y2="12"/>
+                                <line x1="4" y1="18" x2="20" y2="18"/>
+                            </svg>
+                        </span>
+                <span>전체 카테고리</span>
+            </button>
+
+            <!-- 상품 카테고리 -->
+            <ul class="main-nav_right">
+                <li><a href="#hit">히트상품</a></li>
+                <li><a href="#recommend">추천상품</a></li>
+                <li><a href="#new">최신상품</a></li>
+                <li><a href="#popular">인기상품</a></li>
+                <li><a href="#discount">할인상품</a></li>
+            </ul>
+
+            <!-- 카테고리 드로어 -->
+            <div class="category-drawer" id="category-drawer">
+                <ul class="category-drawer_lv1" id="category-drawer-lv1"></ul>
+                <div class="category-drawer_lv2" id="category-drawer-lv2" aria-label="2차 카테고리"></div>
+            </div>
+        </nav>
+    </header>
     <main>
         <div class="container">
-            <div class="navigation">
-                <div class="nav-item">
-                    <span class="nav-icon">👤</span>
-                    <span>임시○임시○임시</span>
-                </div>
-                <div class="nav-item">
-                    <span class="nav-icon">💻</span>
-                    <span>임시○임시</span>
-                </div>
-                <div class="nav-item active">
-                    <span class="nav-icon">🔧</span>
-                    <span>임시○임시</span>
-                </div>
-                <div class="nav-item">
-                    <span class="nav-icon">🏠</span>
-                    <span>임시○임시○임시</span>
-                </div>
-            </div>
-
             <div class="content">
                 <div class="content-header">
                     <h1 class="top-title">Kmarket 서비스 이용약관</h1>
                     <div id="terms_box">
                         <div class="terms_link">
                             <a href="#">
-                                <img src="./images/bulk-buying.png" alt="test"><span>구매회원 약관</span>
+                                <img th:src="@{/images/policy/bulk-buying.png}" alt="test"><span>구매회원 약관</span>
                             </a>
                         </div>
                         <div class="terms_link">
                             <a href="#">
-                                <img src="./images/sale-tag.png" alt="판매회원 약관"><span>판매회원 약관</span>
+                                <img th:src="@{/images/policy/sale-tag.png}" alt="판매회원 약관"><span>판매회원 약관</span>
                             </a>
                         </div>
                         <div class="terms_link">
                             <a href="#">
-                                <img src="./images/internet-banking.png" alt="전자금융거래"><span>전자금융거래</span>
+                                <img th:src="@{/images/policy/internet-banking.png}" alt="전자금융거래"><span>전자금융거래</span>
                             </a>
                         </div>
                         <div class="terms_link">
                             <a href="#">
-                                <img src="./images/location-info.png" alt="위치정보 약관"><span>위치정보 약관</span>
+                                <img th:src="@{/images/policy/location-info.png}" alt="위치정보 약관"><span>위치정보 약관</span>
                             </a>
                         </div>
                         <div class="terms_link">
                             <a href="#">
-                                <img src="./images/online-privacy.png" alt="개인정보처리"><span>개인정보처리</span>
+                                <img th:src="@{/images/policy/online-privacy.png}" alt="개인정보처리"><span>개인정보처리</span>
                             </a>
                         </div>
                     </div>
@@ -210,7 +761,7 @@
                 <div class="content-body">
                     <div class="title">
                         <h2 class="section-title" style="display: inline-block;">구매회원 이용약관</h2>
-                        <button onclick="window.print()" class="print_btn"><img src="./images/electronic-device.png" alt="프린트"></button>
+                        <button onclick="window.print()" class="print_btn"><img th:src="@{/images/policy/electronic-device.png}" alt="프린트"></button>
                     </div>
 
                     <div class="section">
@@ -254,8 +805,50 @@
                 </div>
             </div>
         </div>
-        
+
     </main>
-    <footer style="height: 121.44px;"></footer> <!-- 임시 배치 -->
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-bar">
+            <div class="footer-links sub-container">
+                <ul>
+                    <li><a href="#">회사소개</a></li>
+                    <li><a href="#">서비스이용약관</a></li>
+                    <li><a href="#">개인정보처리방침</a></li>
+                    <li><a href="#">전자금융거래약관</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-info">
+
+            <div class="footer-col">
+                <img th:src="@{/images/main/cupang_logo(grey).png}" alt="큐팡 푸터 로고" class="footer-logo">
+            </div>
+
+            <div class="footer-col">
+                <p><strong>(주)큐팡 | 대표: 김철학</strong></p>
+                <p>부산광역시 해운대구 달맞이길 30 시그니엘 부산</p>
+                <p>사업자등록번호: 202-50-70702</p>
+                <p>통신판매업 신고번호: 제2025-부산광역시-0707호</p>
+                <p>본 작업물은 웹개발 프로젝트 포트폴리오용 입니다</p>
+            </div>
+
+            <div class="footer-col">
+                <p class="footer-ce"><strong>365고객센터</strong> | 전자금융거래분쟁처리담당</p>
+                <p class="footer-ph">1577-0912 (유료)</p>
+                <p>개인정보보호책임자: 정순권</p>
+                <p>Fax: 051-123-4567 | Email: cup25@cupang.com</p>
+            </div>
+        </div>
+
+        <div class="footer-sub">
+            <p class="sub-title">호스팅서비스 사업자: (주)큐팡</p>
+            <p class="sub-text">㈜큐팡은 CUPANG.COM 실시간 항공권, 실시간 렌터카 서비스의 통신판매중개자로서 거래 당사자가 아니며,
+                입점 판매사가 등록한 상품 정보 및 거래에 대해 책임을 지지 않습니다.<br>
+                ㈜큐팡 사이트의 상품/판매자/쇼핑정보, 컨텐츠, UI 등에 대한 무단 복제, 전송, 배포, 스크래핑 등의 행위는
+                저작권법, 콘텐츠사업 진흥법 등에 의하여 엄격히 금지됩니다.</p>
+        </div>
+    </footer>
 </body>
 </html>

@@ -4,303 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>회원목록</title>
-    
-    <style>
-        * { /* 기본 */
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        .container { /*전체 틀*/
-            display: flex;  
-            min-height: 100vh;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        /*네비게이션*/
-        .navigation {
-            width: 200px;
-            background-color: #e8e8e8;
-            border-right: 1px solid #ccc;
-            padding: 20px 0;
-            flex-shrink: 0;
-        }
-        .nav-item {
-            display: flex;
-            align-items: center;
-            padding: 12px 20px;
-            border-bottom: 1px solid #ccc;
-            cursor: pointer;
-            font-size: 14px;
-        }
-        .nav-item:hover {
-            background-color: #ddd;
-        }
-        .nav-item.active {
-            background-color: #d0d0d0;
-            font-weight: bold;
-        }
-        .nav-icon {
-            margin-right: 8px;
-            font-size: 16px;
-        }
-
-        /* 본문 영역 */
-        .content {
-            flex: 1;
-            padding: 20px;
-            overflow-y: auto;
-        }
-
-        .content-header {
-            align-items: flex-start;
-            border-bottom: 2px solid #808080;
-            display: flex;
-            justify-content: space-between;
-            padding-bottom: 10px;
-            width:960px;
-        }
-
-        .top-title {
-            font-size: 20px;
-            font-weight: bold;
-            margin-right: 20px;
-        }
-
-        #search-select {
-            appearance: none;
-            border: 2px solid #BFBFBF;
-            height: 35px;
-            outline: none;
-            padding-left: 10px;
-            width: 95px;
-        }
-        #search-input {
-            border: 2px solid #BFBFBF;
-            height: 35px;
-            outline: none;
-            padding-left: 10px;
-            width:148px;
-        }
-        .search-btn {
-            background-color: #BFBFBF;
-            border:none;
-            color:white;
-            height: 35px;
-            width: 62px;  
-        }
-        .search-btn:hover {
-            background-color: black;
-            cursor: pointer;
-        }
-
-        .table-container {
-            flex: 1;
-            margin-bottom: 20px;
-        }
-
-        table {       
-            border-collapse: collapse;
-            font-size: 14px;
-            width: 100%;
-        }
-        th {
-            font-weight: 600;
-            padding: 12px 8px;
-            border-top: 1px solid #A6A6A6;
-            border-bottom: 1px solid #A6A6A6;
-            text-align: center;
-        }
-        td {
-            padding:15px;
-            text-align: center;
-            border-bottom: 1px solid #e9ecef;
-        }
-        .grade {
-            border: 1px solid #BFBFBF; 
-            height: 28px;
-            outline: none;
-            width: 68px;
-        }
-        .status_btn {
-            background-color: white;
-            border:none;
-            cursor: pointer;
-        }
-
-        .bottom-section {
-            margin-top: auto;
-            padding-top: 20px;
-        }
-
-        /*페이지네이션 부분*/
-        .pagenation {
-            width: 100%;
-            height: 62px;
-            padding:0px;
-            margin: 30px auto 0 auto;
-            text-align: center;
-        }
-        .pagenation li {
-            border: 1px solid #DEDEDE;
-            display: inline-block;
-            list-style: none;
-            width: 32px;
-            height: 32px;
-        }
-        .pagenation .page1 {
-            background-color: #1A528E;
-            
-            color: white;
-            display: block;
-            width: 100%;
-            height: 100%;
-            text-align: center;
-            text-decoration: none;
-        }
-        .pagenation .page2, .pagenation .page3 {
-            color: #888888;
-            display: block;
-            width: 100%;
-            height: 100%;
-            text-align: center;
-            text-decoration: none;
-        }
-        .pagenation li a {
-            display: block;
-            width: 100%;
-            height: 100%;
-            text-align: center;
-        }
-        .pagenation li a span {
-            background-size: contain;
-            background-repeat: no-repeat;
-            display:inline-block;
-            width: 10px;
-            height: 10px;
-        }
-        .pagenation .first {
-            background-image: url('./images/btn-first-page.png');
-        }
-        .pagenation .prev {
-            background-image: url('./images/btn-prev-page.png');
-        }
-        .pagenation .next {
-            background-image: url('./images/btn-next-page.png');
-        }
-        .pagenation .last {
-            background-image: url('./images/btn-last-page.png');
-        }
-
-        .btn_box {
-            display:flex;
-            justify-content: space-between;
-        }
-        .shopList_Btn {
-            border:none;
-            color:white;
-            height: 38px;
-            width: 96px; 
-        }
-        .select_modify {background-color: #BFBFBF;} 
-        .select_modify:hover {
-            background-color: #706c6c;;
-            cursor: pointer;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 999;
-            left: 0; top: 0;
-            width: 100%; height: 100%;
-            background-color: rgba(0,0,0,0.5);
-        }
-        .modal-content {
-            background: white;
-            border-radius: 8px;
-            height: 730px;
-            margin: 5% auto; 
-            width: 680px;
-        }
-        .close {
-            float: right;
-            font-size: 24px;
-            cursor: pointer;
-        }
-
-        .modal-header {
-            background-color: #404040;
-            color: white;
-            padding: 10px 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-radius: 8px 8px 0 0;
-        }
-
-        .form-body {
-            border-top:1px solid black;
-            border-bottom: 1px solid black;
-            margin:10px 15px 18px 15px;
-        }
-        .form-row {
-            align-items: center;
-            display: flex;  
-        }
-        .form-label {
-            background-color: #F2F2F2;
-            display:flex;          
-            height: 40px;
-            padding: 10px;
-            width: 137px;      
-        }
-        .radio_box {
-            display: flex;
-            justify-content: space-between;
-            margin-left: 10px;
-            width: 70px;      
-        }
-        .addr_btn {
-            background-color: white;
-            border: none;
-            margin-left: 10px;
-        }
-        .form-input {
-            border:2px solid #BFBFBF;
-            height: 26px;
-            outline: none;
-            padding-left: 10px;
-            margin-left: 10px; 
-        }
-        .form-address {
-            border:2px solid #BFBFBF;
-            height: 26px;
-            outline: none;
-            padding-left: 10px;
-            margin: 3px 3px 3px 10px; 
-        }
-        .form_btn {
-            background-color: #00B050;
-            border:none;
-            color:white;
-            cursor: pointer;
-            height: 40px;
-            width: 133px;
-        }
-
-        .other_title {align-items: center;height: 102px;}
-        #other {
-            border:2px solid #BFBFBF;
-            height: 82px;
-            outline: none;
-            padding: 10px;
-            margin: 10px 0 10px 10px; 
-            width: 335px;
-            resize: none;
-        }
-    </style>
+    <link rel="stylesheet" th:href="@{/css/admin/main/header_footer.css}">
+    <link rel="stylesheet" th:href="@{/css/admin/member/memberList.css}">
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const allSelect = document.querySelector(".all_select"); // 전체 선택 체크박스
@@ -370,30 +75,116 @@
             });
         });
     </script>
-    
+    <script th:src="@{/js/admin/cs/recruit/sidebarAction.js}" defer></script>
+    <link rel="stylesheet" th:href="@{/css/admin/main/sidebar.css}">
 </head>
 <body>
-    <header style="height: 121.44px;"></header> <!-- 임시 배치 -->
-    <main>
-        <div class="container">
-            <div class="navigation">
-                <div class="nav-item">
-                    <span class="nav-icon">👤</span>
-                    <span>임시○임시○임시</span>
-                </div>
-                <div class="nav-item">
-                    <span class="nav-icon">💻</span>
-                    <span>임시○임시</span>
-                </div>
-                <div class="nav-item active">
-                    <span class="nav-icon">🔧</span>
-                    <span>임시○임시</span>
-                </div>
-                <div class="nav-item">
-                    <span class="nav-icon">🏠</span>
-                    <span>임시○임시○임시</span>
+    <header>
+        <div class="header-layout">
+            <div class="header-content">
+                <a th:href="@{/admin}">
+                    <img th:src="@{/images/admin/main/cupangMS_logo(color).png}" alt="로고">
+                </a>
+
+                <div class="header-link">
+                    <div class="header-item">
+                        <a th:href="@{/}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-house-icon lucide-house"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+                            <p>HOME</p>
+                        </a>
+                    </div>
+
+                    <div class="header-item">
+                        <a th:href="@{/cs/index}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-headset-icon lucide-headset"><path d="M3 11h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-5Zm0 0a9 9 0 1 1 18 0m0 0v5a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3Z"/><path d="M21 16v2a4 4 0 0 1-4 4h-5"/></svg>
+                            <p>고객센터</p>
+                        </a>
+                    </div>
+
+                    <button>로그아웃</button>
                 </div>
             </div>
+        </div>
+    </header>
+    <main>
+        <div class="container">
+            <aside class="sidebar">
+                <div class="side-item">
+                    <div class="main-menu">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-settings-icon lucide-settings"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"/><circle cx="12" cy="12" r="3"/></svg>
+                        <p>환경설정</p>
+                    </div>
+                    <ul class="sub-menu">
+                        <li><a th:href="@{/admin/config/basic}" class="sub-link">기본설정</a></li>
+                        <li><a th:href="@{/admin/config/banner}" class="sub-link">배너관리</a></li>
+                        <li><a th:href="@{/admin/config/policy}" class="sub-link">약관관리</a></li>
+                        <li><a th:href="@{/admin/config/category}" class="sub-link">카테고리</a></li>
+                        <li><a th:href="@{/admin/config/version}" class="sub-link">버전관리</a></li>
+                    </ul>
+                </div>
+                <div class="side-item">
+                    <div class="main-menu">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-store-icon lucide-store"><path d="M15 21v-5a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v5"/><path d="M17.774 10.31a1.12 1.12 0 0 0-1.549 0 2.5 2.5 0 0 1-3.451 0 1.12 1.12 0 0 0-1.548 0 2.5 2.5 0 0 1-3.452 0 1.12 1.12 0 0 0-1.549 0 2.5 2.5 0 0 1-3.77-3.248l2.889-4.184A2 2 0 0 1 7 2h10a2 2 0 0 1 1.653.873l2.895 4.192a2.5 2.5 0 0 1-3.774 3.244"/><path d="M4 10.95V19a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8.05"/></svg>
+                        <p>상점관리</p>
+                    </div>
+                    <ul class="sub-menu">
+                        <li><a th:href="@{/admin/shop/list}" class="sub-link">상점목록</a></li>
+                        <li><a th:href="@{/admin/shop/sales}" class="sub-link">매출현황</a></li>
+                    </ul>
+                </div>
+                <div class="side-item">
+                    <div class="main-menu">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-pen-icon lucide-user-pen"><path d="M11.5 15H7a4 4 0 0 0-4 4v2"/><path d="M21.378 16.626a1 1 0 0 0-3.004-3.004l-4.01 4.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z"/><circle cx="10" cy="7" r="4"/></svg>
+                        <p>회원관리</p>
+                    </div>
+                    <ul class="sub-menu">
+                        <li><a th:href="@{/admin/member/list}" class="sub-link">회원목록</a></li>
+                        <li><a th:href="@{/admin/member/point}" class="sub-link">포인트관리</a></li>
+                    </ul>
+                </div>
+                <div class="side-item">
+                    <div class="main-menu">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-package-open-icon lucide-package-open"><path d="M12 22v-9"/><path d="M15.17 2.21a1.67 1.67 0 0 1 1.63 0L21 4.57a1.93 1.93 0 0 1 0 3.36L8.82 14.79a1.655 1.655 0 0 1-1.64 0L3 12.43a1.93 1.93 0 0 1 0-3.36z"/><path d="M20 13v3.87a2.06 2.06 0 0 1-1.11 1.83l-6 3.08a1.93 1.93 0 0 1-1.78 0l-6-3.08A2.06 2.06 0 0 1 4 16.87V13"/><path d="M21 12.43a1.93 1.93 0 0 0 0-3.36L8.83 2.2a1.64 1.64 0 0 0-1.63 0L3 4.57a1.93 1.93 0 0 0 0 3.36l12.18 6.86a1.636 1.636 0 0 0 1.63 0z"/></svg>
+                        <p>상품관리</p>
+                    </div>
+                    <ul class="sub-menu">
+                        <li><a th:href="@{/admin/product/list}" class="sub-link">상품목록</a></li>
+                        <li><a th:href="@{/admin/product/register}" class="sub-link">상품등록</a></li>
+                    </ul>
+                </div>
+                <div class="side-item">
+                    <div class="main-menu">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-receipt-text-icon lucide-receipt-text"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z"/><path d="M14 8H8"/><path d="M16 12H8"/><path d="M13 16H8"/></svg>
+                        <p>주문관리</p>
+                    </div>
+                    <ul class="sub-menu">
+                        <li><a th:href="@{/admin/order/list}" class="sub-link">주문현황</a></li>
+                        <li><a th:href="@{/admin/order/delivery}" class="sub-link">배송현황</a></li>
+                    </ul>
+                </div>
+                <div class="side-item">
+                    <div class="main-menu">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-ticket-percent-icon lucide-ticket-percent"><path d="M2 9a3 3 0 1 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 1 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M9 9h.01"/><path d="m15 9-6 6"/><path d="M15 15h.01"/></svg>
+                        <p>쿠폰관리</p>
+                    </div>
+                    <ul class="sub-menu">
+                        <li><a th:href="@{/admin/coupon/list}" class="sub-link">쿠폰목록</a></li>
+                        <li><a th:href="@{/admin/coupon/issued}" class="sub-link">쿠폰발급현황</a></li>
+                    </ul>
+                </div>
+                <div class="side-item">
+                    <div class="main-menu">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-laptop-minimal-check-icon lucide-laptop-minimal-check"><path d="M2 20h20"/><path d="m9 10 2 2 4-4"/><rect x="3" y="4" width="18" height="12" rx="2"/></svg>
+                        <p>고객센터</p>
+                    </div>
+                    <ul class="sub-menu">
+                        <li><a th:href="@{/admin/cs/notice/list}" class="sub-link">공지사항</a></li>
+                        <li><a th:href="@{/admin/cs/faq/list}" class="sub-link">자주묻는질문</a></li>
+                        <li><a th:href="@{/admin/cs/qna/list}" class="sub-link">문의하기</a></li>
+                        <li><a th:href="@{/admin/cs/recruit/list}" class="sub-link">채용하기</a></li>
+                    </ul>
+                </div>
+            </aside>
 
             <div class="content">
                 <div class="content-header">
@@ -568,9 +359,9 @@
                     <ul class="pagenation">
                         <li><a href="#"><span class="first"></span></a></li>
                         <li><a href="#"><span class="prev"></span></a></li>
-                        <li><a href="#" class="page1">1</a></li>
-                        <li><a href="#" class="page2">2</a></li>
-                        <li><a href="#" class="page3">3</a></li>
+                        <li><a href="#" class="active2">1</a></li>
+                        <li><a href="#" class="pageNum">2</a></li>
+                        <li><a href="#" class="pageNum">3</a></li>
                         <li><a href="#"><span class="next"></span></a></li>
                         <li><a href="#"><span class="last"></span></a></li>
                     </ul>
@@ -659,6 +450,38 @@
             </div>
         </div>
     </main>
-    <footer style="height: 121.44px;"></footer> <!-- 임시 배치 -->
+    <footer>
+        <div class="footer-layout">
+            <div class="footer-content">
+                <img th:src="@{/images/admin/main/cupangMS_logo(color).png}" alt="로고">
+                <div class="about-company">
+                    <h2>(주)큐팡</h2>
+                    <h2>대표이사 이름(db)</h2>
+                    <h2>|</h2>
+                    <h2>사업자등록번호</h2>
+                    <h2>123-132-1231232(db)</h2>
+                    <h2>|</h2>
+                    <h2>통신판매업신고</h2>
+                    <h2>2023-부산 해운대구-1232(db)</h2>
+                    <h2>|</h2>
+                    <h2>부산광역시 부산진구 중앙동(db)</h2>
+                    <h2>(삼성동, green빌딩) 7층(db)</h2>
+                </div>
+                <div class="about-company">
+                    <h2>고객센터</h2>
+                    <h2>|</h2>
+                    <h2>02-1234-1231</h2>
+                    <h2>평일 09:00 ~ 18:00(db)</h2>
+
+                    <h2>이메일</h2>
+                    <h2>abc@cupang(db)</h2>
+
+                    <h2>전자금융거래 분쟁담당</h2>
+                    <h2>12321-12321(db)</h2>
+                </div>
+                <h2>Copyright@cupang.All.rights.reserved (db)</h2>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>
