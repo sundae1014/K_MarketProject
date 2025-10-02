@@ -1,0 +1,156 @@
+* { /* 기본 */
+    margin: 0;
+    box-sizing: border-box;
+}
+.container { /*전체 틀*/
+    display: flex;
+    min-height: 100vh;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* 본문 영역 */
+.content {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.content-header {
+    align-items: flex-start;
+    border-bottom: 2px solid #808080;
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 10px;
+    width:960px;
+}
+
+.top-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-right: 20px;
+}
+
+#search-select {
+    appearance: none;
+    border: 2px solid #BFBFBF;
+    height: 35px;
+    outline: none;
+    padding-left: 10px;
+    width: 95px;
+}
+#search-input {
+    border: 2px solid #BFBFBF;
+    height: 35px;
+    outline: none;
+    padding-left: 10px;
+    width:148px;
+}
+.search-btn {
+    background-color: #BFBFBF;
+    border:none;
+    color:white;
+    height: 35px;
+    width: 62px;
+}
+.search-btn:hover {
+    background-color: #706c6c;
+    cursor: pointer;
+}
+
+.table-container {
+    flex: 1;
+    margin-bottom: 20px;
+}
+
+table {
+    border-collapse: collapse;
+    font-size: 14px;
+    width: 100%;
+}
+th {
+    font-weight: 600;
+    padding: 12px 8px;
+    border-top: 1px solid #A6A6A6;
+    border-bottom: 1px solid #A6A6A6;
+    text-align: center;
+}
+td {
+    padding:15px;
+    text-align: center;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.bottom-section {
+    margin-top: auto;
+    padding-top: 20px;
+}
+
+/*페이지네이션 부분*/
+.pagenation {
+    width: 100%;
+    height: 62px;
+    padding:0px;
+    margin: 30px auto 0 auto;
+    text-align: center;
+}
+.pagenation li {
+    display: inline-block;
+    list-style: none;
+    width: 32px;
+    height: 32px;
+}
+.active2 {
+    color:#436CFF;
+    display: block;
+    font-weight: bold;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    text-decoration: none;
+}
+.pagenation .pageNum {
+    color: #888888;
+    display: block;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    text-decoration: none;
+}
+.pagenation li a {
+    display: block;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+.pagenation li a span {
+    background-size: contain;
+    background-repeat: no-repeat;
+    display:inline-block;
+    width: 10px;
+    height: 10px;
+}
+.pagenation .first {
+    background-image: url('/Kmarket/images/admin/member/btn-first-page.png');
+}
+.pagenation .prev {
+    background-image: url('/Kmarket/images/admin/member/btn-prev-page.png');
+}
+.pagenation .next {
+    background-image: url('/Kmarket/images/admin/member/btn-next-page.png');
+}
+.pagenation .last {
+    background-image: url('/Kmarket/images/admin/member/btn-last-page.png');
+}
+
+.point_Btn {
+    border:none;
+    color:white;
+    height: 38px;
+    width: 96px;
+}
+.select_delete {background-color: #BFBFBF;}
+.select_delete:hover {
+    background-color: #706c6c;;
+    cursor: pointer;
+}

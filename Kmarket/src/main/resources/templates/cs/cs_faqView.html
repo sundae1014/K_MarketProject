@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자주묻는질문 글보기</title>
+    <link rel="stylesheet" th:href="@{/css/cs/cs_faqView.css}">
+    <script> 
+        document.addEventListener('DOMContentLoaded', () => { // 네비게이션 포커싱
+            const nav = document.querySelectorAll(".navList_a");
+            const nt_h3 = document.querySelector("#faq_title_h3");
+            if("회원" === nt_h3.innerText) {
+                nav[0].style.color = "black";
+                nav[0].style.textDecoration = "underline";
+            }
+        });
+    </script>
+    <!-- 로그인/로그아웃/관리자 메뉴 기능 -->
+    <script th:src="@{/js/main/user-menu.js}" defer></script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" role="banner">
+
+        <!-- 최상단 광고 배너 -->
+        <div class="top-banners">
+            <a href="#" class="top-banner" aria-label="오늘 12시까지 주문 시 배송 내일 도착">
+                <img th:src="@{/images/main/상단배너img_1.png}" alt="상단 광고 배너 1">
+            </a>
+            <a href="#" class="top-banner" aria-label="얼리버드 할인 이벤트">
+                <img th:src="@{/images/main/상단배너img_2.png}" alt="상단 광고 배너 2">
+            </a>
+        </div>
+
+        <!-- 로그인 + 회원가입 + 고객센터 -->
+        <div class="utility-nav">
+            <div class="inner">
+                <ul class="utility-list" id="utility-menu">
+                    <!-- 기본 상태 : 로그인 전 -->
+                    <li><a href="#">로그인</a></li>
+                    <li><a href="#">회원가입</a></li>
+                    <li><a href="#">고객센터</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 검색창 전체 + 인풋박스 + 검색 버튼 -->
+        <div class="brand-row sub-container">
+            <a th:href="@{/}" class="logo" aria-label="큐팡 홈">
+                <img th:src="@{/images/main/cupang_logo(color).png}" alt="큐팡 로고" class="logo-img">
+            </a>
+
+            <!-- 바로가기 버튼 묶음 -->
+            <!-- 웹아이콘 : https://lucide.dev/ 이용 -->
+            <div class="quick-actions" aria-label="바로가기">
+                <a href="#" class="quick-action" aria-label="찜">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2"
+                         stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart-plus-icon lucide-heart-plus">
+                        <path d="m14.479 19.374-.971.939a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5a5.2 5.2 0 0 1-.219 1.49"/>
+                        <path d="M15 15h6"/>
+                        <path d="M18 12v6"/>
+                    </svg>
+                    <span>찜</span>
+                </a>
+                <a href="#" class="quick-action" aria-label="마이페이지">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2"
+                         stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-round-icon lucide-user-round">
+                        <circle cx="12" cy="8" r="5"/>
+                        <path d="M20 21a8 8 0 0 0-16 0"/>
+                    </svg>
+                    <span>마이페이지</span>
+                </a>
+                <a href="#" class="quick-action" aria-label="장바구니">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2"
+                         stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shopping-cart-icon lucide-shopping-cart">
+                        <circle cx="8" cy="21" r="1"/>
+                        <circle cx="19" cy="21" r="1"/>
+                        <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
+                    </svg>
+                    <span>장바구니</span>
+                </a>
+            </div>
+        </div>
+    </header>
+    <main>
+        <div class="container">
+            <div id="home_faq">
+                <h4>홈 &nbsp;>&nbsp; 자주묻는 질문</h4>
+            </div>
+
+            <div id="faq_hr"></div>
+
+            <div id="faq_box">
+                <div id="nav">
+                    <h3 style="display:inline;">자주묻는 질문</h3>
+
+                    <ul id="navList">
+                        <li>
+                            <a href="#" class="navList_a">회원</a>
+                            <ul class="subMenu">
+                                <li><a href="#">가입</a></li>
+                                <li><a href="#">탈퇴</a></li>
+                                <li><a href="#">회원정보</a></li>
+                                <li><a href="#">로그인</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#" class="navList_a">쿠폰 / 이벤트</a>
+                            <ul class="subMenu">
+                                <li><a href="#">쿠폰 / 할인혜택</a></li>
+                                <li><a href="#">포인트</a></li>
+                                <li><a href="#">제휴</a></li>
+                                <li><a href="#">이벤트</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#" class="navList_a">주문 / 결제</a>
+                            <ul class="subMenu">
+                                <li><a href="#">상품</a></li>
+                                <li><a href="#">결제</a></li>
+                                <li><a href="#">구매내역</a></li>
+                                <li><a href="#">영수증 / 증빙</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#" class="navList_a">배송</a>
+                            <ul class="subMenu">
+                                <li><a href="#">배송상태 / 기간</a></li>
+                                <li><a href="#">배송정보확인/변경</a></li>
+                                <li><a href="#">해외배송</a></li>
+                                <li><a href="#">당일배송</a></li>
+                                <li><a href="#">해외직구</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#" class="navList_a">취소 / 반품 / 교환</a>
+                            <ul class="subMenu">
+                                <li><a href="#">반품신청 / 철회</a></li>
+                                <li><a href="#">반품정보확인 / 변경</a></li>
+                                <li><a href="#">교환 AS신청 / 철회</a></li>
+                                <li><a href="#">교환정보확인 / 변경</a></li>
+                                <li><a href="#">취소신청 / 철회</a></li>
+                                <li><a href="#">취소확인 / 환불정보</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#" class="navList_a">여행 / 숙박 / 항공</a>
+                            <ul class="subMenu">
+                                <li><a href="#">여행 / 숙박</a></li>
+                                <li><a href="#">항공</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#" class="navList_a">안전거래</a>
+                            <ul class="subMenu">
+                                <li><a href="#">서비스 이용규칙 위반</a></li>
+                                <li><a href="#">지식재산권침해</a></li>
+                                <li><a href="#">법령 및 정책위반 상품</a></li>
+                                <li><a href="#">게시물 정책위반</a></li>
+                                <li><a href="#">직거래 / 외부거래유도</a></li>
+                                <li><a href="#">표시광고</a></li>
+                                <li><a href="#">청소년 위해상품/이미지</a></li>
+                            </ul>  
+                        </li>
+                    </ul>
+                </div>
+                <div id="faq_all" style="width:900px;height:800px;">
+                    <div id="top_title">
+                        <h3 id="faq_title_h3">회원</h3>
+                        <span>회원 관련 자주 묻는 질문입니다.</span>
+                    </div>
+                    <div style="border:1px solid black; float:right;width:814px;"></div>
+                    <div id="faq_content">
+                        <div id="faq_title">
+                            <h3><span class="text_q">Q.</span><span>개인회원과 법인회원에 차이가 있나요?</span></h3>
+                        </div>
+                        <div id="faq_text">
+                            <p style="margin-top: 30px;">
+                                개인회원에서 법인회원(사업자 회원)으로 전환은 불가하므로 법인회원 (사업자 회원) 전환은 신규 가입으로 진행을 <br>
+                                해야 합니다.                     
+                            </p>
+                            <p style="margin: 30px 0px;">
+                                ※ 피싱 관련 피해 신고
+                            </p>
+
+                            <p style="margin-bottom: 30px;">
+                                ▶ 경찰청사이버수사국 (국번없이) 182 : http://cyberbureau.police.go.kr <br>
+                                ▶ KISA 인터넷침해대응센터 (국번없이)118 : http://www.krcert.or.kr <br>
+                                감사합니다.
+                            </p>
+                        </div>
+                    </div>
+
+                    <a th:href="@{/cs/faq/list}" id="list_btn">목록</a>
+                </div>
+            </div>
+        </div>
+    </main>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-bar">
+            <div class="footer-links sub-container">
+                <ul>
+                    <li><a href="#">회사소개</a></li>
+                    <li><a href="#">서비스이용약관</a></li>
+                    <li><a href="#">개인정보처리방침</a></li>
+                    <li><a href="#">전자금융거래약관</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-info">
+
+            <div class="footer-col">
+                <img th:src="@{/images/main/cupang_logo(grey).png}" alt="큐팡 푸터 로고" class="footer-logo">
+            </div>
+
+            <div class="footer-col">
+                <p><strong>(주)큐팡 | 대표: 김철학</strong></p>
+                <p>부산광역시 해운대구 달맞이길 30 시그니엘 부산</p>
+                <p>사업자등록번호: 202-50-70702</p>
+                <p>통신판매업 신고번호: 제2025-부산광역시-0707호</p>
+                <p>본 작업물은 웹개발 프로젝트 포트폴리오용 입니다</p>
+            </div>
+
+            <div class="footer-col">
+                <p class="footer-ce"><strong>365고객센터</strong> | 전자금융거래분쟁처리담당</p>
+                <p class="footer-ph">1577-0912 (유료)</p>
+                <p>개인정보보호책임자: 정순권</p>
+                <p>Fax: 051-123-4567 | Email: cup25@cupang.com</p>
+            </div>
+        </div>
+
+        <div class="footer-sub">
+            <p class="sub-title">호스팅서비스 사업자: (주)큐팡</p>
+            <p class="sub-text">㈜큐팡은 CUPANG.COM 실시간 항공권, 실시간 렌터카 서비스의 통신판매중개자로서 거래 당사자가 아니며,
+                입점 판매사가 등록한 상품 정보 및 거래에 대해 책임을 지지 않습니다.<br>
+                ㈜큐팡 사이트의 상품/판매자/쇼핑정보, 컨텐츠, UI 등에 대한 무단 복제, 전송, 배포, 스크래핑 등의 행위는
+                저작권법, 콘텐츠사업 진흥법 등에 의하여 엄격히 금지됩니다.</p>
+        </div>
+    </footer>
+</body>
+</html>
