@@ -8,7 +8,7 @@ mybatis:
 server:
   port: 8080
   servlet:
-    context-path: /Kmarket
+    context-path: /kmarket
 spring:
   application:
     name: Kmarket

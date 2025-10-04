@@ -3,22 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <title>Cupang::주문완료</title>
-    <link rel="stylesheet" th:href="@{/css/style_index.css}">
-    <link rel="stylesheet" th:href="@{/css/style_prodComplete.css}">
-    <link rel="stylesheet" th:href="@{/css/style_prodList.css}">
-    <link rel="stylesheet" th:href="@{/css/style_header.css}">
-    <link rel="stylesheet" th:href="@{/css/style_footer.css}">
+    <link rel="stylesheet" th:href="@{/css/product/style_index.css}">
+    <link rel="stylesheet" th:href="@{/css/product/style_prodComplete.css}">
+    <link rel="stylesheet" th:href="@{/css/product/style_prodList.css}">
+    <link rel="stylesheet" th:href="@{/css/product/style_header.css}">
+    <link rel="stylesheet" th:href="@{/css/product/style_footer.css}">
 
     <!-- 유저별 권한 기능 -->
-    <script th:src="@{/js/user-menu.js}" defer></script>
+    <script th:src="@{/js/product/user-menu.js}" defer></script>
     <!-- 검색 기능 -->
-    <script th:src="@{/js/search.js}" defer></script>
+    <script th:src="@{/js/product/search.js}" defer></script>
     <!-- 전체 카테고리 구현 기능 -->
-    <script th:src="@{/js/category.js}" defer></script>
+    <script th:src="@{/js/product/category.js}" defer></script>
     <!-- 베스트상품 온앤오프 & 스크롤 기능 -->
-    <script th:src="@{/js/best.js}" defer></script>
+    <script th:src="@{/js/product/best.js}" defer></script>
     <!-- TOP 버튼(맨 위로) 기능 -->
-    <script th:src="@{/js/top-btn.js}" defer></script>
+    <script th:src="@{/js/product/top-btn.js}" defer></script>
 </head>
 <body>
     <main class="page">
@@ -53,8 +53,8 @@
                     <nav class="cart-steps">
                         <ol>
                             <li><a href="#">01 옵션선택</a></li>
-                            <li><a th:href="@{/prodCart}">02 장바구니</a></li>
-                            <li><a th:href="@{/prodOrder}">03 주문/결제</a></li>
+                            <li><a th:href="@{/product/cart}">02 장바구니</a></li>
+                            <li><a th:href="@{/product/order}">03 주문/결제</a></li>
                             <li class="active">04 주문완료</li>
                         </ol>
                     </nav>

@@ -4,27 +4,27 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Cupang::홈</title>
-    <link rel="stylesheet" th:href="@{/css/style_index.css}">
-    <link rel="stylesheet" th:href="@{/css/style_header.css}">
-    <link rel="stylesheet" th:href="@{/css/style_footer.css}">
+    <link rel="stylesheet" th:href="@{/css/main/style_index.css}">
+    <link rel="stylesheet" th:href="@{/css/main/style_header.css}">
+    <link rel="stylesheet" th:href="@{/css/main/style_footer.css}">
 
     <!-- 유저별 권한 기능 -->
-    <script th:src="@{/js/user-menu.js}" defer></script>
+    <script th:src="@{/js/main/user-menu.js}" defer></script>
     <!-- 검색 기능 -->
-    <script th:src="@{/js/search.js}" defer></script>
+    <script th:src="@{/js/main/search.js}" defer></script>
     <!-- 전체 카테고리 구현 기능 -->
-    <script th:src="@{/js/category.js}" defer></script>
+    <script th:src="@{/js/main/category.js}" defer></script>
     <!-- 헤더 바로가기 기능 -->
-    <script th:src="@{/js/header-actions.js}" defer></script>
+    <script th:src="@{/js/main/header-actions.js}" defer></script>
     <!-- bxSlider 슬라이드 배너 기능 -->
     <link rel="stylesheet" th:href="@{https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.css}">
     <script th:src="@{https://code.jquery.com/jquery-3.6.0.min.js}"></script>
     <script th:src="@{https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js}"></script>
-    <script th:src="@{/js/slider.js}" defer></script>
+    <script th:src="@{/js/main/slider.js}" defer></script>
     <!-- 베스트상품 온앤오프 & 스크롤 기능 -->
-    <script th:src="@{/js/best.js}" defer></script>
+    <script th:src="@{/js/main/best.js}" defer></script>
     <!-- TOP 버튼(맨 위로) 기능 -->
-    <script th:src="@{/js/top-btn.js}" defer></script>
+    <script th:src="@{/js/main/top-btn.js}" defer></script>
 </head>
 <body>
     <main class="page">
@@ -35,11 +35,11 @@
         <!-- 슬라이드 배너 -->
         <section class="main-banner">
             <ul class="bxslider">
-                <li><a href="event1.html"><img th:src="@{/images/메인배너img_1.png}" alt="이벤트 1"></a></li>
-                <li><a href="event2.html"><img th:src="@{/images/메인배너img_2.png}" alt="이벤트 2"></a></li>
-                <li><a href="event3.html"><img th:src="@{/images/메인배너img_3.png}" alt="이벤트 3"></a></li>
-                <li><a href="event4.html"><img th:src="@{/images/메인배너img_5.png}" alt="이벤트 4"></a></li>
-                <li><a href="event5.html"><img th:src="@{/images/메인배너img_6.png}" alt="이벤트 5"></a></li>
+                <li><a href="event1.html"><img th:src="@{/images/main/메인배너img_1.png}" alt="이벤트 1"></a></li>
+                <li><a href="event2.html"><img th:src="@{/images/main/메인배너img_2.png}" alt="이벤트 2"></a></li>
+                <li><a href="event3.html"><img th:src="@{/images/main/메인배너img_3.png}" alt="이벤트 3"></a></li>
+                <li><a href="event4.html"><img th:src="@{/images/main/메인배너img_5.png}" alt="이벤트 4"></a></li>
+                <li><a href="event5.html"><img th:src="@{/images/main/메인배너img_6.png}" alt="이벤트 5"></a></li>
             </ul>
         </section>
 
@@ -65,8 +65,8 @@
                     <div class="hit-grid">
 
                         <!-- 상품 카드 8개 -->
-                        <a th:href="@{/prodView}" class="hit-card">
-                            <div class="hit-thumb"><img th:src="@{/images/Hit-product_1.png}" alt="히트상품1"></div>
+                        <a th:href="@{/product/view}" class="hit-card">
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_1.png}" alt="히트상품1"></div>
                             <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
                             <div class="hit-prices">
                                 <span class="hit-discount">49%</span>
@@ -76,7 +76,7 @@
                             <p class="hit-delivery">무료배송</p>
                         </a>
                         <a href="#" class="hit-card">
-                            <div class="hit-thumb"><img th:src="@{/images/Hit-product_2.png}" alt="히트상품2"></div>
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_2.png}" alt="히트상품2"></div>
                             <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
                             <div class="hit-prices">
                                 <span class="hit-discount">49%</span>
@@ -86,7 +86,7 @@
                             <p class="hit-delivery">무료배송</p>
                         </a>
                         <a href="#" class="hit-card">
-                            <div class="hit-thumb"><img th:src="@{/images/Hit-product_3.png}" alt="히트상품3"></div>
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_3.png}" alt="히트상품3"></div>
                             <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
                             <div class="hit-prices">
                                 <span class="hit-discount">49%</span>
@@ -96,7 +96,7 @@
                             <p class="hit-delivery">무료배송</p>
                         </a>
                         <a href="#" class="hit-card">
-                            <div class="hit-thumb"><img th:src="@{/images/Hit-product_4.png}" alt="히트상품4"></div>
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_4.png}" alt="히트상품4"></div>
                             <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
                             <div class="hit-prices">
                                 <span class="hit-discount">49%</span>
@@ -110,7 +110,7 @@
                         <div class="hit-divider"></div>
 
                         <a href="#" class="hit-card">
-                            <div class="hit-thumb"><img th:src="@{/images/Hit-product_5.png}" alt="히트상품5"></div>
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_5.png}" alt="히트상품5"></div>
                             <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
                             <div class="hit-prices">
                                 <span class="hit-discount">49%</span>
@@ -120,7 +120,7 @@
                             <p class="hit-delivery">무료배송</p>
                         </a>
                         <a href="#" class="hit-card">
-                            <div class="hit-thumb"><img th:src="@{/images/Hit-product_6.png}" alt="히트상품6"></div>
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_6.png}" alt="히트상품6"></div>
                             <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
                             <div class="hit-prices">
                                 <span class="hit-discount">49%</span>
@@ -130,7 +130,7 @@
                             <p class="hit-delivery">무료배송</p>
                         </a>
                         <a href="#" class="hit-card">
-                            <div class="hit-thumb"><img th:src="@{/images/Hit-product_7.png}" alt="히트상품7"></div>
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_7.png}" alt="히트상품7"></div>
                             <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
                             <div class="hit-prices">
                                 <span class="hit-discount">49%</span>
@@ -140,7 +140,7 @@
                             <p class="hit-delivery">무료배송</p>
                         </a>
                         <a href="#" class="hit-card">
-                            <div class="hit-thumb"><img th:src="@{/images/Hit-product_8.png}" alt="히트상품8"></div>
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_8.png}" alt="히트상품8"></div>
                             <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
                             <div class="hit-prices">
                                 <span class="hit-discount">49%</span>
@@ -159,7 +159,7 @@
 
                         <!-- 상품 카드 8개 -->
                         <a href="#" class="hit-card">
-                            <div class="hit-thumb"><img th:src="@{/images/Hit-product_1.png}" alt="히트상품1"></div>
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_1.png}" alt="히트상품1"></div>
                             <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
                             <div class="hit-prices">
                                 <span class="hit-discount">49%</span>
@@ -169,7 +169,7 @@
                             <p class="hit-delivery">무료배송</p>
                         </a>
                         <a href="#" class="hit-card">
-                            <div class="hit-thumb"><img th:src="@{/images/Hit-product_2.png}" alt="히트상품2"></div>
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_2.png}" alt="히트상품2"></div>
                             <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
                             <div class="hit-prices">
                                 <span class="hit-discount">49%</span>
@@ -179,7 +179,7 @@
                             <p class="hit-delivery">무료배송</p>
                         </a>
                         <a href="#" class="hit-card">
-                            <div class="hit-thumb"><img th:src="@{/images/Hit-product_3.png}" alt="히트상품3"></div>
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_3.png}" alt="히트상품3"></div>
                             <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
                             <div class="hit-prices">
                                 <span class="hit-discount">49%</span>
@@ -189,7 +189,7 @@
                             <p class="hit-delivery">무료배송</p>
                         </a>
                         <a href="#" class="hit-card">
-                            <div class="hit-thumb"><img th:src="@{/images/Hit-product_4.png}" alt="히트상품4"></div>
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_4.png}" alt="히트상품4"></div>
                             <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
                             <div class="hit-prices">
                                 <span class="hit-discount">49%</span>
@@ -203,7 +203,7 @@
                         <div class="hit-divider"></div>
 
                         <a href="#" class="hit-card">
-                            <div class="hit-thumb"><img th:src="@{/images/Hit-product_5.png}" alt="히트상품5"></div>
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_5.png}" alt="히트상품5"></div>
                             <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
                             <div class="hit-prices">
                                 <span class="hit-discount">49%</span>
@@ -213,7 +213,7 @@
                             <p class="hit-delivery">무료배송</p>
                         </a>
                         <a href="#" class="hit-card">
-                            <div class="hit-thumb"><img th:src="@{/images/Hit-product_6.png}" alt="히트상품6"></div>
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_6.png}" alt="히트상품6"></div>
                             <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
                             <div class="hit-prices">
                                 <span class="hit-discount">49%</span>
@@ -223,7 +223,7 @@
                             <p class="hit-delivery">무료배송</p>
                         </a>
                         <a href="#" class="hit-card">
-                            <div class="hit-thumb"><img th:src="@{/images/Hit-product_7.png}" alt="히트상품7"></div>
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_7.png}" alt="히트상품7"></div>
                             <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
                             <div class="hit-prices">
                                 <span class="hit-discount">49%</span>
@@ -233,7 +233,7 @@
                             <p class="hit-delivery">무료배송</p>
                         </a>
                         <a href="#" class="hit-card">
-                            <div class="hit-thumb"><img th:src="@{/images/Hit-product_8.png}" alt="히트상품8"></div>
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_8.png}" alt="히트상품8"></div>
                             <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
                             <div class="hit-prices">
                                 <span class="hit-discount">49%</span>
@@ -252,7 +252,7 @@
 
                         <!-- 상품 카드 8개 -->
                         <a href="#" class="hit-card">
-                            <div class="hit-thumb"><img th:src="@{/images/Hit-product_1.png}" alt="히트상품1"></div>
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_1.png}" alt="히트상품1"></div>
                             <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
                             <div class="hit-prices">
                                 <span class="hit-discount">49%</span>
@@ -262,7 +262,7 @@
                             <p class="hit-delivery">무료배송</p>
                         </a>
                         <a href="#" class="hit-card">
-                            <div class="hit-thumb"><img th:src="@{/images/Hit-product_2.png}" alt="히트상품2"></div>
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_2.png}" alt="히트상품2"></div>
                             <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
                             <div class="hit-prices">
                                 <span class="hit-discount">49%</span>
@@ -272,7 +272,7 @@
                             <p class="hit-delivery">무료배송</p>
                         </a>
                         <a href="#" class="hit-card">
-                            <div class="hit-thumb"><img th:src="@{/images/Hit-product_3.png}" alt="히트상품3"></div>
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_3.png}" alt="히트상품3"></div>
                             <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
                             <div class="hit-prices">
                                 <span class="hit-discount">49%</span>
@@ -282,7 +282,7 @@
                             <p class="hit-delivery">무료배송</p>
                         </a>
                         <a href="#" class="hit-card">
-                            <div class="hit-thumb"><img th:src="@{/images/Hit-product_4.png}" alt="히트상품4"></div>
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_4.png}" alt="히트상품4"></div>
                             <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
                             <div class="hit-prices">
                                 <span class="hit-discount">49%</span>
@@ -296,7 +296,7 @@
                         <div class="hit-divider"></div>
 
                         <a href="#" class="hit-card">
-                            <div class="hit-thumb"><img th:src="@{/images/Hit-product_5.png}" alt="히트상품5"></div>
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_5.png}" alt="히트상품5"></div>
                             <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
                             <div class="hit-prices">
                                 <span class="hit-discount">49%</span>
@@ -306,7 +306,7 @@
                             <p class="hit-delivery">무료배송</p>
                         </a>
                         <a href="#" class="hit-card">
-                            <div class="hit-thumb"><img th:src="@{/images/Hit-product_6.png}" alt="히트상품6"></div>
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_6.png}" alt="히트상품6"></div>
                             <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
                             <div class="hit-prices">
                                 <span class="hit-discount">49%</span>
@@ -316,7 +316,7 @@
                             <p class="hit-delivery">무료배송</p>
                         </a>
                         <a href="#" class="hit-card">
-                            <div class="hit-thumb"><img th:src="@{/images/Hit-product_7.png}" alt="히트상품7"></div>
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_7.png}" alt="히트상품7"></div>
                             <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
                             <div class="hit-prices">
                                 <span class="hit-discount">49%</span>
@@ -326,7 +326,7 @@
                             <p class="hit-delivery">무료배송</p>
                         </a>
                         <a href="#" class="hit-card">
-                            <div class="hit-thumb"><img th:src="@{/images/Hit-product_8.png}" alt="히트상품8"></div>
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_8.png}" alt="히트상품8"></div>
                             <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
                             <div class="hit-prices">
                                 <span class="hit-discount">49%</span>
@@ -345,7 +345,7 @@
 
                         <!-- 상품 카드 8개 -->
                         <a href="#" class="hit-card">
-                            <div class="hit-thumb"><img th:src="@{/images/Hit-product_1.png}" alt="히트상품1"></div>
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_1.png}" alt="히트상품1"></div>
                             <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
                             <div class="hit-prices">
                                 <span class="hit-discount">49%</span>
@@ -355,7 +355,7 @@
                             <p class="hit-delivery">무료배송</p>
                         </a>
                         <a href="#" class="hit-card">
-                            <div class="hit-thumb"><img th:src="@{/images/Hit-product_2.png}" alt="히트상품2"></div>
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_2.png}" alt="히트상품2"></div>
                             <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
                             <div class="hit-prices">
                                 <span class="hit-discount">49%</span>
@@ -365,7 +365,7 @@
                             <p class="hit-delivery">무료배송</p>
                         </a>
                         <a href="#" class="hit-card">
-                            <div class="hit-thumb"><img th:src="@{/images/Hit-product_3.png}" alt="히트상품3"></div>
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_3.png}" alt="히트상품3"></div>
                             <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
                             <div class="hit-prices">
                                 <span class="hit-discount">49%</span>
@@ -375,7 +375,7 @@
                             <p class="hit-delivery">무료배송</p>
                         </a>
                         <a href="#" class="hit-card">
-                            <div class="hit-thumb"><img th:src="@{/images/Hit-product_4.png}" alt="히트상품4"></div>
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_4.png}" alt="히트상품4"></div>
                             <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
                             <div class="hit-prices">
                                 <span class="hit-discount">49%</span>
@@ -389,7 +389,7 @@
                         <div class="hit-divider"></div>
 
                         <a href="#" class="hit-card">
-                            <div class="hit-thumb"><img th:src="@{/images/Hit-product_5.png}" alt="히트상품5"></div>
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_5.png}" alt="히트상품5"></div>
                             <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
                             <div class="hit-prices">
                                 <span class="hit-discount">49%</span>
@@ -399,7 +399,7 @@
                             <p class="hit-delivery">무료배송</p>
                         </a>
                         <a href="#" class="hit-card">
-                            <div class="hit-thumb"><img th:src="@{/images/Hit-product_6.png}" alt="히트상품6"></div>
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_6.png}" alt="히트상품6"></div>
                             <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
                             <div class="hit-prices">
                                 <span class="hit-discount">49%</span>
@@ -409,7 +409,7 @@
                             <p class="hit-delivery">무료배송</p>
                         </a>
                         <a href="#" class="hit-card">
-                            <div class="hit-thumb"><img th:src="@{/images/Hit-product_7.png}" alt="히트상품7"></div>
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_7.png}" alt="히트상품7"></div>
                             <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
                             <div class="hit-prices">
                                 <span class="hit-discount">49%</span>
@@ -419,7 +419,7 @@
                             <p class="hit-delivery">무료배송</p>
                         </a>
                         <a href="#" class="hit-card">
-                            <div class="hit-thumb"><img th:src="@{/images/Hit-product_8.png}" alt="히트상품8"></div>
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_8.png}" alt="히트상품8"></div>
                             <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
                             <div class="hit-prices">
                                 <span class="hit-discount">49%</span>
@@ -438,7 +438,7 @@
 
                         <!-- 상품 카드 8개 -->
                         <a href="#" class="hit-card">
-                            <div class="hit-thumb"><img th:src="@{/images/Hit-product_1.png}" alt="히트상품1"></div>
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_1.png}" alt="히트상품1"></div>
                             <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
                             <div class="hit-prices">
                                 <span class="hit-discount">49%</span>
@@ -448,7 +448,7 @@
                             <p class="hit-delivery">무료배송</p>
                         </a>
                         <a href="#" class="hit-card">
-                            <div class="hit-thumb"><img th:src="@{/images/Hit-product_2.png}" alt="히트상품2"></div>
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_2.png}" alt="히트상품2"></div>
                             <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
                             <div class="hit-prices">
                                 <span class="hit-discount">49%</span>
@@ -458,7 +458,7 @@
                             <p class="hit-delivery">무료배송</p>
                         </a>
                         <a href="#" class="hit-card">
-                            <div class="hit-thumb"><img th:src="@{/images/Hit-product_3.png}" alt="히트상품3"></div>
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_3.png}" alt="히트상품3"></div>
                             <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
                             <div class="hit-prices">
                                 <span class="hit-discount">49%</span>
@@ -468,7 +468,7 @@
                             <p class="hit-delivery">무료배송</p>
                         </a>
                         <a href="#" class="hit-card">
-                            <div class="hit-thumb"><img th:src="@{/images/Hit-product_4.png}" alt="히트상품4"></div>
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_4.png}" alt="히트상품4"></div>
                             <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
                             <div class="hit-prices">
                                 <span class="hit-discount">49%</span>
@@ -482,7 +482,7 @@
                         <div class="hit-divider"></div>
 
                         <a href="#" class="hit-card">
-                            <div class="hit-thumb"><img th:src="@{/images/Hit-product_5.png}" alt="히트상품5"></div>
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_5.png}" alt="히트상품5"></div>
                             <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
                             <div class="hit-prices">
                                 <span class="hit-discount">49%</span>
@@ -492,7 +492,7 @@
                             <p class="hit-delivery">무료배송</p>
                         </a>
                         <a href="#" class="hit-card">
-                            <div class="hit-thumb"><img th:src="@{/images/Hit-product_6.png}" alt="히트상품6"></div>
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_6.png}" alt="히트상품6"></div>
                             <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
                             <div class="hit-prices">
                                 <span class="hit-discount">49%</span>
@@ -502,7 +502,7 @@
                             <p class="hit-delivery">무료배송</p>
                         </a>
                         <a href="#" class="hit-card">
-                            <div class="hit-thumb"><img th:src="@{/images/Hit-product_7.png}" alt="히트상품7"></div>
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_7.png}" alt="히트상품7"></div>
                             <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
                             <div class="hit-prices">
                                 <span class="hit-discount">49%</span>
@@ -512,7 +512,7 @@
                             <p class="hit-delivery">무료배송</p>
                         </a>
                         <a href="#" class="hit-card">
-                            <div class="hit-thumb"><img th:src="@{/images/Hit-product_8.png}" alt="히트상품8"></div>
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_8.png}" alt="히트상품8"></div>
                             <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
                             <div class="hit-prices">
                                 <span class="hit-discount">49%</span>

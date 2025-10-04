@@ -6,10 +6,10 @@
          <!-- 최상단 광고 배너 -->
         <div class="top-banners">
             <a href="#" class="top-banner" aria-label="오늘 12시까지 주문 시 배송 내일 도착">
-                <img th:src="@{/images/상단배너img_1.png}" alt="상단 광고 배너 1">
+                <img th:src="@{/images/main/상단배너img_1.png}" alt="상단 광고 배너 1">
             </a>
             <a href="#" class="top-banner" aria-label="얼리버드 할인 이벤트">
-                <img th:src="@{/images/상단배너img_2.png}" alt="상단 광고 배너 2">
+                <img th:src="@{/images/main/상단배너img_2.png}" alt="상단 광고 배너 2">
             </a>
         </div>
 
@@ -28,7 +28,7 @@
         <!-- 검색창 전체 + 인풋박스 + 검색 버튼 -->
         <div class="brand-row container">
             <a th:href="@{/}" class="logo" aria-label="큐팡 홈">
-                <img th:src="@{/images/cupang_logo(color).png}" alt="큐팡 로고" class="logo-img">
+                <img th:src="@{/images/main/cupang_logo(color).png}" alt="큐팡 로고" class="logo-img">
             </a>
 
             <form class="search-bar" role="search" aria-label="사이트 검색">
@@ -73,7 +73,7 @@
                     </svg>
                     <span>찜</span>
                 </a>
-                <a href="#" class="quick-action" aria-label="마이페이지">
+                <a th:href="@{/my/home}" class="quick-action" aria-label="마이페이지">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2"
                          stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-round-icon lucide-user-round">
                         <circle cx="12" cy="8" r="5"/>
@@ -81,7 +81,7 @@
                     </svg>
                     <span>마이페이지</span>
                 </a>
-                <a th:href="@{/prodCart}" class="quick-action" id="header-cart" aria-label="장바구니">
+                <a th:href="@{/product/cart}" class="quick-action" id="header-cart" aria-label="장바구니">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2"
                          stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shopping-cart-icon lucide-shopping-cart">
                         <circle cx="8" cy="21" r="1"/>

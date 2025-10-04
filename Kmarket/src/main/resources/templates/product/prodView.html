@@ -3,30 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <title>Cupang::상품상세</title>
-    <link rel="stylesheet" th:href="@{/css/style_index.css}">
-    <link rel="stylesheet" th:href="@{/css/style_prodView.css}">
-    <link rel="stylesheet" th:href="@{/css/style_header.css}">
-    <link rel="stylesheet" th:href="@{/css/style_footer.css}">
-    <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css}">
+    <link rel="stylesheet" th:href="@{/css/product/style_index.css}">
+    <link rel="stylesheet" th:href="@{/css/product/style_prodView.css}">
+    <link rel="stylesheet" th:href="@{/css/product/style_header.css}">
+    <link rel="stylesheet" th:href="@{/css/product/style_footer.css}">
+    <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/product/all.min.css}">
 
     <!-- 유저별 권한 기능 -->
-    <script th:src="@{/js/user-menu.js}" defer></script>
+    <script th:src="@{/js/product/user-menu.js}" defer></script>
     <!-- 검색 기능 -->
-    <script th:src="@{/js/search.js}" defer></script>
+    <script th:src="@{/js/product/search.js}" defer></script>
     <!-- 전체 카테고리 구현 기능 -->
-    <script th:src="@{/js/category.js}" defer></script>
+    <script th:src="@{/js/product/category.js}" defer></script>
     <!-- 베스트상품 온앤오프 & 스크롤 기능 -->
-    <script th:src="@{/js/best.js}" defer></script>
+    <script th:src="@{/js/product/best.js}" defer></script>
     <!-- 상품 상세 페이지 스크롤 기능 -->
-    <script th:src="@{/js/view-scroll.js}" defer></script>
+    <script th:src="@{/js/product/view-scroll.js}" defer></script>
     <!-- 상품 상세 페이지 옵션 기능-->
-    <script th:src="@{/js/option.js}" defer></script>
+    <script th:src="@{/js/product/option.js}" defer></script>
     <!-- 토스트 메세지 기능 -->
-    <script th:src="@{/js/toast.js}" defer></script>
+    <script th:src="@{/js/product/toast.js}" defer></script>
     <!-- 찜/장바구니/바로구매 버튼 기능 -->
-    <script th:src="@{/js/prod-actions.js}" defer></script>
+    <script th:src="@{/js/product/prod-actions.js}" defer></script>
     <!-- TOP 버튼(맨 위로) 기능 -->
-    <script th:src="@{/js/top-btn.js}" defer></script>
+    <script th:src="@{/js/product/top-btn.js}" defer></script>
 </head>
 <body>
     <main class="page">
@@ -65,12 +65,12 @@
             <section class="col-b">
                 <div class="prod-media">
                     <div class="main-img">
-                        <img th:src="@{/images/Hit-product_1.png}" alt="상품 대표 이미지">
+                        <img th:src="@{/images/product/Hit-product_1.png}" alt="상품 대표 이미지">
                     </div>
                     <div class="thumb-list">
-                        <img th:src="@{/images/Hit-product_S1.jpg}" alt="썸네일1">
-                        <img th:src="@{/images/Hit-product_S2.jpg}" alt="썸네일2">
-                        <img th:src="@{/images/Hit-product_S3.jpg}" alt="썸네일3">
+                        <img th:src="@{/images/product/Hit-product_S1.jpg}" alt="썸네일1">
+                        <img th:src="@{/images/product/Hit-product_S2.jpg}" alt="썸네일2">
+                        <img th:src="@{/images/product/Hit-product_S3.jpg}" alt="썸네일3">
                     </div>
                 </div>
             </section>
@@ -107,7 +107,7 @@
                         <dt>할인 쿠폰</dt>
                         <dd>
                             <a href="javascript:void(0);" onclick="showToast('쿠폰 받기 완료!')">
-                                <img th:src="@{/images/cupang_coupon.png}" alt="할인 쿠폰" class="coupon-img">
+                                <img th:src="@{/images/product/cupang_coupon.png}" alt="할인 쿠폰" class="coupon-img">
                             </a>
                         </dd>
 
@@ -224,7 +224,7 @@
 
             <!-- 상품상세 이미지 -->
             <div id="detailSection" class="prod-detail-img container">
-                <img th:src="@{/images/Hit-product_1-1.jpg}" alt="상품 상세 이미지">
+                <img th:src="@{/images/product/Hit-product_1-1.jpg}" alt="상품 상세 이미지">
             </div>
 
             <!-- 상품평 -->
@@ -287,7 +287,7 @@
                         <p class="review-prod">동원 튜나리챔 O-48호 + 부직포백 선물세트, 1세트</p>
                         <p class="review-content">역시 참치는 동원 참치!!</p>
                         <div class="review-image">
-                            <img th:src="@{/images/Hit-product_img1.jpg}" alt="리뷰 이미지">
+                            <img th:src="@{/images/product/Hit-product_img1.jpg}" alt="리뷰 이미지">
                         </div>
                         <span class="date">2025-09-12</span>
                     </li>
