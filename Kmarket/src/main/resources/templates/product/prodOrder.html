@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cupang::주문/결제</title>
+    <link rel="stylesheet" th:href="@{/css/product/style_index.css}">
+    <link rel="stylesheet" th:href="@{/css/product/style_prodOrder.css}">
+    <link rel="stylesheet" th:href="@{/css/product/style_prodCart.css}">
+    <link rel="stylesheet" th:href="@{/css/product/style_prodList.css}">
+    <link rel="stylesheet" th:href="@{/css/product/style_header.css}">
+    <link rel="stylesheet" th:href="@{/css/product/style_footer.css}">
+
+    <!-- 유저별 권한 기능 -->
+    <script th:src="@{/js/product/user-menu.js}" defer></script>
+    <!-- 검색 기능 -->
+    <script th:src="@{/js/product/search.js}" defer></script>
+    <!-- 전체 카테고리 구현 기능 -->
+    <script th:src="@{/js/product/category.js}" defer></script>
+    <!-- 베스트상품 온앤오프 & 스크롤 기능 -->
+    <script th:src="@{/js/product/best.js}" defer></script>
+    <!-- TOP 버튼(맨 위로) 기능 -->
+    <script th:src="@{/js/product/top-btn.js}" defer></script>
+    <!-- 장바구니 구현 기능 -->
+    <script th:src="@{/js/product/cart.js}" defer></script>
+    <!-- 카카오(구 다음) 우편번호 서비스 API -->
+    <script th:src="@{//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js}"></script>
+    <script th:src="@{/js/product/postcode.js}"></script>
+    <!-- 쿠폰/포인트 사용 기능 -->
+    <script th:src="@{/js/product/order.js}"></script>
+</head>
+<body>
+    <main class="page">
+
+        <!-- 헤더 -->
+        <div th:replace="_header :: headerFragment"></div>
+
+        <!-- 주문/결제 레이아웃 -->
+        <div class="order-wrap">
+
+            <!-- 베스트상품 -->
+            <aside class="col-a">
+                <div class="best-panel">
+                    <h3 class="section-title">베스트상품</h3>
+                    <ol class="best-num-list" id="best-num-list">
+                        <li><button data-idx="0">NO.1</button></li>
+                        <li><button data-idx="1">NO.2</button></li>
+                        <li><button data-idx="2">NO.3</button></li>
+                        <li><button data-idx="3">NO.4</button></li>
+                        <li><button data-idx="4">NO.5</button></li>
+                    </ol>
+                </div>
+            </aside>
+
+            <!-- 우측: 주문/결제 -->
+            <section class="col-b">
+
+                <div class="list-header">
+                    <h2 class="list-title">주문하기</h2>
+
+                    <!-- 경로 네비게이션 -->
+                    <nav class="cart-steps">
+                        <ol>
+                            <li><a href="#">01 옵션선택</a></li>
+                            <li><a th:href="@{/product/cart}">02 장바구니</a></li>
+                            <li class="active">03 주문/결제</li>
+                            <li><a href="#">04 주문완료</a></li>
+                        </ol>
+                    </nav>
+                </div>
+
+                <!-- 주문 내역 -->
+                <div class="order-grid">
+                    <!-- 좌측: 주문 상세 -->
+                    <div class="order-list">
+
+                        <!-- 구매자 정보 -->
+                        <div class="order-section buyer-box">
+                            <div class="section-header">
+                                <h3>구매자 정보</h3>
+                            </div>
+                            <div class="buyer-info">
+                                <div class="form-row">
+                                    <label for="buyerName">이름</label>
+                                    <input type="text" id="buyerName" placeholder="이름 입력">
+                                </div>
+                                <div class="form-row">
+                                    <label for="buyerPhone">연락처</label>
+                                    <input type="text" id="buyerPhone" placeholder="연락처 입력">
+                                </div>
+                                <div class="form-row">
+                                    <label for="buyerAddress">주소지</label>
+                                    <input type="text" id="buyerAddress" placeholder="주소 입력">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 배송지 정보 -->
+                        <div class="order-section delivery-box">
+                            <div class="section-header">
+                                <h3>배송지 정보</h3>
+                            </div>
+
+                            <div class="delivery-info">
+                                <div class="form-row">
+                                    <label for="receiver">받는 사람</label>
+                                    <input type="text" id="receiver" placeholder="이름 입력">
+                                </div>
+                                <div class="form-row">
+                                    <label for="phone">연락처</label>
+                                    <input type="text" id="phone" placeholder="연락처 입력">
+                                </div>
+                                <div class="form-row">
+                                    <label for="postcode">우편번호</label>
+                                    <input type="text" id="postcode" placeholder="우편번호" readonly>
+                                    <button type="button" onclick="execDaumPostcode()">검색</button>
+                                </div>
+                                <div class="form-row">
+                                    <label for="address">주소</label>
+                                    <input type="text" id="address" placeholder="기본 주소" readonly>
+                                </div>
+                                <div class="form-row">
+                                    <label for="detailAddress">상세주소</label>
+                                    <input type="text" id="detailAddress" placeholder="상세 주소">
+                                </div>
+                                <div class="form-row">
+                                    <label for="memo">배송 메모</label>
+                                    <div class="memo-wrap">
+                                        <select id="memo">
+                                            <option>배송 메모를 선택해주세요</option>
+                                            <option>부재 시 경비실에 맡겨주세요</option>
+                                            <option>문 앞에 놓아주세요</option>
+                                            <option>배송 전 연락 부탁드립니다</option>
+                                        </select>
+                                        <svg class="chevron-down" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                             stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="m6 9 6 6 6-6"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 상품 정보 -->
+                        <div class="order-section product-box">
+                            <div class="section-header">
+                                <h3>상품 정보</h3>
+                            </div>
+                            <div class="product-info">
+                                <img th:src="@{/images/main/Hit-product_1.png}" alt="상품" class="product-thumb">
+                                <div class="product-detail">
+                                    <p class="product-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
+                                    <p class="product-option">1세트</p>
+                                    <div class="product-price">
+                                        <span class="discount">49%</span>
+                                        <strong class="sale" id="basePrice">35,590</strong>원
+                                        <del class="regular">69,900원</del>
+                                        <span class="badge">무료배송</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 쿠폰/포인트 -->
+                            <div class="coupon-point-box">
+                                <h4>쿠폰/포인트</h4>
+
+                                <!-- 쿠폰 영역 -->
+                                <div class="coupon-list">
+                                    <label>
+                                        <input type="checkbox" id="coupon-check" data-discount="0.15">
+                                        귀여운 소비 15% 할인 쿠폰
+                                        <span class="coupon-cond">(100원 이상 구매 시, ~11/30)</span>
+                                    </label>
+                                </div>
+
+                                <!-- 포인트 영역 -->
+                                <div class="point-box">
+                                    <p>현재 포인트: <strong id="currentPoint">7,200</strong>점</p>
+                                    <input type="number" id="usePoint" placeholder="사용할 포인트 입력">
+                                    <button type="button" onclick="applyPoint()">사용하기</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 결제방법 -->
+                        <div class="order-section payment-box">
+                            <div class="section-header">
+                                <h3>결제방법</h3>
+                            </div>
+
+                            <div class="payment-methods">
+                                <button class="pay-btn active">신용카드</button>
+                                <button class="pay-btn">체크카드</button>
+                                <button class="pay-btn">계좌이체</button>
+                                <button class="pay-btn">무통장입금</button>
+                                <button class="pay-btn">휴대폰결제</button>
+                                <button class="pay-btn">카카오페이</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 우측: 최종결제정보 -->
+                    <aside class="order-summary">
+                        <h3>최종 결제정보</h3>
+                        <ul>
+                            <li><span>상품수</span><span><strong>1</strong></span></li>
+                            <li><span>상품금액</span><span><strong>27,000</strong>원</span></li>
+                            <li><span>할인금액</span><span><strong>-1,350</strong>원</span></li>
+                            <li><span>배송비</span><span><strong>+0</strong>원</span></li>
+                            <li><span>적립 포인트</span><span><strong>270</strong>원</span></li>
+                        </ul>
+                        <p class="order-total"><strong>24,650</strong>원</p>
+                        <button class="btn-order">결제하기</button>
+                    </aside>
+                </div>
+            </section>
+        </div>
+
+        <!-- TOP 버튼 -->
+        <button id="topBtn" class="top-btn" aria-label="맨 위로 이동">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                 class="lucide lucide-chevrons-up-icon lucide-chevrons-up">
+                <path d="m17 11-5-5-5 5"/>
+                <path d="m17 18-5-5-5 5"/>
+            </svg>
+        </button>
+
+        <!-- 푸터 -->
+        <div th:replace="_footer :: footerFragment"></div>
+    </main>
+</body>
+</html>

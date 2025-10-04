@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>쿠폰 목록</title>
+<style>
+  body { font-family: Arial, sans-serif; margin: 0; background-color: #f5f5f5; }
+  .container { display: flex; padding-left: 20px; height: 800px; }
+/*///////////////헤더 푸터 삽입 시 공백 제거///////////////////*/
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+/*////////////////////// header영역 //////////////////////*/
+
+.header-layout{
+    height: 60px;
+    margin: 0 auto;
+    width: 100%;
+    box-sizing: border-box;
+    background-color: #325a83;
+    display: flex;
+    vertical-align: middle;
+    align-items: center;
+    justify-content: center;
+}
+
+.header-content{
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+    display: flex;
+    align-items: center;
+}
+.header-content img{
+    width: 200px;
+    display: block;
+}
+
+.header-link{
+    display: flex;
+    gap: 25px;
+    vertical-align: middle;
+    align-items: center;
+}
+.header-link p{
+    margin: 0;
+}
+
+.header-link a,
+.header-link button{
+    text-decoration: none;
+    color: white;
+    font-weight: 500;
+    font-size: 10px;
+}
+
+.header-item a{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+
+}
+.header-link button{
+    border: none;
+    outline: none;
+    background-color: #91a9ce;
+    padding: 5px 15px 5px 15px;
+    cursor: pointer;
+
+
+}
+/*////////////////////// footer영역 //////////////////////*/
+.footer-layout{
+    height: 110px;
+    margin: 0 auto;
+    width: 100%;
+    background-color: #325a83;
+}
+
+
+.footer-content{
+    width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    padding-top: 15px;
+    text-align: center;
+    gap: 2px;
+}
+.footer-content img{
+    width: 150px;
+    display: block;
+    margin: 0 auto;
+}
+.about-company{
+    display: flex;
+    justify-content: center;
+}
+.footer-content h2{
+    font-size: 12px;
+    color: #333;
+    font-weight: 400;
+    margin: 0 2px;
+}
+.footer-content a{
+    color: black;
+    font-size: 13px;
+}
+
+  /* 사이드바 */
+
+/*///////////////////사이드 바///////////////////*/
+.sidebar {
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    background-color: #e0e0e0;
+
+}
+
+.sidebar a {
+    text-decoration: none;
+}
+
+
+.side-item {
+    border-bottom: 1px solid #ccc;
+}
+.main-menu p {
+    color: black;
+    font-size: 15px;
+    cursor: pointer;
+    margin: 0;
+
+}
+
+.main-menu{
+    display: flex;
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+}
+.sub-menu{
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    display: none;
+}
+
+.sub-menu.active {
+    display: flex;
+}
+.sub-menu a{
+    color: black;
+    font-size: 14px;
+}
+
+.sub-menu ul,
+.sub-menu li {
+    margin: 0;
+    list-style-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10"  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/></svg>');
+}
+
+.main-menu svg{
+    width: 17px;
+    height: 17px;
+    margin-right: 10px;
+}
+
+.side-item .main-menu:hover{
+    background-color: #ccc;
+}
+
+.side-item.active .main-menu {
+    background-color: #666;
+}
+
+.side-item.active .main-menu,
+.side-item.active .main-menu p{
+    color: white;
+    font-weight: 500;
+}
+
+.sub-menu a.active {
+    font-weight: bold;
+}
+
+
+  .content { flex: 1; padding: 20px; background-color: #fff; }
+  .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px solid #000; padding-bottom: 10px; }
+  .header-top h1 { font-size: 20px; margin: 0; }
+  .breadcrumb { font-size: 14px; }
+  .breadcrumb a { text-decoration: none; color: #007bff; }
+  .breadcrumb span { color: #555; }
+  .breadcrumb a:hover { text-decoration: underline; }
+
+  /* 검색바 */
+  .search-bar { margin-bottom: 10px; display: flex; gap: 5px; align-items: center; }
+  .search-bar select, .search-bar input, .search-bar button { padding: 5px; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th, td { border: 1px solid #ddd; padding: 10px; text-align: center; }
+  th { background-color: #f0f0f0; }
+
+  .status.active { color: #2ecc71; font-weight: bold; }
+  .status.expired { color: #888; }
+
+  .bottom-bar { margin-top: 15px; display: flex; justify-content: space-between; align-items: center; }
+  .pagination { flex: 1; text-align: center; }
+  .pagination a { margin: 0 5px; text-decoration: none; color: #000; }
+  .btn { padding: 6px 12px; background-color: #3693c2; color: white; border: none; cursor: pointer; }
+  .btn:hover { background-color: #2980b9; }
+  td a { color: #007bff; text-decoration: none; cursor: pointer; }
+  td a:hover { text-decoration: underline; }
+
+  /* 팝업 공통 */
+  .popup-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5); display: none; justify-content: center; align-items: center; z-index: 1000;
+  }
+  .popup { background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+  .popup-header { background: #333; color: #fff; padding: 12px 16px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; }
+  .popup-header span#couponId { font-weight: normal; margin-left: 0; }
+  .popup-header .close-btn { cursor: pointer; font-weight: bold; }
+  .popup-content { padding: 24px; font-size: 15px; }
+  .popup-content table { width: 100%; border-collapse: collapse; }
+  .popup-content th, .popup-content td { text-align: left; padding: 10px 0; border: none; }
+  .popup-content tr { border-bottom: 1px solid #ddd; }
+  .popup-footer { text-align: center; padding: 12px; }
+  .popup-footer button { background: #4CAF50; color: #fff; border: none; padding: 8px 20px; border-radius: 4px; cursor: pointer; }
+  .popup-footer button:hover { background: #45a049; }
+
+  /* 각 팝업 크기 */
+  #detailPopup .popup { width: 800px; }
+  #registerPopup .popup { width: 800px; }
+
+  /* 혜택 라디오 버튼 정렬: 5개씩 */
+  #registerPopup td {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  #registerPopup td label {
+    width: calc(20% - 12px); /* 한 줄에 5개 */
+    display: flex;
+    align-items: center;
+  }
+  #registerPopup input[type="radio"] {
+    margin-right: 6px;
+  }
+</style>
+</head>
+<body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>쿠폰 리스트</title>
+    <!-- header/footer css -->
+    <link rel="stylesheet" th:href="@{/css/admin/main/header_footer.css}">
+
+    <!-- 사이드바 동작 js 및 css -->
+    <!-- 1. 사이드바 필요 시 admin.html main 부분 aside영역 복붙
+         2. main부분 영역 담당 레이아웃에
+              display: flex;
+              align-items: stretch;
+              추가해야 푸터까지 늘어남
+         3. 사이드바 추가 시 푸터랑 붙어있으므로 본인 영역에 맞게 마진 주기
+            (footer에다 margin-top주면 사이드바 안늘어남)
+            margin-bottom: 120px;
+    -->
+    <script th:src="@{/js/admin/cs/recruit/sidebarAction.js}" defer></script>
+    <link rel="stylesheet" th:href="@{/css/admin/main/sidebar.css}">
+
+    <!-- 개인 필요 및 작업 css, js -->
+    <link rel="stylesheet" th:href="@{/css/admin/cs/recruit/Recruit.css}">
+    <script th:src="@{/js/admin/cs/recruit/checkboxAction.js}" defer></script>
+    <script th:src="@{/js/admin/cs/recruit/sidebarAction.js}" defer></script>
+
+</head>
+<body>
+
+<header>
+    <div class="header-layout">
+        <div class="header-content">
+            <a th:href="@{/admin}">
+                <img th:src="@{/images/admin/main/cupangMS_logo(color).png}" alt="로고">
+            </a>
+
+
+            <div class="header-link">
+                <div class="header-item">
+                    <a th:href="@{/}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-house-icon lucide-house"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+                        <p>HOME</p>
+                    </a>
+                </div>
+
+                <div class="header-item">
+                    <a th:href="@{/cs/index}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-headset-icon lucide-headset"><path d="M3 11h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-5Zm0 0a9 9 0 1 1 18 0m0 0v5a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3Z"/><path d="M21 16v2a4 4 0 0 1-4 4h-5"/></svg>
+                        <p>고객센터</p>
+                    </a>
+                </div>
+
+                <button>로그아웃</button>
+            </div>
+        </div>
+    </div>
+
+</header>
+
+<div class="container">
+  <!-- 사이드바 -->
+<aside class="sidebar">
+                <div class="side-item">
+                    <div class="main-menu">
+                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-settings-icon lucide-settings"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"/><circle cx="12" cy="12" r="3"/></svg>
+                       <p>환경설정</p>
+                    </div>
+                    <ul class="sub-menu">
+                        <li><a th:href="@{/admin/config/basic}" class="sub-link">기본설정</a></li>
+                        <li><a th:href="@{/admin/config/banner}" class="sub-link">배너관리</a></li>
+                        <li><a th:href="@{/admin/config/policy}" class="sub-link">약관관리</a></li>
+                        <li><a th:href="@{/admin/config/category}" class="sub-link">카테고리</a></li>
+                        <li><a th:href="@{/admin/config/version}" class="sub-link">버전관리</a></li>
+                    </ul>
+                </div>
+                <div class="side-item">
+                    <div class="main-menu">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-store-icon lucide-store"><path d="M15 21v-5a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v5"/><path d="M17.774 10.31a1.12 1.12 0 0 0-1.549 0 2.5 2.5 0 0 1-3.451 0 1.12 1.12 0 0 0-1.548 0 2.5 2.5 0 0 1-3.452 0 1.12 1.12 0 0 0-1.549 0 2.5 2.5 0 0 1-3.77-3.248l2.889-4.184A2 2 0 0 1 7 2h10a2 2 0 0 1 1.653.873l2.895 4.192a2.5 2.5 0 0 1-3.774 3.244"/><path d="M4 10.95V19a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8.05"/></svg>
+                        <p>상점관리</p>
+                    </div>
+                    <ul class="sub-menu">
+                        <li><a th:href="@{/admin/shop/list}" class="sub-link">상점목록</a></li>
+                        <li><a th:href="@{/admin/shop/sales}" class="sub-link">매출현황</a></li>
+                    </ul>
+                </div>
+                <div class="side-item">
+                    <div class="main-menu">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-pen-icon lucide-user-pen"><path d="M11.5 15H7a4 4 0 0 0-4 4v2"/><path d="M21.378 16.626a1 1 0 0 0-3.004-3.004l-4.01 4.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z"/><circle cx="10" cy="7" r="4"/></svg>
+                        <p>회원관리</p>
+                    </div>
+                    <ul class="sub-menu">
+                        <li><a th:href="@{/admin/member/list}" class="sub-link">회원목록</a></li>
+                        <li><a th:href="@{/admin/member/point}" class="sub-link">포인트관리</a></li>
+                    </ul>
+                </div>
+                <div class="side-item">
+                    <div class="main-menu">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-package-open-icon lucide-package-open"><path d="M12 22v-9"/><path d="M15.17 2.21a1.67 1.67 0 0 1 1.63 0L21 4.57a1.93 1.93 0 0 1 0 3.36L8.82 14.79a1.655 1.655 0 0 1-1.64 0L3 12.43a1.93 1.93 0 0 1 0-3.36z"/><path d="M20 13v3.87a2.06 2.06 0 0 1-1.11 1.83l-6 3.08a1.93 1.93 0 0 1-1.78 0l-6-3.08A2.06 2.06 0 0 1 4 16.87V13"/><path d="M21 12.43a1.93 1.93 0 0 0 0-3.36L8.83 2.2a1.64 1.64 0 0 0-1.63 0L3 4.57a1.93 1.93 0 0 0 0 3.36l12.18 6.86a1.636 1.636 0 0 0 1.63 0z"/></svg>
+                        <p>상품관리</p>
+                    </div>
+                    <ul class="sub-menu">
+                        <li><a th:href="@{/admin/product/list}" class="sub-link">상품목록</a></li>
+                        <li><a th:href="@{/admin/product/register}" class="sub-link">상품등록</a></li>
+                    </ul>
+                </div>
+                <div class="side-item">
+                   <div class="main-menu">
+                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-receipt-text-icon lucide-receipt-text"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z"/><path d="M14 8H8"/><path d="M16 12H8"/><path d="M13 16H8"/></svg>
+                       <p>주문관리</p>
+                    </div>
+                    <ul class="sub-menu">
+                        <li><a th:href="@{/admin/order/list}" class="sub-link">주문현황</a></li>
+                        <li><a th:href="@{/admin/order/delivery}" class="sub-link">배송현황</a></li>
+                    </ul>
+                </div>
+                <div class="side-item">
+                   <div class="main-menu">
+                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-ticket-percent-icon lucide-ticket-percent"><path d="M2 9a3 3 0 1 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 1 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M9 9h.01"/><path d="m15 9-6 6"/><path d="M15 15h.01"/></svg>
+                       <p>쿠폰관리</p>
+                    </div>
+                    <ul class="sub-menu">
+                        <li><a th:href="@{/admin/coupon/list}" class="sub-link">쿠폰목록</a></li>
+                        <li><a th:href="@{/admin/coupon/issued}" class="sub-link">쿠폰발급현황</a></li>
+                    </ul>
+                </div>
+                <div class="side-item">
+                    <div class="main-menu">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-laptop-minimal-check-icon lucide-laptop-minimal-check"><path d="M2 20h20"/><path d="m9 10 2 2 4-4"/><rect x="3" y="4" width="18" height="12" rx="2"/></svg>
+                        <p>고객센터</p>
+                    </div>
+                    <ul class="sub-menu">
+                        <li><a th:href="@{/admin/cs/notice/list}" class="sub-link">공지사항</a></li>
+                        <li><a th:href="@{/admin/cs/faq/list}" class="sub-link">자주묻는질문</a></li>
+                        <li><a th:href="@{/admin/cs/qna/list}" class="sub-link">문의하기</a></li>
+                        <li><a th:href="@{/admin/cs/recruit/list}" class="sub-link">채용하기</a></li>
+                    </ul>
+                </div>
+
+            </aside>
+
+  <!-- 메인 콘텐츠 -->
+  <div class="content">
+    <div class="header-top">
+      <h1>쿠폰 목록</h1>
+      <div class="breadcrumb">
+        <a href="#">HOME</a> &gt; 
+        <a href="#">쿠폰관리</a> &gt; 
+        <span>쿠폰목록</span>
+      </div>
+    </div>
+
+    <!-- 검색바 -->
+    <div class="search-bar">
+      <select>
+        <option value="couponNo">쿠폰번호</option>
+        <option value="couponName">쿠폰명</option>
+        <option value="issuer">발급자</option>
+      </select>
+      <input type="text" placeholder="검색어 입력">
+      <button>검색</button>
+    </div>
+
+    <!-- 테이블 -->
+    <table>
+      <thead>
+        <tr>
+          <th>쿠폰번호</th>
+          <th>쿠폰종류</th>
+          <th>쿠폰명</th>
+          <th>혜택</th>
+          <th>사용기간</th>
+          <th>발급자</th>
+          <th>발급수</th>
+          <th>사용수</th>
+          <th>상태</th>
+          <th>발급일</th>
+          <th>관리</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><a href="#" onclick="openDetail('1012121212')">1012121212</a></td>
+          <td>개별상품 할인</td>
+          <td>10월 한달 감사 쿠폰</td>
+          <td>2,000원 할인</td>
+          <td>2025.09.17 ~ 2025.09.17</td>
+          <td>(주)다있어</td>
+          <td>102</td>
+          <td>43</td>
+          <td class="status active">발급중</td>
+          <td>2025.09.17 00:00:00</td>
+          <td><a href="#">종료</a></td>
+        </tr>
+        <tr>
+          <td><a href="#" onclick="openDetail('201910101')">201910101</a></td>
+          <td>주문상품 할인</td>
+          <td>회원가입 축하 쿠폰</td>
+          <td>15% 할인</td>
+          <td>발급일로 100일 이내</td>
+          <td>최고관리자</td>
+          <td>567</td>
+          <td>262</td>
+          <td class="status active">발급중</td>
+          <td>2025.09.17 00:00:00</td>
+          <td><a href="#">종료</a></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- 하단 바 -->
+    <div class="bottom-bar">
+      <div class="pagination">
+        <a href="#">이전</a>
+        <a href="#">1</a>
+        <a href="#">2</a>
+        <a href="#">3</a>
+        <a href="#">다음</a>
+      </div>
+      <div>
+        <button class="btn" onclick="openRegister()">쿠폰등록</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 쿠폰 상세 팝업 -->
+<div class="popup-overlay" id="detailPopup">
+  <div class="popup">
+    <div class="popup-header">
+      쿠폰정보<span id="couponId"></span>
+      <span class="close-btn" onclick="closeDetail()">X</span>
+    </div>
+    <div class="popup-content">
+      <table>
+        <tr>
+          <th>쿠폰번호</th><td id="modalCouponNo">-</td>
+          <th>발급처</th><td id="modalIssuer">-</td>
+        </tr>
+        <tr><th>쿠폰종류</th><td colspan="3" id="modalType">-</td></tr>
+        <tr><th>쿠폰명</th><td colspan="3" id="modalName">-</td></tr>
+        <tr><th>혜택</th><td colspan="3" id="modalBenefit">-</td></tr>
+        <tr><th>사용기간</th><td colspan="3" id="modalPeriod">-</td></tr>
+        <tr><th>유의사항</th><td colspan="3" id="modalNote">-</td></tr>
+      </table>
+      
+    </div>
+    <div class="popup-footer">
+      <button onclick="closeDetail()">닫기</button>
+    </div>
+  </div>
+</div>
+<footer>
+    <div class="footer-layout">
+        <div class="footer-content">
+            <img th:src="@{/images/admin/main/cupangMS_logo(color).png}" alt="로고">
+            <div class="about-company">
+                <h2>(주)큐팡</h2>
+                <h2>대표이사 이름(db)</h2>
+                <h2>|</h2>
+                <h2>사업자등록번호</h2>
+                <h2>123-132-1231232(db)</h2>
+                <h2>|</h2>
+                <h2>통신판매업신고</h2>
+                <h2>2023-부산 해운대구-1232(db)</h2>
+                <h2>|</h2>
+                <h2>부산광역시 부산진구 중앙동(db)</h2>
+                <h2>(삼성동, green빌딩) 7층(db)</h2>
+            </div>
+            <div class="about-company">
+                <h2>고객센터</h2>
+                <h2>|</h2>
+                <h2>02-1234-1231</h2>
+                <h2>평일 09:00 ~ 18:00(db)</h2>
+
+                <h2>이메일</h2>
+                <h2>abc@cupang(db)</h2>
+
+                <h2>전자금융거래 분쟁담당</h2>
+                <h2>12321-12321(db)</h2>
+            </div>
+            <h2>Copyright@cupang.All.rights.reserved (db)</h2>
+        </div>
+
+    </div>
+
+</footer>
+
+</body>
+</html>
+<!-- 쿠폰 등록 팝업 -->
+<div class="popup-overlay" id="registerPopup">
+  <div class="popup">
+    <div class="popup-header">
+      쿠폰등록
+      <span class="close-btn" onclick="closeRegister()">X</span>
+    </div>
+    <div class="popup-content">
+      <table>
+        <tr>
+          <th>발급처</th><td><input type="text" id="newIssuer" placeholder="발급처 입력"></td>
+        </tr>
+        <tr>
+          <th>쿠폰종류</th><td><input type="text" id="newType" placeholder="쿠폰종류 입력"></td>
+        </tr>
+        <tr>
+          <th>혜택</th>
+          <td>
+            <label><input type="radio" name="benefit" value="1,000원 할인"> 1,000원 할인</label>
+            <label><input type="radio" name="benefit" value="2,000원 할인"> 2,000원 할인</label>
+            <label><input type="radio" name="benefit" value="3,000원 할인"> 3,000원 할인</label>
+            <label><input type="radio" name="benefit" value="4,000원 할인"> 4,000원 할인</label>
+            <label><input type="radio" name="benefit" value="5,000원 할인"> 5,000원 할인</label>
+            <label><input type="radio" name="benefit" value="10% 할인"> 10% 할인</label>
+            <label><input type="radio" name="benefit" value="20% 할인"> 20% 할인</label>
+            <label><input type="radio" name="benefit" value="30% 할인"> 30% 할인</label>
+            <label><input type="radio" name="benefit" value="40% 할인"> 40% 할인</label>
+            <label><input type="radio" name="benefit" value="50% 할인"> 50% 할인</label>
+            <label><input type="radio" name="benefit" value="배송비무료"> 배송비무료</label>
+          </td>
+        </tr>
+        <tr>
+          <th>사용기간</th><td><input type="text" id="newPeriod" placeholder="YYYY-MM-DD ~ YYYY-MM-DD"></td>
+        </tr>
+        <tr>
+          <th>유의사항</th><td><textarea id="newNote" placeholder="유의사항 입력" rows="3" style="width:100%;"></textarea></td>
+        </tr>
+      </table>
+    </div>
+    <div class="popup-footer">
+      <button onclick="registerCoupon()">등록</button>
+      <button onclick="closeRegister()">닫기</button>
+    </div>
+  </div>
+  
+</div>
+
+<script>
+  // 쿠폰 상세 팝업
+  const issuers = { '1012121212':'(주)다있어', '201910101':'최고관리자' };
+  function openDetail(couponNo) {
+    document.getElementById('couponId').textContent = couponNo;
+    document.getElementById('modalCouponNo').textContent = couponNo;
+    document.getElementById('modalIssuer').textContent = issuers[couponNo] || '-';
+    document.getElementById('modalType').textContent = '개별상품 할인';
+    document.getElementById('modalName').textContent = '10월 한달 감사 쿠폰 이벤트';
+    document.getElementById('modalBenefit').textContent = '2,000원 할인';
+    document.getElementById('modalPeriod').textContent = '2025-09-17 ~ 2025-09-17';
+    document.getElementById('modalNote').textContent = '상품 중복 할인 쿠폰\n- 상품 1개 사용 가능\n- 다른 할인 쿠폰과 중복 가능\n사용처: '+(issuers[couponNo]||'-');
+    document.getElementById('detailPopup').style.display='flex';
+  }
+  function closeDetail(){ document.getElementById('detailPopup').style.display='none'; }
+
+  // 쿠폰 등록 팝업
+  function openRegister(){ document.getElementById('registerPopup').style.display='flex'; }
+  function closeRegister(){ document.getElementById('registerPopup').style.display='none'; }
+
+  function registerCoupon(){
+    const issuer = document.getElementById('newIssuer').value;
+    const type = document.getElementById('newType').value;
+    const benefit = document.querySelector('input[name="benefit"]:checked')?.value || '';
+    const period = document.getElementById('newPeriod').value;
+    const note = document.getElementById('newNote').value;
+
+    alert(`등록된 쿠폰 내용:\n발급처: ${issuer}\n쿠폰종류: ${type}\n혜택: ${benefit}\n사용기간: ${period}\n유의사항: ${note}`);
+    closeRegister();
+  }
+
+</script>
+
+</body>
+</html>

@@ -14,9 +14,12 @@
     <link rel="stylesheet" th:href="@{/css/my/modal/review-modal.css}">
     <link rel="stylesheet" th:href="@{/css/my/modal/return-modal.css}">
     <link rel="stylesheet" th:href="@{/css/my/modal/exchange-modal.css}">
+    <link rel="stylesheet" th:href="@{/css/main/style_header.css}">
+    <link rel="stylesheet" th:href="@{/css/main/style_footer.css}">
 </head>
 <body>
     <main>
+        <div th:replace="~{/my/_header :: headerFragment}"></div>
         <div class="content-wraper">
             <div class="top-info">
                 <div class="info-title">
@@ -238,5 +241,6 @@
     <div th:insert="~{my/modal/review-modal :: modal}"></div>
     <div th:insert="~{my/modal/return-modal :: modal}"></div>
     <div th:insert="~{my/modal/exchange-modal :: modal}"></div>
+    <div th:replace="_footer :: footerFragment"></div>
 </body>
 </html>

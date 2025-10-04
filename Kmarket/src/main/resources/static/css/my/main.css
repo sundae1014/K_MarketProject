@@ -25,13 +25,8 @@ ul, ol, li{
 .content-wraper,
 .top-info {
     width: 100%;
-    max-width: 1063.39px;
+    max-width: 1200px;
     margin: 0 auto;
-    padding: 0 15px;
-}
-
-.content-wraper{
-    padding-top: 50px;
 }
 
 .top-info{
@@ -163,7 +158,7 @@ ul, ol, li{
 
 .main-content table{
     border-top: 2px solid black;
-    width: 800px;
+    width: 100%;
     text-align: center;
     border-collapse: collapse;
 }
