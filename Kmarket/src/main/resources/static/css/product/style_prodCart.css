@@ -1,0 +1,353 @@
+/* 공통 적용 사항 */
+:root {
+    --blue: #336AFD;
+    --deep-gray: #2f2f2f;
+    --gray-900: #1f2937;
+    --gray-800: #374151;
+    --gray-700: #4b5563;
+    --gray-600: #6b7280;
+    --gray-550: #757575;
+    --gray-500: #9F9F9F;
+    --gray-100: #f3f4f6;
+    --gray-50: #f9fafb;
+    --border: #e5e7eb;
+    --danger: #ff4d4f;
+}
+
+.list-wrap {
+    max-width: 1200px;
+    width: 100%;
+    margin: 15px auto 0 auto;
+}
+
+/* //////////////// 베스트 상품 시작 //////////////// */
+/* 베스트상품 패널 */
+.best-panel {
+    flex: 0 0 220px;
+    position: sticky;
+    align-self: flex-start;
+}
+
+/* 베스트상품 넘버 버튼 */
+.best-num-list {
+    margin: 10px 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.best-num-list li+li {
+    margin-top: 8px;
+}
+
+.best-num-list button {
+    width: 220px;
+    height: 50px;
+    border-radius: 8px;
+    border: 1px solid #e5e5e5;
+    background: rgba(51,106,253,.12);
+    color: #336AFD;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.15s;
+}
+
+.best-num-list button:hover {
+    background: rgba(51,106,253,.18);
+}
+
+.best-num-list button.active  {
+    background: #336AFD;
+    color: #fff;
+    border-color: #336AFD;
+}
+
+/* //////////////////// 베스트 상품 끝 //////////////////// */
+
+/* ///////////////// 경로 네비게이션 시작 ///////////////// */
+.cart-steps {
+    font-size: 14px;
+    color: var(--gray-600);
+}
+
+.cart-steps ol {
+    list-style: none;
+    display: flex;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+}
+
+.cart-steps li {
+    color: var(--gray-500);
+}
+
+.cart-steps li+li::before {
+    content: ">";
+    margin: 0 6px;
+    color: var(--gray-500);
+}
+
+.cart-steps li.active {
+    color: var(--blue);
+    font-weight: 700;
+}
+/* ////////////////// 경로 네비게이션 끝 /////////////////// */
+
+/* ////////////////// 장바구니 영역 시작 /////////////////// */
+/* 2단 레이아웃 */
+.cart-grid {
+    display: grid;
+    grid-template-columns: 640px 280px;
+    justify-content: space-between;
+    gap: 20px;
+    align-items: start;
+    min-height: 100%;
+}
+
+/* 상품 리스트 전체 컨테이너 */
+.cart-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* 개별 상품 */
+.cart-item {
+    display: flex;
+    gap: 15px;
+    padding: 15px;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    background: #ffffff;
+    align-items: flex-start;
+}
+
+.cart-item input {
+    width: 15px;
+    height: 15px;
+}
+
+.cart-item img {
+    width: 100px;
+    height: 100px;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    object-fit: cover;
+}
+
+.cart-info {
+    flex: 1;
+}
+
+.cart-name {
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.cart-name .btn-remove {
+    font-size: 12px;
+    color: var(--gray-600);
+    margin-left: 10px;
+}
+
+.cart-sub {
+    font-size: 13px;
+    color: var(--gray-600);
+    margin-bottom: 6px;
+}
+
+.badge {
+    font-size: 13px;
+    color: var(--blue);
+    font-weight: 600;
+}
+
+.cart-price {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.cart-price .discount {
+    color: red;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.cart-price .regular {
+    color: #888888;
+    font-size: 12px;
+    font-weight: 500;
+    text-decoration: line-through;
+}
+
+.cart-price .sale {
+    color: #000000;
+    font-size: 18px;
+    font-weight: 800;
+}
+
+.cart-point {
+    display: flex;
+    align-items: center;
+    color: #000000;
+    gap: 5px;
+    margin-bottom: 15px;
+}
+
+.cart-point svg{
+    width: 18px;
+    height: 18px;
+    color: var(--blue);
+}
+
+.cart-point p {
+    font-size: 13px;
+    line-height: 1;
+    text-decoration: underline;
+}
+
+.cart-qty {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.cart-qty button {
+    width: 30px;
+    height: 30px;
+    border: 1px solid var(--border);
+    background: #fff;
+    cursor: pointer;
+}
+
+.cart-qty input {
+    width: 40px;
+    height: 30px;
+    text-align: center;
+    border: 1px solid var(--border);
+}
+
+/* 전체 선택 */
+.cart-select-all {
+    display: flex;
+    justify-content: flex-end; /* ✅ 오른쪽 정렬 */
+    align-items: center;
+    gap: 10px;
+    margin-top: auto; /* 아래쪽으로 밀기 */
+    padding-top: 15px;
+}
+
+.cart-select-all input {
+    width: 15px;
+    height: 15px;
+}
+
+.cart-select-all p {
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.cart-select-all button {
+    width: 70px;
+    height: 30px;
+    font-size: 12px;
+    border: 1px solid var(--border);
+    background: #ffffff;
+    color: #000000;
+}
+
+/* 전체 합계 영역 */
+.cart-summary {
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 20px;
+    background: #fafafa;
+    position: sticky;
+    top: 100px;
+}
+
+.cart-summary h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.cart-summary ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 15px;
+}
+
+.cart-summary li {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+.cart-total {
+    text-align: right;
+    font-size: 18px;
+    border-top: 1px solid var(--border);
+    margin-top: 10px;
+    margin-bottom: 15px;
+    padding-top: 10px;
+}
+
+.cart-total strong {
+    font-size: 20px;
+}
+
+.btn-order {
+    width: 100%;
+    padding: 12px;
+    font-size: 15px;
+    font-weight: 700;
+    background: var(--blue);
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-order:hover {
+    background: #2454d1;
+}
+/* /////////////////// 장바구니 영역 끝 /////////////////// */
+
+/* //////////////////// TOP 버튼 시작 //////////////////// */
+.top-btn {
+    position: fixed;
+    bottom: 40px;
+
+    /* 화면 가운데 기준으로 1200px 컨테이너 + 버튼 간격 계산 */
+    left: calc(50% + 600px + 20px);
+    /* 50% = 화면 가운데 / 600px = 컨테이너 절반 / +20px = 간격 */
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: var(--blue);
+    color: #fff;
+    font-size: 20px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    z-index: 999;
+    transition: opacity 0.3s ease;
+}
+
+.top-btn:hover {
+    background: #2454d1; /* hover 시 살짝 진한 블루 */
+}
+
+.top-btn.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+/* //////////////////// TOP 버튼 끝 //////////////////// */
