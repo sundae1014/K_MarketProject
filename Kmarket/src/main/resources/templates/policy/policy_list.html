@@ -99,8 +99,9 @@
         .section-content {
             color:#888;
             font-size: 12px;
-            font-family: "돋움";
+            font-family: "돋움",sans-serif;
             line-height: 1.8;
+            white-space: pre-wrap;
         }
 
         /* 공통 적용 사항 */
@@ -581,21 +582,6 @@
 
     <!-- 로그인/로그아웃/관리자 메뉴 기능 -->
     <script th:src="@{/js/main/user-menu.js}" defer></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const links = document.querySelectorAll(".terms_link a");
-
-            links.forEach(link => {
-                link.addEventListener("click",e => {
-                    e.preventDefault();
-
-                    links.forEach(link => link.classList.remove('active'));
-
-                    link.classList.add('active');
-                });
-            });
-        });
-    </script>
 </head>
 <body>
     <!-- Header -->
@@ -731,22 +717,22 @@
                     <h1 class="top-title">Kmarket 서비스 이용약관</h1>
                     <div id="terms_box">
                         <div class="terms_link">
-                            <a th:href="@{/policy/buyer}" class="active">
+                            <a th:href="@{/policy/buyer}" th:classappend="${activeMenu == 'buyer'} ? 'active'">
                                 <img th:src="@{/images/policy/bulk-buying.png}" alt="구매회원 약관"><span>구매회원 약관</span>
                             </a>
                         </div>
                         <div class="terms_link">
-                            <a th:href="@{/policy/seller}">
+                            <a th:href="@{/policy/seller}" th:classappend="${activeMenu == 'seller'} ? 'active'">
                                 <img th:src="@{/images/policy/sale-tag.png}" alt="판매회원 약관"><span>판매회원 약관</span>
                             </a>
                         </div>
                         <div class="terms_link">
-                            <a th:href="@{/policy/finance}">
+                            <a th:href="@{/policy/finance}" th:classappend="${activeMenu == 'finance'} ? 'active'">
                                 <img th:src="@{/images/policy/internet-banking.png}" alt="전자금융거래"><span>전자금융거래</span>
                             </a>
                         </div>
                         <div class="terms_link">
-                            <a th:href="@{/policy/location}">
+                            <a th:href="@{/policy/location}" th:classappend="${activeMenu == 'location'} ? 'active'">
                                 <img th:src="@{/images/policy/location-info.png}" alt="위치정보 약관"><span>위치정보 약관</span>
                             </a>
                         </div>
@@ -760,48 +746,15 @@
 
                 <div class="content-body">
                     <div class="title">
-                        <h2 class="section-title" style="display: inline-block;">구매회원 이용약관</h2>
+                        <h2 class="section-title" style="display: inline-block;">[[${pageTitle}]]</h2>
                         <button onclick="window.print()" class="print_btn"><img th:src="@{/images/policy/electronic-device.png}" alt="프린트"></button>
                     </div>
 
-                    <div class="section">
-                        <h3 class="section-title">제 1 조 (목적)</h3>
-                        <div class="section-content">
-                            이 약관은 주식회사 케이 마켓 쇼핑몰(이하"회사"라 함)가 운영하는 케이 마켓 인터넷 오픈마켓 사이트(www.Kmarket.co.kr, 이하
-                            "케이 마켓"이라 함)와 스마트폰 등 이동통신기기를 통해 제공되는 케이 마켓 모바일 애플리케이션 (이하 "모바일 케이 마켓"이라고 합니다)을 
-                            통해서 제공하는 전자상거래 관련 서비스 및 기타 서비스 (이하 "서비스"라 함)를 이용하는 자간의 권리, 의무를 확정하고 이를 이행함으로써
-                            상호 발전을 도모하는 것을 그 목적으로 합니다.                           
-                        </div>
-                        <hr>
+                    <div class="section" th:each="dto : ${dtoList}">
+                        <h3 class="section-title" th:text="${dto.title}">제 1조 (목적)</h3>
+                        <div class="section-content">[[${dto.content}]]</div>
                     </div>
 
-                    <div class="section">
-                        <h3 class="section-title">제 2 조 (약관의 명시, 효력과 개정)</h3>
-                        <div class="section-content">
-                            약관내용별도 제공
-                        </div>
-                    </div>
-
-                    <div class="section">
-                        <h3 class="section-title">제 3 조</h3>
-                        <div class="section-content">
-                            약관내용별도 제공
-                        </div>
-                    </div>
-
-                    <div class="section">
-                        <h3 class="section-title">제 4 조</h3>
-                        <div class="section-content">
-                            약관내용별도 제공
-                        </div>
-                    </div>
-
-                    <div class="section">
-                        <h3 class="section-title">제 5 조</h3>
-                        <div class="section-content">
-                            약관내용별도 제공
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
