@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 @Builder
 public class PolicyDTO {
     private int id;
+    private String title;
     private String content;
     private String policy_type;
+    private int policy_no;
 }

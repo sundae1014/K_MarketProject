@@ -8,5 +8,6 @@
         SELECT *
         FROM KMARKET.POLICY
         WHERE POLICY_TYPE = #{type}
+        ORDER BY POLICY_NO
     </select>
 </mapper>
