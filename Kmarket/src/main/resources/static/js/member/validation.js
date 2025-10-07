@@ -17,10 +17,12 @@ let isHpOk = false;
 
 document.addEventListener('DOMContentLoaded', function(){
 
-    const checkCustid = document.getElementById('checkCustid');
+    const checkCustid = document.getElementById('checkCustid')
+    const checkName = document.getElementById('checkName');
     const checkPw = document.getElementById('checkPw');
     const btnCheckEmail = document.getElementById('btnCheckEmail');
     const emailCode = document.getElementById('emailCode');
+    const btnCheckHp = document.getElementById('btnCheckHp');
 
     const uidResult = document.getElementsByClassName('uidResult')[0];
     const emailResult = document.getElementsByClassName('emailResult')[0];
@@ -35,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function(){
     //////////////////////////////////////////////////////////
     // 아이디 검사
     //////////////////////////////////////////////////////////
-    checkCustid.addEventListener('input', function(e){
+    checkCustid.addEventListener('focusout', function(e){
 
         const value = form.custid.value;
         console.log('value : ' + value);
@@ -49,7 +51,7 @@ document.addEventListener('DOMContentLoaded', function(){
         }
 
         // 아이디 중복체크 요청
-        fetch(`/Kmarket/member/custid/${value}`)
+        fetch(`/kmarket/member/custid/${value}`)
             .then(res => res.json())
             .then(data => {
                 console.log(data);
@@ -99,9 +101,9 @@ document.addEventListener('DOMContentLoaded', function(){
     //////////////////////////////////////////////////////////
     // 이름 검사
     //////////////////////////////////////////////////////////
-    form.us_name.addEventListener('focusout', function(e){
+    checkName.addEventListener('focusout', function(e){
 
-        const value = form.us_name.value;
+        const value = checkName.value;
 
         if(!value.match(reName)){
             nameResult.innerText = '이름이 유효하지 않습니다.';
@@ -120,129 +122,135 @@ document.addEventListener('DOMContentLoaded', function(){
 
     let preventDblClick = false;
 
-    form.email.addEventListener('input', function(e){
-
-        // 이중 클릭 방지
-        if(preventDblClick){
-            return;
-        }
-
-        const value = form.email.value;
-        console.log('value : ' + value);
-
-        // 이메일 유효성 검사
-        if(!value.match(reEmail)){
-            emailResult.innerText = '이메일이 유효하지 않습니다.';
-            emailResult.style.color = 'red';
-            isEmailOk = false;
-            return;
-        }else{
-            emailResult.innerText = '유효한 이메일입니다. 인증을 진행하세요.';
-            emailResult.style.color = 'green';
-
-        }
-
-
-
-
-    });
-
 
     // 이메일 코드 전송 버튼 클릭
-    btnCheckEmail.addEventListener('click', async function(e){
-        // 이중 클릭 방지 실행
-        preventDblClick = true;
-        emailCode.style.display = "block";
-        emailResult.innerText = '이메일로 인증코드 전송 중 입니다.';
-        emailResult.style.color = 'green';
+    if(btnCheckEmail){
+        btnCheckEmail.addEventListener('click', async function(e){
+            // 이중 클릭 방지
+            if(preventDblClick){
+                return;
+            }
 
+            const value = form.email.value;
+            console.log('value : ' + value);
 
+            // 이메일 유효성 검사
+            if(!value.match(reEmail)){
+                emailResult.innerText = '이메일이 유효하지 않습니다.';
+                emailResult.style.color = 'red';
+                isEmailOk = false;
+                return;
+            }
 
-        fetch(`/Kmarket/member/email/${value}`)
-            .then(res => res.json())
-            .then(data => {
-                console.log(data);
+            e.preventDefault();
 
-                // 이중 클릭 방지 해제
-                preventDblClick = false;
+            // 이중 클릭 방지
+            if(preventDblClick) return;
+            preventDblClick = true;
+
+            emailCode.style.display = "block";
+            emailResult.innerText = '이메일로 인증코드 전송 중 입니다.';
+            emailResult.style.color = 'green';
+
+            // 이메일 중복 체크 & 코드 전송
+            try {
+                const res = await fetch(`/kmarket/member/email/${value}`);
+                const data = await res.json();
 
                 if(data.count > 0){
                     emailResult.innerText = '이미 사용 중인 이메일 입니다.';
                     emailResult.style.color = 'red';
                     isEmailOk = false;
-                }else{
+                    preventDblClick = false;
+                    return;
+                } else {
                     emailResult.innerText = '이메일 인증번호를 입력하세요.';
                     emailResult.style.color = 'green';
-
-                    // 인증번호 입력 필드 띄우기
-                    auth.style.display = 'block';
+                    emailCode.style.display = 'block';
                 }
-            })
-            .catch(err => {
+
+            } catch(err) {
                 console.log(err);
-            });
-
-        const code = form.auth.value;
-
-        // JSON 생성
-        const jsonData={
-            "code": code
-        };
-
-        const response = await fetch('/Kmarket/email/code', {
-            method: 'POST',
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify(jsonData)
+                emailResult.innerText = '이메일 전송 실패';
+                emailResult.style.color = 'red';
+                emailResult.style.color = 'red';
+            } finally {
+                preventDblClick = false;
+            }
         });
+    }
 
-        const data = await response.json();
-        console.log(data);
+    if(emailCode){
+        emailCode.addEventListener('focusout', async function(e) {
+            const code = emailCode.value.trim();
+            if(code === '') return; // 빈 값이면 체크 안함
 
-        if(data.isMatched){
-            emailResult.innerText = '이메일이 인증되었습니다.';
-            emailResult.style.color = 'green';
-            isEmailOk = true;
-        }else{
-            emailResult.innerText = '인증코드가 일치 않습니다.';
-            emailResult.style.color = 'red';
-            isEmailOk = false;
-        }
-    });
+            try {
+                const response = await fetch('/kmarket/member/email/code', {
+                    method: 'POST',
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify({code: code})
+                });
+
+                const verifyData = await response.json();
+
+                if(verifyData.isMatched){
+                    emailResult.innerText = '이메일이 인증되었습니다.';
+                    emailResult.style.color = 'green';
+                    isEmailOk = true;
+                } else {
+                    emailResult.innerText = '인증코드가 일치하지 않습니다.';
+                    emailResult.style.color = 'red';
+                    isEmailOk = false;
+                }
+            } catch(err) {
+                console.error(err);
+                emailResult.innerText = '인증 확인 중 오류가 발생했습니다.';
+                emailResult.style.color = 'red';
+                isEmailOk = false;
+            }
+        });
+    }
+
+
 
 
     //////////////////////////////////////////////////////////
     // 휴대폰 중복 체크
     //////////////////////////////////////////////////////////
-    form.hp.addEventListener('focusout', function(e){
+    if(btnCheckHp){
+        form.hp.addEventListener('focusout', function(e){
 
-        const value = form.hp.value;
-        console.log('value : ' + value);
+            const value = form.hp.value;
+            console.log('value : ' + value);
 
-        if(!value.match(reHp)){
-            hpResult.innerText = '휴대폰 번호가 유효하지 않습니다.';
-            hpResult.style.color = 'red';
-            isHpOk = false;
-            return;
-        }
+            if(!value.match(reHp)){
+                hpResult.innerText = '휴대폰 번호가 유효하지 않습니다.';
+                hpResult.style.color = 'red';
+                isHpOk = false;
+                return;
+            }
 
-        fetch(`/sboard/user/hp/${value}`)
-            .then(res => res.json())
-            .then(data => {
-                console.log(data);
-                if(data.count > 0){
-                    hpResult.innerText = '이미 사용 중인 휴대폰 입니다.';
-                    hpResult.style.color = 'red';
-                    isHpOk = false;
-                }else{
-                    hpResult.innerText = '사용 가능한 휴대폰 입니다.';
-                    hpResult.style.color = 'green';
-                    isHpOk = true;
-                }
-            })
-            .catch(err => {
-                console.log(err);
-            });
-    });
+            fetch(`/kmarket/member/hp/${value}`)
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data);
+                    if(data.count > 0){
+                        hpResult.innerText = '이미 사용 중인 휴대폰 입니다.';
+                        hpResult.style.color = 'red';
+                        isHpOk = false;
+                    }else{
+                        hpResult.innerText = '사용 가능한 휴대폰 입니다.';
+                        hpResult.style.color = 'green';
+                        isHpOk = true;
+                    }
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+        });
+
+    }
 
     // 최종 폼 전송 처리
     form.addEventListener('submit', function(e){
@@ -263,22 +271,69 @@ document.addEventListener('DOMContentLoaded', function(){
             return;
         }
 
-        if(!isNickOk){
-            alert('별명을 확인하세요.');
-            return;
-        }
 
-        if(!isEmailOk){
+        if(btnCheckEmail&&!isEmailOk){
             alert('이메일을 확인하세요.');
             return;
         }
 
-        if(!isHpOk){
+        if(btnCheckHp&&!isHpOk){
             alert('휴대폰을 확인하세요.');
             return;
         }
 
-        // 최종 폼 전송 실행
+        // 판매자 전용 필드 유효성 검사
+        const company_name = form.querySelector('input[name="company_name"]');
+        const bisiness_number = form.querySelector('input[name="bisiness_number"]');
+        const ecommerce_number = form.querySelector('input[name="ecommerce_number"]');
+        const fax_number = form.querySelector('input[name="fax_number"]');
+        const zip = form.querySelector('input[name="zip"]');
+        const addr2 = form.querySelector('input[name="addr2"]');
+        const hp = form.querySelector('input[name="hp"]');
+
+        if (company_name && company_name.value.trim() === '') {
+            alert('회사명을 입력하세요.');
+            companyName.focus();
+            return;
+        }
+
+        if (bisiness_number && bisiness_number.value.trim() === '') {
+            alert('사업자등록번호를 입력하세요.');
+            bisiness_number.focus();
+            return;
+        }
+
+        if (ecommerce_number && ecommerce_number.value.trim() === '') {
+            alert('통신판매업번호를 입력하세요.');
+            ecommerce_number.focus();
+            return;
+        }
+
+        if (fax_number && fax_number.value.trim() === '') {
+            alert('팩스번호를 입력하세요.');
+            fax_number.focus();
+            return;
+        }
+        if (!btnCheckHp && hp && hp.value.trim() === '') {
+            alert('전화번호를 입력하세요.');
+            hp.focus();
+            return;
+        }
+
+        if(!btnCheckEmail){
+            if (zip && zip.value.trim() === '') {
+                alert('주소를 입력하세요.');
+                zip.focus();
+                return;
+            }else if (addr2 && addr2.value.trim() === '') {
+                alert('상세 주소를 입력하세요.');
+                addr2.focus();
+                return;
+            }
+        }
+
+
+            // 최종 폼 전송 실행
         form.submit();
     });
 

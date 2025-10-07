@@ -1,3 +1,5 @@
+<!-- 로그인 여부, 권한 처리 시 필요 -->
+<html xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <!doctype html>
 <html lang="ko">
 <head>
@@ -5,20 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Cupang::회원</title>
     <link rel="stylesheet" th:href="@{/css/main/style_index.css}">
-
-    <!-- 검색 기능 -->
-<!--    <script th:src="@{/js/main/search.js}" defer></script>-->
-    <!-- 1/2차 카테고리 기능 -->
-<!--    <script th:src="@{/js/main/category.js}" defer></script>-->
-
-    <!-- bxSlider 라이브러리 -->
-<!--    <link rel="stylesheet" th:href="@{https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.css}">-->
-<!--    <script th:src="@{https://code.jquery.com/jquery-3.6.0.min.js}"></script>-->
-<!--    <script th:src="@{https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js}"></script>-->
-<!--    <script th:src="@{/js/main/slider.js}" defer></script>-->
-
-    <!-- 베스트+히트 상품 기능 -->
-<!--    <script th:src="@{/js/main/best.js}" defer></script>-->
+    <link rel="stylesheet" th:href="@{/css/main/style_header.css}">
+    <link rel="stylesheet" th:href="@{/css/main/style_footer.css}">
 
     <!-- Top 버튼 기능 -->
 <!--    <script th:src="@{/js/main/top-btn.js}" defer></script>-->
@@ -28,10 +18,7 @@
 
     <!-- 회원 css 및 기능 -->
     <link rel="stylesheet" th:href="@{/css/member/Member.css}">
-    <script th:src="@{/js/member/submit-agree.js}" defer></script>
     <script th:src="@{/js/member/change-idpw.js}" defer></script>
-    <script th:src="@{/js/member/postcode.js}" defer></script>
-    <script th:src="@{/js/member/validation.js}" defer></script>
 
 </head>
 
@@ -43,12 +30,29 @@
 
         <!-- 로그인 + 회원가입 + 고객센터 -->
         <div class="utility-nav">
-            <div class="inner">
+            <div class="inner" >
                 <ul class="utility-list" id="utility-menu">
-                    <!-- 기본 상태 : 로그인 전 -->
-                    <li><a href="">로그인</a></li>
-                    <li><a href="#">회원가입</a></li>
-                    <li><a href="#">고객센터</a></li>
+                    <!-- 로그인 상태 -->
+                    <li sec:authorize="isAuthenticated()">
+                        <span th:text="${#authentication.principal.memberDTO.name}">회원명</span>님
+                    </li>
+                    <li sec:authorize="isAuthenticated()">
+                        <a th:href="@{/member/logout}">로그아웃</a>
+                    </li>
+                    <li sec:authorize="isAuthenticated()">
+                        <a th:href="@{/cs/index}">고객센터</a>
+                    </li>
+
+                    <!-- 비로그인 상태 -->
+                    <li sec:authorize="!isAuthenticated()">
+                        <a th:href="@{/member/login}">로그인</a>
+                    </li>
+                    <li sec:authorize="!isAuthenticated()">
+                        <a th:href="@{/member/join}">회원가입</a>
+                    </li>
+                    <li sec:authorize="!isAuthenticated()">
+                        <a th:href="@{/cs/index}">고객센터</a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -73,7 +77,8 @@
                     </svg>
                     <span>찜</span>
                 </a>
-                <a href="#" class="quick-action" aria-label="마이페이지">
+                <a th:href="${#authorization.expression('isAuthenticated()') ? '/kmarket/my/home' : '/kmarket/member/login'}"
+                   class="quick-action" aria-label="마이페이지">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2"
                          stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-round-icon lucide-user-round">
                         <circle cx="12" cy="8" r="5"/>
@@ -81,7 +86,8 @@
                     </svg>
                     <span>마이페이지</span>
                 </a>
-                <a href="#" class="quick-action" aria-label="장바구니">
+                <a th:href="${#authorization.expression('isAuthenticated()') ? '/kmarket/product/cart' : '/kmarket/member/login'}"
+                   class="quick-action" id="header-cart" aria-label="장바구니">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2"
                          stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shopping-cart-icon lucide-shopping-cart">
                         <circle cx="8" cy="21" r="1"/>
