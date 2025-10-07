@@ -1,4 +1,6 @@
-<!DOCTYPE html>
+<!-- 로그인 여부, 권한 처리 시 필요 -->
+<html xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<!doctype html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -20,7 +22,8 @@
     <script th:src="@{/js/admin/cs/recruit/sidebarAction.js}" defer></script>
     <link rel="stylesheet" th:href="@{/css/admin/main/sidebar.css}">
 
-    <!-- 개인 필요 및 작업 css, js -->
+    <!-- 개인 필요 및 작업 css, js
+     *** ( 각자 페이지 위에 사용 스크립트 선언하면 그 페이지에서 스크립트 사용가능 ) *** -->
     <link rel="stylesheet" th:href="@{/css/admin/main/Admin.css}">
     <script th:src="@{/js/main/top-btn.js}" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
@@ -52,7 +55,11 @@
                     </a>
                 </div>
 
-                <button>로그아웃</button>
+                <!-- 로그인 했을 경우 관리자 접속 가능 head 맨위에 sec 관련 태그 추가하기 -->
+                <form th:action="@{/member/logout}" method="post" sec:authorize="isAuthenticated()">
+                    <button type="submit">로그아웃</button>
+                </form>
+
             </div>
         </div>
     </div>

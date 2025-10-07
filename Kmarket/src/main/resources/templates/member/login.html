@@ -6,19 +6,21 @@
                 <h2 class="boardText-login">로그인</h2>
             </div>
             <div class="boardLower">
-                 <div class="left">
-                    <div class="loginSesion">
-                        <label for="id">아이디</label>
-                        <input id="id" type="text" class="login-input"><br>
+                <form method="post">
+                    <div class="left">
+                        <div class="loginSesion">
+                            <label for="custid">아이디</label>
+                            <input id="custid" name="custid" type="text" class="login-input"><br>
 
-                        <label for="pw">비밀번호</label>
-                        <input id="pw" type="password" class="login-input"><br>
+                            <label for="pw">비밀번호</label>
+                            <input id="pw" name="pw" type="password" class="login-input"><br>
 
-                        <button type="submit" class="loginButton">로그인</button><br>
+                            <button type="submit" class="loginButton">로그인</button><br>
 
-                        <input type="checkbox" class="check-autoLogin" id="autoLogin">
-                        <label for="autoLogin">자동 로그인</label>
-                    </div>
+                            <input type="checkbox" class="check-autoLogin" id="autoLogin" name="remember-me">
+                            <label for="autoLogin">자동 로그인</label>
+                        </div>
+                    </form>
 
                     <div class="link-container">
                         <a th:href="@{/member/find/userId}" class="link-style">아이디 찾기</a>
@@ -41,7 +43,7 @@
                         </a>
                     </div>
 
-                    
+
                 </div>
 
                 <div class="right">
