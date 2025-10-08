@@ -2,6 +2,7 @@ package kr.co.kmarket.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import kr.co.kmarket.dto.MemberDTO;
+import kr.co.kmarket.service.EmailService;
 import kr.co.kmarket.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +20,7 @@ import java.util.Map;
 public class MemberController {
 
     private final MemberService memberService;
+    private final EmailService emailService;
 
     @GetMapping("/join")
     public String join(){
@@ -84,6 +86,17 @@ public class MemberController {
         return "member/find/userId";
     }
 
+    @PostMapping("/find/userId")
+    public String userId(String name, String email, Model model){
+        log.info("name: {}, email: {}", name, email);
+        MemberDTO findIdInfo = memberService.getUserIdInfo(name, email);
+        if(findIdInfo == null){
+            model.addAttribute("findIdmsg", "회원정보가 일치하지 않습니다.");
+        } else {
+            model.addAttribute("findIdInfo", findIdInfo);
+        }
+        return "member/find/resultId";
+    }
 
     // API 요청 메서드
     @ResponseBody
@@ -100,4 +113,24 @@ public class MemberController {
 
         return ResponseEntity.ok(map);
     }
+
+    @PostMapping("/email/send")
+    @ResponseBody
+    public ResponseEntity<String> sendEmail(@RequestBody Map<String,String> req){
+        String email = req.get("email");
+        String mode = req.get("mode"); // "join" 또는 "find"
+        int count = memberService.countUser("email", email);
+
+        if("join".equals(mode) && count > 0){
+            return ResponseEntity.badRequest().body("이미 존재하는 이메일입니다.");
+        }
+
+        if("find".equals(mode) && count == 0){
+            return ResponseEntity.badRequest().body("존재하지 않는 이메일입니다.");
+        }
+
+        emailService.sendCode(email); // 조건 맞으면 발송
+        return ResponseEntity.ok("인증 코드 발송 완료");
+    }
+
 }

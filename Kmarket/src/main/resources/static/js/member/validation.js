@@ -148,9 +148,7 @@ document.addEventListener('DOMContentLoaded', function(){
             if(preventDblClick) return;
             preventDblClick = true;
 
-            emailCode.style.display = "block";
-            emailResult.innerText = '이메일로 인증코드 전송 중 입니다.';
-            emailResult.style.color = 'green';
+
 
             // 이메일 중복 체크 & 코드 전송
             try {
@@ -164,6 +162,16 @@ document.addEventListener('DOMContentLoaded', function(){
                     preventDblClick = false;
                     return;
                 } else {
+                    emailCode.style.display = "block";
+                    emailResult.innerText = '이메일로 인증코드 전송 중 입니다.';
+                    emailResult.style.color = 'green';
+
+                    await fetch("/kmarket/member/email/send", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ email: value, mode: "join" })
+                    });
+
                     emailResult.innerText = '이메일 인증번호를 입력하세요.';
                     emailResult.style.color = 'green';
                     emailCode.style.display = 'block';

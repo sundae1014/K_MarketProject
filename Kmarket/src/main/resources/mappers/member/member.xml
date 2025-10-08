@@ -47,4 +47,8 @@
     <select id="countByHp" parameterType="string" resultType="int">
         SELECT COUNT(*) FROM MEMBER WHERE hp = #{hp}
     </select>
+
+    <select id="findCustIdInfo" resultType="kr.co.kmarket.dto.MemberDTO">
+        SELECT custid, name, email, "Date" FROM member WHERE name = #{name} AND email = #{email}
+    </select>
 </mapper>

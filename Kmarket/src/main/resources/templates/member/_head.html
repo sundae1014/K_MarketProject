@@ -1,7 +1,7 @@
+<!doctype html>
 <!-- 로그인 여부, 권한 처리 시 필요 -->
 <html xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
-<!doctype html>
-<html lang="ko">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -34,7 +34,7 @@
                 <ul class="utility-list" id="utility-menu">
                     <!-- 로그인 상태 -->
                     <li sec:authorize="isAuthenticated()">
-                        <span th:text="${#authentication.principal.memberDTO.name}">회원명</span>님
+                        <span th:text="${member.name}">회원명</span>님
                     </li>
                     <li sec:authorize="isAuthenticated()">
                         <a th:href="@{/member/logout}">로그아웃</a>

@@ -1,4 +1,5 @@
 <div th:replace="~{member/_head.html}"></div>
+<script th:src="@{/js/member/find-validation.js}" defer></script>
     <main>
         <div class="board">
             <div class="boardUpper">
@@ -10,6 +11,7 @@
                 <button type="button" id="hpBtn">휴대폰 인증</button>
             </div>
 
+            <form th:action="@{/member/find/userId}" method="post">
             <table class="auth-table" id="authEmailTable">
                 <tr>
                     <th>이름</th>
@@ -20,11 +22,12 @@
                     <td>
                         <div class="input-row">
                             <input type="text" name="email">
-                            <button type="button" id="auth-send">인증번호 전송</button>
+                            <button type="button" id="btnCheckEmail">인증번호 전송</button>
+                            <span class="emailResult"></span>
                         </div>
                         <div class="input-row">
-                            <input type="text" name="email-code">
-                            <button type="button" id="auth-check">확인</button>
+                            <input type="text" id="emailCode">
+                            <button type="button" id="btnEmailCode">확인</button>
                         </div>
                     </td>
                     
@@ -40,7 +43,7 @@
                     <th>휴대폰</th>
                     <td>
                         <div class="input-row">
-                            <input type="text" name="phone">
+                            <input type="text" name="hp">
                             <button type="button" id="hp-auth-send">인증번호 전송</button>
                         </div>
                         <div class="input-row">
@@ -58,10 +61,10 @@
             </h2>
                 
             <div class="pre-or-next">
-                <button type="button" id="cancelBtn" class="pre">취소</button>
+                <a th:href="@{/member/login}" id="cancelBtn" class="pre">취소</a>
                 <button type="submit" class="next">다음</button> 
             </div>
-        
+            </form>
         </div>
     </main>
 
