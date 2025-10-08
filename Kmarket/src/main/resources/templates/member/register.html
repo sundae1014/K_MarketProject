@@ -1,4 +1,8 @@
 <div th:replace="~{member/_head.html}"></div>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script th:src="@{/js/member/validation.js}" defer></script>
+<script th:src="@{/js/member/postcode.js}" defer></script>
+
     <main>
          <div class="board">
             <div class="boardUpper">
@@ -30,7 +34,7 @@
                     <tr>
                         <th>이름</th>
                         <td>
-                            <input type="text" name="us_name" placeholder="이름 입력"/>
+                            <input type="text" name="name" id="checkName" placeholder="이름 입력"/>
                             <span class="nameResult"></span>
                         </td>
                     </tr>
@@ -43,8 +47,8 @@
                       <tr>
                         <th>성별</th>
                         <td>
-                            <input type="radio" name="gender" value="man" class="radio-check">남
-                            <input type="radio" name="gender" value="woman" class="radio-check">여
+                            <input type="radio" name="gender" value="1" class="radio-check">남
+                            <input type="radio" name="gender" value="2" class="radio-check">여
                         </td>
                     </tr>
                     <tr>
@@ -56,7 +60,7 @@
                                 <span class="emailResult"></span>
                             </div>
                             <div class="input-row">
-                                <input type="text" name="auth" id="emailCode" placeholder="인증번호 입력" style="display:none;"/>
+                                <input type="text" id="emailCode" placeholder="인증번호 입력" style="display:none;"/>
                             </div>
                         </td>
                     </tr>
@@ -72,10 +76,10 @@
                         </td>
                     </tr>
                     <tr>
-                        <th>주소</th>
+                        <th>주소<br/>(선택)</th>
                             <td>
                                 <div class="input-row">
-                                <input type="text" id="zip" name="zip" readonly placeholder="우편번호검색클릭"onclick="postcode()"/>
+                                <input type="text" id="zip" name="zip" readonly placeholder="우편번호검색클릭" onclick="postcode()"/>
                                 </div>
                                 <div class="input-row-long">
                                 <input type="text" id="addr1" name="addr1" readonly placeholder="기본주소검색"/>

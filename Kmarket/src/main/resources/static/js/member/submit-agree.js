@@ -14,9 +14,9 @@ if (agreeBtn) {
         const type = document.querySelector('main')?.dataset.type;
 
         if (type == 'individual') {
-            window.location.href = '/Kmarket/member/register';
+            window.location.href = '/kmarket/member/register';
         } else if (type == 'seller') {
-            window.location.href = '/Kmarket/member/registerSeller';
+            window.location.href = '/kmarket/member/registerSeller';
         }
 
     })
