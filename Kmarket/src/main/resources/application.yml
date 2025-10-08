@@ -15,9 +15,9 @@ spring:
     version: ${version}
   datasource:
     driver-class-name: oracle.jdbc.driver.OracleDriver
-    password: TnsRnjs231123
+    password: abc1234!
     url: jdbc:oracle:thin:@//15.165.32.191:1522/XEPDB1
-    username: sundae517
+    username: Kmarket
   devtools:
     livereload:
       enabled: true

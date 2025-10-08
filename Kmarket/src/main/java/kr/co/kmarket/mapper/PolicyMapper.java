@@ -10,4 +10,5 @@ import java.util.List;
 public interface PolicyMapper {
 
     public List<PolicyDTO> selectAllByType(@Param("type") String type);
+    public void update(PolicyDTO policyDTO);
 }

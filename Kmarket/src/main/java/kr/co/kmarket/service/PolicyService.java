@@ -18,4 +18,5 @@ public class PolicyService {
     public List<PolicyDTO> selectPolicyAll(String type) {
         return policyMapper.selectAllByType(type);
     }
+    public void updatePolicy(PolicyDTO policyDTO) {policyMapper.update(policyDTO);}
 }

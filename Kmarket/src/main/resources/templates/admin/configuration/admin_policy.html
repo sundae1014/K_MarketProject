@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> <!-- 나머지 4개 정책에도 마지막 처럼 변경, 버튼 꾸미기-->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -6,30 +6,26 @@
     <title>약관 관리</title>
     <link rel="stylesheet" th:href="@{/css/admin/main/header_footer.css}">
     <link rel="stylesheet" th:href="@{/css/admin/configuration/policy.css}">
-    <script>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        const privacyList = [[${privacyList}]];
+
+        function loadPolicy(index) {
+            const policy = privacyList[index];
+            document.getElementById('policy_id').value = policy.id;
+            document.getElementById('policy_title').value = policy.title;
+            document.getElementById('policy_type').value = policy.policy_type;
+            document.getElementById('policy_no').value = policy.policy_no;
+            document.getElementById('policy_content').value = policy.content;
+        }
+
+        // 초기 로드 시 첫 항목 보여주기
         document.addEventListener("DOMContentLoaded", function() {
-            let optionCount = 3;
-
-            function addRow() {
-                optionCount++;
-
-                const option_box = document.querySelector(".option_box");
-                const newDiv = document.createElement("div");
-                newDiv.className = "line_row";
-                newDiv.innerHTML = `
-                    <div class="option_title">옵션${optionCount}</div>
-                    <input type="text" name="option${optionCount}" class="option_content">
-                    <div class="option_title" style="margin-left: 20px;">옵션${optionCount} 항목</div>
-                    <input type="text" name="option${optionCount}_detail" class="option_content">
-                `;
-                option_box.appendChild(newDiv);
-            }
-            
-            document.querySelector(".option_pls").addEventListener("click", function() {
-                addRow();
-            });
+            loadPolicy(0);
         });
+        /*]]>*/
     </script>
+
     <script th:src="@{/js/admin/cs/recruit/sidebarAction.js}" defer></script>
     <link rel="stylesheet" th:href="@{/css/admin/main/sidebar.css}">
 </head>
@@ -157,16 +153,14 @@
                         <p class="title_p">회원가입 및 정책 페이지 노출 약관 입니다.</p>
                     </div>
 
-                    <form action="#">
+                    <form th:action="@{/admin/config/policy}" method="post">
                         <div id="policy_box">
                             <div class="line_row_last">
                                 <div class="policy_title">약관 내용</div>
-                                <textarea name="textarea_content" class="textarea_content">제 1조 (목적)
-                                    &#10;이 약관은 주식회사 케이 마켓 쇼핑몰(이하 회사라 함)가 운영하는 케이 마켓 인터넷 오픈마켓 사이트
-                                    &#10;(www.Kmarket.co.kr 이하 케이 마켓이라고 합니다.)와 스마트폰 등 이동통신기기를 통해 제공되는 케이 마켓
-                                    &#10;모바일 애플리케이션 (이하 모바일 케이 마켓이라고 합니다.)을 통해서 제공하는 전자상거래 관련 서비스
-                                    &#10;및 기타서비스(이하 서비스라 함)를 이용하는 자간의 관리, 의무를 확정하고 이를 이행함으로써 상호
-                                    &#10;발전을 도모하는 것을 그 목적으로 합니다.
+                                <textarea name="content" class="textarea_content">
+<th:block th:each="buyer : ${buyerList}">[[${buyer.title}]]
+[[${buyer.content}]]
+</th:block>
                                 </textarea>
                             </div>
                         </div>   
@@ -182,16 +176,14 @@
                         <p class="title_p">회원가입 및 정책 페이지 노출 약관 입니다.</p>
                     </div>
 
-                    <form action="#">
+                    <form th:action="@{/admin/config/policy}" method="post">
                         <div id="policy_box">
                             <div class="line_row_last">
                                 <div class="policy_title">약관 내용</div>
-                                <textarea name="textarea_content" class="textarea_content">제 1조 (목적)
-                                    &#10;이 약관은 주식회사 케이 마켓 쇼핑몰(이하 회사라 함)가 운영하는 케이 마켓 인터넷 오픈마켓 사이트
-                                    &#10;(www.Kmarket.co.kr 이하 케이 마켓이라고 합니다.)와 스마트폰 등 이동통신기기를 통해 제공되는 케이 마켓
-                                    &#10;모바일 애플리케이션 (이하 모바일 케이 마켓이라고 합니다.)을 통해서 제공하는 전자상거래 관련 서비스
-                                    &#10;및 기타서비스(이하 서비스라 함)를 이용하는 자간의 관리, 의무를 확정하고 이를 이행함으로써 상호
-                                    &#10;발전을 도모하는 것을 그 목적으로 합니다.
+                                <textarea name="content" class="textarea_content">
+<th:block th:each="seller : ${sellerList}">[[${seller.title}]]
+[[${seller.content}]]
+</th:block>
                                 </textarea>
                             </div>
                         </div>   
@@ -207,16 +199,14 @@
                         <p class="title_p">회원가입 및 정책 페이지 노출 약관 입니다.</p>
                     </div>
 
-                    <form action="#">
+                    <form th:action="@{/admin/config/policy}" method="post">
                         <div id="policy_box">
                             <div class="line_row_last">
                                 <div class="policy_title">약관 내용</div>
-                                <textarea name="textarea_content" class="textarea_content">제 1조 (목적)
-                                    &#10;이 약관은 주식회사 케이 마켓 쇼핑몰(이하 회사라 함)가 운영하는 케이 마켓 인터넷 오픈마켓 사이트
-                                    &#10;(www.Kmarket.co.kr 이하 케이 마켓이라고 합니다.)와 스마트폰 등 이동통신기기를 통해 제공되는 케이 마켓
-                                    &#10;모바일 애플리케이션 (이하 모바일 케이 마켓이라고 합니다.)을 통해서 제공하는 전자상거래 관련 서비스
-                                    &#10;및 기타서비스(이하 서비스라 함)를 이용하는 자간의 관리, 의무를 확정하고 이를 이행함으로써 상호
-                                    &#10;발전을 도모하는 것을 그 목적으로 합니다.
+                                <textarea name="content" class="textarea_content">
+<th:block th:each="finance : ${financeList}">[[${finance.title}]]
+[[${finance.content}]]
+</th:block>
                                 </textarea>
                             </div>
                         </div>   
@@ -232,16 +222,14 @@
                         <p class="title_p">회원가입 및 정책 페이지 노출 약관 입니다.</p>
                     </div>
 
-                    <form action="#">
+                    <form th:action="@{/admin/config/policy}" method="post">
                         <div id="policy_box">
                             <div class="line_row_last">
                                 <div class="policy_title">약관 내용</div>
-                                <textarea name="textarea_content" class="textarea_content">제 1조 (목적)
-                                    &#10;이 약관은 주식회사 케이 마켓 쇼핑몰(이하 회사라 함)가 운영하는 케이 마켓 인터넷 오픈마켓 사이트
-                                    &#10;(www.Kmarket.co.kr 이하 케이 마켓이라고 합니다.)와 스마트폰 등 이동통신기기를 통해 제공되는 케이 마켓
-                                    &#10;모바일 애플리케이션 (이하 모바일 케이 마켓이라고 합니다.)을 통해서 제공하는 전자상거래 관련 서비스
-                                    &#10;및 기타서비스(이하 서비스라 함)를 이용하는 자간의 관리, 의무를 확정하고 이를 이행함으로써 상호
-                                    &#10;발전을 도모하는 것을 그 목적으로 합니다.
+                                <textarea name="content" class="textarea_content">
+<th:block th:each="location : ${locationList}">[[${location.title}]]
+[[${location.content}]]
+</th:block>
                                 </textarea>
                             </div>
                         </div>   
@@ -257,19 +245,27 @@
                         <p class="title_p">회원가입 및 정책 페이지 노출 약관 입니다.</p>
                     </div>
 
-                    <form action="#">
+                    <div id="policy_buttons">
+                        <button type="button" onclick="loadPolicy(0)">1항</button>
+                        <button type="button" onclick="loadPolicy(1)">2항</button>
+                        <button type="button" onclick="loadPolicy(2)">3항</button>
+                        <button type="button" onclick="loadPolicy(3)">4항</button>
+                        <button type="button" onclick="loadPolicy(4)">5항</button>
+                    </div>
+
+                    <form th:action="@{/admin/config/policy}" method="post">
+                        <input type="hidden" name="id" id="policy_id">
+                        <input type="hidden" name="title" id="policy_title">
+                        <input type="hidden" name="policy_type" id="policy_type">
+                        <input type="hidden" name="policy_no" id="policy_no">
+
                         <div id="policy_box">
                             <div class="line_row_last">
                                 <div class="policy_title">약관 내용</div>
-                                <textarea name="textarea_content" class="textarea_content">제 1조 (목적)
-                                    &#10;이 약관은 주식회사 케이 마켓 쇼핑몰(이하 회사라 함)가 운영하는 케이 마켓 인터넷 오픈마켓 사이트
-                                    &#10;(www.Kmarket.co.kr 이하 케이 마켓이라고 합니다.)와 스마트폰 등 이동통신기기를 통해 제공되는 케이 마켓
-                                    &#10;모바일 애플리케이션 (이하 모바일 케이 마켓이라고 합니다.)을 통해서 제공하는 전자상거래 관련 서비스
-                                    &#10;및 기타서비스(이하 서비스라 함)를 이용하는 자간의 관리, 의무를 확정하고 이를 이행함으로써 상호
-                                    &#10;발전을 도모하는 것을 그 목적으로 합니다.
-                                </textarea>
+                                <textarea name="content" id="policy_content" class="textarea_content"></textarea>
+
                             </div>
-                        </div>   
+                        </div>
                         <div style="display: flex; justify-content: flex-end;">
                             <input type="submit" value="수정하기" class="modify_btn">
                         </div>

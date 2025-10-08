@@ -10,4 +10,10 @@
         WHERE POLICY_TYPE = #{type}
         ORDER BY POLICY_NO
     </select>
+
+    <update id="update">
+        UPDATE POLICY SET
+        CONTENT = #{content, jdbcType=CLOB}
+        where ID=#{id}
+    </update>
 </mapper>
