@@ -1,17 +1,24 @@
 package kr.co.kmarket.controller.admin;
 
+import jakarta.servlet.http.HttpSession;
 import kr.co.kmarket.dto.PolicyDTO;
+import kr.co.kmarket.dto.VersionDTO;
 import kr.co.kmarket.service.PolicyService;
+import kr.co.kmarket.service.admin.VersionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -19,6 +26,7 @@ import java.util.List;
 @Controller
 public class ConfigurationController {
     private final PolicyService policyService;
+    private final VersionService versionService;
 
     @GetMapping("/basic")
     public String basic() {return "admin/configuration/admin_basicSetting";}
@@ -56,5 +64,41 @@ public class ConfigurationController {
     public String category() {return "admin/configuration/admin_category";}
 
     @GetMapping("/version")
-    public String version() {return "admin/configuration/admin_version";}
+    public String version(Model  model) {
+        List<VersionDTO> dtoList = versionService.selectAll();
+        log.info("dtoList = {}", dtoList);
+
+        model.addAttribute("dtoList", dtoList);
+
+        return "admin/configuration/admin_version";
+    }
+
+    @PostMapping("/version")
+    @ResponseBody
+    public Map<String, Object> versionInsert(@RequestBody VersionDTO versionDTO, HttpSession session) {
+        log.info("versionDTO = {}", versionDTO);
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String custId = auth.getName();
+        log.info("userId = {}", custId);
+
+        versionDTO.setWriter(custId);
+        versionDTO.setReg_date(LocalDateTime.now(ZoneId.of("Asia/Seoul"))); //현재 시간 추가
+        versionService.save(versionDTO);
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("status", "success");
+
+        return result;
+    }
+
+    @DeleteMapping("/version")
+    @ResponseBody
+    public ResponseEntity<Void> versionDelete(@RequestBody List<Long> idList) {
+        log.info("idList = " + idList);
+
+        versionService.remove(idList);
+
+        return ResponseEntity.ok().build();
+    }
 }
