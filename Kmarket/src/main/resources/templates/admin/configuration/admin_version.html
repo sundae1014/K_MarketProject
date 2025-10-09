@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> <!-- 기능 처리후 리로드 구현하기 -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -14,6 +14,29 @@
 
             allSelect.addEventListener("change", function() {
                 checkboxes.forEach(cb => cb.checked = allSelect.checked);
+            });
+
+            //삭제 기능
+            const deleteBtn = document.querySelector(".select_delete");
+            deleteBtn.addEventListener("click", async () => {
+                const selected = document.querySelectorAll("tbody .row-checkbox:checked");
+                const idList = Array.from(selected).map(cb => cb.value);
+                console.log("삭제 id리스트: ", idList);
+
+                const response = await fetch("/kmarket/admin/config/version", {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(idList)
+                });
+
+                if(response.ok) {
+                    alert("삭제 완료!");
+                    selected.forEach(cb => cb.closest("tr").remove());
+                } else {
+                    alert("삭제 실패!");
+                }
             });
 
             //버전확인 모달
@@ -54,20 +77,31 @@
                     e.stopPropagation(); // 클릭 이벤트가 부모로 전달되지 않도록 막음
             });
 
-            form.addEventListener("submit", (e) => {
+            form.addEventListener("submit", async (e) => {
                 e.preventDefault();
 
                 const data = {
-                    version_name: form.version_name.value,
-                    change_detail: form.change_detail.value,
+                    version_no: form.version_no.value,
+                    content: form.content.value,
                 };
 
                 console.log("폼 데이터: ", data);
 
-                alert("테스트 등록되었습니다!");
+                const response = await fetch("/kmarket/admin/config/version", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type" : "application/json"
+                    },
+                    body: JSON.stringify(data)
+                });
 
-                form.reset();
-                modal2.style.display = "none";
+                if (response.ok) {
+                    alert("등록 완료!");
+                    form.reset();
+                    modal2.style.display = "none";
+                } else {
+                    alert("등록 실패!");
+                }
             });
         });
     </script>
@@ -211,45 +245,15 @@
                                 </tr>                         
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td><input type="checkbox"></td>
-                                    <td>1</td>
-                                    <td>0.0.1-SNAPSHOT</td>
-                                    <td>chhak0503</td>
-                                    <td>2024.10.13 17:12:00</td>
+                                <tr th:each="dto : ${dtoList}">
+                                    <td><input type="checkbox" class="row-checkbox" th:value="${dto.id}"></td>
+                                    <td >[[${dto.id}]]</td>
+                                    <td>[[${dto.version_no}]]</td>
+                                    <td>[[${dto.writer}]]</td>
+                                    <td th:text="${#temporals.format(dto.reg_date, 'yyyy-MM-dd HH:mm:ss')}"></td>
                                     <td>
                                         <button class="status_btn check_btn">[확인]</button>
                                     </td>                                   
-                                </tr>
-                                <tr>
-                                    <td><input type="checkbox"></td>
-                                    <td>2</td>
-                                    <td>0.0.2-SNAPSHOT</td>
-                                    <td>chhak0503</td>
-                                    <td>2024.10.14 17:12:00</td>
-                                    <td>
-                                        <button class="status_btn check_btn">[확인]</button>
-                                    </td> 
-                                </tr>
-                                <tr>
-                                    <td><input type="checkbox"></td>
-                                    <td>3</td>
-                                    <td>0.0.3-SNAPSHOT</td>
-                                    <td>chhak0503</td>
-                                    <td>2024.10.15 17:12:00</td>
-                                    <td>
-                                        <button class="status_btn check_btn">[확인]</button>
-                                    </td> 
-                                </tr>
-                                <tr>
-                                    <td><input type="checkbox"></td>
-                                    <td>4</td>
-                                    <td>0.0.4-SNAPSHOT</td>
-                                    <td>chhak0503</td>
-                                    <td>2024.10.16 17:12:00</td>
-                                    <td>
-                                        <button class="status_btn check_btn">[확인]</button>
-                                    </td> 
                                 </tr>
                             </tbody>                  
                         </table>
@@ -266,7 +270,7 @@
                         <li><a href="#"><span class="last"></span></a></li>
                     </ul>
                     <div class="btn_box">
-                        <button class="shopList_Btn select_delete">선택삭제</button>
+                            <button class="shopList_Btn select_delete">선택삭제</button>
                         <button class="shopList_Btn version_regist">등록</button>
                     </div>
                 </div>
@@ -311,15 +315,15 @@
                     <span class="close2">&times;</span>
                 </div>
 
-                <form action="#" method="post" id="versionForm">
+                <form th:action="@{/admin/config/version}" method="post" id="versionForm">
                     <div class="form-body">
                         <div class="form-row">
                             <div class="form-label">버전</div>
-                            <input type="text" name="version_name" class="form-input" required placeholder="버전 입력하기">
+                            <input type="text" name="version_no" class="form-input" required placeholder="버전 입력하기">
                         </div>
                         <div class="form-row-last">
                             <div class="form-label-last">변경내역</div>
-                            <textarea name="change_detail" id="change_detail" placeholder="변경내역작성하기"></textarea>
+                            <textarea name="content" id="change_detail" placeholder="변경내역작성하기"></textarea>
                         </div>
                     </div>
                     <div style="text-align: center;">

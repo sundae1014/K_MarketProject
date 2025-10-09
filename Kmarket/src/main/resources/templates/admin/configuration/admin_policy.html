@@ -8,20 +8,64 @@
     <link rel="stylesheet" th:href="@{/css/admin/configuration/policy.css}">
     <script th:inline="javascript">
         /*<![CDATA[*/
+        const buyerList = [[${buyerList}]];
+        const sellerList = [[${sellerList}]];
+        const financeList = [[${financeList}]];
+        const locationList = [[${locationList}]];
         const privacyList = [[${privacyList}]];
 
-        function loadPolicy(index) {
+        function loadBuyer(index) {
+            const policy = buyerList[index];
+            document.getElementById('buyer_id').value = policy.id;
+            document.getElementById('buyer_title').value = policy.title;
+            document.getElementById('buyer_type').value = policy.policy_type;
+            document.getElementById('buyer_no').value = policy.policy_no;
+            document.getElementById('buyer_content').value = policy.content;
+        }
+
+        function loadSeller(index) {
+            const policy = sellerList[index];
+            document.getElementById('seller_id').value = policy.id;
+            document.getElementById('seller_title').value = policy.title;
+            document.getElementById('seller_type').value = policy.policy_type;
+            document.getElementById('seller_no').value = policy.policy_no;
+            document.getElementById('seller_content').value = policy.content;
+        }
+
+        function loadFinance(index) {
+            const policy = financeList[index];
+            document.getElementById('finance_id').value = policy.id;
+            document.getElementById('finance_title').value = policy.title;
+            document.getElementById('finance_type').value = policy.policy_type;
+            document.getElementById('finance_no').value = policy.policy_no;
+            document.getElementById('finance_content').value = policy.content;
+        }
+
+        function loadLocation(index) {
+            const policy = locationList[index];
+            document.getElementById('location_id').value = policy.id;
+            document.getElementById('location_title').value = policy.title;
+            document.getElementById('location_type').value = policy.policy_type;
+            document.getElementById('location_no').value = policy.policy_no;
+            document.getElementById('location_content').value = policy.content;
+        }
+
+        function loadPrivacy(index) {
             const policy = privacyList[index];
-            document.getElementById('policy_id').value = policy.id;
-            document.getElementById('policy_title').value = policy.title;
-            document.getElementById('policy_type').value = policy.policy_type;
-            document.getElementById('policy_no').value = policy.policy_no;
-            document.getElementById('policy_content').value = policy.content;
+            document.getElementById('privacy_id').value = policy.id;
+            document.getElementById('privacy_title').value = policy.title;
+            document.getElementById('privacy_type').value = policy.policy_type;
+            document.getElementById('privacy_no').value = policy.policy_no;
+            document.getElementById('privacy_content').value = policy.content;
         }
 
         // 초기 로드 시 첫 항목 보여주기
         document.addEventListener("DOMContentLoaded", function() {
-            loadPolicy(0);
+            loadBuyer(0);
+            loadSeller(0);
+            loadFinance(0);
+            loadLocation(0);
+            loadPrivacy(0);
         });
         /*]]>*/
     </script>
@@ -153,15 +197,24 @@
                         <p class="title_p">회원가입 및 정책 페이지 노출 약관 입니다.</p>
                     </div>
 
+                    <div id="buyer_buttons">
+                        <button type="button" onclick="loadBuyer(0)" class="policy_button">1항</button>
+                        <button type="button" onclick="loadBuyer(1)" class="policy_button">2항</button>
+                        <button type="button" onclick="loadBuyer(2)" class="policy_button">3항</button>
+                        <button type="button" onclick="loadBuyer(3)" class="policy_button">4항</button>
+                        <button type="button" onclick="loadBuyer(4)" class="policy_button">5항</button>
+                    </div>
+
                     <form th:action="@{/admin/config/policy}" method="post">
-                        <div id="policy_box">
+                        <input type="hidden" name="id" id="buyer_id">
+                        <input type="hidden" name="title" id="buyer_title">
+                        <input type="hidden" name="policy_type" id="buyer_type">
+                        <input type="hidden" name="policy_no" id="buyer_no">
+
+                        <div class="policy_box">
                             <div class="line_row_last">
                                 <div class="policy_title">약관 내용</div>
-                                <textarea name="content" class="textarea_content">
-<th:block th:each="buyer : ${buyerList}">[[${buyer.title}]]
-[[${buyer.content}]]
-</th:block>
-                                </textarea>
+                                <textarea name="content" id="buyer_content" class="textarea_content"></textarea>
                             </div>
                         </div>   
                         <div style="display: flex; justify-content: flex-end;">
@@ -176,15 +229,24 @@
                         <p class="title_p">회원가입 및 정책 페이지 노출 약관 입니다.</p>
                     </div>
 
+                    <div id="seller_buttons">
+                        <button type="button" onclick="loadSeller(0)" class="policy_button">1항</button>
+                        <button type="button" onclick="loadSeller(1)" class="policy_button">2항</button>
+                        <button type="button" onclick="loadSeller(2)" class="policy_button">3항</button>
+                        <button type="button" onclick="loadSeller(3)" class="policy_button">4항</button>
+                        <button type="button" onclick="loadSeller(4)" class="policy_button">5항</button>
+                    </div>
+
                     <form th:action="@{/admin/config/policy}" method="post">
-                        <div id="policy_box">
+                        <input type="hidden" name="id" id="seller_id">
+                        <input type="hidden" name="title" id="seller_title">
+                        <input type="hidden" name="policy_type" id="seller_type">
+                        <input type="hidden" name="policy_no" id="seller_no">
+
+                        <div class="policy_box">
                             <div class="line_row_last">
                                 <div class="policy_title">약관 내용</div>
-                                <textarea name="content" class="textarea_content">
-<th:block th:each="seller : ${sellerList}">[[${seller.title}]]
-[[${seller.content}]]
-</th:block>
-                                </textarea>
+                                <textarea name="content" id="seller_content" class="textarea_content"></textarea>
                             </div>
                         </div>   
                         <div style="display: flex; justify-content: flex-end;">
@@ -199,15 +261,24 @@
                         <p class="title_p">회원가입 및 정책 페이지 노출 약관 입니다.</p>
                     </div>
 
+                    <div id="finance_buttons">
+                        <button type="button" onclick="loadFinance(0)" class="policy_button">1항</button>
+                        <button type="button" onclick="loadFinance(1)" class="policy_button">2항</button>
+                        <button type="button" onclick="loadFinance(2)" class="policy_button">3항</button>
+                        <button type="button" onclick="loadFinance(3)" class="policy_button">4항</button>
+                        <button type="button" onclick="loadFinance(4)" class="policy_button">5항</button>
+                    </div>
+
                     <form th:action="@{/admin/config/policy}" method="post">
-                        <div id="policy_box">
+                        <input type="hidden" name="id" id="finance_id">
+                        <input type="hidden" name="title" id="finance_title">
+                        <input type="hidden" name="policy_type" id="finance_type">
+                        <input type="hidden" name="policy_no" id="finance_no">
+
+                        <div class="policy_box">
                             <div class="line_row_last">
                                 <div class="policy_title">약관 내용</div>
-                                <textarea name="content" class="textarea_content">
-<th:block th:each="finance : ${financeList}">[[${finance.title}]]
-[[${finance.content}]]
-</th:block>
-                                </textarea>
+                                <textarea name="content" id="finance_content" class="textarea_content"></textarea>
                             </div>
                         </div>   
                         <div style="display: flex; justify-content: flex-end;">
@@ -222,17 +293,27 @@
                         <p class="title_p">회원가입 및 정책 페이지 노출 약관 입니다.</p>
                     </div>
 
+                    <div id="location_buttons">
+                        <button type="button" onclick="loadLocation(0)" class="policy_button">1항</button>
+                        <button type="button" onclick="loadLocation(1)" class="policy_button">2항</button>
+                        <button type="button" onclick="loadLocation(2)" class="policy_button">3항</button>
+                        <button type="button" onclick="loadLocation(3)" class="policy_button">4항</button>
+                        <button type="button" onclick="loadLocation(4)" class="policy_button">5항</button>
+                    </div>
+
                     <form th:action="@{/admin/config/policy}" method="post">
-                        <div id="policy_box">
+                        <input type="hidden" name="id" id="location_id">
+                        <input type="hidden" name="title" id="location_title">
+                        <input type="hidden" name="policy_type" id="location_type">
+                        <input type="hidden" name="policy_no" id="location_no">
+
+                        <div class="policy_box">
                             <div class="line_row_last">
                                 <div class="policy_title">약관 내용</div>
-                                <textarea name="content" class="textarea_content">
-<th:block th:each="location : ${locationList}">[[${location.title}]]
-[[${location.content}]]
-</th:block>
-                                </textarea>
+                                <textarea name="content" id="location_content" class="textarea_content"></textarea>
                             </div>
-                        </div>   
+                        </div>
+
                         <div style="display: flex; justify-content: flex-end;">
                             <input type="submit" value="수정하기" class="modify_btn">
                         </div>
@@ -245,27 +326,27 @@
                         <p class="title_p">회원가입 및 정책 페이지 노출 약관 입니다.</p>
                     </div>
 
-                    <div id="policy_buttons">
-                        <button type="button" onclick="loadPolicy(0)">1항</button>
-                        <button type="button" onclick="loadPolicy(1)">2항</button>
-                        <button type="button" onclick="loadPolicy(2)">3항</button>
-                        <button type="button" onclick="loadPolicy(3)">4항</button>
-                        <button type="button" onclick="loadPolicy(4)">5항</button>
+                    <div id="privacy_buttons">
+                        <button type="button" onclick="loadPrivacy(0)" class="policy_button">1항</button>
+                        <button type="button" onclick="loadPrivacy(1)" class="policy_button">2항</button>
+                        <button type="button" onclick="loadPrivacy(2)" class="policy_button">3항</button>
+                        <button type="button" onclick="loadPrivacy(3)" class="policy_button">4항</button>
+                        <button type="button" onclick="loadPrivacy(4)" class="policy_button">5항</button>
                     </div>
 
                     <form th:action="@{/admin/config/policy}" method="post">
-                        <input type="hidden" name="id" id="policy_id">
-                        <input type="hidden" name="title" id="policy_title">
-                        <input type="hidden" name="policy_type" id="policy_type">
-                        <input type="hidden" name="policy_no" id="policy_no">
+                        <input type="hidden" name="id" id="privacy_id">
+                        <input type="hidden" name="title" id="privacy_title">
+                        <input type="hidden" name="policy_type" id="privacy_type">
+                        <input type="hidden" name="policy_no" id="privacy_no">
 
-                        <div id="policy_box">
+                        <div class="policy_box">
                             <div class="line_row_last">
                                 <div class="policy_title">약관 내용</div>
-                                <textarea name="content" id="policy_content" class="textarea_content"></textarea>
-
+                                <textarea name="content" id="privacy_content" class="textarea_content"></textarea>
                             </div>
                         </div>
+
                         <div style="display: flex; justify-content: flex-end;">
                             <input type="submit" value="수정하기" class="modify_btn">
                         </div>

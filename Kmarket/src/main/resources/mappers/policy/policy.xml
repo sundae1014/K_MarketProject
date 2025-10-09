@@ -6,7 +6,7 @@
 <mapper namespace="kr.co.kmarket.mapper.PolicyMapper">
     <select id="selectAllByType" resultType="kr.co.kmarket.dto.PolicyDTO">
         SELECT *
-        FROM KMARKET.POLICY
+        FROM POLICY
         WHERE POLICY_TYPE = #{type}
         ORDER BY POLICY_NO
     </select>
