@@ -37,38 +37,41 @@ document.addEventListener('DOMContentLoaded', function(){
     //////////////////////////////////////////////////////////
     // 아이디 검사
     //////////////////////////////////////////////////////////
-    checkCustid.addEventListener('focusout', function(e){
+    if(checkCustid){
+        checkCustid.addEventListener('focusout', function(e){
 
-        const value = form.custid.value;
-        console.log('value : ' + value);
+            const value = form.custid.value;
+            console.log('value : ' + value);
 
-        // 아이디 유효성 검사
-        if(!value.match(reUid)){
-            uidResult.innerText = '아이디가 유효하지 않습니다.';
-            uidResult.style.color = 'red';
-            isUidOk = false;
-            return;
-        }
+            // 아이디 유효성 검사
+            if(!value.match(reUid)){
+                uidResult.innerText = '아이디가 유효하지 않습니다.';
+                uidResult.style.color = 'red';
+                isUidOk = false;
+                return;
+            }
 
-        // 아이디 중복체크 요청
-        fetch(`/kmarket/member/custid/${value}`)
-            .then(res => res.json())
-            .then(data => {
-                console.log(data);
-                if(data.count > 0){
-                    uidResult.innerText = '이미 사용 중인 아이디 입니다.';
-                    uidResult.style.color = 'red';
-                    isUidOk = false;
-                }else{
-                    uidResult.innerText = '사용 가능한 아이디 입니다.';
-                    uidResult.style.color = 'green';
-                    isUidOk = true;
-                }
-            })
-            .catch(err => {
-                console.log(err);
-            });
-    });
+            // 아이디 중복체크 요청
+            fetch(`/kmarket/member/custid/${value}`)
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data);
+                    if(data.count > 0){
+                        uidResult.innerText = '이미 사용 중인 아이디 입니다.';
+                        uidResult.style.color = 'red';
+                        isUidOk = false;
+                    }else{
+                        uidResult.innerText = '사용 가능한 아이디 입니다.';
+                        uidResult.style.color = 'green';
+                        isUidOk = true;
+                    }
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+        });
+    }
+
 
     //////////////////////////////////////////////////////////
     // 비밀번호 검사
@@ -101,20 +104,23 @@ document.addEventListener('DOMContentLoaded', function(){
     //////////////////////////////////////////////////////////
     // 이름 검사
     //////////////////////////////////////////////////////////
-    checkName.addEventListener('focusout', function(e){
+    if(checkName){
+        checkName.addEventListener('focusout', function(e){
 
-        const value = checkName.value;
+            const value = checkName.value;
 
-        if(!value.match(reName)){
-            nameResult.innerText = '이름이 유효하지 않습니다.';
-            nameResult.style.color = 'red';
-            isNameOk = false;
-        }else{
-            nameResult.innerText = '';
-            isNameOk = true;
-        }
-    });
+            if(!value.match(reName)){
+                nameResult.innerText = '이름이 유효하지 않습니다.';
+                nameResult.style.color = 'red';
+                isNameOk = false;
+            }else{
+                nameResult.innerText = '';
+                isNameOk = true;
+            }
+        });
 
+
+    }
 
     //////////////////////////////////////////////////////////
     // 이메일 검사
@@ -264,17 +270,17 @@ document.addEventListener('DOMContentLoaded', function(){
     form.addEventListener('submit', function(e){
         e.preventDefault(); // 기본 폼전송 해제
 
-        if(!isUidOk){
+        if(uidResult&&!isUidOk){
             alert('아이디를 확인하세요.');
             return;
         }
 
-        if(!isPassOk){
+        if(passResult&&!isPassOk){
             alert('비밀번호를 확인하세요.');
             return;
         }
 
-        if(!isNameOk){
+        if(nameResult&&!isNameOk){
             alert('이름을 확인하세요.');
             return;
         }

@@ -12,14 +12,20 @@
                     <div class="terms-section">
                         <h2><span class="terms-es">(필수)</span>이용약관</h2>
                         <div class="terms-box">
-                            <p>내용</p>
+                            <div th:each="p : ${policies}" th:if="${p.policy_type == type}">
+                                <h3 th:text="${p.title}">제목</h3>
+                                <p th:text="${p.content}">내용</p>
+                            </div>
                         </div>
                         <label><input type="checkbox" class="terms">동의합니다.</label>
                     </div>
                     <div class="terms-section">
                         <h2><span class="terms-es">(필수)</span>전자금융 이용약관</h2>
                         <div class="terms-box">
-                            <p>내용</p>
+                            <div th:each="p : ${policies}" th:if="${p.policy_type == 'finance'}">
+                                <h3 th:text="${p.title}">제목</h3>
+                                <p th:text="${p.content}">내용</p>
+                            </div>
                         </div>
                          <label><input type="checkbox" class="finance">동의합니다.</label>
                     </div>
@@ -27,15 +33,21 @@
                     <div class="terms-section">
                         <h2><span class="terms-es">(필수)</span>개인정보 수집동의</h2>
                         <div class="terms-box">
-                            <p>내용</p>
+                            <div th:each="p : ${policies}" th:if="${p.policy_type == 'privacy'}">
+                                <h3 th:text="${p.title}">제목</h3>
+                                <p th:text="${p.content}">내용</p>
+                            </div>
                         </div>
                         <label><input type="checkbox" class="privacy">동의합니다.</label>
                     </div>
 
-                    <div class="terms-section" th:if="${type == 'individual'}">
+                    <div class="terms-section" th:if="${type == 'buyer'}">
                         <h2><span class="terms-se">(선택)</span>위치정보 이용약관</h2>
                         <div class="terms-box">
-                            <p>내용</p>
+                            <div th:each="p : ${policies}" th:if="${p.policy_type == 'location'}">
+                                <h3 th:text="${p.title}">제목</h3>
+                                <p th:text="${p.content}">내용</p>
+                            </div>
                         </div>
                         <label><input type="checkbox" class="location">동의합니다.</label>
                     </div>

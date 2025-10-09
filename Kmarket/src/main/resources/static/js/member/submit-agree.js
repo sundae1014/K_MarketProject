@@ -13,7 +13,7 @@ if (agreeBtn) {
 
         const type = document.querySelector('main')?.dataset.type;
 
-        if (type == 'individual') {
+        if (type == 'buyer') {
             window.location.href = '/kmarket/member/register';
         } else if (type == 'seller') {
             window.location.href = '/kmarket/member/registerSeller';
