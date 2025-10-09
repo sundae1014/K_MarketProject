@@ -51,4 +51,14 @@
     <select id="findCustIdInfo" resultType="kr.co.kmarket.dto.MemberDTO">
         SELECT custid, name, email, "Date" FROM member WHERE name = #{name} AND email = #{email}
     </select>
+
+    <update id="updatePw">
+        UPDATE member SET pw = #{pw} WHERE custid = #{custid}
+    </update>
+
+    <select id="selectAllPolicy" resultType="kr.co.kmarket.dto.PolicyDTO">
+        SELECT *
+        FROM POLICY
+        ORDER BY POLICY_TYPE, POLICY_NO
+    </select>
 </mapper>

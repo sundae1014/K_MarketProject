@@ -1,12 +1,14 @@
 package kr.co.kmarket.service;
 
 import kr.co.kmarket.dto.MemberDTO;
+import kr.co.kmarket.dto.PolicyDTO;
 import lombok.RequiredArgsConstructor;
 import kr.co.kmarket.mapper.MemberMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -47,4 +49,15 @@ public class MemberService {
         }
         return count;
     }
+
+    public boolean changePw(String custid, String pw){
+        String encodedPass = passwordEncoder.encode(pw);
+        int result = memberMapper.updatePw(custid, encodedPass);
+        return result > 0;
+    }
+
+    public List<PolicyDTO> getAllPolicies(){
+        return memberMapper.selectAllPolicy();
+    }
+
 }

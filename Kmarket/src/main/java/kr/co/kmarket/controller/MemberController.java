@@ -2,6 +2,7 @@ package kr.co.kmarket.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import kr.co.kmarket.dto.MemberDTO;
+import kr.co.kmarket.dto.PolicyDTO;
 import kr.co.kmarket.service.EmailService;
 import kr.co.kmarket.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -39,6 +42,7 @@ public class MemberController {
 
     @PostMapping("/register")
     public String register(MemberDTO memberDTO, HttpServletRequest req){
+        log.info(memberDTO.toString());
         memberDTO.setAuth(1);
         memberDTO.setPoint(0);
         memberService.save(memberDTO);
@@ -52,6 +56,7 @@ public class MemberController {
 
     @PostMapping("/registerSeller")
     public String registerSeller(MemberDTO memberDTO, HttpServletRequest req){
+        log.info(memberDTO.toString());
         memberDTO.setAuth(3);
         memberService.save(memberDTO);
         return "redirect:/member/login";
@@ -62,6 +67,12 @@ public class MemberController {
     @GetMapping("/signup")
     public String signup(@RequestParam String type, Model model){
         model.addAttribute("type",type);
+
+        List<PolicyDTO> policies = memberService.getAllPolicies();
+
+        log.info("policies:"+policies);
+
+        model.addAttribute("policies", policies);
         return "member/signup";
     }
 
@@ -70,9 +81,36 @@ public class MemberController {
         return "member/find/changePassword";
     }
 
+    @PostMapping("/find/changePassword")
+    public String changePassword(@RequestParam("custid") String custid, @RequestParam("pw") String pw, Model model, RedirectAttributes ra){
+        log.info("custid: {}, pw: {}", custid, pw);
+        boolean isChanged = memberService.changePw(custid,pw);
+        if (isChanged) {
+            ra.addFlashAttribute("msg", "비밀번호가 성공적으로 변경되었습니다.");
+            return "redirect:/member/login";
+        } else {
+            model.addAttribute("msg", "비밀번호 변경에 실패했습니다. 다시 시도해주세요.");
+            return "member/changePassword";
+        }
+
+    }
+
     @GetMapping("/find/password")
     public String password(){
         return "member/find/password";
+    }
+
+    @PostMapping("/find/password")
+    public String password(String name, String email, Model model){
+        log.info("name: {}, email: {}", name, email);
+        MemberDTO findIdInfo = memberService.getUserIdInfo(name, email);
+        if(findIdInfo == null){
+            model.addAttribute("msg", "회원정보가 일치하지 않습니다.");
+            return "member/find/password";
+        } else {
+            model.addAttribute("findIdInfo", findIdInfo);
+            return "member/find/changePassword";
+        }
     }
 
     @GetMapping("/find/resultId")
@@ -91,11 +129,13 @@ public class MemberController {
         log.info("name: {}, email: {}", name, email);
         MemberDTO findIdInfo = memberService.getUserIdInfo(name, email);
         if(findIdInfo == null){
-            model.addAttribute("findIdmsg", "회원정보가 일치하지 않습니다.");
+            model.addAttribute("msg", "회원정보가 일치하지 않습니다.");
+            return "member/find/userId";
         } else {
             model.addAttribute("findIdInfo", findIdInfo);
+            return "member/find/resultId";
         }
-        return "member/find/resultId";
+
     }
 
     // API 요청 메서드
