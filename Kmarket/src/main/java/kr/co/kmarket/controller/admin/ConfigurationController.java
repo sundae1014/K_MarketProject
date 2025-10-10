@@ -1,6 +1,8 @@
 package kr.co.kmarket.controller.admin;
 
 import jakarta.servlet.http.HttpSession;
+import kr.co.kmarket.dto.PageRequestDTO;
+import kr.co.kmarket.dto.PageResponseDTO;
 import kr.co.kmarket.dto.PolicyDTO;
 import kr.co.kmarket.dto.VersionDTO;
 import kr.co.kmarket.service.PolicyService;
@@ -64,13 +66,24 @@ public class ConfigurationController {
     public String category() {return "admin/configuration/admin_category";}
 
     @GetMapping("/version")
-    public String version(Model  model) {
-        List<VersionDTO> dtoList = versionService.selectAll();
-        log.info("dtoList = {}", dtoList);
-
-        model.addAttribute("dtoList", dtoList);
+    public String version(Model  model, PageRequestDTO pageRequestDTO) {
+        PageResponseDTO pageResponseDTO = versionService.selectAll(pageRequestDTO);
+        log.info("pageResponseDTO = {}", pageResponseDTO);
+        model.addAttribute("pageResponseDTO", pageResponseDTO);
 
         return "admin/configuration/admin_version";
+    }
+
+    @GetMapping("/version/{versionId}")
+    @ResponseBody
+    public ResponseEntity<VersionDTO> version(@PathVariable("versionId") String versionId, Model  model) {
+        log.info("versionId = {}", versionId);
+        VersionDTO versionDTO = versionService.getVersion(versionId);
+        log.info("versionDTO = {}", versionDTO);
+
+        model.addAttribute("versionDTO", versionDTO);
+
+        return ResponseEntity.ok(versionDTO);
     }
 
     @PostMapping("/version")
