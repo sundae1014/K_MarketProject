@@ -1,4 +1,4 @@
-<!DOCTYPE html> <!-- 기능 처리후 리로드 구현하기 -->
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -33,7 +33,7 @@
 
                 if(response.ok) {
                     alert("삭제 완료!");
-                    selected.forEach(cb => cb.closest("tr").remove());
+                    location.reload();
                 } else {
                     alert("삭제 실패!");
                 }
@@ -46,7 +46,25 @@
             const closeBtn = modal1.querySelector(".close_btn");
 
             checkBtn_box.forEach(checkBtn => {
-                checkBtn.addEventListener("click", () => {
+                checkBtn.addEventListener("click", async () => {
+                    const versionId = checkBtn.value;
+                    console.log("조회할 버전 ID: ", versionId);
+
+                    const response = await fetch(`/kmarket/admin/config/version/${versionId}`);
+                    if(!response.ok) {
+                        alert("버전 정보 불러오기 실패!");
+                        return;
+                    }
+
+                    const data = await response.json();
+                    console.log("버전 데이터: ", data);
+
+                    const versionTitle = modal1.querySelector(".form-row span");
+                    const versionContent = modal1.querySelector("#version-content");
+
+                    versionTitle.textContent = data.version_no;
+                    versionContent.textContent = data.content;
+
                     modal1.style.display = "block";
                 });
             });
@@ -67,7 +85,10 @@
                 modal2.style.display = "block";
             });
 
-            x_btn2.addEventListener("click", () => modal2.style.display = "none");
+            x_btn2.addEventListener("click", () => {
+                modal2.style.display = "none";
+                form.reset();
+            });
             window.addEventListener("click", (e) => {
                 if (e.target === modal2) modal2.style.display = "none";
             });
@@ -97,8 +118,7 @@
 
                 if (response.ok) {
                     alert("등록 완료!");
-                    form.reset();
-                    modal2.style.display = "none";
+                    location.reload();
                 } else {
                     alert("등록 실패!");
                 }
@@ -245,15 +265,16 @@
                                 </tr>                         
                             </thead>
                             <tbody>
-                                <tr th:each="dto : ${dtoList}">
-                                    <td><input type="checkbox" class="row-checkbox" th:value="${dto.id}"></td>
-                                    <td >[[${dto.id}]]</td>
-                                    <td>[[${dto.version_no}]]</td>
-                                    <td>[[${dto.writer}]]</td>
-                                    <td th:text="${#temporals.format(dto.reg_date, 'yyyy-MM-dd HH:mm:ss')}"></td>
+
+                                <tr th:each="version, stat:${pageResponseDTO.dtoList}">
+                                    <td><input type="checkbox" class="row-checkbox" th:value="${version.id}"></td>
+                                    <td >[[${version.id}]]</td>
+                                    <td>[[${version.version_no}]]</td>
+                                    <td>[[${version.writer}]]</td>
+                                    <td th:text="${#temporals.format(version.reg_date, 'yyyy-MM-dd HH:mm:ss')}"></td>
                                     <td>
-                                        <button class="status_btn check_btn">[확인]</button>
-                                    </td>                                   
+                                        <button class="status_btn check_btn" th:value="${version.id}">[확인]</button>
+                                    </td>
                                 </tr>
                             </tbody>                  
                         </table>
@@ -261,13 +282,11 @@
                 </div>
                 <div class="bottom-section" style="position: relative;">
                     <ul class="pagenation">
-                        <li><a href="#"><span class="first"></span></a></li>
-                        <li><a href="#"><span class="prev"></span></a></li>
-                        <li><a href="#" class="active2">1</a></li>
-                        <li><a href="#" class="pageNum">2</a></li>
-                        <li><a href="#" class="pageNum">3</a></li>
-                        <li><a href="#"><span class="next"></span></a></li>
-                        <li><a href="#"><span class="last"></span></a></li>
+                        <li><a th:if="${pageResponseDTO.prev}" th:href="@{/admin/config/version(pg=${pageResponseDTO.start - 1})}"><span class="prev"></span></a></li>
+                        <th:block th:each="num:${#numbers.sequence(pageResponseDTO.start, pageResponseDTO.end)}">
+                            <li><a th:href="@{/admin/config/version(pg=${num})}" th:class="${num == pageResponseDTO.pg ? 'active2' : 'pageNum'}">[[${num}]]</a></li>
+                        </th:block>
+                        <li><a th:if="${pageResponseDTO.next}" th:href="@{/admin/config/version(pg=${pageResponseDTO.end + 1})}"><span class="next"></span></a></li>
                     </ul>
                     <div class="btn_box">
                             <button class="shopList_Btn select_delete">선택삭제</button>
@@ -288,16 +307,11 @@
                 <div class="form-body">
                     <div class="form-row">
                         <div class="form-label">버전</div>
-                        <span style="margin-left: 10px;">0.0.1-SNAPSHOT</span>
+                        <span style="margin-left: 10px;"></span>
                     </div>
                     <div class="form-row-last">
                         <div class="form-label-last">변경내역</div>
-                        <div style="white-space: pre-wrap;margin-left: 10px;">
-- 프로젝트 생성 및 전체 구조 설계
-- 회원가입 아이디 중복체크 완료
-- 관리자 상품 등록 완료
-- 쇼핑몰 메인 및 개별 페이지 링크 작업
-- 개발을 위한 제반 사항 처리
+                        <div style="white-space: pre-wrap;margin-left: 10px;" id="version-content">
                         </div>
                     </div>
                 </div>

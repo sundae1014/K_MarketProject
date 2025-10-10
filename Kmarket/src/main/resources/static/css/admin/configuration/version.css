@@ -257,10 +257,10 @@ td {
 #change_detail {
     border:2px solid #BFBFBF;
     height: 270px;
-    line-height: 150px;
+    line-height: 20px;
     margin-left: 10px;
     outline: none;
-    padding: 10px;
+    padding: 50px 10px 10px 10px ;
     resize: none;
     width: 490px;
 }
