@@ -17,7 +17,9 @@ public class HireDTO {
     private String title;
     private String author;
     private String status;
-    private String recruit_period;
     private String create_date;
 
+    private String recruit_period_start;
+    private String recruit_period_end;
+    private String content;
 }

@@ -136,8 +136,8 @@
                                 <tr class="total-row">
                                     <td colspan="2" class="order-count">131</td>
                                     <td colspan="2" class="order-amount">3,700,000</td>
-                                    <td colspan="2" class="member-signup">232</td>
-                                    <td colspan="2" class="visitor-count">2,500</td>
+                                    <td colspan="2" class="member-signup" th:text="${regTotal}"></td>
+                                    <td colspan="2" class="visitor-count" th:text="${visitorTotal}"></td>
                                     <td colspan="2" class="inquiry-posts">25</td>
                                 </tr>
                                 <tr class="yester-today">
@@ -148,10 +148,10 @@
                                     <td class="order-amount">123</td>
 
                                     <td class="member-signup">어제</td>
-                                    <td class="member-signup">123</td>
+                                    <td class="member-signup" th:text="${regYesterday}"></td>
 
                                     <td class="visitor-count">어제</td>
-                                    <td class="visitor-count">123</td>
+                                    <td class="visitor-count" th:text="${visitorYesterday}"></td>
 
                                     <td class="inquiry-posts">어제</td>
                                     <td class="inquiry-posts">123</td>
@@ -164,10 +164,10 @@
                                     <td class="order-amount">12</td>
 
                                     <td class="member-signup">오늘</td>
-                                    <td class="member-signup">12</td>
+                                    <td class="member-signup" th:text="${regToday}"></td>
 
                                     <td class="visitor-count">오늘</td>
-                                    <td class="visitor-count">12</td>
+                                    <td class="visitor-count" th:text="${visitorToday}"></td>
 
                                     <td class="inquiry-posts">오늘</td>
                                     <td class="inquiry-posts">12</td>

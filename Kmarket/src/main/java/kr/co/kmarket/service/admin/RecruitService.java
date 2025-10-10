@@ -15,4 +15,21 @@ public class RecruitService {
     public List<HireDTO> getAllHires(){
         return recruitMapper.selectAllHireList();
     }
+    public void deleteAllByHireNo(List<Integer> hire_no){
+        recruitMapper.deleteAllByHireNo(hire_no);
+    }
+
+    public void insertHire(HireDTO hireDTO){
+        recruitMapper.insertHire(hireDTO);
+
+    }
+
+    public void updateExpiredHires(){
+        recruitMapper.updateExpiredHires();
+    }
+
+    public List<HireDTO> selectSearch(String searchType, String keyword){
+        return recruitMapper.selectSearch(searchType, keyword);
+    };
+
 }
