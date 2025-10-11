@@ -1,6 +1,8 @@
 <!-- 헤더 본인 파일로 복붙 시 경로 추가하기 -->
 <div th:replace="~{admin/cs/recruit/_head.html}"></div>
 <script th:src="@{/js/admin/cs/recruit/modal.js}" defer></script>
+<script th:src="@{/js/admin/cs/recruit/deleteItem.js}" defer></script>
+
     <main>
         <div class="board">
 
@@ -96,53 +98,58 @@
                     </div>
                 </div>
                 <div class="search-area">
+                    <form th:action="@{/admin/cs/recruit/search}" method="get">
+                        <select name="searchType" id="recruit-cate">
+                            <option value="hire_no">채용번호</option>
+                            <option value="department">채용부서</option>
+                            <option value="hire_type">채용형태</option>
+                            <option value="title">제목</option>
+                        </select>
 
-                    <select name="recruit" id="recruit-cate">
-                        <option value="col-num">채용번호</option>
-                        <option value="col-dept">채용부서</option>
-                        <option value="col-type">채용형태</option>
-                        <option value="col-title">제목</option>
-                    </select>
+                        <input type="text" placeholder="검색어 입력" name="keyword" class="search-lang">
 
-                    <input type="text" placeholder="검색어 입력" class="search-lang" id="recruit-enter">
-                    
-                    <input type="submit" value="검색" class="search-btn" id="recruit-serch"/>
+                        <input type="submit" value="검색" class="search-btn" id="recruit-serch"/>
+                    </form>
+
                 
                     </div>
 
-                    <table class="recruit-table">                        
-                        <tr>
-                            <th><input type="checkbox" id="checkAll"></th>
-                            <th class="col-num">번호</th>
-                            <th class="col-dept">채용부서</th>
-                            <th class="col-career">경력사항</th>
-                            <th class="col-type">채용형태</th>
-                            <th class="col-title">제목</th>
-                            <th class="col-writer">작성자</th>
-                            <th class="col-status">상태</th>
-                            <th class="col-period">모집기간</th>
-                            <th class="col-write">작성일</th>
-                        </tr>    
-                        <tr th:each="hire: ${hires}">
-                            <td><input type="checkbox" class="row-check"></td>
-                            <td class="col-num">[[${hire.hire_no}]]</td>
-                            <td class="col-dept">[[${hire.department}]]</td>
-                            <td class="col-career">[[${hire.experience}]]</td>
-                            <td class="col-type">[[${hire.hire_type}]]</td>
-                            <td class="col-title">[[${hire.title}]]</td>
-                            <td class="col-writer">[[${hire.author}]]</td>
-                            <td class="col-status" th:classappend="${hire.status} == '모집중' ? ' status-open' : ' status-closed'">[[${hire.status}]]</td>
-                            <td class="col-period">[[${hire.recruit_period}]]</td>
-                            <td class="col-write">[[${hire.create_date}]]</td>
-                        </tr>
-
+                    <table class="recruit-table">
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox" id="checkAll"></th>
+                                <th class="col-num">번호</th>
+                                <th class="col-dept">채용부서</th>
+                                <th class="col-career">경력사항</th>
+                                <th class="col-type">채용형태</th>
+                                <th class="col-title">제목</th>
+                                <th class="col-writer">작성자</th>
+                                <th class="col-status">상태</th>
+                                <th class="col-period">모집기간</th>
+                                <th class="col-write">작성일</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recruit-tbody">
+                            <tr th:each="hire, iterStat : ${hires}">
+                                <td><input type="checkbox" class="row-check" th:value="${hire.hire_no}"></td>
+                                <td class="col-num">[[${iterStat.index + 1}]]</td>
+                                <td class="col-dept">[[${hire.department}]]</td>
+                                <td class="col-career">[[${hire.experience}]]</td>
+                                <td class="col-type">[[${hire.hire_type}]]</td>
+                                <td class="col-title">[[${hire.title}]]</td>
+                                <td class="col-writer">[[${hire.author}]]</td>
+                                <td class="col-status" th:classappend="${hire.status} == '모집중' ? ' status-open' : ' status-closed'">[[${hire.status}]]</td>
+                                <td class="col-period">[[${hire.recruit_period_start}]] ~ [[${hire.recruit_period_end}]]</td>
+                                <td class="col-write">[[${hire.create_date}]]</td>
+                            </tr>
+                        </tbody>
                     </table>
 
                     <div class="delete-or-register">
-                        <input type="submit" value="선택삭제" class="delete-btn" id="select-delete"/>
+                        <button class="delete-btn" id="select-delete">선택삭제</button>
                         <button class="modal-openBtn">채용등록</button>
                     </div>
-                    
+
                      <div class="page">
                         <div class="prev">
                             <a href="#" class="paging">
@@ -186,48 +193,56 @@
                     <tr>
                         <th>제목</th>
                         <td>
-                            <input type="text" id="modal-title">
+                            <input type="text" name="title">
                         </td>
                     </tr>
                     <tr>
                         <th>채용부서</th>
                         <td>
-                            <select name="recruit-team" id="recruit-team">
+                            <select name="department">
                                 <option value="">채용부서 선택</option>
-                                <option value="recruit-team">test</option>
+                                <option value="개발/기술">개발/기술</option>
+                                <option value="상품/서비스">상품/서비스</option>
+                                <option value="마케팅/광고">마케팅/광고</option>
+                                <option value="디자인/UX">디자인/UX</option>
+                                <option value="경영/지원">경영/지원</option>
                             </select>
                         </td>
                     </tr>
                     <tr>
                         <th>경력사항</th>
                         <td>
-                            <select name="recruit-terms" id="recruit-terms">
+                            <select name="experience">
                                 <option value="">경력사항 선택</option>
-                                <option value="recruit-terms">test</option>
+                                <option value="신입(경력 없음)">신입(경력 없음)</option>
+                                <option value="1년~3년">1년~3년</option>
+                                <option value="3년~5년">3년~5년</option>
+                                <option value="5년 이상">5년 이상</option>
                             </select>
                         </td>
                     </tr>
                     <tr>
                         <th>채용형태</th>
                         <td>
-                            <select name="recruit-form" id="recruit-form">
+                            <select name="hire_type">
                                 <option value="">채용형태 선택</option>
-                                <option value="recruit-form">test</option>
+                                <option value="정규직">정규직</option>
+                                <option value="계약직">계약직</option>
                             </select>
                         </td>
                     </tr>
                     <tr>
                         <th>모집기간</th>
                         <td>
-                            <input type="date" name="start-date">
+                            <input type="date" name="recruit_period_start">
                             <p>~</p>
-                            <input type="date" name="end-date">
+                            <input type="date" name="recruit_period_end">
                         </td>
                     </tr>
                     <tr>
                         <th>비고</th>
                         <td>
-                            <input type="text" id="modal-etc">
+                            <input type="text" name="content" id="modal-etc">
                         </td>
                     </tr>
                 </table>

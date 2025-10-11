@@ -7,7 +7,7 @@
         INSERT INTO MEMBER(
         cust_number, name, custid, pw, hp, email, gender,
         stat, point, auth, useterm, company_name, business_number,
-        ecommerce_number, fax_number, zip, addr1, addr2, birth, "Date"
+        ecommerce_number, fax_number, zip, addr1, addr2, operation, birth, "Date"
         ) VALUES (
         MEMBER_SEQ.NEXTVAL,
         #{name},
@@ -27,6 +27,7 @@
         #{zip,jdbcType=VARCHAR},
         #{addr1,jdbcType=VARCHAR},
         #{addr2,jdbcType=VARCHAR},
+        #{operation,jdbcType=VARCHAR},
         #{birth,jdbcType=VARCHAR},
         SYSDATE
         )

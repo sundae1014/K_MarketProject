@@ -1,12 +1,25 @@
 package kr.co.kmarket.controller;
 
+import kr.co.kmarket.dto.HireDTO;
+import kr.co.kmarket.service.admin.RecruitService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.List;
+
+@Slf4j
 @Controller
 @RequestMapping("/company")
 public class CompanyController {
+
+    private final RecruitService recruitService;
+
+    public CompanyController(RecruitService recruitService) {
+        this.recruitService = recruitService;
+    }
 
     @GetMapping("/culture")
     public String culture(){
@@ -24,7 +37,12 @@ public class CompanyController {
     }
 
     @GetMapping("/recruit")
-    public String recruit(){
+    public String recruit(Model model){
+        List<HireDTO> hires = recruitService.getAllHires();
+
+        log.info("hires={}", hires);
+
+        model.addAttribute("hires", hires);
         return "company/recruit";
     }
 

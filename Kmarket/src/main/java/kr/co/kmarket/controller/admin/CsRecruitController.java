@@ -5,11 +5,16 @@ import kr.co.kmarket.dto.HireDTO;
 import kr.co.kmarket.service.admin.RecruitService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Slf4j
@@ -28,4 +33,60 @@ public class CsRecruitController {
         model.addAttribute("hires", hires);
         return "admin/cs/recruit/list";
     }
+
+    @PostMapping("/delete")
+    public ResponseEntity<String> deleteHires(@RequestBody List<Integer> hire_no) {
+        log.info("hire_no={}", hire_no);
+        recruitService.deleteAllByHireNo(hire_no);
+        return ResponseEntity.ok("sucess");
+    }
+
+    @PostMapping("/insert")
+    public ResponseEntity<HireDTO> insertHires(@RequestBody HireDTO hireDTO, @AuthenticationPrincipal UserDetails member) {
+        log.info("hireDTO={}", hireDTO);
+
+        hireDTO.setAuthor(member.getUsername());
+
+        LocalDate today = LocalDate.now();
+
+        // String → LocalDate 변환
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate endDate = LocalDate.parse(hireDTO.getRecruit_period_end(), formatter);
+
+        // 오늘 이전이면 종료
+        if (endDate.isBefore(today)) {
+            hireDTO.setStatus("종료");
+        } else {
+            hireDTO.setStatus("모집중");
+        }
+
+        recruitService.insertHire(hireDTO);
+
+        return ResponseEntity.ok(hireDTO);
+    }
+
+    @GetMapping("/list/json")
+    public ResponseEntity<List<HireDTO>> getHireList() {
+        List<HireDTO> hires = recruitService.getAllHires();
+        return ResponseEntity.ok(hires);
+    }
+
+    @Scheduled(cron = "0 0 0 * * *") // 매일 자정
+    public void updateStatusDaily() {
+       recruitService.updateExpiredHires();
+    }
+
+    @GetMapping("/search")
+    public String searchHires(@RequestParam("searchType") String searchType, @RequestParam("keyword") String keyword, Model model) {
+
+        log.info("searchHires={}, keyword={}", searchType, keyword);
+        List<HireDTO> hires = recruitService.selectSearch(searchType, keyword);
+
+        model.addAttribute("hires", hires);
+        model.addAttribute("searchType", searchType);
+        model.addAttribute("keyword", keyword);
+
+        return "admin/cs/recruit/list"; // 검색 결과 포함
+    }
+
 }

@@ -48,8 +48,7 @@
     margin: 0;
 }
 
-.search-area{
-    margin-top: 25px;
+.search-area form{
     display: flex;
     gap: 10px;
 }
@@ -58,9 +57,8 @@
   padding:10px 20px;
 }
 
-.search-lang input{
+.search-lang{
   border: #ccc solid 1px;
-  height: 17px;
   padding:10px 20px;
   width: 120px;
   outline: none;
@@ -78,7 +76,6 @@
 .recruit-table {
   border-collapse: collapse;
   width: 1000px;
-  margin-top: 25px;
   font-size: 14px;
 }
 .recruit-table th{
