@@ -76,6 +76,7 @@
 .recruit-table {
   border-collapse: collapse;
   width: 1000px;
+  width: 1000px;
   font-size: 14px;
 }
 .recruit-table th{
@@ -160,6 +161,13 @@
     max-width:18px;  
     max-height:18px;
 }
+
+.disabled {
+    opacity: 0;
+    pointer-events: none;   /* 클릭 금지 */
+    cursor: default;
+}
+
 
 .delete-or-register{
   width: 100%;

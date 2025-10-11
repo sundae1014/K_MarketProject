@@ -130,9 +130,9 @@
                             </tr>
                         </thead>
                         <tbody id="recruit-tbody">
-                            <tr th:each="hire, iterStat : ${hires}">
-                                <td><input type="checkbox" class="row-check" th:value="${hire.hire_no}"></td>
-                                <td class="col-num">[[${iterStat.index + 1}]]</td>
+                            <tr th:each="hire : ${RecruitPage.dtoList}">
+                                <td><input type="checkbox" class="row-check"></td>
+                                <td class="col-num">[[${hire.hire_no}]]</td>
                                 <td class="col-dept">[[${hire.department}]]</td>
                                 <td class="col-career">[[${hire.experience}]]</td>
                                 <td class="col-type">[[${hire.hire_type}]]</td>
@@ -150,32 +150,79 @@
                         <button class="modal-openBtn">채용등록</button>
                     </div>
 
-                     <div class="page">
-                        <div class="prev">
-                            <a href="#" class="paging">
-                                <img th:src="@{/images/company/btn-first-page.png}">
-                            </a>
-                            <a href="#" class="paging">
-                                <img th:src="@{/images/company/btn-prev-page.png}">
-                            </a>
-                        </div>
-                        <div class="pagenumber">
-                            <a href="#" class="active">1</a>
-                            <a href="#">2</a>
-                            <a href="#">3</a>
-                        </div>
-                        <div class="last">
-                            <a href="#" class="paging">
-                                <img th:src="@{/images/company/btn-next-page.png}">
-                            </a>
-                            <a href="#" class="paging">
-                                <img th:src="@{/images/company/btn-last-page.png}">
-                            </a>
-                        </div>
+                <div class="page">
+                    <div class="prev">
+                        <!-- 검색 있을 때 -->
+                        <a th:if="${searchType != null and keyword != null and keyword != ''}"
+                           th:href="@{/admin/cs/recruit/search(searchType=${searchType}, keyword=${keyword}, pg=1)}"
+                           th:classappend="${RecruitPage.pg == 1} ? ' disabled' : ''">
+                            <img th:src="@{/images/company/btn-first-page.png}">
+                        </a>
+                        <a th:if="${searchType != null and keyword != null and keyword != ''}"
+                           th:href="@{/admin/cs/recruit/search(searchType=${searchType}, keyword=${keyword}, pg=${RecruitPage.pg - 1})}"
+                           th:classappend="${RecruitPage.pg == 1} ? ' disabled' : ''">
+                            <img th:src="@{/images/company/btn-prev-page.png}">
+                        </a>
+
+                        <!-- 검색 없을 때 -->
+                        <a th:unless="${searchType != null and keyword != null and keyword != ''}"
+                           th:href="@{/admin/cs/recruit/list(pg=1)}"
+                           th:classappend="${RecruitPage.pg == 1} ? ' disabled' : ''">
+                            <img th:src="@{/images/company/btn-first-page.png}">
+                        </a>
+                        <a th:unless="${searchType != null and keyword != null and keyword != ''}"
+                           th:href="@{/admin/cs/recruit/list(pg=${RecruitPage.pg - 1})}"
+                           th:classappend="${RecruitPage.pg == 1} ? ' disabled' : ''">
+                            <img th:src="@{/images/company/btn-prev-page.png}">
+                        </a>
                     </div>
 
+                    <div class="pagenumber">
+                        <!-- 검색 있을 때 -->
+                        <a th:each="i : ${#numbers.sequence(RecruitPage.start, RecruitPage.end)}"
+                           th:if="${searchType != null and keyword != null and keyword != ''}"
+                           th:href="@{/admin/cs/recruit/search(searchType=${searchType}, keyword=${keyword}, pg=${i})}"
+                           th:text="${i}"
+                           th:classappend="${i == RecruitPage.pg} ? ' active' : ''"></a>
 
+                        <!-- 검색 없을 때 -->
+                        <a th:each="i : ${#numbers.sequence(RecruitPage.start, RecruitPage.end)}"
+                           th:unless="${searchType != null and keyword != null and keyword != ''}"
+                           th:href="@{/admin/cs/recruit/list(pg=${i})}"
+                           th:text="${i}"
+                           th:classappend="${i == RecruitPage.pg} ? ' active' : ''"></a>
+                    </div>
+
+                    <div class="last">
+                        <!-- 검색 있을 때 -->
+                        <a th:if="${searchType != null and keyword != null and keyword != ''}"
+                           th:href="@{/admin/cs/recruit/search(searchType=${searchType}, keyword=${keyword}, pg=${RecruitPage.pg + 1})}"
+                           th:classappend="${RecruitPage.pg == RecruitPage.end} ? ' disabled' : ''">
+                            <img th:src="@{/images/company/btn-next-page.png}">
+                        </a>
+                        <a th:if="${searchType != null and keyword != null and keyword != ''}"
+                           th:href="@{/admin/cs/recruit/search(searchType=${searchType}, keyword=${keyword}, pg=${RecruitPage.end})}"
+                           th:classappend="${RecruitPage.pg == RecruitPage.end} ? ' disabled' : ''">
+                            <img th:src="@{/images/company/btn-last-page.png}">
+                        </a>
+
+                        <!-- 검색 없을 때 -->
+                        <a th:unless="${searchType != null and keyword != null and keyword != ''}"
+                           th:href="@{/admin/cs/recruit/list(pg=${RecruitPage.pg + 1})}"
+                           th:classappend="${RecruitPage.pg == RecruitPage.end} ? ' disabled' : ''">
+                            <img th:src="@{/images/company/btn-next-page.png}">
+                        </a>
+                        <a th:unless="${searchType != null and keyword != null and keyword != ''}"
+                           th:href="@{/admin/cs/recruit/list(pg=${RecruitPage.end})}"
+                           th:classappend="${RecruitPage.pg == RecruitPage.end} ? ' disabled' : ''">
+                            <img th:src="@{/images/company/btn-last-page.png}">
+                        </a>
+                    </div>
                 </div>
+
+
+
+            </div>
 
 
             </div>

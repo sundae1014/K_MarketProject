@@ -9,6 +9,8 @@ import org.springframework.security.config.annotation.web.configurers.CsrfConfig
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.access.AccessDeniedHandlerImpl;
 
 @Configuration
 public class SecurityConfig {
@@ -47,9 +49,15 @@ public class SecurityConfig {
 
         // 인가 설정
         http.authorizeHttpRequests(authorize -> authorize
-                .requestMatchers("/admin/**").hasRole("3")
+                .requestMatchers("/admin/cs/**").hasRole("2")
+                .requestMatchers("/admin/**").hasAnyRole("3","2")
                 .requestMatchers("/my/**").hasAnyRole("1", "3")
                 .anyRequest().permitAll()
+        );
+
+        // 권한 없는 사용자 접근
+        http.exceptionHandling(exception -> exception
+                .accessDeniedHandler(new CustomAccessDeniedHandler())
         );
 
         // 기타 설정
