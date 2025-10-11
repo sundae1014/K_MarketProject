@@ -23,7 +23,7 @@
         <div class="content-wraper">
             <div class="top-info">
                 <div class="info-title">
-                    <span>나의쇼핑정보</span>
+                    <span><a th:href="@{/my/home}">나의쇼핑정보</a></span>
                 </div>
                 <div class="status">
                     <table>
@@ -71,16 +71,19 @@
                         <table>
                             <tr>
                                 <th>날짜</th>
+                                <th></th>
                                 <th class="second-th">상품정보</th>
                                 <th>상태</th>
                                 <th>확인/신청</th>
                             </tr>
                             <tr>
                                 <td>2022-12-13</td>
-                                <td class="second-td">
+                                <td>
                                     <div class="prod-img">
                                         <img src="#" alt="상품사진">
                                     </div>
+                                </td>
+                                <td class="second-td">
                                     <div class="prod-info">
                                         <p><a data-bs-toggle="modal" data-bs-target="#orderModal">주문번호 : 1012211341</a></p>
                                         <p><a data-bs-toggle="modal" data-bs-target="#sellerModal">(주)  상호명</a></p>

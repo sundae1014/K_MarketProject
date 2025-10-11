@@ -90,7 +90,7 @@ ul, ol, li{
 }
 
 .side-menu{
-    width: 197px;
+    width: 20%;
     position: relative;
     overflow-y: auto;
     border-top: 1px solid #d9d9d9;
@@ -122,14 +122,14 @@ ul, ol, li{
 }
 
 .banner-ad{
+    width: 100%;
+    text-align: center;
+}
+
+.banner-ad img{
     width: 810px;
     height: 86px;
     border: 1px solid #d9d9d9;
-}
-
-.banner-ad > img{
-    width: 810px;
-    height: 86px;
 }
 
 .content-top {
@@ -146,7 +146,6 @@ ul, ol, li{
 .content-more{
     display: block;
     margin-left: auto;
-    margin-right: 20px;
 }
 
 .content-more a{
@@ -191,26 +190,17 @@ ul, ol, li{
     margin-bottom: 3px;
 }
 
-.order .second-td{
-    display: flex;
-    padding: 20px;
-    padding-right: 0;
-    padding-bottom: 5px;
-    width: 414px;
-}
-
-.order .second-th{
-    width: 414px;
-}
-
-.second-td .prod-img img{
+.prod-img img{
     width: 118.32px;
     height: 114.90px;
 }
 
+.second-th{
+    text-align: left;
+}
+
 .second-td .prod-info{
     flex: auto;
-    margin-left: 30px;
     text-align: left;
 }
 

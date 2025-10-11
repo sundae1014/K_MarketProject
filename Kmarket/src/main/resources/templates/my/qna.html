@@ -4,13 +4,15 @@
     <meta charset="UTF-8">
     <title>Mypage Main</title>
     <link rel="stylesheet" th:href="@{/css/my/main.css}">
+    <link rel="stylesheet" th:href="@{/css/main/style_header.css}">
 </head>
 <body>
     <main>
+        <div th:replace="~{/my/_header :: headerFragment}"></div>
         <div class="content-wraper">
             <div class="top-info">
                 <div class="info-title">
-                    <span>나의쇼핑정보</span>
+                    <span><a th:href="@{/my/home}">나의쇼핑정보</a></span>
                 </div>
                 <div class="status">
                     <table>
