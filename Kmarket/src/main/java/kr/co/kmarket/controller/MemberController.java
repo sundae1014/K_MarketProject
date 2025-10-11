@@ -58,6 +58,7 @@ public class MemberController {
     public String registerSeller(MemberDTO memberDTO, HttpServletRequest req){
         log.info(memberDTO.toString());
         memberDTO.setAuth(3);
+        memberDTO.setOperation("ready"); //관리자 상점목록에서 판매자 운영준비 기본값 추가
         memberService.save(memberDTO);
         return "redirect:/member/login";
     }

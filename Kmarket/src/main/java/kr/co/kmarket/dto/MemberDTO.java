@@ -43,6 +43,7 @@ public class MemberDTO {
     private String addr1;
     private String addr2;
     private String birth;
+    private String operation;
 
     private String Date;
 

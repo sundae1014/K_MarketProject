@@ -737,7 +737,7 @@
                             </a>
                         </div>
                         <div class="terms_link">
-                            <a th:href="@{/policy/privacy}">
+                            <a th:href="@{/policy/privacy}" th:classappend="${activeMenu == 'privacy'} ? 'active'">
                                 <img th:src="@{/images/policy/online-privacy.png}" alt="개인정보처리"><span>개인정보처리</span>
                             </a>
                         </div>
