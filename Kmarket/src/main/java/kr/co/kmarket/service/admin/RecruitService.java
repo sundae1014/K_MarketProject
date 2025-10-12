@@ -50,4 +50,8 @@ public class RecruitService {
         return recruitMapper.countSearchHires(searchType, keyword);
     }
 
+    public HireDTO getHire(int hire_no){
+        return recruitMapper.selectHireNo(hire_no);
+    }
+
 }

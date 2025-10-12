@@ -1,0 +1,44 @@
+<div th:replace="~{company/_head.html}"></div>
+<main>
+
+    <a href="#" class="scroll-down">
+        <div class="scroll">
+            <span class="scroll-dot"></span>
+        </div>
+        <div class="arrow-down"></div>
+    </a>
+
+    <div class="board">
+        <div class="detail-area">
+            <div class="recruit-detail">
+                <h2 class="title">[[${hire.title}]]</h2>
+                <hr>
+                <div class="info">
+                    <div>
+                        <span>부서: [[${hire.department}]]</span><br/>
+                        <span>경력: [[${hire.experience}]]</span><br/>
+                        <span>형태: [[${hire.hire_type}]]</span><br/>
+                        <span>상태: [[${hire.status}]]</span>
+                    </div>
+                   <div>
+                       <span>작성자: [[${hire.author}]]</span><br/>
+                       <span>작성일: [[${hire.create_date}]]</span>
+                   </div>
+                </div>
+
+                <hr>
+
+                <div class="period">
+                    <strong>모집기간:</strong>
+                    [[${hire.recruit_period_start}]] ~ [[${hire.recruit_period_end}]]
+                </div>
+                <hr>
+                <div class="content" th:utext="${hire.content}"></div>
+            </div>
+            <a th:href="@{/company/recruit}">목록으로 돌아가기</a>
+        </div>
+
+    </div>
+</main>
+
+<div th:replace="~{company/_tail.html}"></div>

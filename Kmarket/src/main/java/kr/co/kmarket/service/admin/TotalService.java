@@ -2,8 +2,10 @@ package kr.co.kmarket.service.admin;
 
 import kr.co.kmarket.mapper.admin.TotalMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class TotalService {
@@ -14,5 +16,33 @@ public class TotalService {
     public int getMemberRegYesterday(){
         return totalMapper.selectCountRegYesterday();
     };
+
+    public int getPriceToday(){
+        return totalMapper.selectPriceToday();
+    };
+    public int getPriceYesterday(){
+        return totalMapper.selectPriceYesterday();
+    };
+
+    public int getOrderToday(){
+        return totalMapper.selectOrderToday();
+    };
+
+    public int getOrderYesterday(){
+        return totalMapper.selectOrderYesterday();
+    };
+
+    public int getPostToday(){
+        return totalMapper.selectPostToday();
+    };
+
+    public int getPostYesterday(){
+        return totalMapper.selectPostYesterday();
+    };
+
+    public int getStatus(int stat){
+        return totalMapper.selectStatus(stat);
+    }
+
 
 }
