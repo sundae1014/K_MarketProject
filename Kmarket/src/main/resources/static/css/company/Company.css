@@ -660,7 +660,13 @@ html, body {
     border-bottom: 1px solid #ccc;
     text-align: center;
 }
+.clickable-row {
+    cursor: pointer;
+}
 
+.clickable-row:hover td  {
+    text-decoration: underline;
+}
 .col-num { width: 50px; }
 .col-dept { width: 120px; }
 .col-career { width: 100px; }
@@ -678,6 +684,26 @@ html, body {
     color: gray;
 }
 
+.info{
+    display: flex;
+    justify-content: space-between;
+    align-content: end;
+}
+.info span{
+    font-size: 17px;
+}
+
+.content{
+    font-size: 20px;
+}
+
+hr {
+    margin: 20px 0;
+}
+
+.recruit-detail{
+    margin-bottom: 50px;
+}
 /* ===== 페이지네이션 ===== */
 .page{
     display:flex;

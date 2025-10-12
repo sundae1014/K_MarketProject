@@ -30,8 +30,8 @@ btnRegister.addEventListener('click', () => {
         department: modal.querySelector('select[name="department"]').value,
         experience: modal.querySelector('select[name="experience"]').value,
         hire_type: modal.querySelector('select[name="hire_type"]').value,
-        recruit_period_start: modal.querySelector('input[name="recruit_period_start"]').value,
-        recruit_period_end: modal.querySelector('input[name="recruit_period_end"]').value,
+        recruit_period_start: modal.querySelector('input[name="recruit_period_start"]').value || null,
+        recruit_period_end: modal.querySelector('input[name="recruit_period_end"]').value || null,
         content: modal.querySelector('input[name="content"]').value
     };
 

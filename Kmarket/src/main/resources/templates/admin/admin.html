@@ -114,11 +114,11 @@
                                 <th class="return-request">반품요청</th>
                             </tr>   
                             <tr class="total-row">
-                                <td class="payment-pending">1</td>
-                                <td class="shipping-ready">1</td>
-                                <td class="cancel-request">1</td>
-                                <td class="exchange-request">1</td>
-                                <td class="return-request">1</td>
+                                <td class="payment-pending" th:text="${status.waitDepost}"></td>
+                                <td class="shipping-ready" th:text="${status.readyDelivery}"></td>
+                                <td class="cancel-request" th:text="${status.bringBack}"></td>
+                                <td class="exchange-request" th:text="${status.exchange}"></td>
+                                <td class="return-request" th:text="${status.waitDepost}"></td>
                             </tr>  
                         </table>
 
@@ -134,43 +134,43 @@
                             </thead>
                             <tbody>
                                 <tr class="total-row">
-                                    <td colspan="2" class="order-count">131</td>
-                                    <td colspan="2" class="order-amount">3,700,000</td>
-                                    <td colspan="2" class="member-signup" th:text="${regTotal}"></td>
+                                    <td colspan="2" class="order-count" th:text="${order.total}"></td>
+                                    <td colspan="2" class="order-amount" th:text="${price.total}"></td>
+                                    <td class="member-signup" colspan="2" th:text="${reg.total}"></td>
                                     <td colspan="2" class="visitor-count" th:text="${visitorTotal}"></td>
-                                    <td colspan="2" class="inquiry-posts">25</td>
+                                    <td colspan="2" class="inquiry-posts" th:text="${post.total}"></td>
                                 </tr>
                                 <tr class="yester-today">
                                     <td class="order-count">어제</td>
-                                    <td class="order-count">123</td>
+                                    <td class="order-count" th:text="${order.yesterday}"></td>
 
                                     <td class="order-amount">어제</td>
-                                    <td class="order-amount">123</td>
+                                    <td class="order-amount" th:text="${price.yesterday}"></td>
 
                                     <td class="member-signup">어제</td>
-                                    <td class="member-signup" th:text="${regYesterday}"></td>
+                                    <td class="member-signup" th:text="${reg.yesterday}"></td>
 
                                     <td class="visitor-count">어제</td>
                                     <td class="visitor-count" th:text="${visitorYesterday}"></td>
 
                                     <td class="inquiry-posts">어제</td>
-                                    <td class="inquiry-posts">123</td>
+                                    <td class="inquiry-posts" th:text="${post.yesterday}"></td>
                                 </tr>
                                 <tr class="yester-today">
                                     <td class="order-count">오늘</td>
-                                    <td class="order-count">12</td>
+                                    <td class="order-count" th:text="${order.today}"></td>
 
                                     <td class="order-amount">오늘</td>
-                                    <td class="order-amount">12</td>
+                                    <td class="order-amount" th:text="${price.today}"></td>
 
                                     <td class="member-signup">오늘</td>
-                                    <td class="member-signup" th:text="${regToday}"></td>
+                                    <td class="member-signup" th:text="${reg.today}"></td>
 
                                     <td class="visitor-count">오늘</td>
                                     <td class="visitor-count" th:text="${visitorToday}"></td>
 
                                     <td class="inquiry-posts">오늘</td>
-                                    <td class="inquiry-posts">12</td>
+                                    <td class="inquiry-posts" th:text="${post.today}"></td>
                                 </tr>
                             </tbody>
                         </table>
