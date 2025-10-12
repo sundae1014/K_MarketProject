@@ -81,4 +81,74 @@
         WHERE recruit_period_end &lt; SYSDATE
         AND status != '종료'
     </update>
+
+    <select id="selectHireListPage" resultType="kr.co.kmarket.dto.HireDTO">
+        SELECT *
+        FROM (
+        SELECT hire_no, department, experience, hire_type, title, author,
+        status, create_date, recruit_period_start, recruit_period_end,
+        content,
+        ROW_NUMBER() OVER (ORDER BY create_date ASC) AS rn
+        FROM hire
+        ) a
+        WHERE a.rn BETWEEN #{offset}+1 AND #{offset}+#{size}
+        ORDER BY a.rn ASC
+    </select>
+
+    <select id="countHires" resultType="int">
+        SELECT COUNT(*) FROM hire
+    </select>
+
+    <select id="selectSearchPage" resultType="kr.co.kmarket.dto.HireDTO">
+        SELECT *
+        FROM (
+        SELECT hire_no, department, experience, hire_type, title, author, status,
+        create_date, recruit_period_start, recruit_period_end, content,
+        ROW_NUMBER() OVER (ORDER BY create_date ASC) AS rn
+        FROM hire
+        <where>
+            <if test="searchType != null and keyword != null and keyword != ''">
+                <choose>
+                    <when test="searchType == 'hire_no'">
+                        hire_no = #{keyword}
+                    </when>
+                    <when test="searchType == 'department'">
+                        department LIKE '%' || #{keyword} || '%'
+                    </when>
+                    <when test="searchType == 'hire_type'">
+                        hire_type LIKE '%' || #{keyword} || '%'
+                    </when>
+                    <when test="searchType == 'title'">
+                        title LIKE '%' || #{keyword} || '%'
+                    </when>
+                </choose>
+            </if>
+        </where>
+        ) a
+        WHERE a.rn BETWEEN #{offset} + 1 AND #{offset} + #{size}
+    </select>
+
+    <select id="countSearchHires" resultType="int">
+        SELECT COUNT(*)
+        FROM hire
+        <where>
+            <if test="searchType != null and keyword != null and keyword != ''">
+                <choose>
+                    <when test="searchType == 'hire_no'">
+                        hire_no = #{keyword}
+                    </when>
+                    <when test="searchType == 'department'">
+                        department LIKE '%' || #{keyword} || '%'
+                    </when>
+                    <when test="searchType == 'hire_type'">
+                        hire_type LIKE '%' || #{keyword} || '%'
+                    </when>
+                    <when test="searchType == 'title'">
+                        title LIKE '%' || #{keyword} || '%'
+                    </when>
+                </choose>
+            </if>
+        </where>
+    </select>
+
 </mapper>

@@ -31,8 +31,8 @@
                     <th class="col-status">상태</th>
                     <th class="col-period">모집기간</th>
                 </tr>
-                <tr th:each="hire, iterStat : ${hires}">
-                    <td class="col-num">[[${iterStat.index + 1}]]</td>
+                <tr th:each="hire, iterStat : ${RecruitPage.dtoList}">
+                    <td class="col-num">[[${(RecruitPage.pg - 1) * RecruitPage.size + iterStat.index + 1}]]</td>
                     <td class="col-dept">[[${hire.department}]]</td>
                     <td class="col-career">[[${hire.experience}]]</td>
                     <td class="col-type">[[${hire.hire_type}]]</td>
@@ -44,28 +44,37 @@
 
             <div class="page">
                 <div class="prev">
-                    <a href="#" class="paging">
+                    <a th:href="@{/company/recruit(pg=1)}"
+                       th:classappend="${RecruitPage.pg == 1} ? ' disabled' : ''">
                         <img th:src="@{/images/company/btn-first-page.png}">
                     </a>
-                    <a href="#" class="paging">
+
+                    <a th:href="@{/company/recruit(pg=${RecruitPage.pg - 1})}"
+                       th:classappend="${RecruitPage.pg == 1} ? ' disabled' : ''">
                         <img th:src="@{/images/company/btn-prev-page.png}">
                     </a>
                 </div>
+
                 <div class="pagenumber">
-                    <a href="#" class="active">1</a>
-                    <a href="#">2</a>
-                    <a href="#">3</a>
+                    <a th:each="i : ${#numbers.sequence(RecruitPage.start, RecruitPage.end)}"
+                       th:href="@{/company/recruit(pg=${i})}"
+                       th:text="${i}"
+                       th:class="${i == RecruitPage.pg} ? 'active' : ''">
+                    </a>
                 </div>
+
                 <div class="last">
-                    <a href="#" class="paging">
+                    <a th:href="@{/company/recruit(pg=${RecruitPage.pg + 1})}"
+                       th:classappend="${RecruitPage.pg == RecruitPage.end} ? ' disabled' : ''">
                         <img th:src="@{/images/company/btn-next-page.png}">
                     </a>
-                    <a href="#" class="paging">
+
+                    <a th:href="@{/company/recruit(pg=${RecruitPage.end})}"
+                       th:classappend="${RecruitPage.pg == RecruitPage.end} ? ' disabled' : ''">
                         <img th:src="@{/images/company/btn-last-page.png}">
                     </a>
                 </div>
             </div>
-
         </div>
 
 

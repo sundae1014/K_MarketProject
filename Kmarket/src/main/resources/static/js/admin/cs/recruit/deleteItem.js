@@ -11,7 +11,9 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        const ids = checkedBoxes.map(chk => parseInt(chk.value));
+        const ids = checkedBoxes.map(cb => {
+            return parseInt(cb.closest('tr').querySelector('.col-num').textContent.trim());
+        });
 
         fetch('/kmarket/admin/cs/recruit/delete', {
             method: 'POST',
@@ -22,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(result => {
                 console.log('서버 응답:', result);
                 // 삭제 후 table 다시 로딩
-                refreshRecruitTable();
+                location.reload();
                 alert('선택 항목이 삭제되었습니다.');
             })
             .catch(err => {
