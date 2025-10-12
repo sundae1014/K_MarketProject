@@ -20,7 +20,7 @@ public class PageRequestDTO {
     private int pg = 1;
 
     @Builder.Default
-    private int size = 4;
+    private int size = 10;
 
     @Builder.Default
     private String cate = "free";

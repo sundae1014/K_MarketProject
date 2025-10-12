@@ -35,7 +35,10 @@ public class PageResponseDTO<T> {
         int blockSize;
         if (!dtoList.isEmpty() && dtoList.get(0) instanceof VersionDTO) {
             blockSize = 4;
-        } else {
+        } else if(!dtoList.isEmpty() && dtoList.get(0) instanceof MemberDTO) {
+            blockSize = 5;
+        }
+        else {
             blockSize = 10;
         }
 

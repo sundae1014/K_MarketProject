@@ -1,6 +1,8 @@
 package kr.co.kmarket.controller.admin;
 
 import kr.co.kmarket.dto.MemberDTO;
+import kr.co.kmarket.dto.PageRequestDTO;
+import kr.co.kmarket.dto.PageResponseDTO;
 import kr.co.kmarket.service.MemberService;
 import kr.co.kmarket.service.admin.ShopService;
 import lombok.RequiredArgsConstructor;
@@ -22,13 +24,22 @@ public class ShopController {
     private final MemberService memberService;
 
     @GetMapping("/list")
-    public String list(Model model) { //상점 목록
-        List<MemberDTO> dtoList = shopService.selectAll();
-        log.info("dtoList={}", dtoList);
-
-        model.addAttribute("dtoList", dtoList);
+    public String list(Model model, PageRequestDTO pageRequestDTO) {
+        pageRequestDTO.setSize(5);
+        PageResponseDTO pageResponseDTO = shopService.selectAll(pageRequestDTO);
+        log.info("pageResponseDTO = {}", pageResponseDTO);
+        model.addAttribute("pageResponseDTO", pageResponseDTO);
 
         return "admin/shop/admin_shopList";
+    }
+    @GetMapping("/list/search")
+    public String searchList(PageRequestDTO pageRequestDTO, Model model) { //검색 테스트
+        log.info("pageRequestDTO = {}", pageRequestDTO);
+
+        PageResponseDTO pageResponseDTO = shopService.searchAll(pageRequestDTO);
+        model.addAttribute("pageResponseDTO", pageResponseDTO);
+
+        return"admin/shop/admin_shopList";
     }
 
     @PostMapping("/list")
@@ -49,6 +60,15 @@ public class ShopController {
         shopService.updateOperation(custNumber, operation);
 
         return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/list")
+    @ResponseBody
+    public String deleteShop(@RequestBody List<Long> idList) {
+        log.info("idList = " + idList);
+
+        shopService.remove(idList);
+        return "";
     }
 
     @GetMapping("/sales")
