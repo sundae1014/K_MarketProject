@@ -734,6 +734,13 @@ html, body {
     stroke-linejoin: round;
 
 }
+
+.disabled {
+    opacity: 0;
+    pointer-events: none;   /* 클릭 금지 */
+    cursor: default;
+}
+
 /*/////////////미디어 css////////////////*/
 .media-item {
     display: flex;

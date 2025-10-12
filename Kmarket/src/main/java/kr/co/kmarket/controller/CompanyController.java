@@ -1,6 +1,8 @@
 package kr.co.kmarket.controller;
 
 import kr.co.kmarket.dto.HireDTO;
+import kr.co.kmarket.dto.PageRequestDTO;
+import kr.co.kmarket.dto.PageResponseDTO;
 import kr.co.kmarket.service.admin.RecruitService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -37,12 +39,20 @@ public class CompanyController {
     }
 
     @GetMapping("/recruit")
-    public String recruit(Model model){
-        List<HireDTO> hires = recruitService.getAllHires();
+    public String recruit(PageRequestDTO pageRequestDTO, Model model){
+        List<HireDTO> hires = recruitService.getHiresByPage(pageRequestDTO);
+        int total = recruitService.getTotalHires();
 
-        log.info("hires={}", hires);
+        PageResponseDTO<HireDTO> pageResponseDTO = PageResponseDTO.<HireDTO>builder()
+                .pageRequestDTO(pageRequestDTO)
+                .dtoList(hires)
+                .total(total)
+                .build();
 
-        model.addAttribute("hires", hires);
+        model.addAttribute("RecruitPage", pageResponseDTO);
+
+        log.info("RecruitPage = {}", pageResponseDTO);
+
         return "company/recruit";
     }
 

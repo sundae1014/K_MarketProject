@@ -2,6 +2,8 @@ package kr.co.kmarket.controller.admin;
 
 
 import kr.co.kmarket.dto.HireDTO;
+import kr.co.kmarket.dto.PageRequestDTO;
+import kr.co.kmarket.dto.PageResponseDTO;
 import kr.co.kmarket.service.admin.RecruitService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,14 +27,23 @@ public class CsRecruitController {
     private final RecruitService recruitService;
 
     @GetMapping("/list")
-    public String list(Model model){
-        List<HireDTO> hires = recruitService.getAllHires();
+    public String list(PageRequestDTO pageRequestDTO, Model model){
+        List<HireDTO> hires = recruitService.getHiresByPage(pageRequestDTO);
+        int total = recruitService.getTotalHires();
 
-        log.info("hires={}", hires);
+        PageResponseDTO<HireDTO> pageResponseDTO = PageResponseDTO.<HireDTO>builder()
+                .pageRequestDTO(pageRequestDTO)
+                .dtoList(hires)
+                .total(total)
+                .build();
 
-        model.addAttribute("hires", hires);
+        model.addAttribute("RecruitPage", pageResponseDTO);
+
+        log.info("RecruitPage = {}", pageResponseDTO);
+
         return "admin/cs/recruit/list";
     }
+
 
     @PostMapping("/delete")
     public ResponseEntity<String> deleteHires(@RequestBody List<Integer> hire_no) {
@@ -77,16 +88,28 @@ public class CsRecruitController {
     }
 
     @GetMapping("/search")
-    public String searchHires(@RequestParam("searchType") String searchType, @RequestParam("keyword") String keyword, Model model) {
+    public String searchHires(PageRequestDTO pageRequestDTO,
+                              @RequestParam("searchType") String searchType,
+                              @RequestParam("keyword") String keyword,
+                              Model model) {
 
-        log.info("searchHires={}, keyword={}", searchType, keyword);
-        List<HireDTO> hires = recruitService.selectSearch(searchType, keyword);
+        log.info("searchHires={}, keyword={}, pageRequestDTO={}", searchType, keyword, pageRequestDTO);
 
-        model.addAttribute("hires", hires);
+        List<HireDTO> hires = recruitService.selectSearchPage(searchType, keyword, pageRequestDTO);
+
+        int total = recruitService.countSearchHires(searchType, keyword);
+
+        PageResponseDTO<HireDTO> pageResponseDTO = PageResponseDTO.<HireDTO>builder()
+                .pageRequestDTO(pageRequestDTO)
+                .dtoList(hires)
+                .total(total)
+                .build();
+
+        model.addAttribute("RecruitPage", pageResponseDTO);
         model.addAttribute("searchType", searchType);
         model.addAttribute("keyword", keyword);
 
-        return "admin/cs/recruit/list"; // 검색 결과 포함
+        return "admin/cs/recruit/list";
     }
 
 }

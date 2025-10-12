@@ -42,7 +42,10 @@
                     <li sec:authorize="isAuthenticated()">
                         <a th:href="@{/cs/index}">고객센터</a>
                     </li>
-
+                    <!-- 관리자 로그인 시 관리자 페이지 링크 -->
+                    <li sec:authorize="hasAnyRole('2','3')">
+                        <a th:href="@{/admin}">관리자</a>
+                    </li>
                     <!-- 비로그인 상태 -->
                     <li sec:authorize="!isAuthenticated()">
                         <a th:href="@{/member/login}">로그인</a>
