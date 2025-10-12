@@ -1,4 +1,4 @@
-<!DOCTYPE html> <!-- 선택삭제 추가 및 검색, 페이지네이션 추가 하기-->
+<!DOCTYPE html> <!-- 검색 시 풀리는 페이지 설정 고치기 -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -13,6 +13,29 @@
 
             allSelect.addEventListener("change", function() {
                 checkboxes.forEach(cb => cb.checked = allSelect.checked);
+            });
+
+            //삭제 기능
+            const deleteBtn = document.querySelector(".select_delete");
+            deleteBtn.addEventListener("click", async () => {
+                const selected = document.querySelectorAll("tbody .row-checkbox:checked");
+                const idList = Array.from(selected).map(cb => cb.value);
+                console.log("삭제 id리스트: ", idList);
+
+                const response = await fetch("/kmarket/admin/shop/list", {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(idList)
+                });
+
+                if(response.ok) {
+                    alert("삭제 완료!");
+                    location.reload();
+                } else {
+                    alert("삭제 실패!");
+                }
             });
 
             //상태 버튼
@@ -79,41 +102,6 @@
                 modalContent.addEventListener("click", (e) => {
                     e.stopPropagation(); // 클릭 이벤트가 부모로 전달되지 않도록 막음
             });
-
-            // form.addEventListener("submit", async (e) => {
-            //     e.preventDefault();
-            //
-            //     const data = {
-            //         custid: form.custid.value,
-            //         pw: form.pw.value,
-            //         company_name: form.company_name.value,
-            //         name: form.name.value,
-            //         business_number: form.business_number.value,
-            //         ecommerce_number: form.ecommerce_number.value,
-            //         hp: form.hp.value,
-            //         fax_number: form.fax_number.value,
-            //         zip: form.zip.value,
-            //         addr1: form.addr1.value,
-            //         addr2: form.addr2.value
-            //     };
-            //
-            //     console.log("폼 데이터: ", data);
-            //
-            //     const response = await fetch("/kmarket/admin/shop/list", {
-            //         method: "POST",
-            //         headers: {
-            //             "Content-Type" : "application/json"
-            //         },
-            //         body: JSON.stringify(data)
-            //     });
-            //
-            //     if (response.ok) {
-            //         alert("등록 완료!");
-            //         location.reload();
-            //     } else {
-            //         alert("등록 실패!");
-            //     }
-            // });
         });
     </script>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -240,15 +228,15 @@
                     </div>
                 </div>
 
-                <form style="margin-top: 20px;">
-                    <select id="search-select">
+                <form th:action="@{/admin/shop/list/search}" method="get" style="margin-top: 20px;">
+                    <select id="search-select" name="searchType">
                         <option value="trade_name">상호명</option>
                         <option value="ceo">대표자</option>
                         <option value="business_num">사업자등록번호</option>
                         <option value="hp">연락처</option>
                     </select>
-                    <input type="text" id="search-input" placeholder="검색어 입력">
-                    <input type="button" class="search-btn" value="검색">
+                    <input type="text" name="keyword" id="search-input" placeholder="검색어 입력">
+                    <input type="submit" class="search-btn" value="검색">
                 </form>
                 <div class="table-container">
                     <div style="float:right;margin-bottom: 5px;">
@@ -272,8 +260,8 @@
                                 </tr>                         
                             </thead>
                             <tbody>
-                                <tr th:each="dto : ${dtoList}">
-                                    <td><input type="checkbox" th:value="${dto.cust_number}"></td>
+                            <tr th:each="dto, stat:${pageResponseDTO.dtoList}">
+                                    <td><input type="checkbox" class="row-checkbox" th:value="${dto.cust_number}"></td>
                                     <td>[[${dto.cust_number}]]</td>
                                     <td>[[${dto.company_name}]]</td>
                                     <td>[[${dto.name}]]</td>
@@ -302,13 +290,11 @@
                 </div>
                 <div class="bottom-section" style="position: relative;">
                     <ul class="pagenation">
-                        <li><a href="#"><span class="first"></span></a></li>
-                        <li><a href="#"><span class="prev"></span></a></li>
-                        <li><a href="#" class="active2">1</a></li>
-                        <li><a href="#" class="pageNum">2</a></li>
-                        <li><a href="#" class="pageNum">3</a></li>
-                        <li><a href="#"><span class="next"></span></a></li>
-                        <li><a href="#"><span class="last"></span></a></li>
+                        <li><a th:if="${pageResponseDTO.prev}" th:href="@{/admin/shop/list(pg=${pageResponseDTO.start - 1})}"><span class="prev"></span></a></li>
+                        <th:block th:each="num:${#numbers.sequence(pageResponseDTO.start, pageResponseDTO.end)}">
+                            <li><a th:href="@{/admin/shop/list(pg=${num})}" th:class="${num == pageResponseDTO.pg ? 'active2' : 'pageNum'}">[[${num}]]</a></li>
+                        </th:block>
+                        <li><a th:if="${pageResponseDTO.next}" th:href="@{/admin/shop/list(pg=${pageResponseDTO.end + 1})}"><span class="next"></span></a></li>
                     </ul>
                     <div class="btn_box">
                         <button class="shopList_Btn select_delete">선택삭제</button>
