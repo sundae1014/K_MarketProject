@@ -1,16 +1,48 @@
 /* 검색 기능 */
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.querySelector(".search-bar");
-    const input = document.getElementById("search-input"); // id 수정 확인
+    const input = document.getElementById("search-input");
     const category = document.querySelector(".search-bar_category");
 
     if (!form) return;
 
     form.addEventListener("submit", e => {
         e.preventDefault();
+
         const q = encodeURIComponent(input.value.trim());
         const cat = encodeURIComponent(category.value);
-        const url = `search.html?category=${cat}&q=${q}`;
+        const url = `/kmarket/product/search?category=${cat}&keyword=${q}`;
+
         window.location.href = url;
     });
+});
+
+// ------------------------------------
+// 상품 검색 결과 페이지 내부 검색 기능
+// ------------------------------------
+document.addEventListener("DOMContentLoaded", function() {
+    const searchInput = document.querySelector(".search-result-input input");
+    const searchBtn = document.querySelector(".search-result-input .btn-search");
+
+    if (searchInput && searchBtn) {
+        searchBtn.addEventListener("click", function() {
+            const q = searchInput.value.trim();
+            if (q === "") {
+                alert("검색어를 입력해주세요.");
+                return;
+            }
+
+            // URL 이동
+            const url = `/kmarket/product/search?category=all&keyword=${encodeURIComponent(q)}`;
+            window.location.href = url;
+        });
+
+        // 엔터로 검색
+        searchInput.addEventListener("keypress", function(e) {
+            if (e.key === "Enter") {
+                e.preventDefault();
+                searchBtn.click();
+            }
+        });
+    }
 });

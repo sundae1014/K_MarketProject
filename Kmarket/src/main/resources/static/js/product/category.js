@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
             /* 더미 데이터 */
             if (key === "식품" && label === "식품 선물세트") {
                 // 임시: 식품 > 식품 선물세트만 연결
-                a.href = "/cupang/prodList";
+                a.href = "/kmarket/product/list";
             } else {
                 // 다른 카테고리는 아직 연결 안 함
                 a.href = "#";

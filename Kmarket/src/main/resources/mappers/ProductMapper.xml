@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.kmarket.mapper.ProductMapper">
+
+    <!-- SearchDTO 기반 검색 -->
+    <select id="searchProducts" resultType="kr.co.kmarket.dto.ProductDTO">
+
+        SELECT
+        PROD_NUMBER   AS prodNo,
+        CATE_CD       AS cateCd,
+        PROD_NAME     AS prodName,
+        DESCRIPTION   AS description,
+        MANUFACTURE   AS manufacture,
+        PRICE         AS price,
+        DISCOUNT      AS discount,
+        SALEPRICE     AS salePrice,
+        DELIVERY_FEE  AS deliveryFee,
+        IMG_1         AS img1,
+        IMG_2         AS img2,
+        IMG_3         AS img3,
+        PROD_STAT     AS prodStat,
+        PROD_TAX      AS prodTax,
+        PROD_BUSINESS AS prodBusiness,
+        PROD_NATION   AS prodNation,
+        HIT           AS hit,
+        PRO_SCORE     AS proScore,
+        REG_DATE      AS regDate
+        FROM PRODUCT
+        WHERE 1=1
+
+        <!-- 키워드 검색 -->
+        <if test="keyword != null and keyword != ''">
+            AND (
+            <if test="searchName">
+                PROD_NAME LIKE '%' || #{keyword} || '%'
+            </if>
+            <if test="searchDesc">
+                <if test="searchName"> OR </if>
+                DESCRIPTION LIKE '%' || #{keyword} || '%'
+            </if>
+            <if test="searchPrice">
+                <if test="searchName or searchDesc"> OR </if>
+                TO_CHAR(PRICE) LIKE '%' || #{keyword} || '%'
+            </if>
+            )
+        </if>
+
+        <!-- 카테고리 -->
+        <if test="cate_cd != null and cate_cd != 0">
+            AND CATE_CD = #{cate_cd}
+        </if>
+
+        <!-- 가격 범위 -->
+        <if test="minPrice != null">
+            AND PRICE &gt;= #{minPrice}
+        </if>
+        <if test="maxPrice != null">
+            AND PRICE &lt;= #{maxPrice}
+        </if>
+
+        <!-- 정렬 조건 -->
+        <choose>
+            <when test="sort == 'sold'">ORDER BY HIT DESC</when>
+            <when test="sort == 'lowPrice'">ORDER BY SALEPRICE ASC</when>
+            <when test="sort == 'highPrice'">ORDER BY SALEPRICE DESC</when>
+            <when test="sort == 'score'">ORDER BY PRO_SCORE DESC</when>
+            <when test="sort == 'review'">ORDER BY PROD_NUMBER DESC</when>
+            <otherwise>ORDER BY REG_DATE DESC</otherwise>
+        </choose>
+
+    </select>
+
+    <select id="selectProductByNo" resultType="kr.co.kmarket.dto.ProductDTO">
+        SELECT * FROM PRODUCT WHERE PROD_NUMBER = #{prodNo}
+    </select>
+
+    <select id="selectProductNoticeByNo" resultType="kr.co.kmarket.dto.ProductNoticeDTO">
+        SELECT * FROM PRODUCT_NOTICE WHERE PROD_NUMBER = #{prodNo}
+    </select>
+
+    <select id="selectProductReviews" resultType="kr.co.kmarket.dto.ProductReviewDTO">
+        SELECT * FROM REVIEW WHERE PROD_NUMBER = #{prodNo} ORDER BY R_DATE DESC
+    </select>
+
+</mapper>
