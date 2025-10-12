@@ -27,6 +27,8 @@ public class MyController {
 
     @GetMapping("/order")
     public String order(){
+
+
         return "my/order";
     }
 
