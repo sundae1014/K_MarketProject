@@ -163,23 +163,22 @@
     color: var(--gray-600);
 }
 
-.search-result-inner {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+/* 검색 조건 폼을 가로 정렬 */
+.search-result-inner .search-form{
+    display:flex;
+    align-items:center;
+    justify-content:flex-start;
+    gap:12px;
+    flex-wrap:wrap;
+    width:100%;
 }
 
+/* 좌측: 검색어 입력창 + 버튼 */
 .search-result-input {
-    display: flex;
-    align-items: flex-start;
-    gap: 5px;
-}
-
-.search-result-input input {
-    padding: 8px;
-    border: 1px solid var(--border);
-    border-radius: 3px;
-    font-size: 14px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    flex-shrink: 0;
 }
 
 .search-result-input button {
@@ -196,27 +195,42 @@
     background: #f3f4f6;
 }
 
+/* 우측: 체크박스 + 가격범위 */
 .search-result-check {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    gap: 5px;
-}
-
-.search-result-check input {
-    padding: 8px;
-    border: 1px solid var(--border);
-    border-radius: 3px;
-    font-size: 14px;
+    display:flex;
+    align-items:center;
+    gap: 10px;
+    flex-wrap: wrap;
+    flex-grow: 1;
 }
 
 .search-result-check label {
-    align-items: center;
-    padding: 6px;
-    border-radius: 3px;
-    font-size: 14px;
-    font-weight: 500;
-    gap: 0;
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+}
+
+/* 검색 입력창 */
+.search-result-inner form.search-form .search-result-input input[name="keyword"] {
+    width:250px;
+    padding:8px;
+    border:1px solid var(--border);
+    border-radius:3px;
+    font-size:14px;
+}
+
+.search-result-inner form.search-form .search-result-input input[name="keyword"]:focus {
+    border-color: var(--blue);
+    box-shadow: 0 0 4px rgba(51,106,253,0.3);
+}
+
+/* 가격 입력창 */
+.search-result-check input[type="number"] {
+    width:160px;
+    padding:8px;
+    border:1px solid var(--border);
+    border-radius:3px;
+    font-size:14px;
 }
 
 /* ////////////////// 검색 결과 끝 ////////////////// */
@@ -241,12 +255,13 @@
     color: #336AFD;
 }
 
-.sort-toggle {
+/* 정렬 탭 */
+.sort-tabs {
     display: flex;
     gap: 5px;
 }
 
-.sort-btn {
+.sort-tabs a {
     display: flex;
     align-items: center;
     padding: 5px 10px;
@@ -258,10 +273,11 @@
     cursor: pointer;
     border-radius: 3px;
     transition: 0.2s;
+    text-decoration: none;
 }
 
-.sort-btn:hover,
-.sort-btn.active {
+.sort-tabs a:hover,
+.sort-tabs a.on {
     color: var(--blue);
     font-weight: 500;
     background: rgba(51,106,253,0.08);
@@ -269,26 +285,34 @@
 
 /* ////////////////// 상품 목록 컨테이너 ////////////////// */
 .product-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-}
-
-.product-grid .row {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 20px;
-    border-bottom: 1px dashed #d0d0d0; /* 줄 사이 구분선 */
+    border-bottom: 1px dashed #d0d0d0;
     padding-bottom: 30px;
 }
 
-.product-grid .row:last-child {
+.product-grid:last-child {
     border-bottom: none;
 }
 
+/*.product-grid .row {*/
+/*    display: grid;*/
+/*    grid-template-columns: repeat(4, 1fr);*/
+/*    gap: 20px;*/
+/*    border-bottom: 1px dashed #d0d0d0; */
+/*    padding-bottom: 30px;*/
+/*}*/
+
+/*.product-grid .row:last-child {*/
+/*    border-bottom: none;*/
+/*}*/
+
 /* ////////////////// 상품 카드(3행 4열) ////////////////// */
 .product-card {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     background: #fff;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.08);
@@ -296,12 +320,29 @@
     text-decoration: none;
     color: inherit;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
+    height: 100%;
 }
 
 .product-card:hover {
     transform: translateY(-4px);
     box-shadow: 0 6px 12px rgba(0,0,0,0.15);
 }
+
+/*.product-card {*/
+/*    display: block;*/
+/*    background: #fff;*/
+/*    border-radius: 8px;*/
+/*    box-shadow: 0 4px 8px rgba(0,0,0,0.08);*/
+/*    padding: 10px;*/
+/*    text-decoration: none;*/
+/*    color: inherit;*/
+/*    transition: transform 0.2s ease, box-shadow 0.2s ease;*/
+/*}*/
+
+/*.product-card:hover {*/
+/*    transform: translateY(-4px);*/
+/*    box-shadow: 0 6px 12px rgba(0,0,0,0.15);*/
+/*}*/
 
 .product-thumb {
     width: 100%;
@@ -329,8 +370,13 @@
 }
 
 .product-prices {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 4px;
     font-size: 13px;
     margin-bottom: 6px;
+
 }
 
 .product-discount {

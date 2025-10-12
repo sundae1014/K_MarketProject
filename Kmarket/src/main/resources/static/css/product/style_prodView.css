@@ -56,8 +56,9 @@
 .view-wrap {
     display: grid;
     grid-template-columns: 220px 40px 368px 20px 552px;
-    align-items: start;
     padding-top: 20px;
+    min-height: auto;
+    align-items: flex-start;
 }
 
 /* A열: 베스트상품 */

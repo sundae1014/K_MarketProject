@@ -7,7 +7,8 @@
     <link rel="stylesheet" th:href="@{/css/product/style_prodView.css}">
     <link rel="stylesheet" th:href="@{/css/product/style_header.css}">
     <link rel="stylesheet" th:href="@{/css/product/style_footer.css}">
-    <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/product/all.min.css}">
+    <link rel="stylesheet"
+          th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css}">
 
     <!-- 유저별 권한 기능 -->
     <script th:src="@{/js/product/user-menu.js}" defer></script>
@@ -65,12 +66,12 @@
             <section class="col-b">
                 <div class="prod-media">
                     <div class="main-img">
-                        <img th:src="@{/images/product/Hit-product_1.png}" alt="상품 대표 이미지">
+                        <img th:src="@{${product.img1}}" alt="대표 이미지">
                     </div>
                     <div class="thumb-list">
-                        <img th:src="@{/images/product/Hit-product_S1.jpg}" alt="썸네일1">
-                        <img th:src="@{/images/product/Hit-product_S2.jpg}" alt="썸네일2">
-                        <img th:src="@{/images/product/Hit-product_S3.jpg}" alt="썸네일3">
+                        <img th:src="@{${product.img1}}" alt="썸네일1">
+                        <img th:src="@{${product.img2}}" alt="썸네일2">
+                        <img th:src="@{${product.img3}}" alt="썸네일3">
                     </div>
                 </div>
             </section>
@@ -79,25 +80,31 @@
             <section class="col-c">
                 <div class="prod-info">
                     <div class="brand-num">
-                        <p class="prod-brand">동원</p>
-                        <p class="prod-num">상품번호: 202509230001</p>
-                    </div>
-                    <h2 class="prod-title">동원 튜나리챔 O-48호 + 부직포백 선물세트, 1세트</h2>
-                    <div class="prod-rating">
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-regular fa-star"></i>
-                        <span class="review-count">(1,653건 상품평)</span>
+                        <p class="prod-brand" th:text="${product.manufacture}">브랜드명</p>
+                        <p class="prod-num">상품번호: <span th:text="${product.prodNumber}"></span></p>
                     </div>
 
-                    <p class="prod-origin">원산지: 상품 상세설명 참조</p>
+                    <h2 class="prod-title" th:text="${product.prodName}">상품명</h2>
+
+                    <div class="prod-rating"
+                         th:with="raw=${product.proScore ?: 0},
+                                  rounded=${T(java.lang.Math).round(raw)},
+                                  filled=${T(java.lang.Math).min(T(java.lang.Math).max(rounded,0),5)}">
+
+                        <!-- 꽉 찬 별 -->
+                        <i class="fa-solid fa-star" th:each="i : ${#numbers.sequence(1, filled)}"></i>
+                        <!-- 빈 별 -->
+                        <i class="fa-regular fa-star" th:each="i : ${#numbers.sequence(filled + 1, 5)}"></i>
+
+                        <span class="review-count" th:text="'(' + ${#lists.size(reviews)} + '건 상품평)'"></span>
+                    </div>
+
+                    <p class="prod-origin">원산지: <span th:text="${notice.prodOrigin}"></span></p>
 
                     <div class="prod-price">
-                        <span class="discount">49%</span>
-                        <strong class="sale">35,590원</strong>
-                        <del class="regular">69,900원</del>
+                        <span class="discount" th:text="${product.discount + '%'}"></span>
+                        <strong class="sale" th:text="${#numbers.formatInteger(product.salePrice,3,'COMMA') + '원'}"></strong>
+                        <del class="regular" th:text="${#numbers.formatInteger(product.price,3,'COMMA') + '원'}"></del>
                     </div>
 
                     <div class="prod-detail">
@@ -125,8 +132,14 @@
                         <div class="select-wrap">
                             <select id="opt">
                                 <option value="" disabled selected>선택하세요.</option>
-                                <option value="1" data-price="35590">1세트</option>
+                                <option value="1" th:attr="data-price=${product.salePrice}">1세트</option>
                             </select>
+
+                            <div class="prod-selected" id="selected-list"></div>
+                            <div class="prod-total">
+                                합계 <strong id="total-price">0원</strong>
+                            </div>
+
                             <svg class="chevron-down" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                  stroke-linecap="round" stroke-linejoin="round">
@@ -135,30 +148,30 @@
                         </div>
                     </div>
 
-                    <!-- 선택된 옵션 리스트 -->
-                    <div class="prod-selected" id="selected-list">
-                        <div class="prod-selected-item">
-                            <!-- 상품명 -->
-                            <p class="item-name">1세트</p>
+<!--                    &lt;!&ndash; 선택된 옵션 리스트 &ndash;&gt;-->
+<!--                    <div class="prod-selected" id="selected-list">-->
+<!--                        <div class="prod-selected-item">-->
+<!--                            &lt;!&ndash; 상품명 &ndash;&gt;-->
+<!--                            <p class="item-name">1세트</p>-->
 
-                            <!-- 수량조절 + 가격 -->
-                            <div class="item-bottom">
-                                <div class="qty">
-                                    <button class="minus">-</button>
-                                    <input type="text" value="1">
-                                    <button class="plus">+</button>
-                                </div>
-                                <strong class="qty-price">35,590원</strong>
-                            </div>
-                        </div>
-                    </div>
+<!--                            &lt;!&ndash; 수량조절 + 가격 &ndash;&gt;-->
+<!--                            <div class="item-bottom">-->
+<!--                                <div class="qty">-->
+<!--                                    <button class="minus">-</button>-->
+<!--                                    <input type="text" value="1">-->
+<!--                                    <button class="plus">+</button>-->
+<!--                                </div>-->
+<!--                                <strong class="qty-price">35,590원</strong>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
 
-                    <!-- 최종 합계 -->
-                    <div class="prod-total">
-                        <div class="prod-total-price">
-                            합계 <strong id="total-price">0원</strong>
-                        </div>
-                    </div>
+<!--                    &lt;!&ndash; 최종 합계 &ndash;&gt;-->
+<!--                    <div class="prod-total">-->
+<!--                        <div class="prod-total-price">-->
+<!--                            합계 <strong id="total-price">0원</strong>-->
+<!--                        </div>-->
+<!--                    </div>-->
 
                     <div class="prod-actions">
                         <button class="btn wish" aria-label="찜하기">
@@ -191,32 +204,32 @@
                 <table class="spec-table">
                     <tbody>
                         <tr>
-                            <th>상품번호</th><td>202509230001</td>
-                            <th>상품 상태</th><td>새상품</td>
+                            <th>상품번호</th><td th:text="${notice.prodNumber}"></td>
+                            <th>상품 상태</th><td th:text="${notice.prodStat}"></td>
                         </tr>
                         <tr>
-                            <th>부가세 면세 여부</th><td>과세상품</td>
-                            <th>영수증 발행</th><td>발행 가능 (신용카드 전표, 온라인 현금영수증)</td>
+                            <th>부가세 면세 여부</th><td th:text="${notice.prodTax}"></td>
+                            <th>영수증 발행</th><td th:text="${notice.prodReceipt}"></td>
                         </tr>
                         <tr>
-                            <th>사업자 구분</th><td>통신판매업자</td>
-                            <th>브랜드</th><td>(주)동원F&B</td>
+                            <th>사업자 구분</th><td th:text="${notice.prodBusiness}"></td>
+                            <th>브랜드</th><td th:text="${notice.prodBrand}"></td>
                         </tr>
                         <tr>
-                            <th>원산지</th><td>원양산</td>
-                            <th>제조사/수입국</th><td>(주)동원F&B</td>
+                            <th>원산지</th><td th:text="${notice.prodOrigin}"></td>
+                            <th>제조사/수입국</th><td th:text="${notice.prodMfg}"></td>
                         </tr>
                         <tr>
-                            <th>제조국</th><td>한국</td>
-                            <th>취급시 주의사항</th><td>컨텐츠 참조</td>
+                            <th>제조국</th><td th:text="${notice.prodCountry}"></td>
+                            <th>취급 시 주의사항</th><td th:text="${notice.warning}"></td>
                         </tr>
                         <tr>
-                            <th>제조연월</th><td>컨텐츠 참조</td>
-                            <th>품질 보증 기준</th><td>컨텐츠 참조</td>
+                            <th>제조연월</th><td th:text="${notice.mfgDate}"></td>
+                            <th>품질보증기준</th><td th:text="${notice.warranty}"></td>
                         </tr>
                         <tr>
-                            <th>A/S 책임자</th><td>(주)큐팡 고객센터</td>
-                            <th>소비자상담 전화번호</th><td>(주)큐팡 고객센터 1577-0912</td>
+                            <th>A/S 책임자</th><td th:text="${notice.asManager}"></td>
+                            <th>소비자상담 전화번호</th><td th:text="${notice.asPhone}"></td>
                         </tr>
                     </tbody>
                 </table>
@@ -224,139 +237,79 @@
 
             <!-- 상품상세 이미지 -->
             <div id="detailSection" class="prod-detail-img container">
-                <img th:src="@{/images/product/Hit-product_1-1.jpg}" alt="상품 상세 이미지">
+                <img th:src="@{${product.detailImg}}" alt="상품 상세 이미지">
             </div>
 
             <!-- 상품평 -->
             <div id="reviewSection" class="prod-review">
                 <h3>상품평</h3>
-                <p class="sub-text">동일한 상품에 대해 작성된 상품평으로, 판매자는 다를 수 있습니다.</p>
-                <div class="big-stars">
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <span>1,653</span>
+                <p class="sub-text">동일한 상품에 대한 상품평입니다.</p>
+
+                <div class="big-stars"
+                     th:with="raw=${review.rating ?: 0},
+                                          rounded=${T(java.lang.Math).round(raw)},
+                                          filled=${T(java.lang.Math).min(T(java.lang.Math).max(rounded,0),5)}">
+                    <i class="fa-solid fa-star" th:each="i : ${#numbers.sequence(1, filled)}"></i>
+                    <i class="fa-regular fa-star" th:each="i : ${#numbers.sequence(filled + 1, 5)}"></i>
                 </div>
 
                 <ul class="review-list">
-                    <li>
+                    <li th:each="review : ${reviews}">
                         <div class="review-top">
-                            <div class="small-stars">
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
+                            <div class="small-stars"
+                                 th:with="raw=${review.rating ?: 0},
+                                          rounded=${T(java.lang.Math).round(raw)},
+                                          filled=${T(java.lang.Math).min(T(java.lang.Math).max(rounded,0),5)}">
+                                <i class="fa-solid fa-star" th:each="i : ${#numbers.sequence(1, filled)}"></i>
+                                <i class="fa-regular fa-star" th:each="i : ${#numbers.sequence(filled + 1, 5)}"></i>
                             </div>
-                            <span class="review-writer">sjan***</span>
-                        </div>
-                        <p class="review-prod">동원 튜나리챔 O-48호 + 부직포백 선물세트, 1세트</p>
-                        <p class="review-content">좋아요~ Good!!</p>
-                        <span class="date">2025-09-22</span>
-                    </li>
 
-                    <li>
-                        <div class="review-top">
-                            <div class="small-stars">
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-regular fa-star"></i>
-                                <i class="fa-regular fa-star"></i>
-                            </div>
-                            <span class="review-writer">wlqd***</span>
+                            <span class="review-writer" th:text="${review.custNumber}"></span>
                         </div>
-                        <p class="review-prod">동원 튜나리챔 O-48호 + 부직포백 선물세트, 1세트</p>
-                        <p class="review-content">배송이 너무 늦었어요. 흥!</p>
-                        <span class="date">2025-09-19</span>
-                    </li>
+                        <p class="review-prod" th:text="${product.prodName}"></p>
+                        <p class="review-content" th:text="${review.content}"></p>
 
-                    <li>
-                        <div class="review-top">
-                            <div class="small-stars">
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                            </div>
-                            <span class="review-writer">whff***</span>
+                        <div class="review-image" th:if="${review.imgPath != null}">
+                            <img th:src="@{${review.imgPath}}" alt="리뷰 이미지">
                         </div>
-                        <p class="review-prod">동원 튜나리챔 O-48호 + 부직포백 선물세트, 1세트</p>
-                        <p class="review-content">역시 참치는 동원 참치!!</p>
-                        <div class="review-image">
-                            <img th:src="@{/images/product/Hit-product_img1.jpg}" alt="리뷰 이미지">
-                        </div>
-                        <span class="date">2025-09-12</span>
-                    </li>
 
-                    <li>
-                        <div class="review-top">
-                            <div class="small-stars">
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-regular fa-star"></i>
-                            </div>
-                            <span class="review-writer">wlst***</span>
-                        </div>
-                        <p class="review-prod">동원 튜나리챔 O-48호 + 부직포백 선물세트, 1세트</p>
-                        <p class="review-content">이렇게 많이 사는데 사은품 안주나용? 서운해서 별점 하나 뺍니다~~~</p>
-                        <span class="date">2025-09-01</span>
-                    </li>
-
-                    <li>
-                        <div class="review-top">
-                            <div class="small-stars">
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                            </div>
-                            <span class="review-writer">ckac***</span>
-                        </div>
-                        <p class="review-prod">동원 튜나리챔 O-48호 + 부직포백 선물세트, 1세트</p>
-                        <p class="review-content">참치 한캔이면 밥 한공기 뚝딱~ 맛있게 먹을게요!</p>
-                        <span class="date">2025-08-07</span>
+                        <span class="date" th:text="${#dates.format(review.rDate,'yyyy-MM-dd')}"></span>
                     </li>
                 </ul>
-
-                <!-- 페이지네이션 -->
-                <nav class="pagination">
-                    <a href="#" class="page-link prev" aria-label="이전 페이지">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                             viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                             class="lucide lucide-chevron-left-icon lucide-chevron-left">
-                            <path d="m15 18-6-6 6-6"/>
-                        </svg>
-                    </a>
-                    <a href="#" class="page-link active">1</a>
-                    <a href="#" class="page-link">2</a>
-                    <a href="#" class="page-link">3</a>
-                    <a href="#" class="page-link">4</a>
-                    <a href="#" class="page-link next" aria-label="다음 페이지">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                             viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                             class="lucide lucide-chevron-right-icon lucide-chevron-right">
-                            <path d="m9 18 6-6-6-6"/>
-                        </svg>
-                    </a>
-                    <a href="#" class="page-link GTEnd" aria-label="맨 끝으로 이동">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                             viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                             class="lucide lucide-chevrons-right-icon lucide-chevrons-right">
-                            <path d="m6 17 5-5-5-5"/><path d="m13 17 5-5-5-5"/>
-                        </svg>
-                    </a>
-                </nav>
             </div>
+
+
+            <!-- 페이지네이션 -->
+            <nav class="pagination">
+                <a href="#" class="page-link prev" aria-label="이전 페이지">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                         viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                         class="lucide lucide-chevron-left-icon lucide-chevron-left">
+                        <path d="m15 18-6-6 6-6"/>
+                    </svg>
+                </a>
+                <a href="#" class="page-link active">1</a>
+                <a href="#" class="page-link">2</a>
+                <a href="#" class="page-link">3</a>
+                <a href="#" class="page-link">4</a>
+                <a href="#" class="page-link next" aria-label="다음 페이지">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                         viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                         class="lucide lucide-chevron-right-icon lucide-chevron-right">
+                        <path d="m9 18 6-6-6-6"/>
+                    </svg>
+                </a>
+                <a href="#" class="page-link GTEnd" aria-label="맨 끝으로 이동">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                         viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                         class="lucide lucide-chevrons-right-icon lucide-chevrons-right">
+                        <path d="m6 17 5-5-5-5"/><path d="m13 17 5-5-5-5"/>
+                    </svg>
+                </a>
+            </nav>
         </div>
 
         <!-- TOP 버튼 -->
