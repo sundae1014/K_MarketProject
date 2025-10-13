@@ -6,8 +6,7 @@ import kr.co.kmarket.service.MyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -21,6 +20,35 @@ import java.util.List;
 public class MyController {
 
     private final MyService myService;
+
+    @ModelAttribute
+    public void addCommonAttributes(Model model, HttpSession session) {
+        Integer custNumber = (Integer) session.getAttribute("cust_number");
+        if (custNumber != null) {
+            int notConfirmedCount = myService.getNotConfirmedOrderCount(custNumber);
+            model.addAttribute("notConfirmedCount", notConfirmedCount);
+        }
+    }
+
+    @GetMapping("/orderDetail") // ⚠ 절대 "/my/orderDetail"로 쓰지 말 것!
+    public String getOrderDetail(@RequestParam("orderNumber") int orderNumber,
+                                 HttpSession session,
+                                 Model model) {
+
+        Integer custNumber = (Integer) session.getAttribute("cust_number");
+        if (custNumber == null) {
+            return "redirect:/user/login";
+        }
+
+        OrderDTO order = myService.getOrderDetailByCustomer(custNumber, orderNumber);
+        if (order == null) {
+            return "fragments/error :: notFound";
+        }
+
+        model.addAttribute("order", order);
+        return "my/modal/order-detail-fragment :: fragment";
+    }
+
 
     @GetMapping("/coupon")
     public String coupon(){

@@ -1,0 +1,48 @@
+<!-- templates/my/modal/order-detail-fragment.html -->
+<div th:fragment="fragment" class="content-1">
+    <div class="content-top">
+        <div class="content-title">
+            <span>주문정보</span>
+        </div>
+    </div>
+    <table class="prod-table">
+        <tr>
+            <th>날짜</th>
+            <th></th>
+            <th class="second-th">상품정보</th>
+            <th>결제금액</th>
+            <th>상태</th>
+        </tr>
+        <tr>
+            <td th:text="${order.oDate}"></td>
+            <td>
+                <div class="prod-img">
+                    <img th:src="@{/images/product/{img}(img=${order.img1})}" alt="상품사진">
+                </div>
+            </td>
+            <td class="second-td">
+                <div class="prod-info">
+                    <p th:text="'주문번호 : ' + ${order.orderNumber}"></p>
+                    <p th:text="${order.manufacture}"></p>
+                    <p th:text="${order.prod_name}"></p>
+                    <p th:text="'수량 : ' + ${order.piece} + '개'"></p>
+                    <h4 th:text="${order.price}">원</h4>
+                </div>
+            </td>
+            <td>
+                <div class="pay-info">
+                    <p class="flex-between">
+                        판매가 <span th:text="${order.sellPrice}">원</span>
+                    </p>
+                    <p class="flex-between">
+                        할인 <span th:text="'-' + ${order.discount}">원</span>
+                    </p>
+                    <p class="flex-between" style="font-weight: bold">
+                        결제금액 <span th:text="${order.price}">원</span>
+                    </p>
+                </div>
+            </td>
+            <td th:text="${order.statName}">배송완료</td>
+        </tr>
+    </table>
+</div>

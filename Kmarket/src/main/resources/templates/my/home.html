@@ -16,6 +16,7 @@
     <link rel="stylesheet" th:href="@{/css/my/modal/exchange-modal.css}">
     <link rel="stylesheet" th:href="@{/css/main/style_header.css}">
     <link rel="stylesheet" th:href="@{/css/main/style_footer.css}">
+    <script th:src="@{/js/my/order-modal.js}" defer></script>
 </head>
 <body>
     <main>
@@ -34,7 +35,7 @@
                             <th>문의</th>
                         </tr>
                         <tr>
-                            <td>2</td>
+                            <td><span th:text="${notConfirmedCount}"></span></td>
                             <td>1</td>
                             <td>1,000</td>
                             <td>1</td>
@@ -57,7 +58,7 @@
                 </div>
                 <div class="main-content">
                     <div class="banner-ad">
-                        <img src="#" alt="광고사진">
+                        <img th:src="@{/images/my/banner_ad.jpg}" alt="광고사진">
                     </div>
                     <div class="order">
                         <div class="content-top">
@@ -85,14 +86,29 @@
                                 </td>
                                 <td class="second-td">
                                     <div class="prod-info">
-                                        <p><a data-bs-toggle="modal" data-bs-target="#orderModal" th:text="'주문번호 : ' + ${order.orderNumber}"></a></p>
+                                        <p><a href="#" class="order-detail-link"
+                                              th:text="'주문번호 : ' + ${order.orderNumber}"
+                                              th:attr="data-order-number=${order.orderNumber}"
+                                              data-bs-toggle="modal" data-bs-target="#orderModal"></a>
+                                        </p>
                                         <p><a data-bs-toggle="modal" data-bs-target="#sellerModal" th:text="${order.manufacture}"></a></p>
                                         <p><a href="#" th:text="${order.prod_name}"></a></p>
                                         <p th:text="'수량 : ' + ${order.piece} + '개'"></p>
                                         <h4 th:text="${order.priceString}"></h4>
                                     </div>
                                 </td>
-                                <td th:text="${order.stat}"></td>
+                                <td th:switch="${order.stat}">
+                                    <span th:case="0" class="status-payment-pending">결제대기</span>
+                                    <span th:case="1" class="status-payment-complete">결제완료</span>
+                                    <span th:case="2" class="status-preparing-shipment">배송준비</span>
+                                    <span th:case="3" class="status-shipping">배송중</span>
+                                    <span th:case="4" class="status-delivered">배송완료</span>
+                                    <span th:case="5" class="status-order-cancelled">주문취소</span>
+                                    <span th:case="6" class="status-return-request">반품요청</span>
+                                    <span th:case="7" class="status-exchange-request">교환요청</span>
+                                    <span th:case="8" class="status-purchase-confirmed">구매확정</span>
+                                    <span th:case="*">알 수 없음</span>
+                                </td>
                                 <td>
                                     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmModal">
                                         구매확정
