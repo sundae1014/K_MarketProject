@@ -33,7 +33,8 @@ public class ShopController {
         return "admin/shop/admin_shopList";
     }
     @GetMapping("/list/search")
-    public String searchList(PageRequestDTO pageRequestDTO, Model model) { //검색 테스트
+    public String searchList(Model model, PageRequestDTO pageRequestDTO) { //검색 테스트
+        pageRequestDTO.setSize(5);
         log.info("pageRequestDTO = {}", pageRequestDTO);
 
         PageResponseDTO pageResponseDTO = shopService.searchAll(pageRequestDTO);
