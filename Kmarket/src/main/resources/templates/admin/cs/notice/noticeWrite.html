@@ -216,12 +216,13 @@ html, body {
     }
 
     select, input[type="text"], textarea {
-      width: 100%;
-      padding: 6px 10px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      box-sizing: border-box;
-      font-size: 14px;
+        width: 100%;
+        padding: 6px 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        font-size: 14px;
+        outline: none;
     }
 
     textarea {
@@ -382,12 +383,13 @@ html, body {
           <th>유형</th>
           <td>
             <div class="input-box">
-              <select>
-                <option>유형선택</option>
-                <option>고객서비스</option>
-                <option>이벤트 안내</option>
-                <option>업데이트</option>
-              </select>
+                <select name="notice_type" id="notice_type">
+                    <option>유형선택</option>
+                    <option value="고객서비스">고객서비스</option>
+                    <option value="안전거래">안전거래</option>
+                    <option value="위해상품">위해상품</option>
+                    <option value="이벤트 당첨">이벤트 당첨</option>
+                </select>
             </div>
           </td>
         </tr>
