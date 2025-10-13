@@ -15,6 +15,8 @@
         <result property="img1" column="IMG_1"/>
         <result property="manufacture" column="MANUFACTURE"/>
         <result property="prod_name" column="PROD_NAME"/>
+        <result property="discount" column="DISCOUNT"/>
+        <result property="salePrice" column="SALEPRICE"/>
     </resultMap>
 
     <select id="selectRecentOrders" resultMap="OrderResultMap" parameterType="int">
