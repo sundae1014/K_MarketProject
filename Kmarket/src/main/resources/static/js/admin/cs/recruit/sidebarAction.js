@@ -3,7 +3,9 @@ window.addEventListener('DOMContentLoaded', () => {
   const currentPath = window.location.pathname;
 
   document.querySelectorAll('.sub-link').forEach(link => {
-    if(link.getAttribute('href') === currentPath){
+    const href = link.getAttribute('href');
+
+    if(href === currentPath || currentPath.startsWith(href + '/')){ //currentPath.startsWith(href + '/')를 추가하면서 검색 등을 할때 사이드바 활성화 유지 가능
       link.classList.add('active');
 
       const parent = link.closest('.side-item');

@@ -17,9 +17,10 @@
         
     }
     .container {
-      display: flex;
-      padding-left: 20px;
-      height: 800px;
+        display: flex;
+        min-height: 80vh;
+        margin: 0 auto;
+        max-width: 1200px;
     }
     /*////////////////////// header영역 //////////////////////*/
 
@@ -226,24 +227,8 @@
   <head>
     <link rel="stylesheet" th:href="@{/css/admin/main/header_footer.css}">
 
-    <!-- 사이드바 동작 js 및 css -->
-    <!-- 1. 사이드바 필요 시 admin.html main 부분 aside영역 복붙
-         2. main부분 영역 담당 레이아웃에
-              display: flex;
-              align-items: stretch;
-              추가해야 푸터까지 늘어남
-         3. 사이드바 추가 시 푸터랑 붙어있으므로 본인 영역에 맞게 마진 주기
-            (footer에다 margin-top주면 사이드바 안늘어남)
-            margin-bottom: 120px;
-    -->
     <script th:src="@{/js/admin/cs/recruit/sidebarAction.js}" defer></script>
     <link rel="stylesheet" th:href="@{/css/admin/main/sidebar.css}">
-
-    <!-- 개인 필요 및 작업 css, js -->
-    <link rel="stylesheet" th:href="@{/css/admin/cs/recruit/Recruit.css}">
-    <script th:src="@{/js/admin/cs/recruit/checkboxAction.js}" defer></script>
-    <script th:src="@{/js/admin/cs/recruit/sidebarAction.js}" defer></script>
-
 </head>
 <body>
 <header>
@@ -383,8 +368,8 @@
 
     <div class="bottom-bar">
       <button class="btn2">삭제</button>
-      <button class="btn2">수정</button>
-      <button class="btn">목록</button>
+      <button class="btn2" th:onclick="|location.href='@{/admin/cs/faq/modify}'|">수정</button>
+      <button class="btn" th:onclick="|location.href='@{/admin/cs/faq/list}'|">목록</button>
     </div>
   </div>
 </div>

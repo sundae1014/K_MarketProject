@@ -20,7 +20,6 @@ public class ShopService {
 
     public PageResponseDTO selectAll(PageRequestDTO pageRequestDTO) { //페이지네이션 및 전체 불러오기
         List<MemberDTO> dtoList = shopMapper.findAll(pageRequestDTO);
-
         int total = shopMapper.selectCountTotal(pageRequestDTO);
 
         return PageResponseDTO.<MemberDTO>builder()
@@ -43,6 +42,7 @@ public class ShopService {
                 .total(total)
                 .build();
     }
+    public int searchCount(PageRequestDTO pageRequestDTO) {return shopMapper.searchCount(pageRequestDTO);}
 
     public void updateOperation(Long custNumber, String operation) {
         shopMapper.update(custNumber, operation);
