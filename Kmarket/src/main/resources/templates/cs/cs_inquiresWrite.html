@@ -200,7 +200,7 @@
                     </div>
                     <div style="border:1px solid black; float:right;width:814px;"></div>
 
-                    <form action="#" method="post">
+                    <form th:action="@{/cs/qna/write}" method="post">
                         <table>
                             <colgroup>
                                 <col style="width:120px;">
@@ -209,7 +209,7 @@
                                 <tr>
                                     <th>문의유형</th>
                                     <td>
-                                        <select name="category1" id="category1">
+                                        <select name="type1" id="category1">
                                             <option>문의유형 선택</option>
                                             <option value="회원">회원</option>
                                             <option value="쿠폰 / 이벤트">쿠폰 / 이벤트</option>
@@ -219,19 +219,19 @@
                                             <option value="여행 / 숙박 / 항공">여행 / 숙박 / 항공</option>
                                             <option value="안전거래">안전거래</option>
                                         </select>
-                                        <select name="category2" id="category2" style="margin-left: 10px;">
+                                        <select name="type2" id="category2" style="margin-left: 10px;">
                                         </select>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>제목</th>
-                                    <td><input type="text" id="write_title" name="write_title" placeholder="제목을 입력해주세요."></td>
+                                    <td><input type="text" id="write_title" name="title" placeholder="제목을 입력해주세요."></td>
                                 </tr>
                                 <tr>
                                     <th>내용</th>
                                     <td>
                                         <div class="box_textarea">
-                                            <textarea name="inquiryText" class="form_textarea" placeholder="문의 내용을 입력해주세요."></textarea>
+                                            <textarea name="quest" class="form_textarea" placeholder="문의 내용을 입력해주세요."></textarea>
                                         </div>
                                     </td>
                                 </tr>

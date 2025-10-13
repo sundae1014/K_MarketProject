@@ -216,17 +216,19 @@
     }
 
     select, input[type="text"], textarea {
-      width: 100%;
-      padding: 6px 10px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      box-sizing: border-box;
-      font-size: 14px;
+        width: 100%;
+        outline: none;
+        padding: 6px 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        font-size: 14px;
     }
 
     textarea {
-      height: 150px;
-      resize: none;
+        height: 150px;
+        padding: 10px;
+        resize: none;
     }
 
     /* 1차, 2차 선택 한 줄 */
@@ -234,6 +236,8 @@
       display: flex;
       gap: 10px;
     }
+    #category1, #category2 {outline: none;}
+
     .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 60px; border-bottom: 2px solid #000; padding-bottom: 10px; }
     /* 버튼 영역 오른쪽 정렬 */
     .bottom-bar {
@@ -254,10 +258,42 @@
 </head>
 <body>
   <head>
-    <link rel="stylesheet" th:href="@{/css/admin/main/header_footer.css}">
+      <link rel="stylesheet" th:href="@{/css/admin/main/header_footer.css}">
 
-    <script th:src="@{/js/admin/cs/recruit/sidebarAction.js}" defer></script>
-    <link rel="stylesheet" th:href="@{/css/admin/main/sidebar.css}">
+      <script th:src="@{/js/admin/cs/recruit/sidebarAction.js}" defer></script>
+      <link rel="stylesheet" th:href="@{/css/admin/main/sidebar.css}">
+      <script>
+          document.addEventListener("DOMContentLoaded", function() {
+              const category_box = { // 카테고리
+                  "회원": ["가입", "탈퇴", "회원정보", "로그인"],
+                  "쿠폰 / 이벤트": ["쿠폰 / 할인혜택", "포인트", "제휴", "이벤트"],
+                  "주문 / 결제": ["상품", "결제", "구매내역", "영수증 / 증빙"],
+                  "배송": ["배송상태 / 기간", "배송정보확인 / 변경", "해외배송", "당일배송", "해외직구"],
+                  "취소 / 반품 / 교환": ["반품신청 / 철회", "반품정보확인 / 변경", "교환 AS신청 / 철회", "교환정보확인 / 변경", "취소신청 / 철회", "취소확인 / 환불정보"],
+                  "여행 / 숙박 / 항공": ["여행 / 숙박", "항공"],
+                  "안전거래": ["서비스 이용규칙 위반", "지식재산권침해", "법령 및 정책위반 상품", "게시물 정책위반", "직거래 / 외부거래유도", "표시광고", "청소년 위해상품 / 이미지"]
+              };
+              const category1 = document.getElementById("category1");
+              const category2 = document.getElementById("category2");
+              category2.innerHTML = '<option>2차 선택</option>';
+
+              category1.addEventListener("change", function() {
+                  const selected = this.value;
+                  category2.innerHTML = '';
+
+                  if(category_box[selected]) {
+                      category_box[selected].forEach(item => {
+                          const option = document.createElement("option");
+                          option.value = item;
+                          option.textContent = item;
+                          category2.appendChild(option);
+                      });
+                  } else {
+                      category2.innerHTML = '<option>2차 선택</option>';
+                  }
+              });
+          });
+      </script>
 </head>
 <body>
   <header>
@@ -387,17 +423,18 @@
           <th>유형</th>
           <td>
             <div class="input-box select-row">
-              <select>
-                <option>1차선택</option>
-                <option>고객서비스</option>
-                <option>이벤트 안내</option>
-                <option>업데이트</option>
-              </select>
-              <select>
-                <option>2차선택</option>
-                <option>가입</option>
-                <option>탈퇴</option>
-              </select>
+                <select name="category1" id="category1">
+                    <option>1차 선택</option>
+                    <option value="회원">회원</option>
+                    <option value="쿠폰 / 이벤트">쿠폰 / 이벤트</option>
+                    <option value="주문 / 결제">주문 / 결제</option>
+                    <option value="배송">배송</option>
+                    <option value="취소 / 반품 / 교환">취소 / 반품 / 교환</option>
+                    <option value="여행 / 숙박 / 항공">여행 / 숙박 / 항공</option>
+                    <option value="안전거래">안전거래</option>
+                </select>
+                <select name="category2" id="category2">
+                </select>
             </div>
           </td>
         </tr>

@@ -239,6 +239,14 @@ html, body {
     .btn { padding: 6px 12px; background-color: #3693c2; color: white; border: none; cursor: pointer; }
     .btn2 { padding: 6px 12px; background-color: #bfbfbf; color: white; border: none; cursor: pointer; }
     .btn:hover { background-color: #2980b9; }
+
+    #notice_type {
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        outline: none;
+        padding: 5px;
+        width: 130px;
+    }
   </style>
 </head>
 <head>
@@ -375,7 +383,13 @@ html, body {
         <tr>
           <th>유형</th>
           <td>
-            <input type="text" value="고객서비스" class="input-box" readonly>
+              <select name="notice_type" id="notice_type">
+                  <option>유형선택</option>
+                  <option value="고객서비스">고객서비스</option>
+                  <option value="안전거래">안전거래</option>
+                  <option value="위해상품">위해상품</option>
+                  <option value="이벤트 당첨">이벤트 당첨</option>
+              </select>
           </td>
         </tr>
         <!-- 제목 입력 가능 -->
