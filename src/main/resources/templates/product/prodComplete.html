@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cupang::주문완료</title>
+    <link rel="stylesheet" th:href="@{/css/product/style_index.css}">
+    <link rel="stylesheet" th:href="@{/css/product/style_prodComplete.css}">
+    <link rel="stylesheet" th:href="@{/css/product/style_prodList.css}">
+    <link rel="stylesheet" th:href="@{/css/product/style_header.css}">
+    <link rel="stylesheet" th:href="@{/css/product/style_footer.css}">
+
+    <!-- 유저별 권한 기능 -->
+    <script th:src="@{/js/product/user-menu.js}" defer></script>
+    <!-- 검색 기능 -->
+    <script th:src="@{/js/product/search.js}" defer></script>
+    <!-- 전체 카테고리 구현 기능 -->
+    <script th:src="@{/js/product/category.js}" defer></script>
+    <!-- 베스트상품 온앤오프 & 스크롤 기능 -->
+    <script th:src="@{/js/product/best.js}" defer></script>
+    <!-- TOP 버튼(맨 위로) 기능 -->
+    <script th:src="@{/js/product/top-btn.js}" defer></script>
+</head>
+<body>
+    <main class="page">
+
+        <!-- 헤더 -->
+        <div th:replace="_header :: headerFragment"></div>
+
+        <!-- 주문/결제 레이아웃 -->
+        <aside class="order-wrap">
+
+            <!-- 베스트상품 -->
+            <aside class="col-a">
+                <div class="best-panel">
+                    <h3 class="section-title">베스트상품</h3>
+                    <ol class="best-num-list" id="best-num-list">
+                        <li><button data-idx="0">NO.1</button></li>
+                        <li><button data-idx="1">NO.2</button></li>
+                        <li><button data-idx="2">NO.3</button></li>
+                        <li><button data-idx="3">NO.4</button></li>
+                        <li><button data-idx="4">NO.5</button></li>
+                    </ol>
+                </div>
+            </aside>
+
+            <!-- 우측: 주문/결제 -->
+            <section class="col-b">
+
+                <div class="list-header">
+                    <h2 class="list-title">주문하기</h2>
+
+                    <!-- 경로 네비게이션 -->
+                    <nav class="cart-steps">
+                        <ol>
+                            <li><a href="#">01 옵션선택</a></li>
+                            <li><a th:href="@{/product/cart}">02 장바구니</a></li>
+                            <li><a th:href="@{/product/order}">03 주문/결제</a></li>
+                            <li class="active">04 주문완료</li>
+                        </ol>
+                    </nav>
+                </div>
+
+                <!-- 주문 내역 -->
+                <div class="order-grid">
+                    <!-- 좌측: 주문 상세 -->
+                    <div class="order-list">
+
+                        <!-- 주문 완료 메시지 -->
+                        <div class="complete-message">
+                            <h2>주문이 정상적으로 완료되었습니다.</h2>
+                            <p>주문번호: <strong>202510021234</strong></p>
+                        </div>
+
+                        <!-- 배송지 정보 -->
+                        <div class="order-section delivery-box">
+                            <div class="section-header">
+                                <h3>배송지 정보</h3>
+                            </div>
+
+                            <div class="delivery-info">
+                                <div class="form-row">
+                                    <label>이름</label>
+                                    <input type="text" value="정순권" readonly>
+                                </div>
+                                <div class="form-row">
+                                    <label>연락처</label>
+                                    <input type="text" value="010-1234-5678" readonly>
+                                </div>
+                                <div class="form-row">
+                                    <label>주소</label>
+                                    <input type="text" value="부산광역시 해운대구 센텀중앙로" readonly>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 포인트 혜택 -->
+                        <div class="order-section point-benefit">
+                            <div class="section-header">
+                                <h3>포인트 혜택</h3>
+                            </div>
+                            <p>총 적립 예정 포인트 <strong>720</strong>원</p>
+                        </div>
+                    </div>
+
+                    <!-- 상품 & 결제 요약 -->
+                    <aside class="order-summary">
+                        <h3>최종 주문정보</h3>
+
+                        <div class="product-info">
+                            <img th:src="@{/images/Hit-product_1.png}" alt="상품" class="product-thumb">
+                            <div class="product-detail">
+                                <p class="product-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
+                                <p class="product-option">1세트</p>
+                                <strong class="sale" id="basePrice">35,590</strong>원
+                            </div>
+                        </div>
+
+                        <h3>결제상세</h3>
+                        <div class="final-product-info">
+                            <ul>
+                                <li><span>상품수</span><span><strong>1</strong></span></li>
+                                <li><span>상품금액</span><span><strong>35,590</strong>원</span></li>
+                                <li><span>할인금액</span><span><strong>-5,000</strong>원</span></li>
+                                <li><span>배송비</span><span><strong>+0</strong>원</span></li>
+                                <li><span>적립 포인트</span><span><strong>720</strong>원</span></li>
+                            </ul>
+                            <p class="order-total"><strong>30,590</strong>원</p>
+                        </div>
+                    </aside>
+
+                    <!-- 버튼 -->
+                    <div class="final-complete-btn">
+                        <a th:href="@{/}" class="btn-home">홈으로</a>
+                        <a href="#" class="btn-order">주문내역 확인</a>
+                    </div>
+                </div>
+            </section>
+        </aside>
+
+        <!-- 푸터 -->
+        <div th:replace="_footer :: footerFragment"></div>
+    </main>
+</body>
+</html>

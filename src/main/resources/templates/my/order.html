@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mypage Main</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <link rel="stylesheet" th:href="@{/css/my/main.css}">
+    <link rel="stylesheet" th:href="@{/css/my/modal/modal.css}">
+    <link rel="stylesheet" th:href="@{/css/my/modal/confirm-modal.css}">
+    <link rel="stylesheet" th:href="@{/css/my/modal/review-modal.css}">
+    <link rel="stylesheet" th:href="@{/css/my/modal/return-modal.css}">
+    <link rel="stylesheet" th:href="@{/css/my/modal/exchange-modal.css}">
+    <link rel="stylesheet" th:href="@{/css/main/style_header.css}">
+</head>
+<body>
+<main>
+    <div th:replace="~{/my/_header :: headerFragment}"></div>
+    <div class="content-wraper">
+        <div class="top-info">
+            <div class="info-title">
+                <span><a th:href="@{/my/home}">나의쇼핑정보</a></span>
+            </div>
+            <div class="status">
+                <table>
+                    <tr>
+                        <th>주문</th>
+                        <th>쿠폰</th>
+                        <th>포인트</th>
+                        <th>문의</th>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>1</td>
+                        <td>1,000</td>
+                        <td>1</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="main-container">
+            <div class="side-menu">
+                <div class="menu-list">
+                    <ul>
+                        <li class="active"><a th:href="@{/my/order}">전체주문내역</a></li>
+                        <li><a th:href="@{/my/point}">포인트내역</a></li>
+                        <li><a th:href="@{/my/coupon}">쿠폰</a></li>
+                        <li><a th:href="@{/my/review}">나의리뷰</a></li>
+                        <li><a th:href="@{/my/qna}">문의하기</a></li>
+                        <li><a th:href="@{/my/option}">나의설정</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="main-content">
+                <div class="banner-ad">
+                    <img src="#" alt="광고사진">
+                </div>
+                <div class="order">
+                    <div class="content-top">
+                        <div class="content-title">
+                            <span>전체주문내역</span>
+                        </div>
+                    </div>
+                    <table>
+                        <tr>
+                            <th>날짜</th>
+                            <th></th>
+                            <th class="second-th">상품정보</th>
+                            <th>상태</th>
+                            <th>확인/신청</th>
+                        </tr>
+                        <tr>
+                            <td>2022-12-13</td>
+                            <td>
+                                <div class="prod-img">
+                                    <img th:src="@{/images/my/banner_ad.jpg}" alt="광고사진">
+                                </div>
+                            </td>
+                            <td class="second-td">
+                                <div class="prod-info">
+                                    <p>주문번호 : 1012211341</p>
+                                    <p>(주)  상호명</p>
+                                    <p>상품명</p>
+                                    <p>수량 : 1개</p>
+                                    <h4>34,000원</h4>
+                                </div>
+                            </td>
+                            <td>배송완료</td>
+                            <td>
+                                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmModal">
+                                    구매확정
+                                </button><br>
+                                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#reviewModal">
+                                    상품평쓰기
+                                </button><br>
+                                <button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#returnModal">
+                                    반품신청
+                                </button><br>
+                                <button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#exchangeModal">
+                                    교환신청
+                                </button><br>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<div th:insert="~{my/modal/confirm-modal :: modal}"></div>
+<div th:insert="~{my/modal/review-modal :: modal}"></div>
+<div th:insert="~{my/modal/return-modal :: modal}"></div>
+<div th:insert="~{my/modal/exchange-modal :: modal}"></div>
+</body>
+</html>

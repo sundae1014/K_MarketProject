@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원목록</title>
+    <link rel="stylesheet" th:href="@{/css/admin/main/header_footer.css}">
+    <link rel="stylesheet" th:href="@{/css/admin/member/memberList.css}">
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const allSelect = document.querySelector(".all_select"); // 전체 선택 체크박스
+            const checkboxes = document.querySelectorAll("tbody input[type='checkbox']"); // 테이블 안 체크박스들
+
+            allSelect.addEventListener("change", function() {
+                checkboxes.forEach(cb => cb.checked = allSelect.checked);
+            });
+
+            const status_box = document.querySelectorAll(".status");
+            status_box.forEach(status => {
+                if (status.textContent === "정상") {
+                    status.style.color = "#00B050";
+                } else if (status.textContent === "중지") {
+                    status.style.color = "red";
+                } else if (status.textContent === "휴면" || status.textContent === "탈퇴") {
+                    status.style.color = "#808080";
+                }
+            });
+
+            /*모달 파트*/
+            const modal = document.getElementById("myModal");
+            const openBtn_box = document.querySelectorAll(".member_modify");
+            const closeBtn = modal.querySelector(".close");
+            const form = document.getElementById("memberForm");
+
+            openBtn_box.forEach(openBtn => {
+                openBtn.addEventListener("click", () => {
+                    modal.style.display = "block";
+                });
+            });
+            
+
+            closeBtn.addEventListener("click", () => modal.style.display = "none");
+            window.addEventListener("click", (e) => {
+                if (e.target === modal) modal.style.display = "none";
+            });
+
+            const modalContent = modal.querySelector(".modal-content");
+                modalContent.addEventListener("click", (e) => {
+                    e.stopPropagation(); // 클릭 이벤트가 부모로 전달되지 않도록 막음
+            });
+
+            form.addEventListener("submit", (e) => {
+                e.preventDefault();
+
+                const data = {
+                id: form.id.value,
+                passwd: form.passwd.value,
+                trade_name: form.trade_name.value,
+                ceo: form.ceo.value,
+                business_num: form.business_num.value,
+                communication_num: form.communication_num.value,
+                hp: form.hp.value,
+                fax: form.fax.value,
+                address1: form.address1.value,
+                address2: form.address2.value,
+                address3: form.address3.value
+                };
+
+                console.log("폼 데이터: ", data);
+
+                alert("상점이 등록되었습니다!");
+
+                form.reset();
+                modal.style.display = "none";
+            });
+        });
+    </script>
+    <script th:src="@{/js/admin/cs/recruit/sidebarAction.js}" defer></script>
+    <link rel="stylesheet" th:href="@{/css/admin/main/sidebar.css}">
+</head>
+<body>
+    <header>
+        <div class="header-layout">
+            <div class="header-content">
+                <a th:href="@{/admin}">
+                    <img th:src="@{/images/admin/main/cupangMS_logo(color).png}" alt="로고">
+                </a>
+
+                <div class="header-link">
+                    <div class="header-item">
+                        <a th:href="@{/}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-house-icon lucide-house"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+                            <p>HOME</p>
+                        </a>
+                    </div>
+
+                    <div class="header-item">
+                        <a th:href="@{/cs/index}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-headset-icon lucide-headset"><path d="M3 11h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-5Zm0 0a9 9 0 1 1 18 0m0 0v5a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3Z"/><path d="M21 16v2a4 4 0 0 1-4 4h-5"/></svg>
+                            <p>고객센터</p>
+                        </a>
+                    </div>
+
+                    <button>로그아웃</button>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main>
+        <div class="container">
+            <aside class="sidebar">
+                <div class="side-item">
+                    <div class="main-menu">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-settings-icon lucide-settings"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"/><circle cx="12" cy="12" r="3"/></svg>
+                        <p>환경설정</p>
+                    </div>
+                    <ul class="sub-menu">
+                        <li><a th:href="@{/admin/config/basic}" class="sub-link">기본설정</a></li>
+                        <li><a th:href="@{/admin/config/banner}" class="sub-link">배너관리</a></li>
+                        <li><a th:href="@{/admin/config/policy}" class="sub-link">약관관리</a></li>
+                        <li><a th:href="@{/admin/config/category}" class="sub-link">카테고리</a></li>
+                        <li><a th:href="@{/admin/config/version}" class="sub-link">버전관리</a></li>
+                    </ul>
+                </div>
+                <div class="side-item">
+                    <div class="main-menu">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-store-icon lucide-store"><path d="M15 21v-5a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v5"/><path d="M17.774 10.31a1.12 1.12 0 0 0-1.549 0 2.5 2.5 0 0 1-3.451 0 1.12 1.12 0 0 0-1.548 0 2.5 2.5 0 0 1-3.452 0 1.12 1.12 0 0 0-1.549 0 2.5 2.5 0 0 1-3.77-3.248l2.889-4.184A2 2 0 0 1 7 2h10a2 2 0 0 1 1.653.873l2.895 4.192a2.5 2.5 0 0 1-3.774 3.244"/><path d="M4 10.95V19a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8.05"/></svg>
+                        <p>상점관리</p>
+                    </div>
+                    <ul class="sub-menu">
+                        <li><a th:href="@{/admin/shop/list}" class="sub-link">상점목록</a></li>
+                        <li><a th:href="@{/admin/shop/sales}" class="sub-link">매출현황</a></li>
+                    </ul>
+                </div>
+                <div class="side-item">
+                    <div class="main-menu">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-pen-icon lucide-user-pen"><path d="M11.5 15H7a4 4 0 0 0-4 4v2"/><path d="M21.378 16.626a1 1 0 0 0-3.004-3.004l-4.01 4.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z"/><circle cx="10" cy="7" r="4"/></svg>
+                        <p>회원관리</p>
+                    </div>
+                    <ul class="sub-menu">
+                        <li><a th:href="@{/admin/member/list}" class="sub-link">회원목록</a></li>
+                        <li><a th:href="@{/admin/member/point}" class="sub-link">포인트관리</a></li>
+                    </ul>
+                </div>
+                <div class="side-item">
+                    <div class="main-menu">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-package-open-icon lucide-package-open"><path d="M12 22v-9"/><path d="M15.17 2.21a1.67 1.67 0 0 1 1.63 0L21 4.57a1.93 1.93 0 0 1 0 3.36L8.82 14.79a1.655 1.655 0 0 1-1.64 0L3 12.43a1.93 1.93 0 0 1 0-3.36z"/><path d="M20 13v3.87a2.06 2.06 0 0 1-1.11 1.83l-6 3.08a1.93 1.93 0 0 1-1.78 0l-6-3.08A2.06 2.06 0 0 1 4 16.87V13"/><path d="M21 12.43a1.93 1.93 0 0 0 0-3.36L8.83 2.2a1.64 1.64 0 0 0-1.63 0L3 4.57a1.93 1.93 0 0 0 0 3.36l12.18 6.86a1.636 1.636 0 0 0 1.63 0z"/></svg>
+                        <p>상품관리</p>
+                    </div>
+                    <ul class="sub-menu">
+                        <li><a th:href="@{/admin/product/list}" class="sub-link">상품목록</a></li>
+                        <li><a th:href="@{/admin/product/register}" class="sub-link">상품등록</a></li>
+                    </ul>
+                </div>
+                <div class="side-item">
+                    <div class="main-menu">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-receipt-text-icon lucide-receipt-text"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z"/><path d="M14 8H8"/><path d="M16 12H8"/><path d="M13 16H8"/></svg>
+                        <p>주문관리</p>
+                    </div>
+                    <ul class="sub-menu">
+                        <li><a th:href="@{/admin/order/list}" class="sub-link">주문현황</a></li>
+                        <li><a th:href="@{/admin/order/delivery}" class="sub-link">배송현황</a></li>
+                    </ul>
+                </div>
+                <div class="side-item">
+                    <div class="main-menu">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-ticket-percent-icon lucide-ticket-percent"><path d="M2 9a3 3 0 1 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 1 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M9 9h.01"/><path d="m15 9-6 6"/><path d="M15 15h.01"/></svg>
+                        <p>쿠폰관리</p>
+                    </div>
+                    <ul class="sub-menu">
+                        <li><a th:href="@{/admin/coupon/list}" class="sub-link">쿠폰목록</a></li>
+                        <li><a th:href="@{/admin/coupon/issued}" class="sub-link">쿠폰발급현황</a></li>
+                    </ul>
+                </div>
+                <div class="side-item">
+                    <div class="main-menu">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-laptop-minimal-check-icon lucide-laptop-minimal-check"><path d="M2 20h20"/><path d="m9 10 2 2 4-4"/><rect x="3" y="4" width="18" height="12" rx="2"/></svg>
+                        <p>고객센터</p>
+                    </div>
+                    <ul class="sub-menu">
+                        <li><a th:href="@{/admin/cs/notice/list}" class="sub-link">공지사항</a></li>
+                        <li><a th:href="@{/admin/cs/faq/list}" class="sub-link">자주묻는질문</a></li>
+                        <li><a th:href="@{/admin/cs/qna/list}" class="sub-link">문의하기</a></li>
+                        <li><a th:href="@{/admin/cs/recruit/list}" class="sub-link">채용하기</a></li>
+                    </ul>
+                </div>
+            </aside>
+
+            <div class="content">
+                <div class="content-header">
+                    <h1 class="top-title">회원목록</h1>
+                    <div>
+                        <span>HOME</span> &nbsp;&gt;&nbsp;
+                        <span>회원관리</span> &nbsp;&gt;&nbsp;
+                        <span style="font-weight: bold;">회원목록</span> 
+                    </div>
+                </div>
+
+                <form style="margin: 20px 0;">
+                    <select id="search-select">
+                        <option value="id">아이디</option>
+                        <option value="name">이름</option>
+                        <option value="email">이메일</option>
+                        <option value="hp">휴대폰</option>
+                    </select>
+                    <input type="text" id="search-input" placeholder="검색어 입력">
+                    <input type="button" class="search-btn" value="검색">
+                </form>
+                <div class="table-container">
+                    <div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th><input type="checkbox" class="all_select"></th>
+                                    <th>번호</th>
+                                    <th>아이디</th>
+                                    <th>이름</th>
+                                    <th>성별</th>
+                                    <th>등급</th>
+                                    <th>포인트</th>
+                                    <th>이메일</th>
+                                    <th>휴대폰</th>
+                                    <th>가입일</th>
+                                    <th>상태</th>
+                                    <th>관리</th>
+                                </tr>                         
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><input type="checkbox"></td>
+                                    <td>5</td>
+                                    <td>xxx...</td>
+                                    <td>정우성</td>
+                                    <td>M</td>
+                                    <td>
+                                        <select name="grade" class="grade">
+                                            <option value="vvip">VVIP</option>
+                                            <option value="vip">VIP</option>
+                                            <option value="gold">GOLD</option>
+                                            <option value="silver">SILVER</option>
+                                            <option value="family">FAMILY</option>
+                                        </select>
+                                    </td>
+                                    <td>15,000</td>
+                                    <td>xxxxx@...</td>
+                                    <td>010...</td>
+                                    <td>0000-00-00 00:00:00</td>
+                                    <td class="status">정상</td>
+                                    <td>
+                                        <input type="submit" value="[ 수정 ]" class="status_btn member_modify"><br>
+                                        <input type="submit" value="[ 중지 ]" class="status_btn">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox"></td>
+                                    <td>4</td>
+                                    <td>xxx...</td>
+                                    <td>이정재</td>
+                                    <td>M</td>
+                                    <td>
+                                        <select name="grade" class="grade">
+                                            <option value="vvip">VVIP</option>
+                                            <option value="vip" selected>VIP</option>
+                                            <option value="gold">GOLD</option>
+                                            <option value="silver">SILVER</option>
+                                            <option value="family">FAMILY</option>
+                                        </select>
+                                    </td>
+                                    <td>2,700</td>
+                                    <td>xxxxx@...</td>
+                                    <td>010...</td>
+                                    <td>0000-00-00 00:00:00</td>
+                                    <td class="status">정상</td>
+                                    <td>
+                                        <input type="submit" value="[ 수정 ]" class="status_btn member_modify"><br>
+                                        <input type="submit" value="[ 중지 ]" class="status_btn">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox"></td>
+                                    <td>3</td>
+                                    <td>xxx...</td>
+                                    <td>이나영</td>
+                                    <td>F</td>
+                                    <td>
+                                        <select name="grade" class="grade">
+                                            <option value="vvip">VVIP</option>
+                                            <option value="vip">VIP</option>
+                                            <option value="gold" selected>GOLD</option>
+                                            <option value="silver">SILVER</option>
+                                            <option value="family">FAMILY</option>
+                                        </select>
+                                    </td>
+                                    <td>1,200</td>
+                                    <td>xxxxx@...</td>
+                                    <td>010...</td>
+                                    <td>0000-00-00 00:00:00</td>
+                                    <td class="status">중지</td>
+                                    <td>
+                                        <input type="submit" value="[ 수정 ]" class="status_btn member_modify"><br>
+                                        <input type="submit" value="[ 재개 ]" class="status_btn">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox"></td>
+                                    <td>2</td>
+                                    <td>xxx...</td>
+                                    <td>한예슬</td>
+                                    <td>F</td>
+                                    <td>
+                                        <select name="grade" class="grade">
+                                            <option value="vvip">VVIP</option>
+                                            <option value="vip">VIP</option>
+                                            <option value="gold">GOLD</option>
+                                            <option value="silver" selected>SILVER</option>
+                                            <option value="family">FAMILY</option>
+                                        </select>
+                                    </td>
+                                    <td>3,500</td>
+                                    <td>xxxxx@...</td>
+                                    <td>010...</td>
+                                    <td>0000-00-00 00:00:00</td>
+                                    <td class="status">휴면</td>
+                                    <td>
+                                        <input type="submit" value="[ 수정 ]" class="status_btn member_modify"><br>
+                                        <input type="submit" value="[ 재개 ]" class="status_btn">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox"></td>
+                                    <td>1</td>
+                                    <td>xxx...</td>
+                                    <td>강동원</td>
+                                    <td>M</td>
+                                    <td>
+                                        <select name="grade" class="grade">
+                                            <option value="vvip">VVIP</option>
+                                            <option value="vip">VIP</option>
+                                            <option value="gold">GOLD</option>
+                                            <option value="silver">SILVER</option>
+                                            <option value="family" selected>FAMILY</option>
+                                        </select>
+                                    </td>
+                                    <td>100</td>
+                                    <td>xxxxx@...</td>
+                                    <td>010...</td>
+                                    <td>0000-00-00 00:00:00</td>
+                                    <td class="status">탈퇴</td>
+                                    <td>
+                                        <input type="submit" value="[ 수정 ]" class="status_btn member_modify"><br>
+                                        <input type="submit" value="[ 비활성 ]" class="status_btn">
+                                    </td>
+                                </tr>
+                            </tbody>                  
+                        </table>
+                    </div>          
+                </div>
+                <div class="bottom-section" style="position: relative;">
+                    <ul class="pagenation">
+                        <li><a href="#"><span class="first"></span></a></li>
+                        <li><a href="#"><span class="prev"></span></a></li>
+                        <li><a href="#" class="active2">1</a></li>
+                        <li><a href="#" class="pageNum">2</a></li>
+                        <li><a href="#" class="pageNum">3</a></li>
+                        <li><a href="#"><span class="next"></span></a></li>
+                        <li><a href="#"><span class="last"></span></a></li>
+                    </ul>
+                    <div class="btn_box">
+                        <button class="shopList_Btn select_modify">선택수정</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 모달 박스 -->
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 style="font-size: 20px;">회원 수정</h3>
+                    <span class="close">&times;</span>
+                </div>
+
+                <form action="#" method="post" id="memberForm">
+                    <div class="form-body">
+                        <div class="form-row">
+                            <div class="form-label">아이디</div>
+                            <input type="text" name="id" class="form-input" readonly value="abc1234" style="color:#808080;">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-label">이름</div>
+                            <input type="text" name="name" class="form-input" value="홍길동">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-label">성별</div>
+                            <div class="radio_box">
+                                <label><input type="radio" name="gender" value="M" checked>남</label>
+                                <label><input type="radio" name="gender" value="F">여</label>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-label">등급</div>
+                            <input type="text" name="grade" class="form-input" readonly value="FAMILY">
+                            <span style="font-size:14px;margin-left: 10px;">등급 수정은 회원 목록에서 선택수정 가능</span>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-label">상태</div>
+                            <span style="margin-left: 10px;color:#00B050;">정상</span>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-label">EMAIL</div>
+                            <input type="text" name="email" class="form-input" value="abc1234@gmail.com">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-label">휴대폰</div>
+                            <input type="text" name="hp" class="form-input" value="010-1234-1001">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-label">우편번호</div>
+                            <input type="text" name="address1" class="form-input" value="12345">
+                            <button class="addr_btn" style="color:#77933C;cursor: pointer;">검색</button>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-label">기본주소</div>
+                            <input type="text" name="address2" class="form-address" value="부산광역시 부산 진구 부전동 123" style="width: 335px;"><br>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-label">상세주소</div>
+                            <div>
+                                <input type="text" name="address3" class="form-address" value="oo 빌딩 3층 301호" style="width: 335px;"><br>
+                            </div>                  
+                        </div>
+                        <div class="form-row">
+                            <div class="form-label">가입일</div>
+                            <span style="margin-left: 10px;">0000-00-00 00:00:00</span>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-label">최근 로그인 날짜</div>
+                            <span style="margin-left: 10px;">0000-00-00 00:00:00</span>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-label other_title">기타</div>
+                            <textarea name="other" id="other" placeholder="회원에 대한 기타 정보 입력"></textarea>
+                        </div>
+                    </div>
+
+                    <div style="text-align: center;">
+                        <input type="submit" value="수정하기" class="form_btn">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <div class="footer-layout">
+            <div class="footer-content">
+                <img th:src="@{/images/admin/main/cupangMS_logo(color).png}" alt="로고">
+                <div class="about-company">
+                    <h2>(주)큐팡</h2>
+                    <h2>대표이사 이름(db)</h2>
+                    <h2>|</h2>
+                    <h2>사업자등록번호</h2>
+                    <h2>123-132-1231232(db)</h2>
+                    <h2>|</h2>
+                    <h2>통신판매업신고</h2>
+                    <h2>2023-부산 해운대구-1232(db)</h2>
+                    <h2>|</h2>
+                    <h2>부산광역시 부산진구 중앙동(db)</h2>
+                    <h2>(삼성동, green빌딩) 7층(db)</h2>
+                </div>
+                <div class="about-company">
+                    <h2>고객센터</h2>
+                    <h2>|</h2>
+                    <h2>02-1234-1231</h2>
+                    <h2>평일 09:00 ~ 18:00(db)</h2>
+
+                    <h2>이메일</h2>
+                    <h2>abc@cupang(db)</h2>
+
+                    <h2>전자금융거래 분쟁담당</h2>
+                    <h2>12321-12321(db)</h2>
+                </div>
+                <h2>Copyright@cupang.All.rights.reserved (db)</h2>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,300 @@
+.board {
+  width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: stretch;
+  gap: 30px;
+}
+
+/*///////////////////본문///////////////////*/
+.content {
+    display: flex;
+    flex-direction: column;
+    width: 970px;
+    gap: 30px;
+    margin-bottom: 120px; /*푸터랑 간격 띄우기(footer에다 margin-top주면 사이드바 안늘어남*/
+}
+
+.boardUpper {
+  width: 100%;
+  border-bottom: 1px solid #ccc;
+  padding: 10px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  
+}
+.boardUpper-link{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+.boardUpper-link a{
+    text-decoration: none;
+    color: #666;
+    font-size: 14px;
+}
+.boardUpper-link a.active{
+    font-weight: 600;
+}
+.boardUpper-link svg{
+    width: 15px;
+    height: 15px;
+    color: #666;
+}
+
+.boardText-login {
+    text-align: start;
+    margin: 0;
+}
+
+.search-area form{
+    display: flex;
+    gap: 10px;
+}
+.search-area select{
+  border-color: #ccc;
+  padding:10px 20px;
+}
+
+.search-lang{
+  border: #ccc solid 1px;
+  padding:10px 20px;
+  width: 120px;
+  outline: none;
+  box-shadow: none;
+
+}
+.search-btn{
+    border: #ccc solid 1px;
+    background-color: #666;
+    color: white;
+    width: 50px;
+    cursor: pointer;
+}
+
+.recruit-table {
+  border-collapse: collapse;
+  width: 1000px;
+  width: 1000px;
+  font-size: 14px;
+}
+.recruit-table th{
+    padding: 15px;
+    border-top: 1px solid #666;
+    border-bottom: 1px solid #666;
+}
+
+.recruit-table td {
+  padding: 15px;
+  border-bottom: 1px solid #ccc;
+  text-align: center;
+}
+
+.col-num { width: 40px; }
+.col-dept { width: 80px; }
+.col-career { width: 100px; }
+.col-type { width: 70px; }
+.col-title { width: 190px; }
+.col-writer { width: 60px;}
+.col-status { width: 60px; }
+.col-period { width: 110px; }
+.col-write { width: 110px; }
+
+
+.status-open {
+  color: #8FCC17;
+  font-weight: bold;
+}
+
+.status-closed {
+  color: gray;
+}
+
+/* ===== 페이지네이션 css ===== */
+.page{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    margin-top: 50px;      
+    gap:24px;               
+}
+
+.page > .prev,
+.page > .pagenumber,
+.page > .last{
+    display:flex;
+    align-items:center;
+    gap:4px;               
+}
+
+
+.page .pagenumber a{
+    display:inline-flex;              
+    justify-content:center;
+    align-items:center;
+    width:32px;
+    height:29px;
+    color:#666;
+    text-decoration:none;
+    box-sizing:border-box;
+    line-height:1;  
+    font-weight: 350;
+    font-size: 15px;
+}
+
+
+.page .pagenumber a.active{
+    color:#436CFF;
+}
+
+.page .prev a,
+.page .last a{
+    display:inline-flex;
+    justify-content:center;
+    align-items:center;
+    width:32px;
+    height:32px;
+}
+.page a.paging img{
+    display:block;
+    max-width:18px;  
+    max-height:18px;
+}
+
+.disabled {
+    opacity: 0;
+    pointer-events: none;   /* 클릭 금지 */
+    cursor: default;
+}
+
+
+.delete-or-register{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+.delete-btn,
+.modalBtn-area button{
+    border: #ccc solid 1px;
+    background-color: #666;
+    color: white;
+    width: 80px;
+    height: 35px;
+    cursor: pointer;
+}
+
+.modal-openBtn{
+
+    border: #ccc solid 1px;
+    background-color: #436CFF;
+    color: white;
+    width: 80px;
+    height: 35px;
+    cursor: pointer;
+}
+
+/*///////////////model///////////////*/
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0,0,0,0.5);
+    z-index: 1000;
+}
+
+.modal_body {
+    position: relative;
+    width: 700px;
+    height: 660px;
+    text-align: center;
+    background-color: #fff;
+    box-shadow: 0 2px 3px 0 rgba(34,36,38,0.15);
+}
+
+.modal-head{
+    background-color: #333;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    height: 40px;
+    align-items: center;
+    width: 100%;
+}
+
+.modal-head h2{
+    padding: 10px;
+}
+
+.close-modal{
+    border: none;
+    outline: none;
+    background-color: inherit ;
+    cursor: pointer;
+    color: white;
+}
+.modal-table {
+    border-collapse: collapse;
+    width: 660px;
+    height: 200px;
+    margin-top: 25px;
+    margin-left: 20px;
+    border-top: 1px solid #ccc;
+}
+
+.modal-table th{
+    background-color: #f0f0f0;
+    width: 100px;
+    font-weight: bold;
+    padding: 5px;
+    border-bottom: 1px solid #ccc;
+    text-align: center;
+}
+
+.modal-table td {
+    background-color: white;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+
+.modal-table input:not([type="date"]){
+    width: 320px;
+    height: 25px;
+}
+.modal-table select{
+    padding: 7px 10px;
+    margin-left: 5px;
+}
+
+.modal-table input{
+    width: 120px;
+    height: 25px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.modalBtn-area{
+    margin-top: 20px;
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+#modal-etc{
+    height: 200px;
+}
+
+.register-btn{
+    border: #ccc solid 1px;
+    background-color:#8FCC17;
+    color: white;
+    width: 80px;
+    height: 35px;
+    cursor: pointer;
+}

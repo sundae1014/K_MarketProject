@@ -1,0 +1,92 @@
+<div th:replace="~{member/_head.html}"></div>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script th:src="@{/js/member/postcode.js}" defer></script>
+<script th:src="@{/js/member/validation.js}" defer></script>
+    <main>
+         <div class="board">
+            <div class="boardUpper">
+                <h2 class="boardText">판매자 회원가입</h2>
+            </div>
+                 <form th:action="@{/member/registerSeller}" method="post">
+                     <table class="auth-table">
+                         <tr>
+                             <th>아이디</th>
+                             <td>
+                                 <input type="text" name="custid" id="checkCustid" placeholder="아이디 입력"/>
+                                 <span class="uidResult">영문, 숫자 4~12자 설정</span>
+                             </td>
+                         </tr>
+                         <tr>
+                             <th>비밀번호</th>
+                             <td>
+                                 <input type="password" name="pw" id="checkPw" placeholder="비밀번호 입력"/>
+                                 <span class="passResult">영문, 숫자, 특수문자 8~12자 설정</span>
+                             </td>
+                         </tr>
+                         <tr>
+                             <th>비밀번호 확인</th>
+                             <td><input type="password" name="pw2" placeholder="비밀번호 입력 확인"/></td>
+                         </tr>
+                     </table>
+
+                     <table class="auth-table">
+                         <tr>
+                             <th>회사명</th>
+                             <td>
+                                 <input type="text" name="company_name" placeholder="회사명 입력 예) (주)상호명"/>
+                             </td>
+                         </tr>
+                         <tr>
+                             <th>대표</th>
+                             <td>
+                                 <input type="text" name="name" id="checkName" placeholder="이름 입력">
+                                 <span class="nameResult"></span>
+                             </td>
+                         </tr>
+                         <tr>
+                             <th>사업자등록번호</th>
+                             <td>
+                                 <input type="text" name="business_number" placeholder="사업자등록번호 입력">
+                                 <span class="emailResult"> - 포함 12자리 입력</span>
+                             </td>
+                         </tr>
+                         <tr>
+                             <th>통신판매업번호</th>
+                             <td>
+                                 <input type="text" name="ecommerce_number" placeholder="통신판매업번호 입력">
+                             </td>
+                         </tr>
+                         <tr>
+                             <th>전화번호</th>
+                             <td>
+                                 <input type="text" name="hp" placeholder="전화번호 입력">
+                             </td>
+                         </tr>
+                         <tr>
+                             <th>팩스</th>
+                             <td>
+                                 <input type="text" name="fax_number" placeholder="팩스번호 입력"/>
+                             </td>
+                         </tr>
+                         <tr>
+                             <th>주소</th>
+                             <td>
+                                 <div class="input-row">
+                                     <input type="text" id="zip" name="zip" readonly placeholder="우편번호검색클릭" onclick="postcode()"/>
+                                 </div>
+                                 <div class="input-row-long">
+                                     <input type="text" id="addr1" name="addr1" readonly placeholder="기본주소검색"/>
+                                     <input type="text" id="addr2" name="addr2" placeholder="상세주소입력"/>
+                                 </div>
+                             </td>
+                         </tr>
+                     </table>
+                     <div class="btn-wrap">
+                         <input type="submit" value="회원가입" class="agree-btn">
+                     </div>
+                 </form>
+
+         </div>
+
+    </main>
+        <div th:replace="~{member/_tail.html}"></div>

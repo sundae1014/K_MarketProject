@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.kmarket.mapper.admin.ShopMapper">
+
+    <sql id="searchWhere">
+        <trim prefix="" prefixOverrides="AND |OR ">
+            <if test="pageRequestDTO.searchType != null and pageRequestDTO.keyword != ''">
+                <choose>
+                    <when test="pageRequestDTO.searchType == 'trade_name'">
+                        AND MEMBER.COMPANY_NAME LIKE '%' || #{pageRequestDTO.keyword} || '%'
+                    </when>
+                    <when test="pageRequestDTO.searchType == 'ceo'">
+                        AND MEMBER.NAME LIKE '%' || #{pageRequestDTO.keyword} || '%'
+                    </when>
+                    <when test="pageRequestDTO.searchType == 'business_num'">
+                        AND MEMBER.business_num LIKE '%' || #{pageRequestDTO.keyword} || '%'
+                    </when>
+                    <when test="pageRequestDTO.searchType == 'hp'">
+                        AND MEMBER.hp LIKE '%' || #{pageRequestDTO.keyword} || '%'
+                    </when>
+                </choose>
+            </if>
+        </trim>
+    </sql>
+
+    <select id="findAll" resultType="kr.co.kmarket.dto.MemberDTO">
+        SELECT *
+        FROM MEMBER
+        WHERE AUTH = 3
+        ORDER BY CUST_NUMBER DESC
+        OFFSET #{pageRequestDTO.offset} ROWS
+        FETCH NEXT #{pageRequestDTO.size} ROWS ONLY
+    </select>
+    <select id="selectCountTotal" resultType="int">
+        SELECT COUNT(*) FROM MEMBER
+    </select>
+
+    <select id="searchAll" resultType="kr.co.kmarket.dto.MemberDTO">
+        SELECT *
+        FROM MEMBER
+        <where>
+            AUTH = 3
+            <if test="pageRequestDTO.searchType != null and pageRequestDTO.keyword != ''">
+                AND <include refid="searchWhere"/>
+            </if>
+        </where>
+        ORDER BY CUST_NUMBER DESC
+        OFFSET #{pageRequestDTO.offset} ROWS
+        FETCH NEXT #{pageRequestDTO.size} ROWS ONLY
+    </select>
+    <select id="searchCount" resultType="int">
+        SELECT COUNT(*) FROM MEMBER
+        <where>
+            AUTH = 3
+            <if test="pageRequestDTO.searchType != null and pageRequestDTO.keyword != ''">
+                AND <include refid="searchWhere"/>
+            </if>
+        </where>
+    </select>
+
+    <update id="update">
+        UPDATE MEMBER
+        SET OPERATION = #{operation}
+        WHERE CUST_NUMBER = #{custNumber}
+    </update>
+
+    <delete id="delete" parameterType="list">
+        DELETE FROM MEMBER
+        WHERE CUST_NUMBER IN
+        <foreach item="cust_number" collection="list" open="(" separator="," close=")">
+            #{cust_number}
+        </foreach>
+    </delete>
+</mapper>

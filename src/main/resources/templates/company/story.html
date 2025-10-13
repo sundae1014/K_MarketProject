@@ -1,0 +1,98 @@
+<div th:replace="~{company/_head.html}"></div>
+
+    <main>
+
+        <a href="#" class="scroll-down">
+            <div class="scroll">
+                <span class="scroll-dot"></span>
+            </div>
+            <div class="arrow-down"></div>
+        </a>
+
+        <div class="board">
+            <div class="slogan-header">
+                <h1>큐팡을 더 알고 싶다면!</h1>
+                <p>새로운 소식과 흥미로운 이야기가 기다리고 있어요.</p>
+            </div>
+            
+            <div class="blog-section">
+
+                <div class="blog-cateLink">
+                    <button data-cate="all" class="active">전체</button>
+                    <button data-cate="culture">기업문화</button>
+                    <button data-cate="interview">인터뷰</button>
+                    <button data-cate="recruit">채용</button>
+                    <button data-cate="news">보도자료</button>
+                    <button data-cate="esg">ESG</button>
+                </div>
+
+                <div class="blog-item">
+                    <div class="blog-post" data-cate="culture">
+                        <div class="blog-card">
+                            <a th:href="@{/company/story/detail(id=${1})}">
+                            <img th:src="@{/images/company/detail1.PNG}" alt="기업문화 이미지">
+                            <div class="card-content">
+                                <h3>직원 이야기: 개발팀 하루</h3>
+                                <p>큐팡 개발팀의 하루를 소개합니다. 어떤 과정을 거쳐 서비스를 개선하는지 생생하게 볼 수 있습니다.</p>
+                            </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="blog-post" data-cate="interview">
+                        <div class="blog-card">
+                            <a th:href="@{/company/story/detail(id=${2})}">
+                            <img th:src="@{/images/company/detail2.PNG}" alt="인터뷰 이미지">
+                            <div class="card-content">
+                                <h3>신입 개발자 인터뷰</h3>
+                                <p>큐팡 신입 개발자가 입사 후 경험한 실제 프로젝트 이야기와 성장 과정 인터뷰.</p>
+                            </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="blog-post" data-cate="recruit">
+                        <div class="blog-card">
+                            <a th:href="@{/company/story/detail(id=${3})}">
+                            <img th:src="@{/images/company/detail3.PNG}" alt="채용 이미지">
+                            <div class="card-content">
+                                <h3>채용 공고: 2025 상반기</h3>
+                                <p>큐팡에서 진행하는 상반기 채용 정보를 확인하고 지원 방법을 안내합니다.</p>
+                            </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="blog-post" data-cate="news">
+                        <div class="blog-card">
+                            <a th:href="@{/company/story/detail(id=${4})}">
+                            <img th:src="@{/images/company/detail4.PNG}" alt="보도자료 이미지">
+                            <div class="card-content">
+                                <h3>큐팡, 새로운 물류 센터 오픈</h3>
+                                <p>큐팡의 최신 물류 센터 오픈 소식을 전하고, 서비스 향상을 위한 계획을 소개합니다.</p>
+                            </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="blog-post" data-cate="esg">
+                        <div class="blog-card">
+                            <a th:href="@{/company/story/detail(id=${5})}">
+                            <img th:src="@{/images/company/detail5.PNG}" alt="ESG 이미지">
+                            <div class="card-content">
+                                <h3>큐팡 ESG 활동 소개</h3>
+                                <p>환경과 사회, 거버넌스를 고려한 큐팡의 지속가능한 활동과 프로젝트를 공유합니다.</p>
+                            </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </main>
+
+    <div th:replace="~{company/_tail.html}"></div>

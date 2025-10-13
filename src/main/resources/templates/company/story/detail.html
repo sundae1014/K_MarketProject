@@ -1,0 +1,22 @@
+<div th:replace="~{company/_head.html}"></div>
+<main>
+
+    <a href="#" class="scroll-down">
+        <div class="scroll">
+            <span class="scroll-dot"></span>
+        </div>
+        <div class="arrow-down"></div>
+    </a>
+
+    <div class="board">
+        <div class="detail-area">
+            <div id="post-detail" class="blog-item">
+                <!-- storydetail.js가 여기에 글 내용 넣음 -->
+            </div>
+            <a th:href="@{/company/story}">목록으로 돌아가기</a>
+        </div>
+
+    </div>
+</main>
+
+<div th:replace="~{company/_tail.html}"></div>

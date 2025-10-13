@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mypage Main</title>
+    <link rel="stylesheet" th:href="@{/css/my/main.css}">
+    <link rel="stylesheet" th:href="@{/css/my/option.css}">
+    <link rel="stylesheet" th:href="@{/css/main/style_header.css}">
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script th:src="@{/js/my/postcode.js}"></script>
+</head>
+<body>
+    <main>
+        <div th:replace="~{/my/_header :: headerFragment}"></div>
+        <div class="content-wraper">
+            <div class="top-info">
+                <div class="info-title">
+                    <span><a th:href="@{/my/home}">나의쇼핑정보</a></span>
+                </div>
+                <div class="status">
+                    <table>
+                        <tr>
+                            <th>주문</th>
+                            <th>쿠폰</th>
+                            <th>포인트</th>
+                            <th>문의</th>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>1</td>
+                            <td>1,000</td>
+                            <td>1</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="main-container">
+                <div class="side-menu">
+                    <div class="menu-list">
+                        <ul>
+                            <li><a th:href="@{/my/order}">전체주문내역</a></li>
+                            <li><a th:href="@{/my/point}">포인트내역</a></li>
+                            <li><a th:href="@{/my/coupon}">쿠폰</a></li>
+                            <li><a th:href="@{/my/review}">나의리뷰</a></li>
+                            <li><a th:href="@{/my/qna}">문의하기</a></li>
+                            <li class="active"><a th:href="@{/my/option}">나의설정</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="main-content">
+                    <div class="banner-ad">
+                        <img th:src="@{/images/my/banner_ad.jpg}" alt="광고사진">
+                    </div>
+                    <div class="option">
+                        <h4>나의설정</h4>
+                        <form>
+                            <table class="option-table">
+                                <tr>
+                                    <th>사용자 ID</th>
+                                    <td>sundae****</td>
+                                </tr>
+                                <tr>
+                                    <th>비밀번호</th>
+                                    <td><button class="pass-btn"><a th:href="@{/memder/find/changePassword}">비밀번호수정</a></button></td>
+                                </tr>
+                                <tr>
+                                    <th>이름</th>
+                                    <td>정*권</td>
+                                </tr>
+                                <tr>
+                                    <th>생년월일</th>
+                                    <td>0000년 00월 00일</td>
+                                </tr>
+                                <tr>
+                                    <th>Email</th>
+                                    <td>
+                                        <input type="text" class="id">
+                                        @
+                                        <input type="text" class="domain">
+                                        <select>
+                                            <option value="naver">naver.com</option>
+                                            <option value="hanmail">hanmail.net</option>
+                                            <option value="daum">daum.net</option>
+                                            <option value="gmail">gmail.com</option>
+                                            <option value="" selected>직접입력</option>
+                                        </select>
+                                        <button class="modi-btn">수정하기</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>휴대폰</th>
+                                    <td>
+                                        <input type="number" class="hpbox"> -
+                                        <input type="number" class="hpbox"> -
+                                        <input type="number" class="hpbox">
+                                        <button class="modi-btn">수정하기</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>주소</th>
+                                    <td>
+                                        <div class="input-row">
+                                            <input type="text" id="zip" name="zip" readonly placeholder="우편번호검색클릭" onclick="postcode()"/>
+                                        </div>
+                                        <div class="input-row-long">
+                                            <input type="text" id="addr1" name="addr1" readonly placeholder="기본주소검색"/>
+                                            <input type="text" id="addr2" name="addr2" placeholder="상세주소입력"/>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>탈퇴</th>
+                                    <td>
+                                        <button class="del-btn"><a>탈퇴하기</a></button>
+                                    </td>
+                                </tr>
+                            </table>
+                            <div class="btn-area">
+                                <button class="final-modify-btn">수정하기</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

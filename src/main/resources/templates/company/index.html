@@ -1,0 +1,218 @@
+<div th:replace="~{company/_head.html}"></div>
+    <main>
+
+        <a href="#" class="scroll-down">
+            <div class="scroll">
+                <span class="scroll-dot"></span>
+            </div>
+            <div class="arrow-down"></div>
+        </a>
+
+        <div class="board">
+            <div class="landing-area">
+                <img th:src="@{/images/company/companybd.PNG}" alt="회사사옥">
+                <div class="landing-text">
+                    <h1>더 빠르게, 더 편리하게, 모두를 위한 쇼핑 경험</h1>
+                    <p>큐팡, 일상의 즐거움을 연결하다</p>
+                </div>
+            </div>
+
+            <div class="highlight">
+                큐팡은<br>
+                고객의 더 나은 쇼핑 경험을 위해, 가치를 연결합니다.
+            </div>
+
+            <div class="subtext">
+                <p>물류와 IT 기술을 기반으로 빠르고 편리한 배송을 제공하며,
+                다양한 상품과 서비스로 판매자와 소비자를 이어주는 혁신적인 온라인 쇼핑 플랫폼을 운영하고 있습니다.</p>
+                <p>또한, 데이터와 기술을 활용해 새로운 서비스와 쇼핑 경험을 지속적으로 발굴합니다.</p>
+                <p>쿠팡 비즈니스의 핵심은 "연결"입니다.</p>
+                <p>우리는 연결을 통해 일상 속 쇼핑의 한계를 허물고, 쇼핑을 새롭게 만들어 갑니다.</p>
+                <p>익숙한 쇼핑을 혁신하고 새로운 가치를 연결하여, 고객에게 한계 없는 편리함을 선사하겠습니다.</p>
+
+            </div>
+
+            <section class="slogan-slider">
+                <div class="slogan-header">
+                    <h1>고객의 기대를 넘는, 빠르고 스마트한 쇼핑 경험</h1>
+                </div>
+
+                <div class="slider-container">
+
+                    <button class="arrow prev">&#10094;</button>
+
+                    <div class="slides-wrapper">
+                        <div class="slides">
+                            <div class="slide">
+                                <img th:src="@{/images/company/slides1.png}" alt="슬라이드 이미지 1">
+                                <h2>순간을 놓치지 않는 초고속 배송</h2>
+                                <p>큐팡은 단순한 배송이 아니라, 고객이 원하는 시간을 정확히 지키는 초고속 배송을 실현합니다.<br>
+                                빠른 배송으로 기다림 없는 만족을 제공합니다.<br>
+                                실시간 위치 추적과 스마트 물류 시스템으로 언제 어디서나 안심하고 주문할 수 있습니다.</p>
+                            </div>
+
+                            <div class="slide">
+                                <img th:src="@{/images/company/slides2.png}" alt="슬라이드 이미지 2">
+                                <h2>고객 중심 맞춤 서비스</h2>
+                                <p>고객 행동 데이터를 분석하여 개인별 맞춤 추천과 서비스를 제공합니다.<br>
+                                추천 상품, 할인, 배송 옵션까지 고객 취향에 최적화된 경험을 제공합니다.<br>
+                                단순한 쇼핑이 아닌, 고객의 생활을 더 편리하게 만드는 서비스를 지향합니다.</p>
+                            </div>
+
+                            <div class="slide">
+                                <img th:src="@{/images/company/slides3.png}" alt="슬라이드 이미지 3">
+                                <h2>모든 상품, 합리적인 가격과 품질 보장</h2>
+                                <p>고객이 진정으로 원하는 가치는 가격과 품질의 완벽한 균형입니다.<br>
+                                큐팡은 믿을 수 있는 상품만을 선별하여 합리적인 가격으로 제공합니다.<br>
+                                단순한 저가 경쟁을 넘어, 가치 있는 소비를 지원합니다.</p>
+                            </div>
+
+                            <div class="slide">
+                                <img th:src="@{/images/company/slides4.png}" alt="슬라이드 이미지 4">
+                                <h2>안심하고 믿을 수 있는 쇼핑 환경</h2>
+                                <p>결제부터 배송, 교환·환불까지 안전하고 투명한 과정을 제공합니다.<br>
+                                큐팡은 고객 신뢰를 최우선으로 생각하며, 언제나 책임 있는 서비스를 제공합니다.<br>
+                                신뢰를 기반으로 한 장기적 고객 만족을 목표로 합니다.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="arrow next">&#10095;</button>
+                    </div>
+
+                    <div class="slider-dots">
+                        <span class="dot active"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                    </div>
+            </section>
+
+            <section class="news-section">
+                <div class="news-header">
+                    <h1>큐팡의 성장스토리</h1>
+                </div>
+
+                <ul class="news-list">
+                    <li>
+                        <span class="news-date">2025.10</span>
+                        <a th:href="@{/company/story/detail(id=${5})}" class="news-title">
+                            큐팡 ESG 활동 소개
+                            <span class="arrow-right"></span>
+                        </a>
+                    </li>
+                    <li>
+                        <span class="news-date">2025.10</span>
+                        <a th:href="@{/company/story/detail(id=${4})}" class="news-title">
+                            큐팡, 새로운 물류 센터 오픈
+                            <span class="arrow-right"></span>
+                        </a>
+                    </li>
+                    <li>
+                        <span class="news-date">2025.10</span>
+                        <a th:href="@{/company/story/detail(id=${1})}" class="news-title">
+                            직원 이야기: 개발팀 하루
+                            <span class="arrow-right"></span>
+                        </a>
+                    </li>
+                    <li>
+                        <span class="news-date">2025.09</span>
+                        <a th:href="@{/company/story/detail(id=${2})}" class="news-title">
+                            신입 개발자 인터뷰
+                            <span class="arrow-right"></span>
+                        </a>
+                    </li>
+                    <li>
+                        <span class="news-date">2025.09</span>
+                        <a th:href="@{/company/story/detail(id=${3})}" class="news-title">
+                            채용 공고: 2025 상반기
+                            <span class="arrow-right"></span>
+                        </a>
+                    </li>
+                </ul>
+            </section>
+            <section class="timeline-section">
+        <h1>국내 최초의 온라인 종합 쇼핑몰로 시작해,<br> 쇼핑 경험의 변화를 선도합니다</h1>
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-year-row">
+                    <span class="timeline-marker"></span>
+                    <span class="timeline-year">2025년</span>
+                </div>
+                <ul>
+                    <li><span class="month">02월</span><span class="evt">국내 최초 AI 기반 배송 최적화 서비스 적용</span></li>
+                </ul>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-year-row">
+                    <span class="timeline-marker"></span>
+                    <span class="timeline-year">2024년</span>
+                </div>
+                <ul>
+                    <li><span class="month">06월</span><span class="evt">글로벌 공동 연구소 설립</span></li>
+                    <li><span class="month">11월</span><span class="evt">친환경 배송 캠페인 진행</span></li>
+                </ul>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-year-row">
+                    <span class="timeline-marker"></span>
+                    <span class="timeline-year">2023년</span>
+                </div>
+                <ul>
+                    <li><span class="month">04월</span><span class="evt">스마트 출석/재고 관리 플랫폼 도입</span></li>
+                    <li><span class="month">08월</span><span class="evt">신규 물류센터 3곳 오픈</span></li>
+                </ul>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-year-row">
+                    <span class="timeline-marker"></span>
+                    <span class="timeline-year">2022년</span>
+                </div>
+                <ul>
+                    <li><span class="month">03월</span><span class="evt">AI 물류센터 자동화 시스템 도입</span></li>
+                    <li><span class="month">06월</span><span class="evt">로켓배송 전국 확대</span></li>
+                    <li><span class="month">11월</span><span class="evt">고객 맞춤형 추천 알고리즘 고도화</span></li>
+                </ul>
+            </div>            
+            <div class="timeline-item">
+                <div class="timeline-year-row">
+                    <span class="timeline-marker"></span>
+                    <span class="timeline-year">2021년</span>
+                </div>
+                <ul>
+                    <li><span class="month">05월</span><span class="evt">새로운 모바일 앱 업데이트</span></li>
+                    <li><span class="month">09월</span><span class="evt">AI 기반 물류 로봇 도입</span></li>
+                </ul>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-year-row">
+                    <span class="timeline-marker"></span>
+                    <span class="timeline-year">2020년</span>
+                </div>
+                <ul>
+                    <li><span class="month">03월</span><span class="evt">코로나 대응 비대면 배송 서비스 시작</span></li>
+                    <li><span class="month">07월</span><span class="evt">고객 서비스센터 자동화 시스템 구축</span></li>
+                    <li><span class="month">12월</span><span class="evt">프리미엄 배송 옵션 제공</span></li>
+                </ul>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-year-row">
+                    <span class="timeline-marker"></span>
+                    <span class="timeline-year">2019년</span>
+                </div>
+                <ul>
+                    <li><span class="month">02월</span><span class="evt">동반성장주간 기념식 참여</span></li>
+                    
+                </ul>
+            </div>
+
+        </div>
+        </section>
+
+
+        </div>
+
+
+    </main>
+
+    <div th:replace="~{company/_tail.html}"></div>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>반품신청</title>
+</head>
+<body>
+    <div th:fragment="modal">
+        <div class="modal fade modal-top" id="returnModal" tabindex="-1" aria-labelledby="returnModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="returnModalLabel">반품신청</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="닫기"></button>
+                    </div>
+                    <div class="modal-body return-contents">
+                        <div class="content-1">
+                            <div class="content-top">
+                                <div class="content-title">
+                                    <span>상품정보</span>
+                                </div>
+                            </div>
+                            <table class="return-prod-table">
+                                <tr>
+                                    <th>날짜</th>
+                                    <th></th>
+                                    <th class="second-th">상품정보</th>
+                                    <th>결제금액</th>
+                                    <th>상태</th>
+                                </tr>
+                                <tr>
+                                    <td>2022-12-13</td>
+                                    <td>
+                                        <div class="prod-img">
+                                            <img src="#" alt="상품사진">
+                                        </div>
+                                    </td>
+                                    <td class="second-td">
+                                        <div class="return-prod-info">
+                                        <span>
+                                            <p>주문번호 : 1012211341</p>
+                                            <p>(주)  상호명</p>
+                                            <p>상품명</p>
+                                            <p>수량 : 1개</p>
+                                            <h4>34,000원</h4>
+                                        </span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                        <span>
+                                            <p>판매가 37,000원</p>
+                                            <p>할인 -3,000원</p>
+                                            <p>결제금액 34,000원</p>
+                                        </span>
+                                        </div>
+                                    </td>
+                                    <td>배송완료</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="content-2">
+                            <div class="content-top">
+                                <div class="content-title">
+                                    <span>반품정보 입력</span>
+                                </div>
+                            </div>
+                            <form id="returnForm">
+                                <table class="return-info-table">
+                                    <tr>
+                                        <th>반품유형</th>
+                                        <td>
+                                            <div class="return-types">
+                                                <div class="return-type">
+                                                    <input type="radio" id="defect" name="returnType" value="단순변심" required>
+                                                    <label for="defect">단순 변심</label>
+                                                </div>
+                                                <div class="return-type">
+                                                    <input type="radio" id="different" name="returnType" value="파손 및 불량" required>
+                                                    <label for="different">파손 및 불량</label>
+                                                </div>
+                                                <div class="return-type">
+                                                    <input type="radio" id="damaged" name="returnType" value="주문 실수" required>
+                                                    <label for="damaged">주문 실수</label>
+                                                </div>
+                                                <div class="return-type">
+                                                    <input type="radio" id="other" name="returnType" value="기타" required>
+                                                    <label for="other">기타</label>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>사유입력</th>
+                                        <td>
+                                        <textarea name="returnReason" class="reason-textarea"
+                                                  placeholder="반품 사유를 상세히 입력해주세요." required></textarea>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>사진첨부(선택)</th>
+                                        <td>
+                                            <div class="file-upload-section">
+                                                <button type="button" class="file-upload-btn" onclick="document.getElementById('photoUpload').click()">
+                                                    파일선택
+                                                </button>
+                                                <input type="file" id="photoUpload" class="file-input" accept="image/*" multiple onchange="handleFileUpload(event, 'photo')">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+
+                                <div class="button-group">
+                                    <button type="submit" class="btn-submit">반품신청</button>
+                                    <button type="button" class="btn-cancel" data-bs-dismiss="modal">취소</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,185 @@
+
+.board {
+  width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: stretch;
+  gap: 30px;
+}
+.board h2{
+    margin: 0;
+}
+
+
+/* //////////////////// TOP 버튼 시작 //////////////////// */
+.top-btn {
+    position: fixed;
+    bottom: 40px;
+
+    /* 화면 가운데 기준으로 1200px 컨테이너 + 버튼 간격 계산 */
+    left: calc(50% + 600px + 20px);
+    /* 50% = 화면 가운데 / 600px = 컨테이너 절반 / +20px = 간격 */
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: var(--blue);
+    color: #fff;
+    background-color: #2454d1;
+    font-size: 20px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    z-index: 999;
+    transition: opacity 0.3s ease;
+}
+
+/* 뒷 배경이 흰색이라 고정
+.top-btn:hover {
+    background: #2454d1; 
+}
+
+.top-btn.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+*/
+
+
+
+/*////////////본문 css///////////*/
+.content {
+  display: flex;
+  flex-direction: column;
+  width: 970px;
+  gap: 30px;
+  margin-bottom: 120px; /*푸터랑 간격 띄우기(footer에다 margin-top주면 사이드바 안늘어남*/
+}
+.boardUpper {
+  width: 100%;
+  border-bottom: 1px solid #333;
+  padding: 10px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  
+}
+.boardUpper-link{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+.boardUpper-link a{
+    text-decoration: none;
+    color: #666;
+    font-size: 14px;
+}
+.boardUpper-link a.active{
+    font-weight: 600;
+}
+.boardUpper-link svg{
+    width: 15px;
+    height: 15px;
+    color: #666;
+}
+
+.boardText-login {
+    text-align: start;
+    margin: 0;
+}
+
+/*///////////////차트 css/////////////////*/
+.chart-area{
+    display: block;
+}
+
+.chart-items{
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+/*/////////////table css ///////////*/
+.oper-status{
+    margin-top: 30px;
+}
+.stats-table,
+.order-table {
+  border-collapse: collapse;
+  width: 950px;
+  margin: 20px 20px 0 20px;
+  font-size: 16px;
+  border-bottom: 1px solid #ccc;
+}
+
+.stats-table th,
+.order-table th{
+    width: 190px;
+    padding: 10px;
+    border-top: 1px solid #666;
+    font-size: 18px;
+    border-right: 1px solid #ccc;
+}
+.stats-table th:last-child,
+.order-table th:last-child,
+.stats-table td:last-child,
+.order-table td:last-child{
+    border-right: 1px solid white;
+}
+
+.stats-table td,
+.order-table td {
+
+  text-align: center;
+  font-weight: bold;
+}
+
+.total-row td{
+    color: #ED5325;
+    padding-bottom: 5px;
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #666;
+}
+
+.yester-today td{
+    padding: 10px;
+    border-right: 1px solid #ccc;
+}
+
+/*///////////////게시판 조회 css/////////////////*/
+.board-area{
+    display: flex;
+    gap: 40px;
+    margin-top: 30px;
+}
+
+
+.notice-table,
+.qna-table{
+  border-collapse: collapse;
+  margin-top: 7px;
+  font-size: 14px;
+  border-top: 1px solid #666;
+  width: 470px;
+}
+
+.notice-table td,
+.qna-table td{
+  border-bottom: 1px solid #ccc;
+  padding: 20px;
+  font-size: 15px;
+}
+
+.notice-table td:last-child,
+.qna-table td:last-child{
+    display: flex;
+    justify-content: end;
+}
+
+.board-area a{
+    text-decoration: none;
+    color: #333;
+}
+
+.notice-table td a:hover,
+.qna-table td a:hover{
+    text-decoration: underline;
+}

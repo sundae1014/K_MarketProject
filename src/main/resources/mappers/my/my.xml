@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.kmarket.mapper.MyMapper">
+
+    <!-- resultMap 정의 -->
+    <resultMap id="OrderResultMap" type="kr.co.kmarket.dto.OrderDTO">
+        <result property="orderNumber" column="ORDERNUMBER"/>
+        <result property="oDate" column="O_DATE"/>
+        <result property="stat" column="STAT"/>
+        <result property="piece" column="PIECE"/>
+        <result property="price" column="PRICE"/>
+        <result property="img1" column="IMG_1"/>
+        <result property="manufacture" column="MANUFACTURE"/>
+        <result property="prod_name" column="PROD_NAME"/>
+    </resultMap>
+
+    <select id="selectRecentOrders" resultMap="OrderResultMap" parameterType="int">
+        SELECT
+        a.ORDERNUMBER,
+        a.O_DATE,
+        a.STAT,
+        b.PIECE,
+        b.PRICE,
+        c.IMG_1,
+        c.MANUFACTURE,
+        c.PROD_NAME
+        FROM "Order" a
+        JOIN ORDERDETAIL b ON a.ORDERNUMBER = b.ORDERNUMBER
+        JOIN PRODUCT c ON b.PROD_NUMBER = c.PROD_NUMBER
+        WHERE a.CUST_NUMBER = #{custNumber}
+        ORDER BY a.O_DATE DESC
+        FETCH FIRST 5 ROWS ONLY
+    </select>
+
+    <select id="countNotConfirmedOrders" resultType="int" parameterType="int">
+        SELECT COUNT(*)
+        FROM "Order"
+        WHERE CUST_NUMBER = #{custNumber}
+        AND STAT != 8
+    </select>
+
+    <select id="selectOrderDetailByCustomer" resultMap="OrderResultMap" parameterType="int">
+        SELECT
+        a.ORDERNUMBER,
+        a.O_DATE,
+        a.STAT,
+        b.PIECE,
+        b.PRICE,
+        c.IMG_1,
+        c.MANUFACTURE,
+        c.PROD_NAME,
+        c.DISCOUNT,
+        c.SALEPRICE
+        FROM "Order" a
+        JOIN ORDERDETAIL b ON a.ORDERNUMBER = b.ORDERNUMBER
+        JOIN PRODUCT c ON b.PROD_NUMBER = c.PROD_NUMBER
+        WHERE a.CUST_NUMBER = #{custNumber}
+        AND a.ORDERNUMBER = #{orderNumber}
+    </select>
+
+
+</mapper>

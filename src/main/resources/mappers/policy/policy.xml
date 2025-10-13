@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.kmarket.mapper.PolicyMapper">
+    <select id="selectAllByType" resultType="kr.co.kmarket.dto.PolicyDTO">
+        SELECT *
+        FROM POLICY
+        WHERE POLICY_TYPE = #{type}
+        ORDER BY POLICY_NO
+    </select>
+
+    <update id="update">
+        UPDATE POLICY SET
+        CONTENT = #{content, jdbcType=CLOB}
+        where ID=#{id}
+    </update>
+</mapper>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>판매자정보</title>
+</head>
+<body>
+    <div th:fragment="modal">
+        <div class="modal fade modal-top" id="sellerModal" tabindex="-1" aria-labelledby="sellerModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="sellerModalLabel">판매자정보</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="닫기"></button>
+                    </div>
+                    <div class="modal-body seller-contents">
+                        <div class="seller-content-1">
+                            <table id="common-table">
+                                <tr>
+                                    <th>판매자 등급</th>
+                                    <td>파워딜러</td>
+                                </tr>
+                                <tr>
+                                    <th>상호</th>
+                                    <td>(주)상호명</td>
+                                </tr>
+                                <tr>
+                                    <th>대표자</th>
+                                    <td>홍길동</td>
+                                </tr>
+                                <tr>
+                                    <th>전화번호</th>
+                                    <td>051-123-1000</td>
+                                </tr>
+                                <tr>
+                                    <th>FAX</th>
+                                    <td>051-123-1001</td>
+                                </tr>
+                                <tr>
+                                    <th>Email</th>
+                                    <td>company@abc.com</td>
+                                </tr>
+                                <tr>
+                                    <th>사업자번호</th>
+                                    <td>123-12-123457</td>
+                                </tr>
+                                <tr>
+                                    <th>영업소재지</th>
+                                    <td>[210**] 부산광역시</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="seller-content-2">
+                            <h3>
+                                ※&nbsp&nbsp위 정보는 전자상거래 법 제 20조 제 2항 및
+                                동법 시행령 제 25조 제 2항에 의거하여
+                            </h3>
+                            <h3>
+                                소비자보호에 의거 공개합니다.
+                            </h3>
+                        </div>
+                        <div class="seller-content-3">
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#qnaModal">문의하기</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

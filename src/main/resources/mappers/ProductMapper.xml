@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.kmarket.mapper.ProductMapper">
+
+    <!-- SearchDTO 기반 검색 -->
+    <select id="selectProducts" parameterType="kr.co.kmarket.dto.SearchDTO"
+            resultType="kr.co.kmarket.dto.ProductDTO">
+
+        SELECT
+        PROD_NUMBER AS prod_number,
+        CATE_CD AS cate_cd,
+        PROD_NAME AS prod_name,
+        DESCRIPTION AS description,
+        MANUFACTURE AS manufacture,
+        PRICE AS price,
+        DISCOUNT AS discount,
+        SALEPRICE AS salePrice,
+        DELIVERY_FEE AS delivery_fee,
+        IMG_1 AS img_1,
+        IMG_2 AS img_2,
+        IMG_3 AS img_3,
+        DETAIL_IMG AS detail_img,
+        PROD_STAT AS prod_stat,
+        PROD_TAX AS prod_tax,
+        PROD_BUSINESS AS prod_business,
+        PROD_NATION AS prod_nation,
+        HIT AS hit,
+        PRO_SCORE AS pro_score,
+        REG_DATE AS reg_date
+        FROM PRODUCT
+        WHERE 1=1
+
+        <!-- 키워드 검색 -->
+        <if test="keyword != null and keyword != ''">
+            AND (
+            <if test="searchName">
+                PROD_NAME LIKE '%' || #{keyword} || '%'
+            </if>
+            <if test="searchDesc">
+                <if test="searchName"> OR </if>
+                DESCRIPTION LIKE '%' || #{keyword} || '%'
+            </if>
+            <if test="searchPrice">
+                <if test="searchName or searchDesc"> OR </if>
+                TO_CHAR(PRICE) LIKE '%' || #{keyword} || '%'
+            </if>
+            )
+        </if>
+
+        <!-- 카테고리 -->
+        <if test="cate_cd != null and cate_cd != ''">
+            AND CATE_CD = #{cate_cd}
+        </if>
+
+        <!-- 가격 범위 -->
+        <if test="minPrice != null">
+            AND PRICE &gt;= #{minPrice}
+        </if>
+        <if test="maxPrice != null">
+            AND PRICE &lt;= #{maxPrice}
+        </if>
+
+        <!-- 정렬 조건 -->
+        <choose>
+            <when test="sort == 'sold'">ORDER BY HIT DESC</when>
+            <when test="sort == 'lowPrice'">ORDER BY SALEPRICE ASC</when>
+            <when test="sort == 'highPrice'">ORDER BY SALEPRICE DESC</when>
+            <when test="sort == 'score'">ORDER BY PRO_SCORE DESC</when>
+            <when test="sort == 'review'">ORDER BY PROD_NUMBER DESC</when>
+            <otherwise>ORDER BY REG_DATE DESC</otherwise>
+        </choose>
+
+    </select>
+
+    <select id="selectProductByNo" resultType="kr.co.kmarket.dto.ProductDTO">
+        SELECT * FROM PRODUCT WHERE PROD_NUMBER = #{prodNo}
+    </select>
+
+    <select id="selectProductNoticeByNo" resultType="kr.co.kmarket.dto.ProductNoticeDTO">
+        SELECT * FROM PRODUCT_NOTICE WHERE PROD_NUMBER = #{prodNo}
+    </select>
+
+    <select id="selectProductReviews" resultType="kr.co.kmarket.dto.ProductReviewDTO">
+        SELECT * FROM REVIEW WHERE PROD_NUMBER = #{prodNo} ORDER BY R_DATE DESC
+    </select>
+
+    <!-- 상품 개수 조회 -->
+    <select id="countProducts" resultType="int" parameterType="kr.co.kmarket.dto.SearchDTO">
+        SELECT COUNT(*)
+        FROM PRODUCT
+        WHERE 1=1
+
+        <if test="keyword != null and keyword != ''">
+            AND (
+            <if test="searchName">
+                PROD_NAME LIKE '%' || #{keyword} || '%'
+            </if>
+            <if test="searchDesc">
+                <if test="searchName"> OR </if>
+                DESCRIPTION LIKE '%' || #{keyword} || '%'
+            </if>
+            <if test="searchPrice">
+                <if test="searchName or searchDesc"> OR </if>
+                TO_CHAR(PRICE) LIKE '%' || #{keyword} || '%'
+            </if>
+            )
+        </if>
+
+        <if test="cate_cd != null and cate_cd != ''">
+            AND CATE_CD = #{cate_cd}
+        </if>
+
+        <if test="minPrice != null">
+            AND PRICE &gt;= #{minPrice}
+        </if>
+        <if test="maxPrice != null">
+            AND PRICE &lt;= #{maxPrice}
+        </if>
+    </select>
+
+</mapper>

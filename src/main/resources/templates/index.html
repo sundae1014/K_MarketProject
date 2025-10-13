@@ -1,0 +1,543 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Cupang::홈</title>
+    <link rel="stylesheet" th:href="@{/css/main/style_index.css}">
+    <link rel="stylesheet" th:href="@{/css/main/style_header.css}">
+    <link rel="stylesheet" th:href="@{/css/main/style_footer.css}">
+
+    <!-- 유저별 권한 기능 -->
+    <script th:src="@{/js/main/user-menu.js}" defer></script>
+    <!-- 검색 기능 -->
+    <script th:src="@{/js/main/search.js}" defer></script>
+    <!-- 전체 카테고리 구현 기능 -->
+    <script th:src="@{/js/main/category.js}" defer></script>
+    <!-- 헤더 바로가기 기능 -->
+    <script th:src="@{/js/main/header-actions.js}" defer></script>
+    <!-- bxSlider 슬라이드 배너 기능 -->
+    <link rel="stylesheet" th:href="@{https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.css}">
+    <script th:src="@{https://code.jquery.com/jquery-3.6.0.min.js}"></script>
+    <script th:src="@{https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js}"></script>
+    <script th:src="@{/js/main/slider.js}" defer></script>
+    <!-- 베스트상품 온앤오프 & 스크롤 기능 -->
+    <script th:src="@{/js/main/best.js}" defer></script>
+    <!-- TOP 버튼(맨 위로) 기능 -->
+    <script th:src="@{/js/main/top-btn.js}" defer></script>
+</head>
+<body>
+    <main class="page">
+
+        <!-- 헤더 -->
+        <div th:replace="_header :: headerFragment"></div>
+
+        <!-- 슬라이드 배너 -->
+        <section class="main-banner">
+            <ul class="bxslider">
+                <li><a href="event1.html"><img th:src="@{/images/main/메인배너img_1.png}" alt="이벤트 1"></a></li>
+                <li><a href="event2.html"><img th:src="@{/images/main/메인배너img_2.png}" alt="이벤트 2"></a></li>
+                <li><a href="event3.html"><img th:src="@{/images/main/메인배너img_3.png}" alt="이벤트 3"></a></li>
+                <li><a href="event4.html"><img th:src="@{/images/main/메인배너img_5.png}" alt="이벤트 4"></a></li>
+                <li><a href="event5.html"><img th:src="@{/images/main/메인배너img_6.png}" alt="이벤트 5"></a></li>
+            </ul>
+        </section>
+
+        <!-- 베스트 + 상품 콘텐츠 묶음 -->
+        <section class="best-and-products container">
+            <!-- 베스트상품 -->
+            <aside class="best-panel">
+                <h3 class="section-title">베스트상품</h3>
+                <ol class="best-num-list" id="best-num-list">
+                    <li><button data-idx="0">NO.1</button></li>
+                    <li><button data-idx="1">NO.2</button></li>
+                    <li><button data-idx="2">NO.3</button></li>
+                    <li><button data-idx="3">NO.4</button></li>
+                    <li><button data-idx="4">NO.5</button></li>
+                </ol>
+            </aside>
+
+            <div class="product-wrap">
+
+                <!-- 히트상품 -->
+                <div class="product-panel" id="hit">
+                    <h3 class="section-title">히트상품</h3>
+                    <div class="hit-grid">
+
+                        <!-- 상품 카드 8개 -->
+                        <a th:href="@{/product/view}" class="hit-card">
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_1.png}" alt="히트상품1"></div>
+                            <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
+                            <div class="hit-prices">
+                                <span class="hit-discount">49%</span>
+                                <del class="hit-regular">69,900원</del>
+                                <strong class="hit-sale">35,590원</strong>
+                            </div>
+                            <p class="hit-delivery">무료배송</p>
+                        </a>
+                        <a href="#" class="hit-card">
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_2.png}" alt="히트상품2"></div>
+                            <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
+                            <div class="hit-prices">
+                                <span class="hit-discount">49%</span>
+                                <del class="hit-regular">69,900원</del>
+                                <strong class="hit-sale">35,590원</strong>
+                            </div>
+                            <p class="hit-delivery">무료배송</p>
+                        </a>
+                        <a href="#" class="hit-card">
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_3.png}" alt="히트상품3"></div>
+                            <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
+                            <div class="hit-prices">
+                                <span class="hit-discount">49%</span>
+                                <del class="hit-regular">69,900원</del>
+                                <strong class="hit-sale">35,590원</strong>
+                            </div>
+                            <p class="hit-delivery">무료배송</p>
+                        </a>
+                        <a href="#" class="hit-card">
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_4.png}" alt="히트상품4"></div>
+                            <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
+                            <div class="hit-prices">
+                                <span class="hit-discount">49%</span>
+                                <del class="hit-regular">69,900원</del>
+                                <strong class="hit-sale">35,590원</strong>
+                            </div>
+                            <p class="hit-delivery">무료배송</p>
+                        </a>
+
+                        <!-- 4개와 4개 사이 구분선 -->
+                        <div class="hit-divider"></div>
+
+                        <a href="#" class="hit-card">
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_5.png}" alt="히트상품5"></div>
+                            <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
+                            <div class="hit-prices">
+                                <span class="hit-discount">49%</span>
+                                <del class="hit-regular">69,900원</del>
+                                <strong class="hit-sale">35,590원</strong>
+                            </div>
+                            <p class="hit-delivery">무료배송</p>
+                        </a>
+                        <a href="#" class="hit-card">
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_6.png}" alt="히트상품6"></div>
+                            <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
+                            <div class="hit-prices">
+                                <span class="hit-discount">49%</span>
+                                <del class="hit-regular">69,900원</del>
+                                <strong class="hit-sale">35,590원</strong>
+                            </div>
+                            <p class="hit-delivery">무료배송</p>
+                        </a>
+                        <a href="#" class="hit-card">
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_7.png}" alt="히트상품7"></div>
+                            <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
+                            <div class="hit-prices">
+                                <span class="hit-discount">49%</span>
+                                <del class="hit-regular">69,900원</del>
+                                <strong class="hit-sale">35,590원</strong>
+                            </div>
+                            <p class="hit-delivery">무료배송</p>
+                        </a>
+                        <a href="#" class="hit-card">
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_8.png}" alt="히트상품8"></div>
+                            <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
+                            <div class="hit-prices">
+                                <span class="hit-discount">49%</span>
+                                <del class="hit-regular">69,900원</del>
+                                <strong class="hit-sale">35,590원</strong>
+                            </div>
+                            <p class="hit-delivery">무료배송</p>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 추천상품 -->
+                <div class="product-panel" id="recommend">
+                    <h3 class="section-title">추천상품</h3>
+                    <div class="hit-grid">
+
+                        <!-- 상품 카드 8개 -->
+                        <a href="#" class="hit-card">
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_1.png}" alt="히트상품1"></div>
+                            <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
+                            <div class="hit-prices">
+                                <span class="hit-discount">49%</span>
+                                <del class="hit-regular">69,900원</del>
+                                <strong class="hit-sale">35,590원</strong>
+                            </div>
+                            <p class="hit-delivery">무료배송</p>
+                        </a>
+                        <a href="#" class="hit-card">
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_2.png}" alt="히트상품2"></div>
+                            <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
+                            <div class="hit-prices">
+                                <span class="hit-discount">49%</span>
+                                <del class="hit-regular">69,900원</del>
+                                <strong class="hit-sale">35,590원</strong>
+                            </div>
+                            <p class="hit-delivery">무료배송</p>
+                        </a>
+                        <a href="#" class="hit-card">
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_3.png}" alt="히트상품3"></div>
+                            <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
+                            <div class="hit-prices">
+                                <span class="hit-discount">49%</span>
+                                <del class="hit-regular">69,900원</del>
+                                <strong class="hit-sale">35,590원</strong>
+                            </div>
+                            <p class="hit-delivery">무료배송</p>
+                        </a>
+                        <a href="#" class="hit-card">
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_4.png}" alt="히트상품4"></div>
+                            <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
+                            <div class="hit-prices">
+                                <span class="hit-discount">49%</span>
+                                <del class="hit-regular">69,900원</del>
+                                <strong class="hit-sale">35,590원</strong>
+                            </div>
+                            <p class="hit-delivery">무료배송</p>
+                        </a>
+
+                        <!-- 4개와 4개 사이 구분선 -->
+                        <div class="hit-divider"></div>
+
+                        <a href="#" class="hit-card">
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_5.png}" alt="히트상품5"></div>
+                            <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
+                            <div class="hit-prices">
+                                <span class="hit-discount">49%</span>
+                                <del class="hit-regular">69,900원</del>
+                                <strong class="hit-sale">35,590원</strong>
+                            </div>
+                            <p class="hit-delivery">무료배송</p>
+                        </a>
+                        <a href="#" class="hit-card">
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_6.png}" alt="히트상품6"></div>
+                            <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
+                            <div class="hit-prices">
+                                <span class="hit-discount">49%</span>
+                                <del class="hit-regular">69,900원</del>
+                                <strong class="hit-sale">35,590원</strong>
+                            </div>
+                            <p class="hit-delivery">무료배송</p>
+                        </a>
+                        <a href="#" class="hit-card">
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_7.png}" alt="히트상품7"></div>
+                            <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
+                            <div class="hit-prices">
+                                <span class="hit-discount">49%</span>
+                                <del class="hit-regular">69,900원</del>
+                                <strong class="hit-sale">35,590원</strong>
+                            </div>
+                            <p class="hit-delivery">무료배송</p>
+                        </a>
+                        <a href="#" class="hit-card">
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_8.png}" alt="히트상품8"></div>
+                            <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
+                            <div class="hit-prices">
+                                <span class="hit-discount">49%</span>
+                                <del class="hit-regular">69,900원</del>
+                                <strong class="hit-sale">35,590원</strong>
+                            </div>
+                            <p class="hit-delivery">무료배송</p>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 최신상품 -->
+                <div class="product-panel" id="new">
+                    <h3 class="section-title">최신상품</h3>
+                    <div class="hit-grid">
+
+                        <!-- 상품 카드 8개 -->
+                        <a href="#" class="hit-card">
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_1.png}" alt="히트상품1"></div>
+                            <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
+                            <div class="hit-prices">
+                                <span class="hit-discount">49%</span>
+                                <del class="hit-regular">69,900원</del>
+                                <strong class="hit-sale">35,590원</strong>
+                            </div>
+                            <p class="hit-delivery">무료배송</p>
+                        </a>
+                        <a href="#" class="hit-card">
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_2.png}" alt="히트상품2"></div>
+                            <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
+                            <div class="hit-prices">
+                                <span class="hit-discount">49%</span>
+                                <del class="hit-regular">69,900원</del>
+                                <strong class="hit-sale">35,590원</strong>
+                            </div>
+                            <p class="hit-delivery">무료배송</p>
+                        </a>
+                        <a href="#" class="hit-card">
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_3.png}" alt="히트상품3"></div>
+                            <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
+                            <div class="hit-prices">
+                                <span class="hit-discount">49%</span>
+                                <del class="hit-regular">69,900원</del>
+                                <strong class="hit-sale">35,590원</strong>
+                            </div>
+                            <p class="hit-delivery">무료배송</p>
+                        </a>
+                        <a href="#" class="hit-card">
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_4.png}" alt="히트상품4"></div>
+                            <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
+                            <div class="hit-prices">
+                                <span class="hit-discount">49%</span>
+                                <del class="hit-regular">69,900원</del>
+                                <strong class="hit-sale">35,590원</strong>
+                            </div>
+                            <p class="hit-delivery">무료배송</p>
+                        </a>
+
+                        <!-- 4개와 4개 사이 구분선 -->
+                        <div class="hit-divider"></div>
+
+                        <a href="#" class="hit-card">
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_5.png}" alt="히트상품5"></div>
+                            <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
+                            <div class="hit-prices">
+                                <span class="hit-discount">49%</span>
+                                <del class="hit-regular">69,900원</del>
+                                <strong class="hit-sale">35,590원</strong>
+                            </div>
+                            <p class="hit-delivery">무료배송</p>
+                        </a>
+                        <a href="#" class="hit-card">
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_6.png}" alt="히트상품6"></div>
+                            <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
+                            <div class="hit-prices">
+                                <span class="hit-discount">49%</span>
+                                <del class="hit-regular">69,900원</del>
+                                <strong class="hit-sale">35,590원</strong>
+                            </div>
+                            <p class="hit-delivery">무료배송</p>
+                        </a>
+                        <a href="#" class="hit-card">
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_7.png}" alt="히트상품7"></div>
+                            <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
+                            <div class="hit-prices">
+                                <span class="hit-discount">49%</span>
+                                <del class="hit-regular">69,900원</del>
+                                <strong class="hit-sale">35,590원</strong>
+                            </div>
+                            <p class="hit-delivery">무료배송</p>
+                        </a>
+                        <a href="#" class="hit-card">
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_8.png}" alt="히트상품8"></div>
+                            <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
+                            <div class="hit-prices">
+                                <span class="hit-discount">49%</span>
+                                <del class="hit-regular">69,900원</del>
+                                <strong class="hit-sale">35,590원</strong>
+                            </div>
+                            <p class="hit-delivery">무료배송</p>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 인기상품 -->
+                <div class="product-panel" id="popular">
+                    <h3 class="section-title">인기상품</h3>
+                    <div class="hit-grid">
+
+                        <!-- 상품 카드 8개 -->
+                        <a href="#" class="hit-card">
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_1.png}" alt="히트상품1"></div>
+                            <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
+                            <div class="hit-prices">
+                                <span class="hit-discount">49%</span>
+                                <del class="hit-regular">69,900원</del>
+                                <strong class="hit-sale">35,590원</strong>
+                            </div>
+                            <p class="hit-delivery">무료배송</p>
+                        </a>
+                        <a href="#" class="hit-card">
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_2.png}" alt="히트상품2"></div>
+                            <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
+                            <div class="hit-prices">
+                                <span class="hit-discount">49%</span>
+                                <del class="hit-regular">69,900원</del>
+                                <strong class="hit-sale">35,590원</strong>
+                            </div>
+                            <p class="hit-delivery">무료배송</p>
+                        </a>
+                        <a href="#" class="hit-card">
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_3.png}" alt="히트상품3"></div>
+                            <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
+                            <div class="hit-prices">
+                                <span class="hit-discount">49%</span>
+                                <del class="hit-regular">69,900원</del>
+                                <strong class="hit-sale">35,590원</strong>
+                            </div>
+                            <p class="hit-delivery">무료배송</p>
+                        </a>
+                        <a href="#" class="hit-card">
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_4.png}" alt="히트상품4"></div>
+                            <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
+                            <div class="hit-prices">
+                                <span class="hit-discount">49%</span>
+                                <del class="hit-regular">69,900원</del>
+                                <strong class="hit-sale">35,590원</strong>
+                            </div>
+                            <p class="hit-delivery">무료배송</p>
+                        </a>
+
+                        <!-- 4개와 4개 사이 구분선 -->
+                        <div class="hit-divider"></div>
+
+                        <a href="#" class="hit-card">
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_5.png}" alt="히트상품5"></div>
+                            <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
+                            <div class="hit-prices">
+                                <span class="hit-discount">49%</span>
+                                <del class="hit-regular">69,900원</del>
+                                <strong class="hit-sale">35,590원</strong>
+                            </div>
+                            <p class="hit-delivery">무료배송</p>
+                        </a>
+                        <a href="#" class="hit-card">
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_6.png}" alt="히트상품6"></div>
+                            <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
+                            <div class="hit-prices">
+                                <span class="hit-discount">49%</span>
+                                <del class="hit-regular">69,900원</del>
+                                <strong class="hit-sale">35,590원</strong>
+                            </div>
+                            <p class="hit-delivery">무료배송</p>
+                        </a>
+                        <a href="#" class="hit-card">
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_7.png}" alt="히트상품7"></div>
+                            <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
+                            <div class="hit-prices">
+                                <span class="hit-discount">49%</span>
+                                <del class="hit-regular">69,900원</del>
+                                <strong class="hit-sale">35,590원</strong>
+                            </div>
+                            <p class="hit-delivery">무료배송</p>
+                        </a>
+                        <a href="#" class="hit-card">
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_8.png}" alt="히트상품8"></div>
+                            <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
+                            <div class="hit-prices">
+                                <span class="hit-discount">49%</span>
+                                <del class="hit-regular">69,900원</del>
+                                <strong class="hit-sale">35,590원</strong>
+                            </div>
+                            <p class="hit-delivery">무료배송</p>
+                        </a>
+                    </div>
+                </div>
+
+                 <!-- 할인상품 -->
+                <div class="product-panel" id="discount">
+                    <h3 class="section-title">할인상품</h3>
+                    <div class="hit-grid">
+
+                        <!-- 상품 카드 8개 -->
+                        <a href="#" class="hit-card">
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_1.png}" alt="히트상품1"></div>
+                            <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
+                            <div class="hit-prices">
+                                <span class="hit-discount">49%</span>
+                                <del class="hit-regular">69,900원</del>
+                                <strong class="hit-sale">35,590원</strong>
+                            </div>
+                            <p class="hit-delivery">무료배송</p>
+                        </a>
+                        <a href="#" class="hit-card">
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_2.png}" alt="히트상품2"></div>
+                            <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
+                            <div class="hit-prices">
+                                <span class="hit-discount">49%</span>
+                                <del class="hit-regular">69,900원</del>
+                                <strong class="hit-sale">35,590원</strong>
+                            </div>
+                            <p class="hit-delivery">무료배송</p>
+                        </a>
+                        <a href="#" class="hit-card">
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_3.png}" alt="히트상품3"></div>
+                            <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
+                            <div class="hit-prices">
+                                <span class="hit-discount">49%</span>
+                                <del class="hit-regular">69,900원</del>
+                                <strong class="hit-sale">35,590원</strong>
+                            </div>
+                            <p class="hit-delivery">무료배송</p>
+                        </a>
+                        <a href="#" class="hit-card">
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_4.png}" alt="히트상품4"></div>
+                            <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
+                            <div class="hit-prices">
+                                <span class="hit-discount">49%</span>
+                                <del class="hit-regular">69,900원</del>
+                                <strong class="hit-sale">35,590원</strong>
+                            </div>
+                            <p class="hit-delivery">무료배송</p>
+                        </a>
+
+                        <!-- 4개와 4개 사이 구분선 -->
+                        <div class="hit-divider"></div>
+
+                        <a href="#" class="hit-card">
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_5.png}" alt="히트상품5"></div>
+                            <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
+                            <div class="hit-prices">
+                                <span class="hit-discount">49%</span>
+                                <del class="hit-regular">69,900원</del>
+                                <strong class="hit-sale">35,590원</strong>
+                            </div>
+                            <p class="hit-delivery">무료배송</p>
+                        </a>
+                        <a href="#" class="hit-card">
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_6.png}" alt="히트상품6"></div>
+                            <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
+                            <div class="hit-prices">
+                                <span class="hit-discount">49%</span>
+                                <del class="hit-regular">69,900원</del>
+                                <strong class="hit-sale">35,590원</strong>
+                            </div>
+                            <p class="hit-delivery">무료배송</p>
+                        </a>
+                        <a href="#" class="hit-card">
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_7.png}" alt="히트상품7"></div>
+                            <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
+                            <div class="hit-prices">
+                                <span class="hit-discount">49%</span>
+                                <del class="hit-regular">69,900원</del>
+                                <strong class="hit-sale">35,590원</strong>
+                            </div>
+                            <p class="hit-delivery">무료배송</p>
+                        </a>
+                        <a href="#" class="hit-card">
+                            <div class="hit-thumb"><img th:src="@{/images/main/Hit-product_8.png}" alt="히트상품8"></div>
+                            <p class="hit-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
+                            <div class="hit-prices">
+                                <span class="hit-discount">49%</span>
+                                <del class="hit-regular">69,900원</del>
+                                <strong class="hit-sale">35,590원</strong>
+                            </div>
+                            <p class="hit-delivery">무료배송</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TOP 버튼 -->
+        <button id="topBtn" class="top-btn" aria-label="맨 위로 이동">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                 class="lucide lucide-chevrons-up-icon lucide-chevrons-up">
+                <path d="m17 11-5-5-5 5"/>
+                <path d="m17 18-5-5-5 5"/>
+            </svg>
+        </button>
+
+        <!-- 푸터 -->
+        <div th:replace="_footer :: footerFragment"></div>
+    </main>
+</body>
+</html>

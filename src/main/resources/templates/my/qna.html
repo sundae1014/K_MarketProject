@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mypage Main</title>
+    <link rel="stylesheet" th:href="@{/css/my/main.css}">
+    <link rel="stylesheet" th:href="@{/css/main/style_header.css}">
+</head>
+<body>
+    <main>
+        <div th:replace="~{/my/_header :: headerFragment}"></div>
+        <div class="content-wraper">
+            <div class="top-info">
+                <div class="info-title">
+                    <span><a th:href="@{/my/home}">나의쇼핑정보</a></span>
+                </div>
+                <div class="status">
+                    <table>
+                        <tr>
+                            <th>주문</th>
+                            <th>쿠폰</th>
+                            <th>포인트</th>
+                            <th>문의</th>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>1</td>
+                            <td>1,000</td>
+                            <td>1</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="main-container">
+                <div class="side-menu">
+                    <div class="menu-list">
+                        <ul>
+                            <li><a th:href="@{/my/order}">전체주문내역</a></li>
+                            <li><a th:href="@{/my/point}">포인트내역</a></li>
+                            <li><a th:href="@{/my/coupon}">쿠폰</a></li>
+                            <li><a th:href="@{/my/review}">나의리뷰</a></li>
+                            <li class="active"><a th:href="@{/my/qna}">문의하기</a></li>
+                            <li><a th:href="@{/my/option}">나의설정</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="main-content">
+                    <div class="banner-ad">
+                        <img th:src="@{/images/my/banner_ad.jpg}" alt="광고사진">
+                    </div>
+                    <div class="qna">
+                        <div class="content-top">
+                            <div class="content-title">
+                                <span>문의하기</span>
+                            </div>
+                        </div>
+                        <table>
+                            <tr>
+                                <th>번호</th>
+                                <th>문의채널</th>
+                                <th>문의유형</th>
+                                <th>제목</th>
+                                <th>작성일</th>
+                                <th>상태</th>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                                <td>고객센터</td>
+                                <td>주문/결제</td>
+                                <td>신용카드 결제 오류</td>
+                                <td>2022-12-12</td>
+                                <td>검토중</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

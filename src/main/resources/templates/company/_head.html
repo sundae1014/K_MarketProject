@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cupang::회사소개</title>
+    <link rel="stylesheet" th:href="@{/css/company/Company.css}">
+    <script th:src="@{/js/main/top-btn.js}" defer></script>
+    <script th:src="@{/js/company/header-active.js}" defer></script>
+    <script th:src="@{/js/company/slide.js}" defer></script>
+    <script th:src="@{/js/company/youtube.js}" defer></script>
+    <script th:src="@{/js/company/blog-show.js}" defer></script>
+    <script th:src="@{/js/company/go-detail.js}" defer></script>
+    <script th:src="@{/js/company/data.js}" defer></script>
+    <script th:src="@{/js/company/get-detail.js}" defer></script>
+
+</head>
+<body>
+<header>
+    <div class="header-layout">
+        <div class="header-content">
+            <a th:href="@{/company/index}">
+                <img th:src="@{/images/company/cupangIntro_logo(color).png}" alt="로고">
+            </a>
+
+            <div class="header-link">
+                <a th:href="@{/company/index}" >HOME</a>
+                <a th:href="@{/company/culture}">기업문화</a>
+                <a th:href="@{/company/story}">소식과 이야기</a>
+                <a th:href="@{/company/recruit}">채용</a>
+                <a th:href="@{/company/media}">미디어</a>
+            </div>
+        </div>
+    </div>
+
+</header>

@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cupang::상품상세</title>
+    <link rel="stylesheet" th:href="@{/css/product/style_index.css}">
+    <link rel="stylesheet" th:href="@{/css/product/style_prodView.css}">
+    <link rel="stylesheet" th:href="@{/css/product/style_header.css}">
+    <link rel="stylesheet" th:href="@{/css/product/style_footer.css}">
+    <link rel="stylesheet"
+          th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css}">
+
+    <!-- 유저별 권한 기능 -->
+    <script th:src="@{/js/product/user-menu.js}" defer></script>
+    <!-- 검색 기능 -->
+    <script th:src="@{/js/product/search.js}" defer></script>
+    <!-- 전체 카테고리 구현 기능 -->
+    <script th:src="@{/js/product/category.js}" defer></script>
+    <!-- 베스트상품 온앤오프 & 스크롤 기능 -->
+    <script th:src="@{/js/product/best.js}" defer></script>
+    <!-- 상품 상세 페이지 스크롤 기능 -->
+    <script th:src="@{/js/product/view-scroll.js}" defer></script>
+    <!-- 상품 상세 페이지 옵션 기능-->
+    <script th:src="@{/js/product/option.js}" defer></script>
+    <!-- 토스트 메세지 기능 -->
+    <script th:src="@{/js/product/toast.js}" defer></script>
+    <!-- 찜/장바구니/바로구매 버튼 기능 -->
+    <script th:src="@{/js/product/prod-actions.js}" defer></script>
+    <!-- TOP 버튼(맨 위로) 기능 -->
+    <script th:src="@{/js/product/top-btn.js}" defer></script>
+</head>
+<body>
+    <main class="page">
+
+        <!-- 헤더 -->
+        <div th:replace="_header :: headerFragment"></div>
+
+        <!-- 상품 경로 -->
+        <div class="container">
+            <nav class="nav-path">
+                <ol>
+                    <li><a th:href="@{/}">HOME</a></li>
+                    <li><a href="#">식품</a></li>
+                    <li><a href="#">식품 선물세트</a></li>
+                </ol>
+            </nav>
+        </div>
+
+        <div class="view-wrap container">
+
+            <!-- 베스트상품 -->
+            <aside class="col-a">
+                <div class="best-panel">
+                    <h3 class="section-title">베스트상품</h3>
+                    <ol class="best-num-list" id="best-num-list">
+                        <li><button data-idx="0">NO.1</button></li>
+                        <li><button data-idx="1">NO.2</button></li>
+                        <li><button data-idx="2">NO.3</button></li>
+                        <li><button data-idx="3">NO.4</button></li>
+                        <li><button data-idx="4">NO.5</button></li>
+                    </ol>
+                </div>
+            </aside>
+
+            <!-- 가운데: 대표 이미지 + 썸네일 -->
+            <section class="col-b">
+                <div class="prod-media">
+                    <div class="main-img">
+                        <img th:src="@{${product.img_1}}" alt="대표 이미지">
+                    </div>
+                    <div class="thumb-list">
+                        <img th:src="@{${product.img_1}}" alt="썸네일1">
+                        <img th:src="@{${product.img_2}}" alt="썸네일2">
+                        <img th:src="@{${product.img_3}}" alt="썸네일3">
+                    </div>
+                </div>
+            </section>
+
+            <!-- 오른쪽: 상품 정보 -->
+            <section class="col-c">
+                <div class="prod-info">
+                    <div class="brand-num">
+                        <p class="prod-brand" th:text="${product.manufacture}">브랜드명</p>
+                        <p class="prod-num">상품번호: <span th:text="${product.prod_number}"></span></p>
+                    </div>
+
+                    <h2 class="prod-title" th:text="${product.prod_name}">상품명</h2>
+
+                    <div class="prod-rating"
+                         th:with="raw=${product.pro_score != null ? product.pro_score.doubleValue() : 0.0},
+                                  rounded=${T(java.lang.Math).round(raw)},
+                                  filled=${T(java.lang.Math).min(T(java.lang.Math).max(rounded.doubleValue(), 0.0), 5.0)}">
+
+
+                    <!-- 꽉 찬 별 -->
+                        <i class="fa-solid fa-star" th:each="i : ${#numbers.sequence(1, filled)}"></i>
+                        <!-- 빈 별 -->
+                        <i class="fa-regular fa-star" th:each="i : ${#numbers.sequence(filled + 1, 5)}"></i>
+
+                        <span class="review-count" th:text="'(' + ${#lists.size(reviews)} + '건 상품평)'"></span>
+                    </div>
+
+
+                    <p class="prod-origin">원산지: <span th:text="${notice.prod_origin}"></span></p>
+
+                    <div class="prod-price">
+                        <span class="discount" th:text="${product.discount + '%'}"></span>
+                        <strong class="sale" th:text="${#numbers.formatInteger(product.salePrice,3,'COMMA') + '원'}"></strong>
+                        <del class="regular" th:text="${#numbers.formatInteger(product.price,3,'COMMA') + '원'}"></del>
+                    </div>
+
+                    <div class="prod-detail">
+                        <dt>카드 추가 혜택</dt><dd class="dd-bold">31,480원~</dd>
+                        <dt>무이자 할부</dt><dd>카드사별 무이자 혜택</dd>
+
+                        <dt>할인 쿠폰</dt>
+                        <dd>
+                            <a href="javascript:void(0);" onclick="showToast('쿠폰 받기 완료!')">
+                                <img th:src="@{/images/product/cupang_coupon.png}" alt="할인 쿠폰" class="coupon-img">
+                            </a>
+                        </dd>
+
+                        <!-- 토스트 메시지 컨테이너 -->
+                        <div id="toast"></div>
+                    </div>
+
+                    <div class="prod-detail">
+                        <dt>배송정보</dt><dd><strong>택배배송</strong><br>모레(금) 10/24 도착 예정</dd>
+                        <dt>배송비</dt><dd>무료배송<br>제주 4,000원, 도서산간 4,000원 추가</dd>
+                    </div>
+
+                    <div class="prod-option">
+                        <label for="opt">옵션 선택</label>
+                        <div class="select-wrap">
+                            <select id="opt">
+                                <option value="" disabled selected>선택하세요.</option>
+                                <option value="1" th:attr="data-price=${product.salePrice}">1세트</option>
+                            </select>
+
+                            <div class="prod-selected" id="selected-list"></div>
+                            <div class="prod-total">
+                                합계 <strong id="total-price">0원</strong>
+                            </div>
+
+                            <svg class="chevron-down" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                 stroke-linecap="round" stroke-linejoin="round">
+                                <path d="m6 9 6 6 6-6"/>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div class="prod-actions">
+                        <button class="btn wish" aria-label="찜하기">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                     viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                     class="lucide lucide-heart-icon lucide-heart">
+                                    <path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5"/>
+                                </svg>
+                        </button>
+                        <button class="btn cart">장바구니</button>
+                        <button class="btn buy">바로구매</button>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- 상품정보 제공고시 + 상세이미지 + 상품평 -->
+        <div class="prod-extra container">
+
+            <!-- 탭 -->
+            <div class="tab-menu">
+                <button class="active">상품정보 제공고시</button>
+                <button>상품상세</button>
+                <button>상품평 (1,653)</button>
+            </div>
+
+            <!-- 상품정보 제공고시 -->
+            <div class="prod-spec">
+                <table class="spec-table">
+                    <tbody>
+                        <tr>
+                            <th>상품번호</th><td th:text="${notice.prod_number}"></td>
+                            <th>상품 상태</th><td th:text="${notice.prod_stat}"></td>
+                        </tr>
+                        <tr>
+                            <th>부가세 면세 여부</th><td th:text="${notice.prod_tax}"></td>
+                            <th>영수증 발행</th><td th:text="${notice.prod_receipt}"></td>
+                        </tr>
+                        <tr>
+                            <th>사업자 구분</th><td th:text="${notice.prod_business}"></td>
+                            <th>브랜드</th><td th:text="${notice.prod_brand}"></td>
+                        </tr>
+                        <tr>
+                            <th>원산지</th><td th:text="${notice.prod_origin}"></td>
+                            <th>제조사/수입국</th><td th:text="${notice.prod_mfg}"></td>
+                        </tr>
+                        <tr>
+                            <th>제조국</th><td th:text="${notice.prod_country}"></td>
+                            <th>취급 시 주의사항</th><td th:text="${notice.warning}"></td>
+                        </tr>
+                        <tr>
+                            <th>제조연월</th><td th:text="${notice.mfg_date}"></td>
+                            <th>품질보증기준</th><td th:text="${notice.warranty}"></td>
+                        </tr>
+                        <tr>
+                            <th>A/S 책임자</th><td th:text="${notice.as_manager}"></td>
+                            <th>소비자상담 전화번호</th><td th:text="${notice.as_phone}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 상품상세 이미지 -->
+            <div id="detailSection" class="prod-detail-img container">
+                <img th:src="@{${product.detail_img}}" alt="상품 상세 이미지">
+            </div>
+
+            <!-- 상품평 -->
+            <div id="reviewSection" class="prod-review">
+                <h3>상품평</h3>
+                <p class="sub-text">동일한 상품에 대한 상품평입니다.</p>
+
+                <div class="big-stars"
+                     th:with="raw=${reviews.rating ?: 0},
+                                          rounded=${T(java.lang.Math).round(raw)},
+                                          filled=${T(java.lang.Math).min(T(java.lang.Math).max(rounded,0),5)}">
+                    <i class="fa-solid fa-star" th:each="i : ${#numbers.sequence(1, filled)}"></i>
+                    <i class="fa-regular fa-star" th:each="i : ${#numbers.sequence(filled + 1, 5)}"></i>
+                </div>
+
+                <ul class="review-list">
+                    <li th:each="review : ${reviews}">
+                        <div class="review-top">
+                            <div class="small-stars"
+                                 th:with="raw=${review.rating ?: 0},
+                                          rounded=${T(java.lang.Math).round(raw)},
+                                          filled=${T(java.lang.Math).min(T(java.lang.Math).max(rounded,0),5)}">
+                                <i class="fa-solid fa-star" th:each="i : ${#numbers.sequence(1, filled)}"></i>
+                                <i class="fa-regular fa-star" th:each="i : ${#numbers.sequence(filled + 1, 5)}"></i>
+                            </div>
+
+                            <span class="review-writer" th:text="${review.cust_number}"></span>
+                        </div>
+                        <p class="review-prod" th:text="${product.prod_name}"></p>
+                        <p class="review-content" th:text="${review.content}"></p>
+
+                        <div class="review-image" th:if="${review.r_img != null}">
+                            <img th:src="@{${review.r_img}}" alt="리뷰 이미지">
+                        </div>
+
+                        <span class="date" th:text="${#dates.format(review.r_date,'yyyy-MM-dd')}"></span>
+                    </li>
+                </ul>
+            </div>
+
+
+            <!-- 페이지네이션 -->
+            <nav class="pagination">
+                <a href="#" class="page-link prev" aria-label="이전 페이지">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                         viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                         class="lucide lucide-chevron-left-icon lucide-chevron-left">
+                        <path d="m15 18-6-6 6-6"/>
+                    </svg>
+                </a>
+                <a href="#" class="page-link active">1</a>
+                <a href="#" class="page-link">2</a>
+                <a href="#" class="page-link">3</a>
+                <a href="#" class="page-link">4</a>
+                <a href="#" class="page-link next" aria-label="다음 페이지">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                         viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                         class="lucide lucide-chevron-right-icon lucide-chevron-right">
+                        <path d="m9 18 6-6-6-6"/>
+                    </svg>
+                </a>
+                <a href="#" class="page-link GTEnd" aria-label="맨 끝으로 이동">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                         viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                         class="lucide lucide-chevrons-right-icon lucide-chevrons-right">
+                        <path d="m6 17 5-5-5-5"/><path d="m13 17 5-5-5-5"/>
+                    </svg>
+                </a>
+            </nav>
+        </div>
+
+        <!-- TOP 버튼 -->
+        <button id="topBtn" class="top-btn" aria-label="맨 위로 이동">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                 class="lucide lucide-chevrons-up-icon lucide-chevrons-up">
+                <path d="m17 11-5-5-5 5"/>
+                <path d="m17 18-5-5-5 5"/>
+            </svg>
+        </button>
+
+        <!-- 푸터 -->
+        <div th:replace="_footer :: footerFragment"></div>
+    </main>
+</body>
+</html>

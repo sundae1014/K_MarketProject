@@ -1,0 +1,129 @@
+ <!-- Header -->
+ <header th:fragment="headerFragment" class="header" role="banner">
+
+    <div class="page">
+
+         <!-- 최상단 광고 배너 -->
+        <div class="top-banners">
+            <a href="#" class="top-banner" aria-label="오늘 12시까지 주문 시 배송 내일 도착">
+                <img th:src="@{/images/main/상단배너img_1.png}" alt="상단 광고 배너 1">
+            </a>
+            <a href="#" class="top-banner" aria-label="얼리버드 할인 이벤트">
+                <img th:src="@{/images/main/상단배너img_2.png}" alt="상단 광고 배너 2">
+            </a>
+        </div>
+
+        <!-- 로그인 + 회원가입 + 고객센터 -->
+        <div class="utility-nav">
+            <div class="inner">
+                <ul class="utility-list" id="utility-menu">
+                    <!-- 기본 상태 : 로그인 전 -->
+                    <li><a href="#">로그인</a></li>
+                    <li><a href="#">회원가입</a></li>
+                    <li><a href="#">고객센터</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 검색창 전체 + 인풋박스 + 검색 버튼 -->
+        <div class="brand-row container">
+            <a th:href="@{/}" class="logo" aria-label="큐팡 홈">
+                <img th:src="@{/images/main/cupang_logo(color).png}" alt="큐팡 로고" class="logo-img">
+            </a>
+
+            <form class="search-bar" role="search" aria-label="사이트 검색">
+                <label for="search-input" class="visually-hidden">검색어</label>
+                <div class="search-bar_group">
+                    <select class="search-bar_category" aria-label="카테고리 선택">
+                        <option value="all">전체</option>
+                        <option>패션의류/잡화</option>
+                        <option>뷰티</option>
+                        <option>출산/유아동</option>
+                        <option>식품</option>
+                        <option>주방용품</option>
+                        <option>생활용품</option>
+                        <option>홈인테리어</option>
+                        <option>가전디지털</option>
+                        <option>스포츠/레저</option>
+                        <option>문구/오피스</option>
+                        <option>헬스/건강식품</option>
+                        <option>반려동물</option>
+                    </select>
+                    <input id="search-input" class="search-bar_input" type="search" placeholder="찾고 싶은 상품을 검색해보세요" />
+                    <button type="submit" class="search-bar_button" aria-label="검색">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                             stroke-linejoin="round" class="lucide lucide-search-icon lucide-search">
+                            <path d="m21 21-4.34-4.34"/>
+                            <circle cx="11" cy="11" r="8"/>
+                        </svg>
+                    </button>
+                </div>
+            </form>
+
+            <!-- 바로가기 버튼 묶음 -->
+            <!-- 웹아이콘 : https://lucide.dev/ 이용 -->
+            <div class="quick-actions" aria-label="바로가기">
+                <a href="#" class="quick-action" aria-label="찜">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2"
+                         stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart-plus-icon lucide-heart-plus">
+                        <path d="m14.479 19.374-.971.939a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5a5.2 5.2 0 0 1-.219 1.49"/>
+                        <path d="M15 15h6"/>
+                        <path d="M18 12v6"/>
+                    </svg>
+                    <span>찜</span>
+                </a>
+                <a th:href="@{/my/home}" class="quick-action" aria-label="마이페이지">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2"
+                         stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-round-icon lucide-user-round">
+                        <circle cx="12" cy="8" r="5"/>
+                        <path d="M20 21a8 8 0 0 0-16 0"/>
+                    </svg>
+                    <span>마이페이지</span>
+                </a>
+                <a th:href="@{/product/cart}" class="quick-action" id="header-cart" aria-label="장바구니">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2"
+                         stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shopping-cart-icon lucide-shopping-cart">
+                        <circle cx="8" cy="21" r="1"/>
+                        <circle cx="19" cy="21" r="1"/>
+                        <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
+                    </svg>
+                    <span>장바구니</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- GNB -->
+        <nav class="main-nav container" aria-label="메인 메뉴">
+            <!-- 전체 카테고리 버튼 -->
+            <button class="main-nav_left" id="category-toggle" aria-label="전체 카테고리" aria-expanded="false">
+                        <span class="menu-icon" aria-hidden="true">
+                            <!-- 기본 햄버거 메뉴 아이콘 -->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                 viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                 stroke-width="2" stroke-linecap="round">
+                                <line x1="4" y1="6" x2="20" y2="6"/>
+                                <line x1="4" y1="12" x2="20" y2="12"/>
+                                <line x1="4" y1="18" x2="20" y2="18"/>
+                            </svg>
+                        </span>
+                <span>전체 카테고리</span>
+            </button>
+
+            <!-- 상품 카테고리 -->
+            <ul class="main-nav_right">
+                <li><a href="#hit">히트상품</a></li>
+                <li><a href="#recommend">추천상품</a></li>
+                <li><a href="#new">최신상품</a></li>
+                <li><a href="#popular">인기상품</a></li>
+                <li><a href="#discount">할인상품</a></li>
+            </ul>
+
+            <!-- 카테고리 드로어 -->
+            <div class="category-drawer" id="category-drawer">
+                <ul class="category-drawer_lv1" id="category-drawer-lv1"></ul>
+                <div class="category-drawer_lv2" id="category-drawer-lv2" aria-label="2차 카테고리"></div>
+            </div>
+        </nav>
+    </div>
+</header>

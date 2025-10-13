@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mypage Main</title>
+    <link rel="stylesheet" th:href="@{/css/my/main.css}">
+    <link rel="stylesheet" th:href="@{/css/main/style_header.css}">
+</head>
+<body>
+    <main>
+        <div th:replace="~{/my/_header :: headerFragment}"></div>
+        <div class="content-wraper">
+            <div class="top-info">
+                <div class="info-title">
+                    <span><a th:href="@{/my/home}">나의쇼핑정보</a></span>
+                </div>
+                <div class="status">
+                    <table>
+                        <tr>
+                            <th>주문</th>
+                            <th>쿠폰</th>
+                            <th>포인트</th>
+                            <th>문의</th>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>1</td>
+                            <td>1,000</td>
+                            <td>1</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="main-container">
+                <div class="side-menu">
+                    <div class="menu-list">
+                        <ul>
+                            <li><a th:href="@{/my/order}">전체주문내역</a></li>
+                            <li><a th:href="@{/my/point}">포인트내역</a></li>
+                            <li class="active"><a th:href="@{/my/coupon}">쿠폰</a></li>
+                            <li><a th:href="@{/my/review}">나의리뷰</a></li>
+                            <li><a th:href="@{/my/qna}">문의하기</a></li>
+                            <li><a th:href="@{/my/option}">나의설정</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="main-content">
+                    <div class="banner-ad">
+                        <img th:src="@{/images/my/banner_ad.jpg}" alt="광고사진">
+                    </div>
+                    <div class="coupon">
+                        <div class="content-top">
+                            <div class="content-title">
+                                <span>쿠폰내역</span>
+                            </div>
+                        </div>
+                        <div>
+                            <table>
+                                <thead>
+                                <tr>
+                                    <th>쿠폰명</th>
+                                    <th>할인금액</th>
+                                    <th>사용조건 / 사용범위</th>
+                                    <th>상태</th>
+                                    <th>유효기간</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>1만원 할인 쿠폰 쿠폰</td>
+                                    <td>10,000원</td>
+                                    <td>10,000원 이상 구매시</td>
+                                    <td>사용가능</td>
+                                    <td>~ 12/31</td>
+                                </tr>
+                                <tr>
+                                    <td>무료배송 쿠폰을 사용한 무료배송</td>
+                                    <td>5,000원</td>
+                                    <td>5,000원 이상 구매시</td>
+                                    <td>사용가능</td>
+                                    <td>~ 12/31</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="coupon-notice">
+                            <ul>
+                                <li>쿠폰은 유효기간 내에만 사용 가능하며 기간이 지나면 자동 소멸됩니다.</li>
+                                <li>쿠폰은 1회 주문시 1장만 사용 가능하며, 타 쿠폰과 중복 사용이 불가능합니다.</li>
+                                <li>쿠폰 사용 후 주문을 취소하거나 환불하는 경우, 쿠폰은 복원되지 않습니다.</li>
+                                <li>일부 상품은 쿠폰 사용이 제한될 수 있습니다.</li>
+                                <li>쿠폰 사용조건을 충족하지 않는 경우 쿠폰이 적용되지 않습니다.</li>
+                                <li>쿠폰은 현금으로 환불되지 않으며, 타인에게 양도할 수 없습니다.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

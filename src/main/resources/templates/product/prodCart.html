@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cupang::장바구니</title>
+    <link rel="stylesheet" th:href="@{/css/product/style_index.css}">
+    <link rel="stylesheet" th:href="@{/css/product/style_prodCart.css}">
+    <link rel="stylesheet" th:href="@{/css/product/style_prodList.css}">
+    <link rel="stylesheet" th:href="@{/css/product/style_header.css}">
+    <link rel="stylesheet" th:href="@{/css/product/style_footer.css}">
+
+    <!-- 유저별 권한 기능 -->
+    <script th:src="@{/js/product/user-menu.js}" defer></script>
+    <!-- 검색 기능 -->
+    <script th:src="@{/js/product/search.js}" defer></script>
+    <!-- 전체 카테고리 구현 기능 -->
+    <script th:src="@{/js/product/category.js}" defer></script>
+    <!-- 베스트상품 온앤오프 & 스크롤 기능 -->
+    <script th:src="@{/js/product/best.js}" defer></script>
+    <!-- TOP 버튼(맨 위로) 기능 -->
+    <script th:src="@{/js/product/top-btn.js}" defer></script>
+    <!-- 장바구니 구현 기능 -->
+    <script th:src="@{/js/product/cart.js}" defer></script>
+</head>
+<body>
+    <main class="page">
+
+        <!-- 헤더 -->
+        <div th:replace="_header :: headerFragment"></div>
+
+        <!-- 장바구니 레이아웃 -->
+        <div class="list-wrap">
+
+            <!-- 베스트상품 -->
+            <aside class="col-a">
+                <div class="best-panel">
+                    <h3 class="section-title">베스트상품</h3>
+                    <ol class="best-num-list" id="best-num-list">
+                        <li><button data-idx="0">NO.1</button></li>
+                        <li><button data-idx="1">NO.2</button></li>
+                        <li><button data-idx="2">NO.3</button></li>
+                        <li><button data-idx="3">NO.4</button></li>
+                        <li><button data-idx="4">NO.5</button></li>
+                    </ol>
+                </div>
+            </aside>
+
+            <!-- 우측: 장바구니 -->
+            <section class="col-b">
+                <div class="list-header">
+                    <h2 class="list-title">장바구니</h2>
+
+                    <!-- 경로 네비게이션 -->
+                    <nav class="cart-steps">
+                        <ol>
+                            <li><a href="#">01 옵션선택</a></li>
+                            <li class="active">02 장바구니</li>
+                            <li><a th:href="@{/product/order}">03 주문/결제</a></li>
+                            <li><a href="#">04 주문완료</a></li>
+                        </ol>
+                    </nav>
+                </div>
+
+                <!-- 장바구니 2단 레이아웃 -->
+                <div class="cart-grid">
+                    <!-- 좌측: 상품 리스트 -->
+                    <div class="cart-list">
+                        <div class="cart-item">
+                            <input type="checkbox" checked>
+                            <img th:src="@{/images/product/Hit-product_1.png}" alt="상품1">
+                            <div class="cart-info">
+                                <p class="cart-name">동원 튜나리챔 O-48호+부직포백 선물 세트<a href="#" class="btn-remove">삭제</a></p>
+                                <p class="cart-sub">모레(금) 10/24 도착 보장 <span class="badge">무료배송</span></p>
+                                <div class="cart-price">
+                                    <span class="discount">49%</span>
+                                    <strong class="sale">35,590원</strong>
+                                    <del class="regular">69,900원</del>
+                                </div>
+                                <div class="cart-point">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                         viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                         class="lucide lucide-badge-plus-icon lucide-badge-plus">
+                                        <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/>
+                                        <line x1="12" x2="12" y1="8" y2="16"/>
+                                        <line x1="8" x2="16" y1="12" y2="12"/>
+                                    </svg>
+                                    <p>최대 356원 적립</p>
+                                </div>
+                                <div class="cart-qty">
+                                    <button class="minus">-</button>
+                                    <input type="text" value="1">
+                                    <button class="plus">+</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="cart-item">
+                            <input type="checkbox" checked>
+                            <img th:src="@{/images/product/Hit-product_2.png}" alt="상품2">
+                            <div class="cart-info">
+                                <p class="cart-name">동원 튜나리챔 O-48호+부직포백 선물 세트<a href="#" class="btn-remove">삭제</a></p>
+                                <p class="cart-sub">모레(금) 10/24 도착 보장 <span class="badge">무료배송</span></p>
+                                <div class="cart-price">
+                                    <span class="discount">49%</span>
+                                    <strong class="sale">35,590원</strong>
+                                    <del class="regular">69,900원</del>
+                                </div>
+                                <div class="cart-point">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                         viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                         class="lucide lucide-badge-plus-icon lucide-badge-plus">
+                                        <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/>
+                                        <line x1="12" x2="12" y1="8" y2="16"/>
+                                        <line x1="8" x2="16" y1="12" y2="12"/>
+                                    </svg>
+                                    <p>최대 356원 적립</p>
+                                </div>
+                                <div class="cart-qty">
+                                    <button class="minus">-</button>
+                                    <input type="text" value="1">
+                                    <button class="plus">+</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 전체 선택 -->
+                        <div class="cart-select-all">
+                            <input type="checkbox" checked>
+                            <p>전체 선택(2/2)</p>
+                            <button>선택삭제</button>
+                        </div>
+                    </div>
+
+                    <!-- 우측: 합계 -->
+                    <aside class="cart-summary">
+                        <h3>전체 합계</h3>
+                        <ul>
+                            <li><span>상품수</span><span><strong>1</strong></span></li>
+                            <li><span>상품금액</span><span><strong>27,000</strong>원</span></li>
+                            <li><span>할인금액</span><span><strong>-1,350</strong>원</span></li>
+                            <li><span>배송비</span><span><strong>+0</strong>원</span></li>
+                            <li><span>적립 포인트</span><span><strong>270</strong>원</span></li>
+                        </ul>
+                        <p class="cart-total"><strong>25,650</strong>원</p>
+                        <button class="btn-order">총 1개 상품 구매하기</button>
+                    </aside>
+                </div>
+            </section>
+        </div>
+
+        <!-- TOP 버튼 -->
+        <button id="topBtn" class="top-btn" aria-label="맨 위로 이동">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                 class="lucide lucide-chevrons-up-icon lucide-chevrons-up">
+                <path d="m17 11-5-5-5 5"/>
+                <path d="m17 18-5-5-5 5"/>
+            </svg>
+        </button>
+
+        <!-- 푸터 -->
+        <div th:replace="_footer :: footerFragment"></div>
+    </main>
+</body>
+</html>

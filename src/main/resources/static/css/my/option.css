@@ -1,0 +1,114 @@
+.input-row{
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.input-row input{
+    height: 30px;
+    gap: 10px;
+    border: 1.5px solid #BFBFBF;
+    padding: 5px;
+}
+
+.input-row:last-child {
+    margin-bottom: 0;
+}
+
+.input-row-long {
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+}
+
+.input-row-long input{
+    width: 350px;
+    height: 30px;
+    gap: 10px;
+    border: 1.5px solid #BFBFBF;
+    padding: 5px;
+}
+
+.option{
+    padding: 10px;
+}
+
+.option-table{
+    text-align: left !important;
+    border-bottom: 2px solid black;
+}
+
+.option-table th{
+    width: 15%;
+    padding: 15px;
+    background-color: #f2f2f2 !important;
+    color: black !important;
+}
+
+.option-table td{
+    border-bottom: none !important;
+}
+
+.hpbox{
+    width: 80px;
+    height: 30px;
+    border: 1.5px solid #BFBFBF;
+    padding: 5px;
+}
+
+.id{
+    width: 125px;
+    height: 30px;
+    border: 1.5px solid #BFBFBF;
+    padding: 5px;
+}
+
+.domain{
+    width: 105px;
+    height: 30px;
+    border: 1.5px solid #BFBFBF;
+    padding: 5px;
+}
+
+.modi-btn{
+    width: 85px;
+    height: 31px;
+    border: 1px solid #808080;
+    background-color: #F2F2F2;
+    cursor: pointer;
+}
+
+.pass-btn{
+    width: 119px;
+    height: 30px;
+    border: 1px solid #BFBFBF;
+    background-color: #F2F2F2;
+    cursor: pointer;
+}
+
+.del-btn{
+    width: 85px;
+    height: 30px;
+    border: none;
+    background-color: #C00000;
+    cursor: pointer;
+}
+
+.del-btn a{
+    color: white;
+}
+
+.final-modify-btn{
+    width: 210px;
+    height: 40px;
+    border: 1.5px solid #B9CDE5;
+    background-color: #4F81BD;
+    color: white;
+}
+
+.btn-area{
+    width: 100%;
+    text-align: center;
+    padding: 30px;
+}

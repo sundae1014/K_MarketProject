@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>포인트 관리</title>
+    <link rel="stylesheet" th:href="@{/css/admin/main/header_footer.css}">
+    <link rel="stylesheet" th:href="@{/css/admin/member/point.css}">
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const allSelect = document.querySelector(".all_select"); // 전체 선택 체크박스
+            const checkboxes = document.querySelectorAll("tbody input[type='checkbox']"); // 테이블 안 체크박스들
+
+            allSelect.addEventListener("change", function() {
+                checkboxes.forEach(cb => cb.checked = allSelect.checked);
+            });
+        });
+    </script>
+    <script th:src="@{/js/admin/cs/recruit/sidebarAction.js}" defer></script>
+    <link rel="stylesheet" th:href="@{/css/admin/main/sidebar.css}">
+</head>
+<body>
+    <header>
+        <div class="header-layout">
+            <div class="header-content">
+                <a th:href="@{/admin}">
+                    <img th:src="@{/images/admin/main/cupangMS_logo(color).png}" alt="로고">
+                </a>
+
+                <div class="header-link">
+                    <div class="header-item">
+                        <a th:href="@{/}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-house-icon lucide-house"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+                            <p>HOME</p>
+                        </a>
+                    </div>
+
+                    <div class="header-item">
+                        <a th:href="@{/cs/index}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-headset-icon lucide-headset"><path d="M3 11h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-5Zm0 0a9 9 0 1 1 18 0m0 0v5a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3Z"/><path d="M21 16v2a4 4 0 0 1-4 4h-5"/></svg>
+                            <p>고객센터</p>
+                        </a>
+                    </div>
+
+                    <button>로그아웃</button>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main>
+        <div class="container">
+            <aside class="sidebar">
+                <div class="side-item">
+                    <div class="main-menu">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-settings-icon lucide-settings"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"/><circle cx="12" cy="12" r="3"/></svg>
+                        <p>환경설정</p>
+                    </div>
+                    <ul class="sub-menu">
+                        <li><a th:href="@{/admin/config/basic}" class="sub-link">기본설정</a></li>
+                        <li><a th:href="@{/admin/config/banner}" class="sub-link">배너관리</a></li>
+                        <li><a th:href="@{/admin/config/policy}" class="sub-link">약관관리</a></li>
+                        <li><a th:href="@{/admin/config/category}" class="sub-link">카테고리</a></li>
+                        <li><a th:href="@{/admin/config/version}" class="sub-link">버전관리</a></li>
+                    </ul>
+                </div>
+                <div class="side-item">
+                    <div class="main-menu">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-store-icon lucide-store"><path d="M15 21v-5a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v5"/><path d="M17.774 10.31a1.12 1.12 0 0 0-1.549 0 2.5 2.5 0 0 1-3.451 0 1.12 1.12 0 0 0-1.548 0 2.5 2.5 0 0 1-3.452 0 1.12 1.12 0 0 0-1.549 0 2.5 2.5 0 0 1-3.77-3.248l2.889-4.184A2 2 0 0 1 7 2h10a2 2 0 0 1 1.653.873l2.895 4.192a2.5 2.5 0 0 1-3.774 3.244"/><path d="M4 10.95V19a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8.05"/></svg>
+                        <p>상점관리</p>
+                    </div>
+                    <ul class="sub-menu">
+                        <li><a th:href="@{/admin/shop/list}" class="sub-link">상점목록</a></li>
+                        <li><a th:href="@{/admin/shop/sales}" class="sub-link">매출현황</a></li>
+                    </ul>
+                </div>
+                <div class="side-item">
+                    <div class="main-menu">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-pen-icon lucide-user-pen"><path d="M11.5 15H7a4 4 0 0 0-4 4v2"/><path d="M21.378 16.626a1 1 0 0 0-3.004-3.004l-4.01 4.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z"/><circle cx="10" cy="7" r="4"/></svg>
+                        <p>회원관리</p>
+                    </div>
+                    <ul class="sub-menu">
+                        <li><a th:href="@{/admin/member/list}" class="sub-link">회원목록</a></li>
+                        <li><a th:href="@{/admin/member/point}" class="sub-link">포인트관리</a></li>
+                    </ul>
+                </div>
+                <div class="side-item">
+                    <div class="main-menu">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-package-open-icon lucide-package-open"><path d="M12 22v-9"/><path d="M15.17 2.21a1.67 1.67 0 0 1 1.63 0L21 4.57a1.93 1.93 0 0 1 0 3.36L8.82 14.79a1.655 1.655 0 0 1-1.64 0L3 12.43a1.93 1.93 0 0 1 0-3.36z"/><path d="M20 13v3.87a2.06 2.06 0 0 1-1.11 1.83l-6 3.08a1.93 1.93 0 0 1-1.78 0l-6-3.08A2.06 2.06 0 0 1 4 16.87V13"/><path d="M21 12.43a1.93 1.93 0 0 0 0-3.36L8.83 2.2a1.64 1.64 0 0 0-1.63 0L3 4.57a1.93 1.93 0 0 0 0 3.36l12.18 6.86a1.636 1.636 0 0 0 1.63 0z"/></svg>
+                        <p>상품관리</p>
+                    </div>
+                    <ul class="sub-menu">
+                        <li><a th:href="@{/admin/product/list}" class="sub-link">상품목록</a></li>
+                        <li><a th:href="@{/admin/product/register}" class="sub-link">상품등록</a></li>
+                    </ul>
+                </div>
+                <div class="side-item">
+                    <div class="main-menu">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-receipt-text-icon lucide-receipt-text"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z"/><path d="M14 8H8"/><path d="M16 12H8"/><path d="M13 16H8"/></svg>
+                        <p>주문관리</p>
+                    </div>
+                    <ul class="sub-menu">
+                        <li><a th:href="@{/admin/order/list}" class="sub-link">주문현황</a></li>
+                        <li><a th:href="@{/admin/order/delivery}" class="sub-link">배송현황</a></li>
+                    </ul>
+                </div>
+                <div class="side-item">
+                    <div class="main-menu">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-ticket-percent-icon lucide-ticket-percent"><path d="M2 9a3 3 0 1 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 1 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M9 9h.01"/><path d="m15 9-6 6"/><path d="M15 15h.01"/></svg>
+                        <p>쿠폰관리</p>
+                    </div>
+                    <ul class="sub-menu">
+                        <li><a th:href="@{/admin/coupon/list}" class="sub-link">쿠폰목록</a></li>
+                        <li><a th:href="@{/admin/coupon/issued}" class="sub-link">쿠폰발급현황</a></li>
+                    </ul>
+                </div>
+                <div class="side-item">
+                    <div class="main-menu">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-laptop-minimal-check-icon lucide-laptop-minimal-check"><path d="M2 20h20"/><path d="m9 10 2 2 4-4"/><rect x="3" y="4" width="18" height="12" rx="2"/></svg>
+                        <p>고객센터</p>
+                    </div>
+                    <ul class="sub-menu">
+                        <li><a th:href="@{/admin/cs/notice/list}" class="sub-link">공지사항</a></li>
+                        <li><a th:href="@{/admin/cs/faq/list}" class="sub-link">자주묻는질문</a></li>
+                        <li><a th:href="@{/admin/cs/qna/list}" class="sub-link">문의하기</a></li>
+                        <li><a th:href="@{/admin/cs/recruit/list}" class="sub-link">채용하기</a></li>
+                    </ul>
+                </div>
+            </aside>
+
+            <div class="content">
+                <div class="content-header">
+                    <h1 class="top-title">포인트 관리</h1>
+                    <div>
+                        <span>HOME</span> &nbsp;&gt;&nbsp;
+                        <span>회원관리</span> &nbsp;&gt;&nbsp;
+                        <span style="font-weight: bold;">포인트 관리</span> 
+                    </div>
+                </div>
+
+                <form style="margin: 20px 0;">
+                    <select id="search-select">
+                        <option value="id">아이디</option>
+                        <option value="name">이름</option>
+                        <option value="email">이메일</option>
+                        <option value="hp">휴대폰</option>
+                    </select>
+                    <input type="text" id="search-input" placeholder="검색어 입력">
+                    <input type="button" class="search-btn" value="검색">
+                </form>
+                <div class="table-container">
+                    <div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th><input type="checkbox" class="all_select"></th>
+                                    <th>번호</th>
+                                    <th>아이디</th>
+                                    <th>이름</th>
+                                    <th>지급 포인트</th>
+                                    <th>잔여 포인트</th>
+                                    <th>지급 내용</th>
+                                    <th>지급 날짜</th>
+                                </tr>                         
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><input type="checkbox"></td>
+                                    <td>5</td>
+                                    <td>abc1234</td>
+                                    <td>정우성</td>
+                                    <td>1,000</td>
+                                    <td>15,000</td>
+                                    <td>구매확정 포인트 지급</td>
+                                    <td>0000-00-00 00:00:00</td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox"></td>
+                                    <td>4</td>
+                                    <td>abc1234</td>
+                                    <td>정우성</td>
+                                    <td>1,000</td>
+                                    <td>14,000</td>
+                                    <td>이벤트 참여</td>
+                                    <td>0000-00-00 00:00:00</td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox"></td>
+                                    <td>3</td>
+                                    <td>kang771</td>
+                                    <td>강동원</td>
+                                    <td>-17,000</td>
+                                    <td>100</td>
+                                    <td>주문 결제 내용</td>
+                                    <td>0000-00-00 00:00:00</td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox"></td>
+                                    <td>2</td>
+                                    <td>eqpac112</td>
+                                    <td>한예슬</td>
+                                    <td>1,000</td>
+                                    <td>3,500</td>
+                                    <td>상품 리뷰 작성</td>
+                                    <td>0000-00-00 00:00:00</td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox"></td>
+                                    <td>1</td>
+                                    <td>qeimn3</td>
+                                    <td>이정재</td>
+                                    <td>1,000</td>
+                                    <td>2,700</td>
+                                    <td>회원가입 축하</td>
+                                    <td>0000-00-00 00:00:00</td>
+                                </tr>
+                            </tbody>                  
+                        </table>
+                    </div>          
+                </div>
+                <div class="bottom-section" style="position: relative;">
+                    <ul class="pagenation">
+                        <li><a href="#"><span class="first"></span></a></li>
+                        <li><a href="#"><span class="prev"></span></a></li>
+                        <li><a href="#" class="active2">1</a></li>
+                        <li><a href="#" class="pageNum">2</a></li>
+                        <li><a href="#" class="pageNum">3</a></li>
+                        <li><a href="#"><span class="next"></span></a></li>
+                        <li><a href="#"><span class="last"></span></a></li>
+                    </ul>
+                    <div>
+                        <button class="point_Btn select_delete">선택삭제</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <div class="footer-layout">
+            <div class="footer-content">
+                <img th:src="@{/images/admin/main/cupangMS_logo(color).png}" alt="로고">
+                <div class="about-company">
+                    <h2>(주)큐팡</h2>
+                    <h2>대표이사 이름(db)</h2>
+                    <h2>|</h2>
+                    <h2>사업자등록번호</h2>
+                    <h2>123-132-1231232(db)</h2>
+                    <h2>|</h2>
+                    <h2>통신판매업신고</h2>
+                    <h2>2023-부산 해운대구-1232(db)</h2>
+                    <h2>|</h2>
+                    <h2>부산광역시 부산진구 중앙동(db)</h2>
+                    <h2>(삼성동, green빌딩) 7층(db)</h2>
+                </div>
+                <div class="about-company">
+                    <h2>고객센터</h2>
+                    <h2>|</h2>
+                    <h2>02-1234-1231</h2>
+                    <h2>평일 09:00 ~ 18:00(db)</h2>
+
+                    <h2>이메일</h2>
+                    <h2>abc@cupang(db)</h2>
+
+                    <h2>전자금융거래 분쟁담당</h2>
+                    <h2>12321-12321(db)</h2>
+                </div>
+                <h2>Copyright@cupang.All.rights.reserved (db)</h2>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

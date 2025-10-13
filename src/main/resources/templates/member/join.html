@@ -1,0 +1,36 @@
+<div th:replace="~{member/_head.html}"></div>
+<body th:data-type="${type}">
+
+    <main>
+        <div class="board">
+
+            <div class="welcome-mt">
+                <h3>대한민국 1등 온라인 인터넷 쇼핑</h3>
+                <h2><img th:src="@{/images/member/cupang_logo(color).png}" alt="로고 이미지">에 오신 것을 환영합니다.</h2>
+            </div>
+
+            <div class="select-area">
+                <a th:href="@{/member/signup(type='buyer')}">
+                     <div class="select-individual">
+                        <h3>일반회원가입</h3>
+                         <img th:src="@{/images/member/individual-icon.png}" alt="개인아이콘">
+                        <h4>개인구매회원(외국인포함)</h4>
+                        <h5>만 14세 이상 가능</h5>
+                    </div>
+                </a>
+               
+                <a th:href="@{/member/signup(type='seller')}">
+                     <div class="select-seller">
+                        <h3>판매회원가입</h3>
+                         <img th:src="@{/images/member/seller-icon.png}" alt="판매자아이콘">
+                        <h4>사업자판매회원</h4>
+                        <h5>사업자등록증을 보유한 회원</h5>
+                    </div>
+                </a>
+               
+            </div>
+ 
+        </div>
+
+    </main>
+    <div th:replace="~{member/_tail.html}"></div>

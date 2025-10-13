@@ -1,0 +1,303 @@
+<!-- 헤더 본인 파일로 복붙 시 경로 추가하기 -->
+<div th:replace="~{admin/cs/recruit/_head.html}"></div>
+<script th:src="@{/js/admin/cs/recruit/modal.js}" defer></script>
+<script th:src="@{/js/admin/cs/recruit/deleteItem.js}" defer></script>
+
+    <main>
+        <div class="board">
+
+            <aside class="sidebar">
+                <div class="side-item">
+                    <div class="main-menu">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-settings-icon lucide-settings"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"/><circle cx="12" cy="12" r="3"/></svg>
+                        <p>환경설정</p>
+                    </div>
+                    <ul class="sub-menu">
+                        <li><a th:href="@{/admin/config/basic}" class="sub-link">기본설정</a></li>
+                        <li><a th:href="@{/admin/config/banner}" class="sub-link">배너관리</a></li>
+                        <li><a th:href="@{/admin/config/policy}" class="sub-link">약관관리</a></li>
+                        <li><a th:href="@{/admin/config/category}" class="sub-link">카테고리</a></li>
+                        <li><a th:href="@{/admin/config/version}" class="sub-link">버전관리</a></li>
+                    </ul>
+                </div>
+                <div class="side-item">
+                    <div class="main-menu">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-store-icon lucide-store"><path d="M15 21v-5a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v5"/><path d="M17.774 10.31a1.12 1.12 0 0 0-1.549 0 2.5 2.5 0 0 1-3.451 0 1.12 1.12 0 0 0-1.548 0 2.5 2.5 0 0 1-3.452 0 1.12 1.12 0 0 0-1.549 0 2.5 2.5 0 0 1-3.77-3.248l2.889-4.184A2 2 0 0 1 7 2h10a2 2 0 0 1 1.653.873l2.895 4.192a2.5 2.5 0 0 1-3.774 3.244"/><path d="M4 10.95V19a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8.05"/></svg>
+                        <p>상점관리</p>
+                    </div>
+                    <ul class="sub-menu">
+                        <li><a th:href="@{/admin/shop/list}" class="sub-link">상점목록</a></li>
+                        <li><a th:href="@{/admin/shop/sales}" class="sub-link">매출현황</a></li>
+                    </ul>
+                </div>
+                <div class="side-item">
+                    <div class="main-menu">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-pen-icon lucide-user-pen"><path d="M11.5 15H7a4 4 0 0 0-4 4v2"/><path d="M21.378 16.626a1 1 0 0 0-3.004-3.004l-4.01 4.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z"/><circle cx="10" cy="7" r="4"/></svg>
+                        <p>회원관리</p>
+                    </div>
+                    <ul class="sub-menu">
+                        <li><a th:href="@{/admin/member/list}" class="sub-link">회원목록</a></li>
+                        <li><a th:href="@{/admin/member/point}" class="sub-link">포인트관리</a></li>
+                    </ul>
+                </div>
+                <div class="side-item">
+                    <div class="main-menu">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-package-open-icon lucide-package-open"><path d="M12 22v-9"/><path d="M15.17 2.21a1.67 1.67 0 0 1 1.63 0L21 4.57a1.93 1.93 0 0 1 0 3.36L8.82 14.79a1.655 1.655 0 0 1-1.64 0L3 12.43a1.93 1.93 0 0 1 0-3.36z"/><path d="M20 13v3.87a2.06 2.06 0 0 1-1.11 1.83l-6 3.08a1.93 1.93 0 0 1-1.78 0l-6-3.08A2.06 2.06 0 0 1 4 16.87V13"/><path d="M21 12.43a1.93 1.93 0 0 0 0-3.36L8.83 2.2a1.64 1.64 0 0 0-1.63 0L3 4.57a1.93 1.93 0 0 0 0 3.36l12.18 6.86a1.636 1.636 0 0 0 1.63 0z"/></svg>
+                        <p>상품관리</p>
+                    </div>
+                    <ul class="sub-menu">
+                        <li><a th:href="@{/admin/product/list}" class="sub-link">상품목록</a></li>
+                        <li><a th:href="@{/admin/product/register}" class="sub-link">상품등록</a></li>
+                    </ul>
+                </div>
+                <div class="side-item">
+                    <div class="main-menu">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-receipt-text-icon lucide-receipt-text"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z"/><path d="M14 8H8"/><path d="M16 12H8"/><path d="M13 16H8"/></svg>
+                        <p>주문관리</p>
+                    </div>
+                    <ul class="sub-menu">
+                        <li><a th:href="@{/admin/order/list}" class="sub-link">주문현황</a></li>
+                        <li><a th:href="@{/admin/order/delivery}" class="sub-link">배송현황</a></li>
+                    </ul>
+                </div>
+                <div class="side-item">
+                    <div class="main-menu">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-ticket-percent-icon lucide-ticket-percent"><path d="M2 9a3 3 0 1 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 1 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M9 9h.01"/><path d="m15 9-6 6"/><path d="M15 15h.01"/></svg>
+                        <p>쿠폰관리</p>
+                    </div>
+                    <ul class="sub-menu">
+                        <li><a th:href="@{/admin/coupon/list}" class="sub-link">쿠폰목록</a></li>
+                        <li><a th:href="@{/admin/coupon/issued}" class="sub-link">쿠폰발급현황</a></li>
+                    </ul>
+                </div>
+                <div class="side-item">
+                    <div class="main-menu">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-laptop-minimal-check-icon lucide-laptop-minimal-check"><path d="M2 20h20"/><path d="m9 10 2 2 4-4"/><rect x="3" y="4" width="18" height="12" rx="2"/></svg>
+                        <p>고객센터</p>
+                    </div>
+                    <ul class="sub-menu">
+                        <li><a th:href="@{/admin/cs/notice/list}" class="sub-link">공지사항</a></li>
+                        <li><a th:href="@{/admin/cs/faq/list}" class="sub-link">자주묻는질문</a></li>
+                        <li><a th:href="@{/admin/cs/qna/list}" class="sub-link">문의하기</a></li>
+                        <li><a th:href="@{/admin/cs/recruit/list}" class="sub-link">채용하기</a></li>
+                    </ul>
+                </div>
+
+            </aside>
+
+
+            <div class="content">
+                <div class="boardUpper">
+                    <h2 class="boardText-login">채용하기 목록</h2>
+                    <div class="boardUpper-link">
+                        <a href="#">HOME</a>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right-icon lucide-chevron-right"><path d="m9 18 6-6-6-6"/></svg>
+                        <a href="#">고객센터</a>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right-icon lucide-chevron-right"><path d="m9 18 6-6-6-6"/></svg>
+                        <a href="#" class="active">채용하기</a>
+                    </div>
+                </div>
+                <div class="search-area">
+                    <form th:action="@{/admin/cs/recruit/search}" method="get">
+                        <select name="searchType" id="recruit-cate">
+                            <option value="hire_no">채용번호</option>
+                            <option value="department">채용부서</option>
+                            <option value="hire_type">채용형태</option>
+                            <option value="title">제목</option>
+                        </select>
+
+                        <input type="text" placeholder="검색어 입력" name="keyword" class="search-lang">
+
+                        <input type="submit" value="검색" class="search-btn" id="recruit-serch"/>
+                    </form>
+
+                
+                    </div>
+
+                    <table class="recruit-table">
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox" id="checkAll"></th>
+                                <th class="col-num">번호</th>
+                                <th class="col-dept">채용부서</th>
+                                <th class="col-career">경력사항</th>
+                                <th class="col-type">채용형태</th>
+                                <th class="col-title">제목</th>
+                                <th class="col-writer">작성자</th>
+                                <th class="col-status">상태</th>
+                                <th class="col-period">모집기간</th>
+                                <th class="col-write">작성일</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recruit-tbody">
+                            <tr th:each="hire : ${RecruitPage.dtoList}">
+                                <td><input type="checkbox" class="row-check"></td>
+                                <td class="col-num">[[${hire.hire_no}]]</td>
+                                <td class="col-dept">[[${hire.department}]]</td>
+                                <td class="col-career">[[${hire.experience}]]</td>
+                                <td class="col-type">[[${hire.hire_type}]]</td>
+                                <td class="col-title">[[${hire.title}]]</td>
+                                <td class="col-writer">[[${hire.author}]]</td>
+                                <td class="col-status" th:classappend="${hire.status} == '모집중' ? ' status-open' : ' status-closed'">[[${hire.status}]]</td>
+                                <td class="col-period">[[${hire.recruit_period_start}]] ~ [[${hire.recruit_period_end}]]</td>
+                                <td class="col-write">[[${hire.create_date}]]</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="delete-or-register">
+                        <button class="delete-btn" id="select-delete">선택삭제</button>
+                        <button class="modal-openBtn">채용등록</button>
+                    </div>
+
+                <div class="page">
+                    <div class="prev">
+                        <!-- 검색 있을 때 -->
+                        <a th:if="${searchType != null and keyword != null and keyword != ''}"
+                           th:href="@{/admin/cs/recruit/search(searchType=${searchType}, keyword=${keyword}, pg=1)}"
+                           th:classappend="${RecruitPage.pg == 1} ? ' disabled' : ''">
+                            <img th:src="@{/images/company/btn-first-page.png}">
+                        </a>
+                        <a th:if="${searchType != null and keyword != null and keyword != ''}"
+                           th:href="@{/admin/cs/recruit/search(searchType=${searchType}, keyword=${keyword}, pg=${RecruitPage.pg - 1})}"
+                           th:classappend="${RecruitPage.pg == 1} ? ' disabled' : ''">
+                            <img th:src="@{/images/company/btn-prev-page.png}">
+                        </a>
+
+                        <!-- 검색 없을 때 -->
+                        <a th:unless="${searchType != null and keyword != null and keyword != ''}"
+                           th:href="@{/admin/cs/recruit/list(pg=1)}"
+                           th:classappend="${RecruitPage.pg == 1} ? ' disabled' : ''">
+                            <img th:src="@{/images/company/btn-first-page.png}">
+                        </a>
+                        <a th:unless="${searchType != null and keyword != null and keyword != ''}"
+                           th:href="@{/admin/cs/recruit/list(pg=${RecruitPage.pg - 1})}"
+                           th:classappend="${RecruitPage.pg == 1} ? ' disabled' : ''">
+                            <img th:src="@{/images/company/btn-prev-page.png}">
+                        </a>
+                    </div>
+
+                    <div class="pagenumber">
+                        <!-- 검색 있을 때 -->
+                        <a th:each="i : ${#numbers.sequence(RecruitPage.start, RecruitPage.end)}"
+                           th:if="${searchType != null and keyword != null and keyword != ''}"
+                           th:href="@{/admin/cs/recruit/search(searchType=${searchType}, keyword=${keyword}, pg=${i})}"
+                           th:text="${i}"
+                           th:classappend="${i == RecruitPage.pg} ? ' active' : ''"></a>
+
+                        <!-- 검색 없을 때 -->
+                        <a th:each="i : ${#numbers.sequence(RecruitPage.start, RecruitPage.end)}"
+                           th:unless="${searchType != null and keyword != null and keyword != ''}"
+                           th:href="@{/admin/cs/recruit/list(pg=${i})}"
+                           th:text="${i}"
+                           th:classappend="${i == RecruitPage.pg} ? ' active' : ''"></a>
+                    </div>
+
+                    <div class="last">
+                        <!-- 검색 있을 때 -->
+                        <a th:if="${searchType != null and keyword != null and keyword != ''}"
+                           th:href="@{/admin/cs/recruit/search(searchType=${searchType}, keyword=${keyword}, pg=${RecruitPage.pg + 1})}"
+                           th:classappend="${RecruitPage.pg == RecruitPage.end} ? ' disabled' : ''">
+                            <img th:src="@{/images/company/btn-next-page.png}">
+                        </a>
+                        <a th:if="${searchType != null and keyword != null and keyword != ''}"
+                           th:href="@{/admin/cs/recruit/search(searchType=${searchType}, keyword=${keyword}, pg=${RecruitPage.end})}"
+                           th:classappend="${RecruitPage.pg == RecruitPage.end} ? ' disabled' : ''">
+                            <img th:src="@{/images/company/btn-last-page.png}">
+                        </a>
+
+                        <!-- 검색 없을 때 -->
+                        <a th:unless="${searchType != null and keyword != null and keyword != ''}"
+                           th:href="@{/admin/cs/recruit/list(pg=${RecruitPage.pg + 1})}"
+                           th:classappend="${RecruitPage.pg == RecruitPage.end} ? ' disabled' : ''">
+                            <img th:src="@{/images/company/btn-next-page.png}">
+                        </a>
+                        <a th:unless="${searchType != null and keyword != null and keyword != ''}"
+                           th:href="@{/admin/cs/recruit/list(pg=${RecruitPage.end})}"
+                           th:classappend="${RecruitPage.pg == RecruitPage.end} ? ' disabled' : ''">
+                            <img th:src="@{/images/company/btn-last-page.png}">
+                        </a>
+                    </div>
+                </div>
+
+
+
+            </div>
+
+
+            </div>
+
+
+        </div>
+
+        <div class="modal">
+            <div class="modal_body">
+                <div class="modal-head">
+                    <h2>채용등록</h2>
+                    <button class="close-modal">&#10006;</button>
+                </div>
+                <table class="modal-table" id="modal-table">
+                    <tr>
+                        <th>제목</th>
+                        <td>
+                            <input type="text" name="title">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>채용부서</th>
+                        <td>
+                            <select name="department">
+                                <option value="">채용부서 선택</option>
+                                <option value="개발/기술">개발/기술</option>
+                                <option value="상품/서비스">상품/서비스</option>
+                                <option value="마케팅/광고">마케팅/광고</option>
+                                <option value="디자인/UX">디자인/UX</option>
+                                <option value="경영/지원">경영/지원</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>경력사항</th>
+                        <td>
+                            <select name="experience">
+                                <option value="">경력사항 선택</option>
+                                <option value="신입(경력 없음)">신입(경력 없음)</option>
+                                <option value="1년~3년">1년~3년</option>
+                                <option value="3년~5년">3년~5년</option>
+                                <option value="5년 이상">5년 이상</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>채용형태</th>
+                        <td>
+                            <select name="hire_type">
+                                <option value="">채용형태 선택</option>
+                                <option value="정규직">정규직</option>
+                                <option value="계약직">계약직</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>모집기간</th>
+                        <td>
+                            <input type="date" name="recruit_period_start">
+                            <p>~</p>
+                            <input type="date" name="recruit_period_end">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>비고</th>
+                        <td>
+                            <input type="text" name="content" id="modal-etc">
+                        </td>
+                    </tr>
+                </table>
+                <div class="modalBtn-area">
+                    <button class="close-modal">취소</button>
+                    <input type="submit" class="register-btn" value="등록"></input>
+                </div>
+            </div>
+        </div>
+    </main>
+<div th:replace="~{admin/cs/recruit/_tail.html}"></div>

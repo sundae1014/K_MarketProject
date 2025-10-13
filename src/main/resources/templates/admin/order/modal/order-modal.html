@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>주문상세</title>
+</head>
+<body>
+<div th:fragment="modal">
+    <div class="modal fade modal-top" id="orderModal" tabindex="-1" aria-labelledby="orderModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="orderModalLabel">주문상세</h5>
+                    <p class="modal-sm-title">10121211341</p>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="닫기"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="order-info">
+                        <div class="table-name">
+                            <h4>상품정보</h4>
+                        </div>
+                        <table class="order-table">
+                            <tr>
+                                <th></th>
+                                <th>상품번호</th>
+                                <th>상품명</th>
+                                <th>판매자</th>
+                                <th>가격</th>
+                                <th>할인</th>
+                                <th>수량</th>
+                                <th>배송비</th>
+                                <th>결제금액</th>
+                            </tr>
+                            <tr>
+                                <td><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1mhr6nEByB_Ogeul8De_kghNipSNo_psQ2w&s" alt="상품사진"></td>
+                                <td>120120021</td>
+                                <td>OOO</td>
+                                <td>(주)상호명</td>
+                                <td>24,000</td>
+                                <td>-1,200</td>
+                                <td>3</td>
+                                <td>0</td>
+                                <td>68,400</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="total-info">
+                        <table class="total-table">
+                            <tr>
+                                <th>총 상품금액</th>
+                                <td>107,000 원</td>
+                            </tr>
+                            <tr>
+                                <th>총 할인금액</th>
+                                <td>-7,100 원</td>
+                            </tr>
+                            <tr>
+                                <th>배송비</th>
+                                <td>3,000 원</td>
+                            </tr>
+                            <tr>
+                                <th>총 결제금액</th>
+                                <td class="totalPayment">102,900 원</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="pay-info">
+                        <div class="table-name">
+                            <h4>결제정보</h4>
+                        </div>
+                        <table class="pay-table">
+                            <tr>
+                                <th>주문번호</th>
+                                <td>10121211341</td>
+                            </tr>
+                            <tr>
+                                <th>결제방법</th>
+                                <td>신용카드 / 1234 **** **** 4432</td>
+                            </tr>
+                            <tr>
+                                <th>주문자 / 연락처</th>
+                                <td>김유신 / 010-1234-1234</td>
+                            </tr>
+                            <tr>
+                                <th>결제상태</th>
+                                <td class="pay-status">
+                                    <span class="pay-stat">결제완료</span>
+                                    <span class="pay-title">총 결제금액</span>
+                                    <span class="pay-value">102,900원</span>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="deli-info">
+                        <div class="table-name">
+                            <h4>배송정보</h4>
+                        </div>
+                        <table class="deli-table">
+                            <tr>
+                                <th>수취인</th>
+                                <td>김유신</td>
+                            </tr>
+                            <tr>
+                                <th>연락처</th>
+                                <td>010-1234-1234</td>
+                            </tr>
+                            <tr>
+                                <th>배송지 주소</th>
+                                <td>부산 부산진구 123-11 10층</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

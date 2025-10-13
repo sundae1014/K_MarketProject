@@ -1,0 +1,34 @@
+ <!-- Header -->
+ <header th:fragment="headerFragment" class="header" role="banner">
+
+    <div class="page">
+
+         <!-- 최상단 광고 배너 -->
+        <div class="top-banners">
+            <a href="#" class="top-banner" aria-label="오늘 12시까지 주문 시 배송 내일 도착">
+                <img th:src="@{/images/main/상단배너img_1.png}" alt="상단 광고 배너 1">
+            </a>
+            <a href="#" class="top-banner" aria-label="얼리버드 할인 이벤트">
+                <img th:src="@{/images/main/상단배너img_2.png}" alt="상단 광고 배너 2">
+            </a>
+        </div>
+
+        <!-- 로그인 + 회원가입 + 고객센터 -->
+        <div class="utility-nav">
+            <div class="inner">
+                <ul class="utility-list" id="utility-menu">
+                    <!-- 기본 상태 : 로그인 전 -->
+                    <li><a href="#">로그인</a></li>
+                    <li><a href="#">회원가입</a></li>
+                    <li><a href="#">고객센터</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="brand-row container">
+            <a th:href="@{/}" class="logo" aria-label="큐팡 홈">
+                <img th:src="@{/images/main/cupang_logo(color).png}" alt="큐팡 로고" class="logo-img">
+            </a>
+        </div>
+    </div>
+</header>
