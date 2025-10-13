@@ -76,23 +76,23 @@
                                 <th>상태</th>
                                 <th>확인/신청</th>
                             </tr>
-                            <tr>
-                                <td>2022-12-13</td>
+                            <tr th:each="order : ${recentOrders}">
+                                <td th:text="${order.dateString}"></td>
                                 <td>
                                     <div class="prod-img">
-                                        <img src="#" alt="상품사진">
+                                        <img th:src="@{${order.encodedImg1}}" alt="상품 이미지"/>
                                     </div>
                                 </td>
                                 <td class="second-td">
                                     <div class="prod-info">
-                                        <p><a data-bs-toggle="modal" data-bs-target="#orderModal">주문번호 : 1012211341</a></p>
-                                        <p><a data-bs-toggle="modal" data-bs-target="#sellerModal">(주)  상호명</a></p>
-                                        <p><a>상품명</a></p>
-                                        <p>수량 : 1개</p>
-                                        <h4>34,000원</h4>
+                                        <p><a data-bs-toggle="modal" data-bs-target="#orderModal" th:text="'주문번호 : ' + ${order.orderNumber}"></a></p>
+                                        <p><a data-bs-toggle="modal" data-bs-target="#sellerModal" th:text="${order.manufacture}"></a></p>
+                                        <p><a href="#" th:text="${order.prod_name}"></a></p>
+                                        <p th:text="'수량 : ' + ${order.piece} + '개'"></p>
+                                        <h4 th:text="${order.priceString}"></h4>
                                     </div>
                                 </td>
-                                <td>배송완료</td>
+                                <td th:text="${order.stat}"></td>
                                 <td>
                                     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmModal">
                                         구매확정
@@ -244,6 +244,6 @@
     <div th:insert="~{my/modal/review-modal :: modal}"></div>
     <div th:insert="~{my/modal/return-modal :: modal}"></div>
     <div th:insert="~{my/modal/exchange-modal :: modal}"></div>
-    <div th:replace="_footer :: footerFragment"></div>
+    <div th:replace="~{_footer :: footerFragment}"></div>
 </body>
 </html>

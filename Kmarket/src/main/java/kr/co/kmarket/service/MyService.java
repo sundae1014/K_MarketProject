@@ -1,6 +1,7 @@
 package kr.co.kmarket.service;
 
 import kr.co.kmarket.dto.OrderDTO;
+import kr.co.kmarket.mapper.MyMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -12,5 +13,11 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 public class MyService {
+
+    private final MyMapper myMapper;
+
+    public List<OrderDTO> getRecentOrders(int custNumber) {
+        return myMapper.selectRecentOrders(custNumber);
+    }
 
 }
