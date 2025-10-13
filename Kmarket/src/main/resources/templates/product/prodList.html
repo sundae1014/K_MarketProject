@@ -63,47 +63,53 @@
             <section class="col-b"
                      th:classappend="${search.keyword != null and search.keyword != ''} ? 'search-mode' : 'list-mode'">
 
-                <!-- 검색창 -->
-                <div class="search-box">
-                    <form th:action="@{/product/list}" method="get" class="search-form">
-                        <div class="search-inputs">
-                            <input type="text" name="keyword" th:value="${search.keyword}" placeholder="상품명을 입력하세요.">
-                            <button type="submit">검색</button>
-                        </div>
+                <div class="list-header">
+                    <h2 class="list-title"
+                        th:text="${search.keyword != null and search.keyword != '' ? '상품 검색 결과' : category2Name}">
+                    </h2>
 
-                        <div class="search-options">
-                            <label><input type="checkbox" name="searchName" th:checked="${search.searchName}"> 상품명</label>
-                            <label><input type="checkbox" name="searchDesc" th:checked="${search.searchDesc}"> 설명</label>
-                            <label><input type="checkbox" name="searchPrice" th:checked="${search.searchPrice}"> 가격</label>
-                            <input type="number" name="minPrice" th:value="${search.minPrice}" placeholder="최소가격"> ~
-                            <input type="number" name="maxPrice" th:value="${search.maxPrice}" placeholder="최대가격">
+                    <!-- 정렬 옵션 -->
+                    <nav class="sort-toggle">
+                        <a class="sort-btn" th:href="@{/product/list(sort='sold', keyword=${search.keyword})}"
+                           th:classappend="${sort}=='sold' ? ' on'">판매많은순</a>
+                        <a class="sort-btn" th:href="@{/product/list(sort='lowPrice', keyword=${search.keyword})}"
+                           th:classappend="${sort}=='lowPrice' ? ' on'">낮은가격순</a>
+                        <a class="sort-btn" th:href="@{/product/list(sort='highPrice', keyword=${search.keyword})}"
+                           th:classappend="${sort}=='highPrice' ? ' on'">높은가격순</a>
+                        <a class="sort-btn" th:href="@{/product/list(sort='score', keyword=${search.keyword})}"
+                           th:classappend="${sort}=='score' ? ' on'">평점높은순</a>
+                        <a class="sort-btn" th:href="@{/product/list(sort='review', keyword=${search.keyword})}"
+                           th:classappend="${sort}=='review' ? ' on'">후기많은순</a>
+                        <a class="sort-btn" th:href="@{/product/list(sort='recent', keyword=${search.keyword})}"
+                           th:classappend="${sort}=='recent' ? ' on'">최근등록순</a>
+                    </nav>
+                </div>
+
+                <div class="search-box">
+                    <div class="search-result">
+                        "<span th:text="${search.keyword}"></span>"에 대한 검색 결과
+                        총 <span th:text="${#lists.size(products)}"></span>건
+                    </div>
+
+                    <form class="search-form" th:action="@{/product/list}" method="get">
+                        <div class="search-row">
+                            <!-- 왼쪽: 검색어 입력 + 버튼 -->
+                            <div class="search-inputs">
+                                <input type="text" name="keyword" th:value="${search.keyword}" placeholder="상품명을 입력하세요.">
+                                <button type="submit">검색</button>
+                            </div>
+                            <!-- 오른쪽: 체크박스 + 가격 범위 -->
+                            <div class="search-options">
+                                <label><input type="checkbox" name="searchName" th:checked="${search.searchName}"> 상품명</label>
+                                <label><input type="checkbox" name="searchDesc" th:checked="${search.searchDesc}"> 설명</label>
+                                <label><input type="checkbox" name="searchPrice" th:checked="${search.searchPrice}"> 가격</label>
+                                <input type="number" name="minPrice" th:value="${search.minPrice}" placeholder="최소가격">
+                                ~
+                                <input type="number" name="maxPrice" th:value="${search.maxPrice}" placeholder="최대가격">
+                            </div>
                         </div>
                     </form>
                 </div>
-
-                <!-- 검색 결과 제목 -->
-                <div class="search-result" th:if="${search.keyword != null and search.keyword != ''}">
-                    <h2>
-                        "<span th:text="${search.keyword}"></span>" 검색 결과
-                        (<span th:text="${#lists.size(products)}"></span>건)
-                    </h2>
-                </div>
-
-                <!-- 정렬 옵션 -->
-                <nav class="sort-toggle">
-                    <a class="sort-btn" th:href="@{/product/list(sort='sold', keyword=${search.keyword})}"
-                       th:classappend="${sort}=='sold' ? ' on'">판매많은순</a>
-                    <a class="sort-btn" th:href="@{/product/list(sort='lowPrice', keyword=${search.keyword})}"
-                       th:classappend="${sort}=='lowPrice' ? ' on'">낮은가격순</a>
-                    <a class="sort-btn" th:href="@{/product/list(sort='highPrice', keyword=${search.keyword})}"
-                       th:classappend="${sort}=='highPrice' ? ' on'">높은가격순</a>
-                    <a class="sort-btn" th:href="@{/product/list(sort='score', keyword=${search.keyword})}"
-                       th:classappend="${sort}=='score' ? ' on'">평점높은순</a>
-                    <a class="sort-btn" th:href="@{/product/list(sort='review', keyword=${search.keyword})}"
-                       th:classappend="${sort}=='review' ? ' on'">후기많은순</a>
-                    <a class="sort-btn" th:href="@{/product/list(sort='recent', keyword=${search.keyword})}"
-                       th:classappend="${sort}=='recent' ? ' on'">최근등록순</a>
-                </nav>
 
                 <!-- 상품 목록 -->
                 <div class="product-grid"
