@@ -66,12 +66,12 @@
             <section class="col-b">
                 <div class="prod-media">
                     <div class="main-img">
-                        <img th:src="@{${product.img1}}" alt="대표 이미지">
+                        <img th:src="@{${product.img_1}}" alt="대표 이미지">
                     </div>
                     <div class="thumb-list">
-                        <img th:src="@{${product.img1}}" alt="썸네일1">
-                        <img th:src="@{${product.img2}}" alt="썸네일2">
-                        <img th:src="@{${product.img3}}" alt="썸네일3">
+                        <img th:src="@{${product.img_1}}" alt="썸네일1">
+                        <img th:src="@{${product.img_2}}" alt="썸네일2">
+                        <img th:src="@{${product.img_3}}" alt="썸네일3">
                     </div>
                 </div>
             </section>
@@ -81,17 +81,18 @@
                 <div class="prod-info">
                     <div class="brand-num">
                         <p class="prod-brand" th:text="${product.manufacture}">브랜드명</p>
-                        <p class="prod-num">상품번호: <span th:text="${product.prodNumber}"></span></p>
+                        <p class="prod-num">상품번호: <span th:text="${product.prod_number}"></span></p>
                     </div>
 
-                    <h2 class="prod-title" th:text="${product.prodName}">상품명</h2>
+                    <h2 class="prod-title" th:text="${product.prod_name}">상품명</h2>
 
                     <div class="prod-rating"
-                         th:with="raw=${product.proScore ?: 0},
+                         th:with="raw=${product.pro_score != null ? product.pro_score.doubleValue() : 0.0},
                                   rounded=${T(java.lang.Math).round(raw)},
-                                  filled=${T(java.lang.Math).min(T(java.lang.Math).max(rounded,0),5)}">
+                                  filled=${T(java.lang.Math).min(T(java.lang.Math).max(rounded.doubleValue(), 0.0), 5.0)}">
 
-                        <!-- 꽉 찬 별 -->
+
+                    <!-- 꽉 찬 별 -->
                         <i class="fa-solid fa-star" th:each="i : ${#numbers.sequence(1, filled)}"></i>
                         <!-- 빈 별 -->
                         <i class="fa-regular fa-star" th:each="i : ${#numbers.sequence(filled + 1, 5)}"></i>
@@ -99,7 +100,8 @@
                         <span class="review-count" th:text="'(' + ${#lists.size(reviews)} + '건 상품평)'"></span>
                     </div>
 
-                    <p class="prod-origin">원산지: <span th:text="${notice.prodOrigin}"></span></p>
+
+                    <p class="prod-origin">원산지: <span th:text="${notice.prod_origin}"></span></p>
 
                     <div class="prod-price">
                         <span class="discount" th:text="${product.discount + '%'}"></span>
@@ -148,31 +150,6 @@
                         </div>
                     </div>
 
-<!--                    &lt;!&ndash; 선택된 옵션 리스트 &ndash;&gt;-->
-<!--                    <div class="prod-selected" id="selected-list">-->
-<!--                        <div class="prod-selected-item">-->
-<!--                            &lt;!&ndash; 상품명 &ndash;&gt;-->
-<!--                            <p class="item-name">1세트</p>-->
-
-<!--                            &lt;!&ndash; 수량조절 + 가격 &ndash;&gt;-->
-<!--                            <div class="item-bottom">-->
-<!--                                <div class="qty">-->
-<!--                                    <button class="minus">-</button>-->
-<!--                                    <input type="text" value="1">-->
-<!--                                    <button class="plus">+</button>-->
-<!--                                </div>-->
-<!--                                <strong class="qty-price">35,590원</strong>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-
-<!--                    &lt;!&ndash; 최종 합계 &ndash;&gt;-->
-<!--                    <div class="prod-total">-->
-<!--                        <div class="prod-total-price">-->
-<!--                            합계 <strong id="total-price">0원</strong>-->
-<!--                        </div>-->
-<!--                    </div>-->
-
                     <div class="prod-actions">
                         <button class="btn wish" aria-label="찜하기">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
@@ -204,32 +181,32 @@
                 <table class="spec-table">
                     <tbody>
                         <tr>
-                            <th>상품번호</th><td th:text="${notice.prodNumber}"></td>
-                            <th>상품 상태</th><td th:text="${notice.prodStat}"></td>
+                            <th>상품번호</th><td th:text="${notice.prod_number}"></td>
+                            <th>상품 상태</th><td th:text="${notice.prod_stat}"></td>
                         </tr>
                         <tr>
-                            <th>부가세 면세 여부</th><td th:text="${notice.prodTax}"></td>
-                            <th>영수증 발행</th><td th:text="${notice.prodReceipt}"></td>
+                            <th>부가세 면세 여부</th><td th:text="${notice.prod_tax}"></td>
+                            <th>영수증 발행</th><td th:text="${notice.prod_receipt}"></td>
                         </tr>
                         <tr>
-                            <th>사업자 구분</th><td th:text="${notice.prodBusiness}"></td>
-                            <th>브랜드</th><td th:text="${notice.prodBrand}"></td>
+                            <th>사업자 구분</th><td th:text="${notice.prod_business}"></td>
+                            <th>브랜드</th><td th:text="${notice.prod_brand}"></td>
                         </tr>
                         <tr>
-                            <th>원산지</th><td th:text="${notice.prodOrigin}"></td>
-                            <th>제조사/수입국</th><td th:text="${notice.prodMfg}"></td>
+                            <th>원산지</th><td th:text="${notice.prod_origin}"></td>
+                            <th>제조사/수입국</th><td th:text="${notice.prod_mfg}"></td>
                         </tr>
                         <tr>
-                            <th>제조국</th><td th:text="${notice.prodCountry}"></td>
+                            <th>제조국</th><td th:text="${notice.prod_country}"></td>
                             <th>취급 시 주의사항</th><td th:text="${notice.warning}"></td>
                         </tr>
                         <tr>
-                            <th>제조연월</th><td th:text="${notice.mfgDate}"></td>
+                            <th>제조연월</th><td th:text="${notice.mfg_date}"></td>
                             <th>품질보증기준</th><td th:text="${notice.warranty}"></td>
                         </tr>
                         <tr>
-                            <th>A/S 책임자</th><td th:text="${notice.asManager}"></td>
-                            <th>소비자상담 전화번호</th><td th:text="${notice.asPhone}"></td>
+                            <th>A/S 책임자</th><td th:text="${notice.as_manager}"></td>
+                            <th>소비자상담 전화번호</th><td th:text="${notice.as_phone}"></td>
                         </tr>
                     </tbody>
                 </table>
@@ -237,7 +214,7 @@
 
             <!-- 상품상세 이미지 -->
             <div id="detailSection" class="prod-detail-img container">
-                <img th:src="@{${product.detailImg}}" alt="상품 상세 이미지">
+                <img th:src="@{${product.detail_img}}" alt="상품 상세 이미지">
             </div>
 
             <!-- 상품평 -->
@@ -246,7 +223,7 @@
                 <p class="sub-text">동일한 상품에 대한 상품평입니다.</p>
 
                 <div class="big-stars"
-                     th:with="raw=${review.rating ?: 0},
+                     th:with="raw=${reviews.rating ?: 0},
                                           rounded=${T(java.lang.Math).round(raw)},
                                           filled=${T(java.lang.Math).min(T(java.lang.Math).max(rounded,0),5)}">
                     <i class="fa-solid fa-star" th:each="i : ${#numbers.sequence(1, filled)}"></i>
@@ -264,16 +241,16 @@
                                 <i class="fa-regular fa-star" th:each="i : ${#numbers.sequence(filled + 1, 5)}"></i>
                             </div>
 
-                            <span class="review-writer" th:text="${review.custNumber}"></span>
+                            <span class="review-writer" th:text="${review.cust_number}"></span>
                         </div>
-                        <p class="review-prod" th:text="${product.prodName}"></p>
+                        <p class="review-prod" th:text="${product.prod_name}"></p>
                         <p class="review-content" th:text="${review.content}"></p>
 
-                        <div class="review-image" th:if="${review.imgPath != null}">
-                            <img th:src="@{${review.imgPath}}" alt="리뷰 이미지">
+                        <div class="review-image" th:if="${review.r_img != null}">
+                            <img th:src="@{${review.r_img}}" alt="리뷰 이미지">
                         </div>
 
-                        <span class="date" th:text="${#dates.format(review.rDate,'yyyy-MM-dd')}"></span>
+                        <span class="date" th:text="${#dates.format(review.r_date,'yyyy-MM-dd')}"></span>
                     </li>
                 </ul>
             </div>

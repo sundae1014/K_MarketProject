@@ -27,6 +27,20 @@
     <link rel="stylesheet" th:href="@{/css/admin/main/Admin.css}">
     <script th:src="@{/js/main/top-btn.js}" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var barLabels = [[${labels}]];
+        var orderData = [[${orderData}]];
+        var paymentData = [[${paymentData}]];
+        var cancelData = [[${cancelData}]];
+        /*]]>*/
+    </script>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var pieData = [[${pieData}]];
+        console.log("pieData:", pieData);
+        /*]]>*/
+    </script>
     <script th:src="@{/js/admin/main/chart.js}" defer></script>
 
 </head>

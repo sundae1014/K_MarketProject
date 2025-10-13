@@ -6,13 +6,12 @@ document.addEventListener("DOMContentLoaded", () => {
         categoryTitle.textContent = pathItems[pathItems.length - 1].textContent;
     }
 
-    // 정렬 버튼 활성화 토글
-    const sortBtns = document.querySelectorAll(".sort-btn");
-    sortBtns.forEach(btn => {
-        btn.addEventListener("click", () => {
-            sortBtns.forEach(b => b.classList.remove("active"));
-            btn.classList.add("active");
-            // TODO: 여기서 실제 정렬 함수 호출
+    // 정렬 탭 활성화
+    const tabs = document.querySelectorAll(".sort-tabs a");
+    tabs.forEach(a => {
+        a.addEventListener("click", () => {
+            tabs.forEach(x => x.classList.remove("on"));
+            a.classList.add("on");
         });
     });
 });

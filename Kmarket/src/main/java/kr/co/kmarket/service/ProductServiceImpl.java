@@ -27,28 +27,32 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductDTO> searchProducts(SearchDTO searchDTO) {
-        return mapper.searchProducts(searchDTO);
+    public List<ProductDTO> selectProducts(SearchDTO searchDTO, String sort) {
+        searchDTO.setSort(sort);
+        List<ProductDTO> list = mapper.selectProducts(searchDTO);
+        for (ProductDTO p : list) {
+            System.out.println("이미지 확인 >>> " + p.getProd_number() + " / " + p.getImg_1());
+        }
+        return list;
     }
 
     @Override
-    public List<ProductDTO> searchProducts(SearchDTO search, String sort) {
-        search.setSort(sort);
-        return mapper.searchProducts(search);
+    public int countProducts(SearchDTO searchDTO) {
+        return mapper.countProducts(searchDTO);
     }
 
     @Override
-    public ProductDTO selectProductByNo(int prodNo) {
-        return mapper.selectProductByNo(prodNo);
+    public ProductDTO selectProductByNo(int prod_number) {
+        return mapper.selectProductByNo(prod_number);
     }
 
     @Override
-    public ProductNoticeDTO selectProductNoticeByNo(int prodNo) {
-        return mapper.selectProductNoticeByNo(prodNo);
+    public ProductNoticeDTO selectProductNoticeByNo(int prod_number) {
+        return mapper.selectProductNoticeByNo(prod_number);
     }
 
     @Override
-    public List<ProductReviewDTO> selectProductReviews(int prodNo) {
-        return mapper.selectProductReviews(prodNo);
+    public List<ProductReviewDTO> selectProductReviews(int prod_number) {
+        return mapper.selectProductReviews(prod_number);
     }
 }

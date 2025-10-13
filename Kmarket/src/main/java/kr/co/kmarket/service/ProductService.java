@@ -16,14 +16,14 @@ public interface ProductService {
     List<ProductDTO> selectProductsByCategory(String keyword, int cate_cd);
 
     // 기존 검색
-    List<ProductDTO> searchProducts(SearchDTO searchDTO);
+    List<ProductDTO> selectProducts(SearchDTO searchDTO, String sort);
 
-    // 정렬 기능 추가된 오버로드 메서드
-    List<ProductDTO> searchProducts(SearchDTO search, String sort);
+    // 총 상품 개수 조회
+    int countProducts(SearchDTO searchDTO);
 
-    ProductDTO selectProductByNo(int prodNo);
+    ProductDTO selectProductByNo(int prod_number);
 
-    ProductNoticeDTO selectProductNoticeByNo(int prodNo);
+    ProductNoticeDTO selectProductNoticeByNo(int prod_number);
 
-    List<ProductReviewDTO> selectProductReviews(int prodNo);
+    List<ProductReviewDTO> selectProductReviews(int prod_number);
 }

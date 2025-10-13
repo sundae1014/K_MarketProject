@@ -17,14 +17,12 @@
     <script th:src="@{/js/product/category.js}" defer></script>
     <!-- 베스트상품 온앤오프 & 스크롤 기능 -->
     <script th:src="@{/js/product/best.js}" defer></script>
-    <!-- 옵션 선택 기능 -->
-    <script th:src="@{/js/product/option.js}" defer></script>
-    <!-- 찜하기/장바구니/바로구매 기능 -->
-    <script th:src="@{/js/product/prod-actions.js}" defer></script>
     <!-- 2차 카테고리 > 상품 목록 타이틀 갱신 기능 -->
     <script th:src="@{/js/product/list-title.js}" defer></script>
     <!-- 기준별 목록 정렬 기능 -->
     <script th:src="@{/js/product/category-sort.js}" defer></script>
+    <!-- 페이지네이션 기능 -->
+    <script th:src="@{/js/product/pagination.js}" defer></script>
     <!-- TOP 버튼(맨 위로) 기능 -->
     <script th:src="@{/js/product/top-btn.js}" defer></script>
 </head>
@@ -47,7 +45,7 @@
 
         <div class="list-wrap container">
 
-            <!-- 베스트상품 -->
+            <!-- 왼쪽: 베스트 상품 -->
             <aside class="col-a">
                 <div class="best-panel">
                     <h3 class="section-title">베스트상품</h3>
@@ -61,74 +59,84 @@
                 </div>
             </aside>
 
-            <!-- 우측: 상품 목록 -->
-            <section class="col-b">
-                <div class="list-header">
-                    <h2 class="list-title" id="category-title">식품 선물세트</h2>
+            <!-- 오른쪽: 상품 리스트 / 검색결과 -->
+            <section class="col-b"
+                     th:classappend="${search.keyword != null and search.keyword != ''} ? 'search-mode' : 'list-mode'">
 
-                    <!-- 정렬 옵션: 현재 sort와 같으면 on 클래스 -->
+                <div class="list-header">
+                    <h2 class="list-title"
+                        th:text="${search.keyword != null and search.keyword != '' ? '상품 검색 결과' : category2Name}">
+                    </h2>
+
+                    <!-- 정렬 옵션 -->
                     <nav class="sort-toggle">
-                        <a class="sort-btn" th:href="@{/product/list(sort='sold')}"
+                        <a class="sort-btn" th:href="@{/product/list(sort='sold', keyword=${search.keyword})}"
                            th:classappend="${sort}=='sold' ? ' on'">판매많은순</a>
-                        <a class="sort-btn" th:href="@{/product/list(sort='lowPrice')}"
+                        <a class="sort-btn" th:href="@{/product/list(sort='lowPrice', keyword=${search.keyword})}"
                            th:classappend="${sort}=='lowPrice' ? ' on'">낮은가격순</a>
-                        <a class="sort-btn" th:href="@{/product/list(sort='highPrice')}"
+                        <a class="sort-btn" th:href="@{/product/list(sort='highPrice', keyword=${search.keyword})}"
                            th:classappend="${sort}=='highPrice' ? ' on'">높은가격순</a>
-                        <a class="sort-btn" th:href="@{/product/list(sort='score')}"
+                        <a class="sort-btn" th:href="@{/product/list(sort='score', keyword=${search.keyword})}"
                            th:classappend="${sort}=='score' ? ' on'">평점높은순</a>
-                        <a class="sort-btn" th:href="@{/product/list(sort='review')}"
+                        <a class="sort-btn" th:href="@{/product/list(sort='review', keyword=${search.keyword})}"
                            th:classappend="${sort}=='review' ? ' on'">후기많은순</a>
-                        <a class="sort-btn" th:href="@{/product/list(sort='recent')}"
+                        <a class="sort-btn" th:href="@{/product/list(sort='recent', keyword=${search.keyword})}"
                            th:classappend="${sort}=='recent' ? ' on'">최근등록순</a>
                     </nav>
                 </div>
 
+                <div class="search-box">
+                    <div class="search-result">
+                        "<span th:text="${search.keyword}"></span>"에 대한 검색 결과
+                        총 <span th:text="${#lists.size(products)}"></span>건
+                    </div>
 
-                <!-- 상품 그리드 -->
-                <div class="product-grid">
-                    <a class="product-card"
-                       th:each="prod : ${products}"
-                       th:href="@{/product/view(prodNo=${prod.prodNumber})}">
-                        <div class="product-thumb">
-                            <img th:src="${prod.img1} != null ? @{${prod.img1}} : @{/images/product/placeholder.png}" alt="상품 이미지">
+                    <form class="search-form" th:action="@{/product/list}" method="get">
+                        <div class="search-row">
+                            <!-- 왼쪽: 검색어 입력 + 버튼 -->
+                            <div class="search-inputs">
+                                <input type="text" name="keyword" th:value="${search.keyword}" placeholder="상품명을 입력하세요.">
+                                <button type="submit">검색</button>
+                            </div>
+                            <!-- 오른쪽: 체크박스 + 가격 범위 -->
+                            <div class="search-options">
+                                <label><input type="checkbox" name="searchName" th:checked="${search.searchName}"> 상품명</label>
+                                <label><input type="checkbox" name="searchDesc" th:checked="${search.searchDesc}"> 설명</label>
+                                <label><input type="checkbox" name="searchPrice" th:checked="${search.searchPrice}"> 가격</label>
+                                <input type="number" name="minPrice" th:value="${search.minPrice}" placeholder="최소가격">
+                                ~
+                                <input type="number" name="maxPrice" th:value="${search.maxPrice}" placeholder="최대가격">
+                            </div>
                         </div>
-                        <p class="product-name" th:text="${prod.prodName}">상품명</p>
+                    </form>
+                </div>
+
+                <!-- 상품 목록 -->
+                <div class="product-grid"
+                     th:classappend="${#lists.size(products) >= 5} ? 'border-top' : ''">
+
+                    <a th:each="prod : ${products}"
+                       th:href="@{/product/view(prod_number=${prod.prod_number})}"
+                       class="product-card">
+
+                        <div class="product-thumb">
+                            <img th:src="@{/images/product/{img}(img=${prod.img_1})}" alt="대표 이미지">
+                        </div>
+
+                        <p class="product-name" th:text="${prod.prod_name}"></p>
+                        <span th:text="${prod.manufacture}"></span>
                         <strong class="product-sale"
-                                th:text="${#numbers.formatInteger(prod.salePrice,3,'COMMA')} + '원'">0원</strong>
+                                th:text="${#numbers.formatInteger(prod.salePrice,3,'COMMA')} + '원'"></strong>
                     </a>
                 </div>
 
+                <!-- 검색 결과 없음 -->
+                <div th:if="${#lists.isEmpty(products)}" class="empty">
+                    검색 결과가 없습니다.
+                </div>
+
                 <!-- 페이지네이션 -->
-                <nav class="pagination">
-                    <a href="#" class="page-link prev" aria-label="이전 페이지">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                             viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                             class="lucide lucide-chevron-left-icon lucide-chevron-left">
-                            <path d="m15 18-6-6 6-6"/>
-                        </svg>
-                    </a>
-                    <a href="#" class="page-link active">1</a>
-                    <a href="#" class="page-link">2</a>
-                    <a href="#" class="page-link">3</a>
-                    <a href="#" class="page-link">4</a>
-                    <a href="#" class="page-link next" aria-label="다음 페이지">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                             viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                             class="lucide lucide-chevron-right-icon lucide-chevron-right">
-                            <path d="m9 18 6-6-6-6"/>
-                        </svg>
-                    </a>
-                    <a href="#" class="page-link GTEnd" aria-label="맨 끝으로 이동">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                             viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                             class="lucide lucide-chevrons-right-icon lucide-chevrons-right">
-                            <path d="m6 17 5-5-5-5"/><path d="m13 17 5-5-5-5"/>
-                        </svg>
-                    </a>
-                </nav>
+                <nav class="pagination" th:attr="data-total-count=${totalCount}"></nav>
             </section>
         </div>
 

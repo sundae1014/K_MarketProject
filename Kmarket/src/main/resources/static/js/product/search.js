@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const q = encodeURIComponent(input.value.trim());
         const cat = encodeURIComponent(category.value);
-        const url = `/kmarket/product/search?category=${cat}&keyword=${q}`;
+        const url = `/kmarket/product/list?category=${cat}&keyword=${q}`;
 
         window.location.href = url;
     });
@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", function() {
             }
 
             // URL 이동
-            const url = `/kmarket/product/search?category=all&keyword=${encodeURIComponent(q)}`;
+            const url = `/kmarket/product/list?category=all&keyword=${encodeURIComponent(q)}`;
             window.location.href = url;
         });
 

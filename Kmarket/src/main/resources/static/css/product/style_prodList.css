@@ -120,11 +120,8 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
-}
-
-.list-header h2 {
-    margin: 0;
-    padding: 0;
+    padding-bottom: 0;
+    border-bottom: none;
 }
 
 .list-title {
@@ -132,51 +129,171 @@
     font-size: 22px;
     font-weight: 700;
     color: #336AFD;
+    margin: 0;
+    padding: 0;
 }
 
 .sort-toggle {
     display: flex;
-    gap: 5px;
+    gap: 8px;
 }
 
 .sort-btn {
-    display: flex;
-    align-items: center;
     padding: 5px 10px;
-    font-size: 14px;
-    line-height: 1;
     color: var(--gray-700);
-    background: none;
-    border: none;
-    cursor: pointer;
     border-radius: 3px;
+    font-size: 14px;
     transition: 0.2s;
 }
 
 .sort-btn:hover,
-.sort-btn.active {
+.sort-btn.on {
     color: var(--blue);
-    font-weight: 500;
+    font-weight: 700;
     background: rgba(51,106,253,0.08);
+}
+/* ////////////////// 타이틀 & 정렬 끝 ////////////////// */
+
+/* ============================================================= */
+/* 검색 여부 상태 전환 (list-mode / search-mode) */
+/* ============================================================= */
+
+/* 검색창 숨김: 기본 목록 모드 */
+.col-b.list-mode .search-box {
+    display: none;
+}
+
+/* 검색창 표시: 검색 모드 */
+.col-b.search-mode .search-box {
+    display: block;
+    border: 2px solid var(--border);
+    margin-bottom: 30px;
+    border-radius: 3px;
+    background: #fff;
+    padding: 20px;
+}
+
+/* 검색결과 타이틀 */
+.col-b.list-mode .search-result {
+    display: none;
+}
+
+.col-b.search-mode .search-result {
+    display: block;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+}
+
+.col-b.search-mode .search-result h2 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--gray-800);
+}
+
+.col-b.search-mode .search-result span {
+    color: var(--blue);
+}
+
+/* ============================================================= */
+/* 검색창 내부 구성 */
+/* ============================================================= */
+/* ====================== 검색 박스 전체 ====================== */
+.search-box {
+    width: 100%;
+    margin-bottom: 40px;
+    padding: 20px 20px;
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+}
+
+/* ====================== 검색결과 타이틀 ====================== */
+.search-result {
+    font-size: 16px;
+    color: var(--gray-800);
+    font-weight: 700;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+}
+
+.search-result span {
+    color: var(--blue);
+    font-weight: 700;
+}
+
+/* ====================== 검색 폼 ====================== */
+.search-form {
+    width: 100%;
+}
+
+.search-row {
+    display: flex;
+    justify-content: space-between; /* 양쪽 끝 정렬 */
+    align-items: center;
+    flex-wrap: wrap; /* 화면 좁을 때 자동 줄바꿈 */
+    gap: 10px;
+}
+
+/* 입력창 + 버튼 */
+.search-inputs {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.search-inputs input {
+    width: 200px;
+    padding: 8px 10px;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    font-size: 14px;
+}
+
+.search-inputs input:focus {
+    border-color: var(--blue);
+    box-shadow: 0 0 4px rgba(51,106,253,0.25);
+}
+
+.search-inputs button {
+    height: 34px;
+    padding: 0 12px;
+    font-size: 14px;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    background: #ffffff;
+    cursor: pointer;
+}
+
+.search-inputs button:hover {
+    background: #f3f4f6;
+}
+
+/* 체크박스 + 가격 옵션 */
+.search-options {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    font-size: 14px;
+    color: var(--gray-700);
+}
+
+.search-options input[type="number"] {
+    width: 160px;
+    padding: 8px;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    font-size: 14px;
 }
 
 /* ////////////////// 상품 목록 컨테이너 ////////////////// */
 .product-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-}
-
-.product-grid .row {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 20px;
-    border-bottom: 1px dashed #d0d0d0; /* 줄 사이 구분선 */
-    padding-bottom: 30px;
-}
-
-.product-grid .row:last-child {
-    border-bottom: none;
 }
 
 /* ////////////////// 상품 카드(3행 4열) ////////////////// */

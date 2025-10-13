@@ -227,9 +227,26 @@
       vertical-align: middle;
     }
 
-    /* 유형, 제목, 내용 높이 2칸, 답변 4칸 */
-    tr td:nth-child(2):not(:last-child) { height: 2em; }
-    tr td:last-child { height: 4em; }
+    /* 유형, 제목, 내용 높이 4칸, 답변 7칸 */
+    .type-title { height: 4em; }
+    .content-answer { height: 7em; }
+    .content-answer td {
+        position: relative;
+        height: 5em; /* td에 실제 높이 부여 */
+    }
+
+    /* 답변 td 테두리 */
+    #qna_content {
+        border: none;
+        box-sizing: border-box;
+        display: block;
+        height: 100%;
+        outline: none;
+        padding: 10px;
+        resize: none;
+        text-align: left;
+        width: 100%;
+    }
 
     /* bottom-bar */
     .bottom-bar { display: flex; justify-content: flex-end; gap: 10px; }
@@ -365,22 +382,24 @@
 
     <table>
       <tbody>
-        <tr>
+        <tr class="type-title">
           <th>유형</th>
           <td>회원 - 가입</td>
         </tr>
-        <tr>
+        <tr class="type-title">
           <th>제목</th>
           <td>아이디를 여러개 사용할 수 있나요 ?</td>
         </tr>
-        <tr>
+        <tr class="content-answer">
           <th>내용</th>
           <td>개인적인 사정으로 아이디를 3개 사용했으면 하는데 사용할 수 있나요 ?</td>
         </tr>
-        <tr>
+        <tr class="content-answer">
           <th>답변</th>
-          <td>대한민국 No.1 오픈마켓 Kmarket <br>
-            안녕하세요.dream 고객님 저희 케이 마켓을 이용해 주셔서 감사합니다. 안타깝게도 개인 회원은 1개의 계정만 사용 할 수 있습니다.
+          <td>
+              <textarea name="qna_content" id="qna_content" readonly>대한민국 No.1 오픈마켓 Kmarket
+안녕하세요.dream 고객님 저희 케이 마켓을 이용해 주셔서 감사합니다. 안타깝게도 개인 회원은 1개의 계정만 사용 할 수 있습니다.
+              </textarea>
           </td>
         </tr>
       </tbody>
@@ -388,7 +407,7 @@
 
     <div class="bottom-bar">
       <button class="btn2">삭제</button>
-      <button class="btn">목록</button>
+      <button class="btn" th:onclick="|location.href='@{/admin/cs/qna/list}'|">목록</button>
     </div>
   </div>
 </div>
