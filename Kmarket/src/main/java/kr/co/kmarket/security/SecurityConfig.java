@@ -11,6 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.access.AccessDeniedHandlerImpl;
+import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 
 @Configuration
 public class SecurityConfig {
@@ -18,12 +19,14 @@ public class SecurityConfig {
     @Autowired
     private MyUserDetailsService myUserDetailsService;
 
+    private final CustomLoginSuccessHandler successHandler = new CustomLoginSuccessHandler();
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         // 로그인 설정
         http.formLogin(form -> form
                 .loginPage("/member/login")
-                .defaultSuccessUrl("/")
+                .successHandler(successHandler)
                 .failureUrl("/member/login?error=true")
                 .usernameParameter("custid")
                 .passwordParameter("pw")
