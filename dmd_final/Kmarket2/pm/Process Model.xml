@@ -1,7 +1,0 @@
-<?xml version = '1.0' encoding = 'UTF-8'?>
-<ProcessModel class="oracle.dbtools.crest.model.design.process.ProcessModel" name="Process Model" id="FDE93405-854B-C2F9-9398-D54814937E26">
-<createdBy>GGG</createdBy>
-<createdTime>2025-09-30 01:39:42 UTC</createdTime>
-<ownerDesignName>Kmarket2</ownerDesignName>
-<shouldBeOpen>false</shouldBeOpen>
-</ProcessModel>

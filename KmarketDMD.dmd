@@ -1,8 +1,0 @@
-<?xml version = '1.0' encoding = 'UTF-8'?>
-<OSDM_Design class="oracle.dbtools.crest.model.design.Design" name="KmarketDDL" id="9190DB5F-B399-16C8-3EBA-B3245EBBA024" version="3.5">
-<createdBy>alsrb</createdBy>
-<createdTime>2025-09-28 22:37:31 UTC</createdTime>
-<ownerDesignName>KmarketDDL</ownerDesignName>
-<capitalNames>false</capitalNames>
-<designId>9190DB5F-B399-16C8-3EBA-B3245EBBA024</designId>
-</OSDM_Design>

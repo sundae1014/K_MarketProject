@@ -1,7 +1,0 @@
-<?xml version = '1.0' encoding = 'UTF-8'?>
-<LogicalDesign class="oracle.dbtools.crest.model.design.logical.LogicalDesign" name="Logical" id="83BE51F6-2F79-8B71-567B-2159F2F70861" mainViewID="B861CB2C-FD11-8D96-78FD-881524D45890">
-<createdBy>GGG</createdBy>
-<createdTime>2025-09-30 01:39:42 UTC</createdTime>
-<ownerDesignName>Kmarket2</ownerDesignName>
-<shouldBeOpen>false</shouldBeOpen>
-</LogicalDesign>
