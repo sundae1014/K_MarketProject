@@ -13,13 +13,16 @@ import java.util.List;
 public interface ProductMapper {
 
     // 키워드 검색
-    public List<ProductDTO> selectProductsByKeyword(String keyword);
+    List<ProductDTO> selectProductsByKeyword(String keyword);
 
     // 키워드 + 카테고리 검색
-    public List<ProductDTO> selectProductsByCategory(@Param("keyword") String keyword,  @Param("cate_cd") int cate_cd);
+    List<ProductDTO> selectProductsByCategory(@Param("keyword") String keyword,  @Param("cate_cd") int cate_cd);
 
     // SearchDTO 기반 검색
-    public List<ProductDTO> searchProducts(SearchDTO searchDTO);
+    List<ProductDTO> selectProducts(SearchDTO searchDTO);
+
+    // 총 상품 개수 조회
+    int countProducts(SearchDTO searchDTO);
 
     ProductDTO selectProductByNo(int prodNo);
 
