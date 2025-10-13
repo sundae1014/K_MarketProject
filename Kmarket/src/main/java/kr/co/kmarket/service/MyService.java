@@ -20,4 +20,11 @@ public class MyService {
         return myMapper.selectRecentOrders(custNumber);
     }
 
+    public int getNotConfirmedOrderCount(int custNumber) {
+        return myMapper.countNotConfirmedOrders(custNumber);
+    }
+
+    public OrderDTO getOrderDetailByCustomer(int custNumber, int orderNumber) {
+        return myMapper.selectOrderDetailByCustomer(custNumber, orderNumber);
+    }
 }

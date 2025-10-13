@@ -2,7 +2,7 @@
     border-top: 2px solid black;
     text-align: center;
     border-collapse: collapse;
-    width: 885px;
+    width: 100%;
 }
 
 .prod-table th{
@@ -23,14 +23,12 @@
     color: black;
 }
 
-.prod-table .second-td{
-    display: flex;
-    padding: 20px;
-    padding-right: 0;
-    padding-bottom: 5px;
-}
-
 #orderModal{
     top: 20% !important;
     --bs-modal-width: 930px;
+}
+
+.flex-between {
+    display: flex;
+    justify-content: space-between;
 }

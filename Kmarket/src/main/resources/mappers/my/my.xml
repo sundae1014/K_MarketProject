@@ -35,5 +35,31 @@
         FETCH FIRST 5 ROWS ONLY
     </select>
 
+    <select id="countNotConfirmedOrders" resultType="int" parameterType="int">
+        SELECT COUNT(*)
+        FROM "Order"
+        WHERE CUST_NUMBER = #{custNumber}
+        AND STAT != 8
+    </select>
+
+    <select id="selectOrderDetailByCustomer" resultMap="OrderResultMap" parameterType="int">
+        SELECT
+        a.ORDERNUMBER,
+        a.O_DATE,
+        a.STAT,
+        b.PIECE,
+        b.PRICE,
+        c.IMG_1,
+        c.MANUFACTURE,
+        c.PROD_NAME,
+        c.DISCOUNT,
+        c.SALEPRICE
+        FROM "Order" a
+        JOIN ORDERDETAIL b ON a.ORDERNUMBER = b.ORDERNUMBER
+        JOIN PRODUCT c ON b.PROD_NUMBER = c.PROD_NUMBER
+        WHERE a.CUST_NUMBER = #{custNumber}
+        AND a.ORDERNUMBER = #{orderNumber}
+    </select>
+
 
 </mapper>
