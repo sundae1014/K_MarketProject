@@ -14,25 +14,25 @@ import java.time.LocalDateTime;
 @Builder
 public class ProductDTO {
 
-    private int prodNumber;         // 상품 번호
-    private int cateCd;             // 카테고리 코드
-    private String prodName;        // 상품 이름
+    private int prod_number;        // 상품 번호
+    private String cate_cd;         // 카테고리 코드
+    private String prod_name;       // 상품 이름
     private String description;     // 상품 설명
     private String manufacture;     // 제조사
-    private BigDecimal price;       // 가격(정상가)
+    private int price;              // 가격(정상가)
     private int discount;           // 할인율
-    private BigDecimal salePrice;   // 할인가
-    private int deliveryFee;        // 배송비
-    private String img1;            // 상품 메인 이미지1 (대표)
-    private String img2;            // 상품 메인 이미지2
-    private String img3;            // 상품 메인 이미지3
-    private String detailImg;       // 상품 상세 이미지
-    private String prodStat;        // 상품 상태
-    private String prodTax;         // 부가세 여부
-    private String prodBusiness;    // 사업자 구분
-    private String prodNation;      // 원산지
+    private int salePrice;          // 할인가
+    private int delivery_fee;       // 배송비
+    private String img_1;           // 상품 메인 이미지1 (대표)
+    private String img_2;           // 상품 메인 이미지2
+    private String img_3;           // 상품 메인 이미지3
+    private String detail_img;      // 상품 상세 이미지
+    private String prod_stat;       // 상품 상태
+    private String prod_tax;        // 부가세 여부
+    private String prod_business;   // 사업자 구분
+    private String prod_nation;     // 원산지
     private int hit;                // 조회수
-    private BigDecimal proScore;        // 평점
-    private LocalDateTime regDate;  // 등록일
+    private BigDecimal pro_score;   // 평점
+    private LocalDateTime reg_date; // 등록일
 
 }

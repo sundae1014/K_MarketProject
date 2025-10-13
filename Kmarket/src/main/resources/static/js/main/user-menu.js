@@ -10,9 +10,9 @@ function renderMenu(type) {
 
     if (type === "guest") {
         html = `
-      <li><a href="/kmarket/member/login">로그인</a></li>
-      <li><a href="/kmarket/member/join">회원가입</a></li>
-      <li><a href="/kmarket/cs/index">고객센터</a></li>
+      <li><a href="#">로그인</a></li>
+      <li><a href="#">회원가입</a></li>
+      <li><a href="#">고객센터</a></li>
     `;
     } else if (type === "user") {
         html = `
