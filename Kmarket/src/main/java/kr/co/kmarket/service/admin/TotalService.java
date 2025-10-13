@@ -1,15 +1,27 @@
 package kr.co.kmarket.service.admin;
 
+import kr.co.kmarket.dto.ChartData;
 import kr.co.kmarket.mapper.admin.TotalMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
 @Service
 public class TotalService {
     private final TotalMapper totalMapper;
+
+    public List<ChartData> getSalesByCategory(){
+        return totalMapper.selectSalesByCategory();
+    };
+
+    public List<ChartData> getSalesByStatus(int stat){
+        return totalMapper.selectSalesByStatus(stat);
+    }
+
     public int getMemberRegToday(){
         return totalMapper.selectCountRegToday();
     };
