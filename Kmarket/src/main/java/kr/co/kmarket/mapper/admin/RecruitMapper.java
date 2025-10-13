@@ -30,4 +30,6 @@ public interface RecruitMapper {
                                    @Param("size") int size);
 
     public int  countSearchHires(String searchType, String keyword);
+
+    public HireDTO selectHireNo(@Param("hire_no") int hire_no);
 }

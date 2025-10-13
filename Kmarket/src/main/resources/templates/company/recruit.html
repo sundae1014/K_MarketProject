@@ -31,7 +31,9 @@
                     <th class="col-status">상태</th>
                     <th class="col-period">모집기간</th>
                 </tr>
-                <tr th:each="hire, iterStat : ${RecruitPage.dtoList}">
+                <tr th:each="hire, iterStat : ${RecruitPage.dtoList}"
+                    th:onclick="'location.href=\'/kmarket/company/recruit/detail?hire_no=' + ${hire.hire_no} + '\''"
+                    class="clickable-row">
                     <td class="col-num">[[${(RecruitPage.pg - 1) * RecruitPage.size + iterStat.index + 1}]]</td>
                     <td class="col-dept">[[${hire.department}]]</td>
                     <td class="col-career">[[${hire.experience}]]</td>
@@ -40,6 +42,7 @@
                     <td class="col-status" th:classappend="${hire.status} == '모집중' ? ' status-open' : ' status-closed'">[[${hire.status}]]</td>
                     <td class="col-period">[[${hire.recruit_period_start}]] ~ [[${hire.recruit_period_end}]]</td>
                 </tr>
+
             </table>
 
             <div class="page">

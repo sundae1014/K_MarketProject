@@ -53,6 +53,11 @@
         order by create_date
     </select>
 
+    <select id="selectHireNo" parameterType="int" resultType="kr.co.kmarket.dto.HireDTO">
+        select * from hire
+        where hire_no = #{hire_no}
+    </select>
+
     <delete id="deleteAllByHireNo" parameterType="java.util.List">
         delete from hire where hire_no in
         <foreach item="hire_no" collection="list" open="(" separator="," close=")">
@@ -88,7 +93,7 @@
         SELECT hire_no, department, experience, hire_type, title, author,
         status, create_date, recruit_period_start, recruit_period_end,
         content,
-        ROW_NUMBER() OVER (ORDER BY create_date ASC) AS rn
+        ROW_NUMBER() OVER (ORDER BY hire_no ASC) AS rn
         FROM hire
         ) a
         WHERE a.rn BETWEEN #{offset}+1 AND #{offset}+#{size}
@@ -104,13 +109,13 @@
         FROM (
         SELECT hire_no, department, experience, hire_type, title, author, status,
         create_date, recruit_period_start, recruit_period_end, content,
-        ROW_NUMBER() OVER (ORDER BY create_date ASC) AS rn
+        ROW_NUMBER() OVER (ORDER BY hire_no ASC) AS rn
         FROM hire
         <where>
             <if test="searchType != null and keyword != null and keyword != ''">
                 <choose>
                     <when test="searchType == 'hire_no'">
-                        hire_no = #{keyword}
+                        TO_CHAR(hire_no) LIKE '%' || #{keyword} || '%'
                     </when>
                     <when test="searchType == 'department'">
                         department LIKE '%' || #{keyword} || '%'
