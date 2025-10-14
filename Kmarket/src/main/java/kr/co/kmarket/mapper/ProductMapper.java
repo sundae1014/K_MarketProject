@@ -29,6 +29,4 @@ public interface ProductMapper {
     ProductNoticeDTO selectProductNoticeByNo(int prodNo);
 
     List<ProductReviewDTO> selectProductReviews(int prodNo);
-
-    String testConnection();
 }

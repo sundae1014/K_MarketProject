@@ -31,25 +31,31 @@
                 <img th:src="@{/images/main/cupang_logo(color).png}" alt="큐팡 로고" class="logo-img">
             </a>
 
-            <form class="search-bar" role="search" aria-label="사이트 검색">
+            <form class="search-bar" role="search" aria-label="사이트 검색" action="/kmarket/product/list" method="get">
                 <label for="search-input" class="visually-hidden">검색어</label>
                 <div class="search-bar_group">
-                    <select class="search-bar_category" aria-label="카테고리 선택">
+                    <select class="search-bar_category" id="search-category" aria-label="카테고리 선택">
                         <option value="all">전체</option>
-                        <option>패션의류/잡화</option>
-                        <option>뷰티</option>
-                        <option>출산/유아동</option>
-                        <option>식품</option>
-                        <option>주방용품</option>
-                        <option>생활용품</option>
-                        <option>홈인테리어</option>
-                        <option>가전디지털</option>
-                        <option>스포츠/레저</option>
-                        <option>문구/오피스</option>
-                        <option>헬스/건강식품</option>
-                        <option>반려동물</option>
+                        <option value="C01">패션의류/잡화</option>
+                        <option value="C02">뷰티</option>
+                        <option value="C03">출산/유아동</option>
+                        <option value="C04">식품</option>
+                        <option value="C05">주방용품</option>
+                        <option value="C06">생활용품</option>
+                        <option value="C07">홈인테리어</option>
+                        <option value="C08">가전디지털</option>
+                        <option value="C09">스포츠/레저</option>
+                        <option value="C10">문구/오피스</option>
+                        <option value="C11">헬스/건강식품</option>
+                        <option value="C12">반려동물</option>
                     </select>
-                    <input id="search-input" class="search-bar_input" type="search" placeholder="찾고 싶은 상품을 검색해보세요" />
+
+                    <!-- keyword -->
+                    <input id="search-input" class="search-bar_input" type="search" name="keyword" placeholder="찾고 싶은 상품을 검색해보세요" />
+
+                    <!-- cate_cd hidden input 추가 -->
+                    <input type="hidden" id="cate_cd" name="cate_cd" value="">
+
                     <button type="submit" class="search-bar_button" aria-label="검색">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
                              fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"

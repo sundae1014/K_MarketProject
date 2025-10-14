@@ -17,12 +17,6 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductMapper mapper;
 
-    @PostConstruct
-    public void testDB() {
-        String result = mapper.testConnection();
-        System.out.println("🟢 DB 테스트 결과: " + result);
-    }
-
     @Override
     public List<ProductDTO> selectProductsByKeyword(String keyword) {
         return mapper.selectProductsByKeyword(keyword);

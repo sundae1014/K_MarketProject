@@ -10,7 +10,9 @@
 
     <!-- 유저별 권한 기능 -->
     <script th:src="@{/js/product/user-menu.js}" defer></script>
-    <!-- 검색 기능 -->
+    <!-- 헤더 상단 공용 검색 기능 -->
+    <script th:src="@{/js/product/header-search.js}" defer></script>
+    <!-- 상품 리스트 내부 검색 + 정렬 기능 -->
     <script th:src="@{/js/product/search.js}" defer></script>
     <!-- 전체 카테고리 구현 기능 -->
     <script th:src="@{/js/product/category.js}" defer></script>
@@ -29,15 +31,16 @@
     <main class="page">
 
         <!-- 헤더 -->
-        <div th:replace="_header :: headerFragment"></div>
+        <div th:replace="~{_header :: headerFragment}"></div>
 
-        <!-- 상품 경로/기능 구현 완료 -->
+        <!-- 상품 경로 -->
         <div class="container">
             <nav class="nav-path">
                 <ol>
-                    <li><a href="#">HOME</a></li>
-                    <li><a href="#">식품</a></li>
-                    <li><a href="#">식품 선물세트</a></li>
+                    <li><a th:href="@{/}">HOME</a></li>
+                    <li th:if="${category1Name != null}" th:text="${category1Name}"></li>
+                    <li th:if="${category2Name != null}" th:text="${category2Name}"></li>
+                    <li th:if="${category2Name == null}" th:text="'상품 검색 결과'"></li>
                 </ol>
             </nav>
         </div>
@@ -69,17 +72,28 @@
 
                     <!-- 정렬 옵션 -->
                     <nav class="sort-toggle">
-                        <a class="sort-btn" th:href="@{/product/list(sort='sold', keyword=${search.keyword})}"
+                        <a class="sort-btn"
+                           th:href="@{/product/list(sort='sold', cate_cd=${search.cate_cd}, keyword=${search.keyword})}"
                            th:classappend="${sort}=='sold' ? ' on'">판매많은순</a>
-                        <a class="sort-btn" th:href="@{/product/list(sort='lowPrice', keyword=${search.keyword})}"
+
+                        <a class="sort-btn"
+                           th:href="@{/product/list(sort='lowPrice', cate_cd=${search.cate_cd}, keyword=${search.keyword})}"
                            th:classappend="${sort}=='lowPrice' ? ' on'">낮은가격순</a>
-                        <a class="sort-btn" th:href="@{/product/list(sort='highPrice', keyword=${search.keyword})}"
+
+                        <a class="sort-btn"
+                           th:href="@{/product/list(sort='highPrice', cate_cd=${search.cate_cd}, keyword=${search.keyword})}"
                            th:classappend="${sort}=='highPrice' ? ' on'">높은가격순</a>
-                        <a class="sort-btn" th:href="@{/product/list(sort='score', keyword=${search.keyword})}"
+
+                        <a class="sort-btn"
+                           th:href="@{/product/list(sort='score', cate_cd=${search.cate_cd}, keyword=${search.keyword})}"
                            th:classappend="${sort}=='score' ? ' on'">평점높은순</a>
-                        <a class="sort-btn" th:href="@{/product/list(sort='review', keyword=${search.keyword})}"
+
+                        <a class="sort-btn"
+                           th:href="@{/product/list(sort='review', cate_cd=${search.cate_cd}, keyword=${search.keyword})}"
                            th:classappend="${sort}=='review' ? ' on'">후기많은순</a>
-                        <a class="sort-btn" th:href="@{/product/list(sort='recent', keyword=${search.keyword})}"
+
+                        <a class="sort-btn"
+                           th:href="@{/product/list(sort='recent', cate_cd=${search.cate_cd}, keyword=${search.keyword})}"
                            th:classappend="${sort}=='recent' ? ' on'">최근등록순</a>
                     </nav>
                 </div>
@@ -112,22 +126,40 @@
                 </div>
 
                 <!-- 상품 목록 -->
-                <div class="product-grid"
-                     th:classappend="${#lists.size(products) >= 5} ? 'border-top' : ''">
+                <div class="product-grid">
+                    <th:block th:each="prod, iterStat : ${products}">
+                        <a th:href="@{/product/view(prod_number=${prod.prod_number})}"
+                           class="product-card">
 
-                    <a th:each="prod : ${products}"
-                       th:href="@{/product/view(prod_number=${prod.prod_number})}"
-                       class="product-card">
+                            <div class="product-thumb">
+                                <img th:src="@{${prod.img_1}}" alt="대표 이미지">
+                            </div>
 
-                        <div class="product-thumb">
-                            <img th:src="@{/images/product/{img}(img=${prod.img_1})}" alt="대표 이미지">
-                        </div>
+                            <p class="product-name" th:text="${prod.prod_name}"></p>
 
-                        <p class="product-name" th:text="${prod.prod_name}"></p>
-                        <span th:text="${prod.manufacture}"></span>
-                        <strong class="product-sale"
-                                th:text="${#numbers.formatInteger(prod.salePrice,3,'COMMA')} + '원'"></strong>
-                    </a>
+                            <div class="product-info">
+
+                                <!-- 가격 정보 묶음 -->
+                                <div class="product-prices">
+                                    <span class="product-discount"
+                                          th:text="${prod.discount != null ? prod.discount + '%' : ''}"></span>
+                                    <span class="product-regular"
+                                          th:text="${#numbers.formatInteger(prod.price,3,'COMMA')} + '원'"></span>
+                                    <strong class="product-sale"
+                                          th:text="${#numbers.formatInteger(prod.salePrice,3,'COMMA')} + '원'"></strong>
+                                </div>
+
+                                <!-- 무료배송 표시 -->
+                                <div class="product-delivery"
+                                     th:if="${prod.delivery_fee == 0}">
+                                    무료배송
+                                </div>
+                            </div>
+                        </a>
+
+                        <!-- 4개마다 점선 줄 추가 -->
+                        <div th:if="${iterStat.index > 0 and (iterStat.index + 1) % 4 == 0}" class="row-divider"></div>
+                    </th:block>
                 </div>
 
                 <!-- 검색 결과 없음 -->
@@ -151,7 +183,7 @@
         </button>
 
         <!-- 푸터 -->
-        <div th:replace="_footer :: footerFragment"></div>
+        <div th:replace="~{_footer :: footerFragment}"></div>
     </main>
 </body>
 </html>

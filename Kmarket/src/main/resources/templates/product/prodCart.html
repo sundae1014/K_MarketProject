@@ -11,7 +11,9 @@
 
     <!-- 유저별 권한 기능 -->
     <script th:src="@{/js/product/user-menu.js}" defer></script>
-    <!-- 검색 기능 -->
+    <!-- 헤더 상단 공용 검색 기능 -->
+    <script th:src="@{/js/product/header-search.js}" defer></script>
+    <!-- 상품 리스트 내부 검색 + 정렬 기능 -->
     <script th:src="@{/js/product/search.js}" defer></script>
     <!-- 전체 카테고리 구현 기능 -->
     <script th:src="@{/js/product/category.js}" defer></script>
@@ -26,7 +28,7 @@
     <main class="page">
 
         <!-- 헤더 -->
-        <div th:replace="_header :: headerFragment"></div>
+        <div th:replace="~{_header :: headerFragment}"></div>
 
         <!-- 장바구니 레이아웃 -->
         <div class="list-wrap">
@@ -161,7 +163,7 @@
         </button>
 
         <!-- 푸터 -->
-        <div th:replace="_footer :: footerFragment"></div>
+        <div th:replace="~{_footer :: footerFragment}"></div>
     </main>
 </body>
 </html>
