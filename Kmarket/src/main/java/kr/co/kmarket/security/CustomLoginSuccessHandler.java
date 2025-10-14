@@ -25,9 +25,17 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
         MemberDTO member = userDetails.getMemberDTO();
 
         HttpSession session = request.getSession();
-        session.setAttribute("cust_number", member.getCust_number());  // 여기 cust_number 사용
 
-        log.info("로그인 성공! cust_number 세션에 저장: {}", member.getCust_number());
+        session.setAttribute("cust_number", member.getCust_number());
+
+        // 🚨 [핵심 수정] custid 필드에 맞는 getCustid() 사용
+        String userIdToStore = member.getCustid();
+
+        // 세션 키는 QnA Controller에 맞게 "user_id"로 저장합니다.
+        session.setAttribute("user_id", userIdToStore);
+
+        // 로그를 확인하여 실제 ID가 찍히는지 확인해 보세요!
+        log.info("로그인 성공! user_id 세션에 저장된 값: {}", userIdToStore);
 
         response.sendRedirect("/kmarket");
     }
