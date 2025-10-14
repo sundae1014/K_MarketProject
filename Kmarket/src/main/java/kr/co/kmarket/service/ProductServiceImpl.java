@@ -1,5 +1,6 @@
 package kr.co.kmarket.service;
 
+import jakarta.annotation.PostConstruct;
 import kr.co.kmarket.dto.ProductDTO;
 import kr.co.kmarket.dto.ProductNoticeDTO;
 import kr.co.kmarket.dto.ProductReviewDTO;
@@ -15,6 +16,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private ProductMapper mapper;
+
+    @PostConstruct
+    public void testDB() {
+        String result = mapper.testConnection();
+        System.out.println("🟢 DB 테스트 결과: " + result);
+    }
 
     @Override
     public List<ProductDTO> selectProductsByKeyword(String keyword) {
@@ -55,4 +62,5 @@ public class ProductServiceImpl implements ProductService {
     public List<ProductReviewDTO> selectProductReviews(int prod_number) {
         return mapper.selectProductReviews(prod_number);
     }
+
 }

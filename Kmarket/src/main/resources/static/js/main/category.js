@@ -119,7 +119,7 @@ document.addEventListener("DOMContentLoaded", () => {
             a.textContent = item.name;
 
             // 실제 카테고리 이동 링크
-            a.href = `/kmarket/product/list?cate_cd=${item.code}`;
+            a.href = `/kmarket/product/list?lv1=${encodeURIComponent(key)}&lv2=${encodeURIComponent(item.name)}&cate_cd=${item.code}`;
 
             lv2.appendChild(a);
         });

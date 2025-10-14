@@ -65,12 +65,12 @@
 
         <!-- 정렬 조건 -->
         <choose>
-            <when test="sort == 'sold'">ORDER BY HIT DESC</when>
-            <when test="sort == 'lowPrice'">ORDER BY SALEPRICE ASC</when>
-            <when test="sort == 'highPrice'">ORDER BY SALEPRICE DESC</when>
-            <when test="sort == 'score'">ORDER BY PRO_SCORE DESC</when>
-            <when test="sort == 'review'">ORDER BY PROD_NUMBER DESC</when>
-            <otherwise>ORDER BY REG_DATE DESC</otherwise>
+            <when test="sort == 'sold'"> ORDER BY HIT DESC</when>
+            <when test="sort == 'lowPrice'"> ORDER BY SALEPRICE ASC</when>
+            <when test="sort == 'highPrice'"> ORDER BY SALEPRICE DESC</when>
+            <when test="sort == 'score'"> ORDER BY PRO_SCORE DESC</when>
+            <when test="sort == 'review'"> ORDER BY PROD_NUMBER DESC</when>
+            <otherwise> ORDER BY REG_DATE DESC</otherwise>
         </choose>
 
     </select>
@@ -93,8 +93,8 @@
         FROM PRODUCT
         WHERE 1=1
 
-        <if test="keyword != null and keyword != ''">
-            AND (
+        <if test="keyword != null and keyword.trim() != ''">
+        AND (
             <if test="searchName">
                 PROD_NAME LIKE '%' || #{keyword} || '%'
             </if>
@@ -119,6 +119,10 @@
         <if test="maxPrice != null">
             AND PRICE &lt;= #{maxPrice}
         </if>
+    </select>
+
+    <select id="testConnection" resultType="string">
+        SELECT 'DB 연결 성공!' FROM dual
     </select>
 
 </mapper>
