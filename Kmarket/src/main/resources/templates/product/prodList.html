@@ -5,7 +5,6 @@
     <title>Cupang::상품목록</title>
     <link rel="stylesheet" th:href="@{/css/product/style_index.css}">
     <link rel="stylesheet" th:href="@{/css/product/style_prodList.css}">
-    <link rel="stylesheet" th:href="@{/css/product/style_prodView.css}">
     <link rel="stylesheet" th:href="@{/css/product/style_header.css}">
     <link rel="stylesheet" th:href="@{/css/product/style_footer.css}">
 
@@ -32,11 +31,11 @@
         <!-- 헤더 -->
         <div th:replace="_header :: headerFragment"></div>
 
-        <!-- 상품 경로 -->
+        <!-- 상품 경로/기능 구현 완료 -->
         <div class="container">
             <nav class="nav-path">
                 <ol>
-                    <li><a th:href="@{/}">HOME</a></li>
+                    <li><a href="#">HOME</a></li>
                     <li><a href="#">식품</a></li>
                     <li><a href="#">식품 선물세트</a></li>
                 </ol>
@@ -88,7 +87,8 @@
                 <div class="search-box">
                     <div class="search-result">
                         "<span th:text="${search.keyword}"></span>"에 대한 검색 결과
-                        총 <span th:text="${#lists.size(products)}"></span>건
+                        총 <span th:text="${totalCount}"></span>건
+
                     </div>
 
                     <form class="search-form" th:action="@{/product/list}" method="get">

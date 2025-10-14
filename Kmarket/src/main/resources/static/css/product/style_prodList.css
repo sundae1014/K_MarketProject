@@ -16,7 +16,7 @@
 
 /* /////////////////// 상품 경로 /////////////////// */
 .nav-path {
-    margin: 10px 0;
+    margin: 15px 0 10px;
     font-size: 14px;
     color: var(--gray-600);
 }
@@ -26,28 +26,28 @@
     margin: 0;
     padding: 0;
     display: flex;
-    gap: 10px;
+    gap: 5px;
     flex-wrap: wrap;
 }
 
 .nav-path li {
-    margin: 0;
-    padding: 0;
+    display: inline;
 }
 
 .nav-path li+li::before {
-    content: ">";
+    content: " > ";
+    margin: 0 5px;
     color: var(--gray-500);
 }
 
 .nav-path a {
-    color: var(--gray-700);
-    font-weight: 500;
+    text-decoration: none;
+    color: inherit;
 }
 
 .nav-path a:hover {
-    color: var(--blue);
     text-decoration: underline;
+    color: #336AFD;
 }
 /* ////////////////// 상품 경로 끝 ////////////////// */
 
@@ -135,7 +135,7 @@
 
 .sort-toggle {
     display: flex;
-    gap: 8px;
+    gap: 5px;
 }
 
 .sort-btn {

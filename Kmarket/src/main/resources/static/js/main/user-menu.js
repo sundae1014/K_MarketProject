@@ -10,21 +10,21 @@ function renderMenu(type) {
 
     if (type === "guest") {
         html = `
-      <li><a href="#">로그인</a></li>
-      <li><a href="#">회원가입</a></li>
-      <li><a href="#">고객센터</a></li>
+      <li><a href="/kmarket/member/login">로그인</a></li>
+      <li><a href="/kmarket/member/join">회원가입</a></li>
+      <li><a href="/kmarket/cs/index">고객센터</a></li>
     `;
     } else if (type === "user") {
         html = `
       <li><a href="#">정순권 님</a></li>
       <li><a href="#">로그아웃</a></li>
-      <li><a href="#">고객센터</a></li>
+      <li><a href="/kmarket/cs/index">고객센터</a></li>
     `;
     } else if (type === "admin") {
         html = `
       <li><a href="/admin">관리자</a></li>
       <li><a href="#">로그아웃</a></li>
-      <li><a href="#">고객센터</a></li>
+      <li><a href="/kmarket/cs/index">고객센터</a></li>
     `;
     }
 
