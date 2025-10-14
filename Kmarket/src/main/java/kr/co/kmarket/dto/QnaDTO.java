@@ -26,3 +26,4 @@ public class QnaDTO {
     private LocalDateTime reg_date;
     private String status;
 }
+

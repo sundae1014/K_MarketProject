@@ -2,15 +2,21 @@
 package kr.co.kmarket.controller;
 
 import jakarta.servlet.http.HttpSession;
+import kr.co.kmarket.dto.MemberDTO;
 import kr.co.kmarket.dto.OrderDTO;
+import kr.co.kmarket.dto.QnaDTO;
 import kr.co.kmarket.service.MyService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*; // ⬅️ @RestController 사용
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.Map;
 
+@Slf4j
 @RequiredArgsConstructor
 @RestController // ⬅️ JSON API 전용 컨트롤러
 @RequestMapping("/my") // ⬅️ /my 경로를 공유
@@ -60,10 +66,67 @@ public class MyRestController {
                 String fileName = imgPath.substring(lastSlash + 1);
 
                 String encodedFileName = URLEncoder.encode(fileName, "UTF-8");
-                order.setEncodedImg1(folderPath + encodedFileName);
+                String finalPath = "/kmarket" + folderPath + encodedFileName;
+
+                order.setEncodedImg1(finalPath);
             }
         }
 
         return order; // OrderDTO 객체가 JSON으로 자동 변환되어 응답됩니다.
+    }
+
+    @GetMapping("/sellerDetail")
+    public MemberDTO getSellerDetail(@RequestParam("manufacture") String manufacture) { // ⬅️ MemberDTO 사용
+        return myService.getSellerByManufacture(manufacture);
+    }
+
+    @PostMapping("/qna")
+    public Map<String, Object> registerQna(QnaDTO qnaDTO, HttpSession session) {
+        Map<String, Object> resultMap = new HashMap<>();
+
+        // 1. 세션에서 사용자 ID (String)를 로드합니다.
+        String userId = (String) session.getAttribute("user_id");
+        // ... (로그인 확인 로직 생략)
+
+        // 2. DTO 필드에 세션에서 가져온 ID 및 기본값 설정
+        qnaDTO.setUser_id(userId);
+
+        // 🚨 [수정]: type2 값에 따라 type1을 동적으로 결정하는 로직 (기본값 없음)
+        String type2 = qnaDTO.getType2();
+        String type1Value = null; // 초기값을 null로 설정
+
+        switch (type2) {
+            case "상품":
+                type1Value = "주문/결제";
+                break;
+            case "배송":
+                type1Value = "배송";
+                break;
+            case "반품/취소":
+            case "교환":
+            case "기타":
+                type1Value = "취소/반품/교환";
+                break;
+        }
+
+        if (type1Value == null) {
+            resultMap.put("success", false);
+            resultMap.put("message", "유효하지 않은 문의 유형(type2)입니다.");
+            log.warn("QnA 등록 실패: 유효하지 않은 type2 값='{}'", type2);
+            return resultMap;
+        }
+
+        qnaDTO.setType1(type1Value); // 동적으로 결정된 type1 값 설정
+
+        // 3. STATUS는 DB가 VARCHAR이므로 문자열 설정
+        qnaDTO.setStatus("검토중");
+        // -------------------------------------------------------------
+
+        myService.registerQna(qnaDTO); // 서비스 호출
+
+        resultMap.put("success", true);
+        resultMap.put("message", "문의가 성공적으로 등록되었습니다.");
+
+        return resultMap;
     }
 }

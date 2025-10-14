@@ -39,11 +39,11 @@ public class SecurityConfig {
                 .logoutSuccessUrl("/member/login?logout=true"));
 
         // 자동 로그인
-        http.rememberMe(rem -> rem
+        /* http.rememberMe(rem -> rem
                 .key("uniqueKey")
                 .tokenValiditySeconds(86400)
                 .userDetailsService(myUserDetailsService)
-        );
+        ); */  // 임시로 자동로그인 주석처리했습니다.
 
         // 세션 만료 시 이동
         http.sessionManagement(session -> session

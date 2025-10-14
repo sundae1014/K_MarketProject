@@ -17,6 +17,8 @@
     <link rel="stylesheet" th:href="@{/css/main/style_header.css}">
     <link rel="stylesheet" th:href="@{/css/main/style_footer.css}">
     <script th:src="@{/js/my/order-modal.js}" defer></script>
+    <script th:src="@{/js/my/seller-modal.js}" defer></script>
+    <script th:src="@{/js/my/qna-modal.js}" defer></script>
     <script th:src="@{/js/my/review.js}"></script>
 
 </head>
@@ -93,7 +95,8 @@
                                               th:attr="data-order-number=${order.orderNumber}"
                                               data-bs-toggle="modal" data-bs-target="#orderModal"></a>
                                         </p>
-                                        <p><a data-bs-toggle="modal" data-bs-target="#sellerModal" th:text="${order.manufacture}"></a></p>
+                                        <p><a href="#" class="seller-detail-link" th:data-manufacture="${order.manufacture}">
+                                            <span th:text="${order.manufacture}">[상호명]</span> </a></p>
                                         <p><a href="#" th:text="${order.prod_name}"></a></p>
                                         <p th:text="'수량 : ' + ${order.piece} + '개'"></p>
                                         <h4 th:text="${order.priceString}"></h4>
