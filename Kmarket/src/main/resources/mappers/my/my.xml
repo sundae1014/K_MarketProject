@@ -119,5 +119,46 @@
         SELECT NVL(MAX(ID), 0) + 1 FROM QNA
     </select>
 
+    <select id="selectOrderStat1" resultType="kr.co.kmarket.dto.OrderDTO">
+        SELECT
+        ORDERNUMBER,
+        STAT
+        FROM "Order"
+        WHERE ORDERNUMBER = #{orderNumber} AND CUST_NUMBER = #{custNumber}
+    </select>
+
+    <update id="updateOrderConfirmation">
+        UPDATE "Order"
+        SET
+        STAT = 8
+        WHERE ORDERNUMBER = #{orderNumber}
+        AND CUST_NUMBER = #{custNumber}
+    </update>
+
+    <update id="updateOrderCancel">
+        UPDATE "Order"
+        SET
+        STAT = 5
+        WHERE ORDERNUMBER = #{orderNumber}
+        AND CUST_NUMBER = #{custNumber}
+        AND STAT IN (1, 2)
+    </update>
+
+    <insert id="insertReview" useGeneratedKeys="true" keyProperty="review_no">
+        INSERT INTO REVIEW (
+        CUST_NUMBER, PROD_NUMBER, CONTENT, RATING, R_DATE, R_IMG1, R_IMG2, R_IMG3
+        ) VALUES (
+        #{cust_number}, #{prod_number}, #{content}, #{rating}, SYSDATE, #{r_img1}, #{r_img2}, #{r_img3}
+        )
+    </insert>
+
+    <select id="selectOrderStat" resultType="java.lang.Integer">
+        SELECT
+        STAT
+        FROM "Order"
+        WHERE ORDERNUMBER = #{orderNumber}
+        AND PROD_NUMBER = #{prodNo}
+        AND CUST_NUMBER = #{custNumber}
+    </select>
 
 </mapper>
