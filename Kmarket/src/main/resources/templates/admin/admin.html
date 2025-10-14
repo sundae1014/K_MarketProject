@@ -237,54 +237,15 @@
                     <div class="qna-board">
                         <h2>고객문의</h2>
                         <table class="qna-table">
-                            <tr>
+                            <tr th:each="cusTableInfo : ${cusTableInfo}">
                                 <td>
                                     <a href="#">
-                                        [안내] 고객문의 불러오기 최신 5건
+                                        [[${cusTableInfo.title}]]
                                     </a>
                                 </td>
-                                <td>
-                                    25.01.01
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a href="#">
-                                        [안내] 고객문의 불러오기 최신 5건
-                                    </a>
-                                </td>
-                                <td>
-                                    25.01.01
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a href="#">
-                                        [안내] 고객문의 불러오기 최신 5건
-                                    </a>
-                                </td>
-                                <td>
-                                    25.01.01
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a href="#">
-                                        [안내] 고객문의 불러오기 최신 5건
-                                    </a>
-                                </td>
-                                <td>
-                                    25.01.01
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a href="#">
-                                        [안내] 고객문의 불러오기 최신 5건
-                                    </a>
-                                </td>
-                                <td>
-                                    25.01.01
+                                <td class="user-date">
+                                    <span>[[${cusTableInfo.user_id}]]</span>
+                                    <span th:text="${#temporals.format(cusTableInfo.reg_date, 'yyyy-MM-dd')}"></span>
                                 </td>
                             </tr>
                         </table>
