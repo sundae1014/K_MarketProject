@@ -28,7 +28,27 @@
     </select>
     <select id="selectCountTotal" resultType="int">
         SELECT COUNT(*) FROM QNA
+        WHERE TYPE1 = #{type1}
     </select>
+
+
+
+    <select id="findTypeAll2" resultType="kr.co.kmarket.dto.QnaDTO">
+        SELECT *
+        FROM QNA
+        WHERE TYPE1 = #{type1}
+        AND TYPE2 = #{type2}
+        ORDER BY ID DESC
+        OFFSET #{pageRequestDTO.offset} ROWS
+        FETCH NEXT #{pageRequestDTO.size} ROWS ONLY
+    </select>
+    <select id="selectCountTotal2" resultType="int">
+        SELECT COUNT(*) FROM QNA
+        WHERE TYPE1 = #{type1}
+        AND TYPE2 = #{type2}
+    </select>
+
+
 
     <insert id="insert">
         INSERT INTO QNA(TYPE1, TYPE2,TITLE, QUEST, USER_ID, REG_DATE, STATUS)
