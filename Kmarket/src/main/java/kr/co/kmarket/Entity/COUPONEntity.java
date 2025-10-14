@@ -1,4 +1,4 @@
-package com.example.demo.Entity;
+package kr.co.kmarket.Entity;
 
 import java.sql.Date;
 

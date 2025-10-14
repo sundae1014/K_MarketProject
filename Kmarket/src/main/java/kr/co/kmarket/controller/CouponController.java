@@ -1,11 +1,10 @@
-package com.example.demo.Controller;
+package kr.co.kmarket.controller;
 
 import java.util.List;
 
+import kr.co.kmarket.Entity.COUPONEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import com.example.demo.Entity.COUPONEntity;
 
 
 @RestController
