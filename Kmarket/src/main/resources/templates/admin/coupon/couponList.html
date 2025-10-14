@@ -594,37 +594,66 @@ html, body {
 </div>
 
 <script>
-  // 쿠폰 상세 팝업
-  const issuers = { '1012121212':'(주)다있어', '201910101':'최고관리자' };
-  function openDetail(couponNo) {
-    document.getElementById('couponId').textContent = couponNo;
-    document.getElementById('modalCouponNo').textContent = couponNo;
-    document.getElementById('modalIssuer').textContent = issuers[couponNo] || '-';
-    document.getElementById('modalType').textContent = '개별상품 할인';
-    document.getElementById('modalName').textContent = '10월 한달 감사 쿠폰 이벤트';
-    document.getElementById('modalBenefit').textContent = '2,000원 할인';
-    document.getElementById('modalPeriod').textContent = '2025-09-17 ~ 2025-09-17';
-    document.getElementById('modalNote').textContent = '상품 중복 할인 쿠폰\n- 상품 1개 사용 가능\n- 다른 할인 쿠폰과 중복 가능\n사용처: '+(issuers[couponNo]||'-');
-    document.getElementById('detailPopup').style.display='flex';
-  }
-  function closeDetail(){ document.getElementById('detailPopup').style.display='none'; }
+    // 쿠폰 상세 팝업
+    const issuers = { '1012121212':'(주)다있어', '201910101':'최고관리자' };
+    function openDetail(couponNo) {
+        document.getElementById('couponId').textContent = couponNo;
+        document.getElementById('modalCouponNo').textContent = couponNo;
+        document.getElementById('modalIssuer').textContent = issuers[couponNo] || '-';
+        document.getElementById('modalType').textContent = '개별상품 할인';
+        document.getElementById('modalName').textContent = '10월 한달 감사 쿠폰 이벤트';
+        document.getElementById('modalBenefit').textContent = '2,000원 할인';
+        document.getElementById('modalPeriod').textContent = '2025-09-17 ~ 2025-09-17';
+        document.getElementById('modalNote').textContent = '상품 중복 할인 쿠폰\n- 상품 1개 사용 가능\n- 다른 할인 쿠폰과 중복 가능\n사용처: '+(issuers[couponNo]||'-');
+        document.getElementById('detailPopup').style.display='flex';
+    }
+    function closeDetail(){ document.getElementById('detailPopup').style.display='none'; }
 
-  // 쿠폰 등록 팝업
-  function openRegister(){ document.getElementById('registerPopup').style.display='flex'; }
-  function closeRegister(){ document.getElementById('registerPopup').style.display='none'; }
+    // 쿠폰 등록 팝업
+    function openRegister(){ document.getElementById('registerPopup').style.display='flex'; }
+    function closeRegister(){ document.getElementById('registerPopup').style.display='none'; }
 
-  function registerCoupon(){
-    const issuer = document.getElementById('newIssuer').value;
-    const type = document.getElementById('newType').value;
-    const benefit = document.querySelector('input[name="benefit"]:checked')?.value || '';
-    const period = document.getElementById('newPeriod').value;
-    const note = document.getElementById('newNote').value;
+    // 🔹 등록 버튼 클릭 시 Ajax 호출
+    function registerCoupon(){
+        const issuer = document.getElementById('newIssuer').value.trim();
+        const type = document.getElementById('newType').value.trim();
+        const benefit = document.querySelector('input[name="benefit"]:checked')?.value || '';
+        const period = document.getElementById('newPeriod').value.trim();
+        const note = document.getElementById('newNote').value.trim();
 
-    alert(`등록된 쿠폰 내용:\n발급처: ${issuer}\n쿠폰종류: ${type}\n혜택: ${benefit}\n사용기간: ${period}\n유의사항: ${note}`);
-    closeRegister();
-  }
+        // 필수 입력 체크
+        if(!issuer || !type || !benefit || !period){
+            alert('필수 항목을 모두 입력해주세요.');
+            return;
+        }
 
+        // DTO와 매핑되는 데이터
+        const couponData = {
+            issuer: issuer,
+            coupon_type: type,
+            benefit: benefit,
+            use_period: period,
+            manage: note
+        };
+
+        // Ajax POST
+        fetch('/coupon/register', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(couponData)
+        })
+            .then(res => res.text()) // Controller에서 "success" 반환
+            .then(result => {
+                if(result === 'success'){
+                    alert('쿠폰이 등록되었습니다!');
+                    closeRegister();        // 모달 닫기
+                    location.reload();      // Thymeleaf 테이블 새로고침
+                } else {
+                    alert('등록 실패!');
+                }
+            })
+            .catch(err => console.error('등록 중 오류:', err));
+    }
 </script>
-
 </body>
 </html>
