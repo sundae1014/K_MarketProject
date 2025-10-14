@@ -1,10 +1,10 @@
 package kr.co.kmarket.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class TemporaryDTO { //임시 고객센터 문의글 dto
+public class QnaDTO {
     private int id;
     private String type1;
     private String type2;
@@ -22,7 +22,7 @@ public class TemporaryDTO { //임시 고객센터 문의글 dto
     private String user_id;
     private String admin_id;
 
-    @CreationTimestamp
+    @JsonFormat(pattern = "yy.MM.dd", timezone = "Asia/Seoul")
     private LocalDateTime reg_date;
     private String status;
 }
