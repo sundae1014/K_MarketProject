@@ -6,18 +6,17 @@
     <insert id="insertMember" parameterType="kr.co.kmarket.dto.MemberDTO">
         INSERT INTO MEMBER(
         cust_number, name, custid, pw, hp, email, gender,
-        stat, point, auth, useterm, company_name, business_number,
+        stat, auth, useterm, company_name, business_number,
         ecommerce_number, fax_number, zip, addr1, addr2, operation, birth, "Date"
         ) VALUES (
         MEMBER_SEQ.NEXTVAL,
         #{name},
         #{custid},
         #{pw},
-        #{hp},
+        #{hp, jdbcType=VARCHAR},
         #{email,jdbcType=VARCHAR},
         #{gender,jdbcType=NUMERIC},
         #{stat},
-        #{point,jdbcType=NUMERIC},
         #{auth},
         #{useterm,jdbcType=VARCHAR},
         #{company_name,jdbcType=VARCHAR},
