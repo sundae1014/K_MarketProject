@@ -13,7 +13,12 @@ public interface QnaMapper {
 
     public List<QnaDTO> findTypeAll(@Param("type1") String type1, @Param("pageRequestDTO") PageRequestDTO pageRequestDTO);
     public List<QnaDTO> findAll(@Param("pageRequestDTO") PageRequestDTO pageRequestDTO);
-    public int selectCountTotal(@Param("pageRequestDTO")  PageRequestDTO pageRequestDTO);
+    public int selectCountTotal(@Param("type1") String type1, @Param("pageRequestDTO")  PageRequestDTO pageRequestDTO);
+
+
+    public List<QnaDTO> findTypeAll2(@Param("type1") String type1, @Param("type2") String type2, @Param("pageRequestDTO") PageRequestDTO pageRequestDTO);
+    public int selectCountTotal2(@Param("type1") String type1, @Param("type2") String type2 , @Param("pageRequestDTO")  PageRequestDTO pageRequestDTO);
+
 
     public void insert(QnaDTO qnaDTO);
 }
