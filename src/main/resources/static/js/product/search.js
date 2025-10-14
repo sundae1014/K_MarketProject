@@ -1,22 +1,3 @@
-/* 검색 기능 */
-document.addEventListener("DOMContentLoaded", () => {
-    const form = document.querySelector(".search-bar");
-    const input = document.getElementById("search-input");
-    const category = document.querySelector(".search-bar_category");
-
-    if (!form) return;
-
-    form.addEventListener("submit", e => {
-        e.preventDefault();
-
-        const q = encodeURIComponent(input.value.trim());
-        const cat = encodeURIComponent(category.value);
-        const url = `/kmarket/product/list?category=${cat}&keyword=${q}`;
-
-        window.location.href = url;
-    });
-});
-
 // ------------------------------------
 // 상품 검색 결과 페이지 내부 검색 기능
 // ------------------------------------

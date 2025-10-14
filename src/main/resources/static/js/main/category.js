@@ -12,7 +12,7 @@ const CATEGORY_DATA = {
         { name: '클렌징/필링', code: 'C0203' }, { name: '선케어/태닝', code: 'C0204' },
         { name: '메이크업', code: 'C0205' }, { name: '향수', code: 'C0206' },
         { name: '남성화장품', code: 'C0207' }, { name: '네일', code: 'C0208' },
-        { name: '어린이화장품', code: 'C0209' }, { name: '헤어', code: 'C0210' },
+        { name: '어린이화장품',  code: 'C0209' }, { name: '헤어', code: 'C0210' },
         { name: '바디', code: 'C0211' }, { name: '선물세트/기프트', code: 'C0212' }
     ],
     '출산/유아동': [

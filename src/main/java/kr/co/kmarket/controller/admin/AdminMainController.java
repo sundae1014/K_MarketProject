@@ -1,6 +1,7 @@
 package kr.co.kmarket.controller.admin;
 
 import kr.co.kmarket.dto.ChartData;
+import kr.co.kmarket.dto.QnaDTO;
 import kr.co.kmarket.service.admin.TotalService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -124,6 +125,10 @@ public class AdminMainController {
         statusMap.put("readyDelivery", readyDelivery);
         statusMap.put("waitDepost", waitDepost);
         model.addAttribute("status", statusMap);
+
+        // 고객문의 게시판
+        List<QnaDTO> cusTableInfo = totalService.getQnaInfo();
+        model.addAttribute("cusTableInfo", cusTableInfo);
 
         return "admin/admin";
     }

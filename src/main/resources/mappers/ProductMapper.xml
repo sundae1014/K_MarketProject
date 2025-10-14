@@ -10,67 +10,88 @@
             resultType="kr.co.kmarket.dto.ProductDTO">
 
         SELECT
-        PROD_NUMBER AS prod_number,
-        CATE_CD AS cate_cd,
-        PROD_NAME AS prod_name,
-        DESCRIPTION AS description,
-        MANUFACTURE AS manufacture,
-        PRICE AS price,
-        DISCOUNT AS discount,
-        SALEPRICE AS salePrice,
-        DELIVERY_FEE AS delivery_fee,
-        IMG_1 AS img_1,
-        IMG_2 AS img_2,
-        IMG_3 AS img_3,
-        DETAIL_IMG AS detail_img,
-        PROD_STAT AS prod_stat,
-        PROD_TAX AS prod_tax,
-        PROD_BUSINESS AS prod_business,
-        PROD_NATION AS prod_nation,
-        HIT AS hit,
-        PRO_SCORE AS pro_score,
-        REG_DATE AS reg_date
-        FROM PRODUCT
+        p.PROD_NUMBER        AS prod_number,
+        p.CATE_CD            AS cate_cd,
+        p.PROD_NAME          AS prod_name,
+        p.DESCRIPTION        AS description,
+        p.MANUFACTURE        AS manufacture,
+        p.PRICE              AS price,
+        p.DISCOUNT           AS discount,
+        p.SALEPRICE          AS salePrice,
+        p.DELIVERY_FEE       AS delivery_fee,
+        p.IMG_1              AS img_1,
+        p.IMG_2              AS img_2,
+        p.IMG_3              AS img_3,
+        p.DETAIL_IMG         AS detail_img,
+        p.PROD_STAT          AS prod_stat,
+        p.PROD_TAX           AS prod_tax,
+        p.PROD_BUSINESS      AS prod_business,
+        p.PROD_NATION        AS prod_nation,
+        p.HIT                AS hit,
+        p.PRO_SCORE          AS pro_score,
+        p.REG_DATE           AS reg_date,
+        NVL(r.reviewCount, 0) AS reviewCount,
+        NVL(r.avgScore, 0)    AS avgScore,
+        NVL(s.soldCount, 0)   AS soldCount
+        FROM PRODUCT p
+
+        <!-- 후기 테이블 조인 -->
+        LEFT JOIN (
+        SELECT PROD_NUMBER,
+        COUNT(*) AS reviewCount,
+        NVL(AVG(RATING), 0) AS avgScore
+        FROM REVIEW
+        GROUP BY PROD_NUMBER
+        ) r ON p.PROD_NUMBER = r.PROD_NUMBER
+
+        <!-- 주문 상세 테이블 조인 -->
+        LEFT JOIN (
+        SELECT PROD_NUMBER,
+        SUM(PIECE) AS soldCount
+        FROM ORDERDETAIL
+        GROUP BY PROD_NUMBER
+        ) s ON p.PROD_NUMBER = s.PROD_NUMBER
+
         WHERE 1=1
 
         <!-- 키워드 검색 -->
         <if test="keyword != null and keyword != ''">
             AND (
             <if test="searchName">
-                PROD_NAME LIKE '%' || #{keyword} || '%'
+                p.PROD_NAME LIKE '%' || #{keyword} || '%'
             </if>
             <if test="searchDesc">
                 <if test="searchName"> OR </if>
-                DESCRIPTION LIKE '%' || #{keyword} || '%'
+                p.DESCRIPTION LIKE '%' || #{keyword} || '%'
             </if>
             <if test="searchPrice">
                 <if test="searchName or searchDesc"> OR </if>
-                TO_CHAR(PRICE) LIKE '%' || #{keyword} || '%'
+                TO_CHAR(p.PRICE) LIKE '%' || #{keyword} || '%'
             </if>
             )
         </if>
 
         <!-- 카테고리 -->
         <if test="cate_cd != null and cate_cd != ''">
-            AND CATE_CD = #{cate_cd}
+            AND p.CATE_CD = #{cate_cd}
         </if>
 
         <!-- 가격 범위 -->
         <if test="minPrice != null">
-            AND PRICE &gt;= #{minPrice}
+            AND p.PRICE &gt;= #{minPrice}
         </if>
         <if test="maxPrice != null">
-            AND PRICE &lt;= #{maxPrice}
+            AND p.PRICE &lt;= #{maxPrice}
         </if>
 
         <!-- 정렬 조건 -->
         <choose>
-            <when test="sort == 'sold'"> ORDER BY HIT DESC</when>
-            <when test="sort == 'lowPrice'"> ORDER BY SALEPRICE ASC</when>
-            <when test="sort == 'highPrice'"> ORDER BY SALEPRICE DESC</when>
-            <when test="sort == 'score'"> ORDER BY PRO_SCORE DESC</when>
-            <when test="sort == 'review'"> ORDER BY PROD_NUMBER DESC</when>
-            <otherwise> ORDER BY REG_DATE DESC</otherwise>
+            <when test="sort == 'sold'"> ORDER BY s.soldCount DESC</when>
+            <when test="sort == 'lowPrice'"> ORDER BY p.SALEPRICE ASC</when>
+            <when test="sort == 'highPrice'"> ORDER BY p.SALEPRICE DESC</when>
+            <when test="sort == 'score'"> ORDER BY r.avgScore DESC</when>
+            <when test="sort == 'review'"> ORDER BY r.reviewCount DESC</when>
+            <otherwise> ORDER BY p.REG_DATE DESC</otherwise>
         </choose>
 
     </select>
@@ -119,10 +140,6 @@
         <if test="maxPrice != null">
             AND PRICE &lt;= #{maxPrice}
         </if>
-    </select>
-
-    <select id="testConnection" resultType="string">
-        SELECT 'DB 연결 성공!' FROM dual
     </select>
 
 </mapper>

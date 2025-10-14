@@ -4,6 +4,7 @@ import kr.co.kmarket.dto.ProductDTO;
 import kr.co.kmarket.dto.ProductNoticeDTO;
 import kr.co.kmarket.dto.ProductReviewDTO;
 import kr.co.kmarket.dto.SearchDTO;
+import kr.co.kmarket.enums.CategoryEnum;
 import kr.co.kmarket.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,9 +30,6 @@ public class UserProductController {
                        @RequestParam(defaultValue = "recent") String sort,
                        Model model) {
 
-        // 🔹 keyword 로그 찍어보기
-        log.info("검색 키워드: {}", searchDTO.getKeyword());
-
         List<ProductDTO> products = productService.selectProducts(searchDTO, sort);
         int totalCount = productService.countProducts(searchDTO);
 
@@ -40,8 +38,45 @@ public class UserProductController {
         model.addAttribute("search", searchDTO);
         model.addAttribute("sort", sort);
 
-        // 🔹 검색어가 있을 경우만 "상품 검색 결과" 모드
-        model.addAttribute("category2Name", "식품 선물세트");
+        // 카테고리 이름 처리
+        String category1Name = null;
+        String category2Name = null;
+
+        if (searchDTO.getCate_cd() != null && !searchDTO.getCate_cd().isEmpty()) {
+            String cateCd = searchDTO.getCate_cd();
+
+            // cateCd 길이가 3보다 짧으면 substring 금지
+            if (cateCd.length() >= 3) {
+                String upperCode = cateCd.substring(0, 3);
+                category1Name = switch (upperCode) {
+                    case "C01" -> "패션의류/잡화";
+                    case "C02" -> "뷰티";
+                    case "C03" -> "출산/유아동";
+                    case "C04" -> "식품";
+                    case "C05" -> "주방용품";
+                    case "C06" -> "생활용품";
+                    case "C07" -> "홈인테리어";
+                    case "C08" -> "가전디지털";
+                    case "C09" -> "스포츠/레저";
+                    case "C10" -> "문구/오피스";
+                    case "C11" -> "헬스/건강식품";
+                    case "C12" -> "반려동물";
+                    default -> "전체상품";
+                };
+            } else {
+                category1Name = "전체상품";
+            }
+
+            category2Name = CategoryEnum.getNameByCode(cateCd);
+        } else {
+            category2Name = "상품 검색 결과";
+        }
+
+
+
+        // ✅ 모델에 추가
+        model.addAttribute("category1Name", category1Name);
+        model.addAttribute("category2Name", category2Name);
 
         return "product/prodList";
     }
