@@ -28,6 +28,9 @@ public class CsRecruitController {
 
     @GetMapping("/list")
     public String list(PageRequestDTO pageRequestDTO, Model model){
+
+        pageRequestDTO.setSize(4);
+
         List<HireDTO> hires = recruitService.getHiresByPage(pageRequestDTO);
         int total = recruitService.getTotalHires();
 
@@ -94,6 +97,8 @@ public class CsRecruitController {
                               Model model) {
 
         log.info("searchHires={}, keyword={}, pageRequestDTO={}", searchType, keyword, pageRequestDTO);
+
+        pageRequestDTO.setSize(4);
 
         List<HireDTO> hires = recruitService.selectSearchPage(searchType, keyword, pageRequestDTO);
 
