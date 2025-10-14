@@ -20,6 +20,8 @@ import java.util.List;
 public class MyController {
 
     private final MyService myService;
+    private final SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
+    private final DecimalFormat priceFormatter = new DecimalFormat("#,###");
 
     @ModelAttribute
     public void addCommonAttributes(Model model, HttpSession session) {
@@ -29,26 +31,6 @@ public class MyController {
             model.addAttribute("notConfirmedCount", notConfirmedCount);
         }
     }
-
-    @GetMapping("/orderDetail") // ⚠ 절대 "/my/orderDetail"로 쓰지 말 것!
-    public String getOrderDetail(@RequestParam("orderNumber") int orderNumber,
-                                 HttpSession session,
-                                 Model model) {
-
-        Integer custNumber = (Integer) session.getAttribute("cust_number");
-        if (custNumber == null) {
-            return "redirect:/user/login";
-        }
-
-        OrderDTO order = myService.getOrderDetailByCustomer(custNumber, orderNumber);
-        if (order == null) {
-            return "fragments/error :: notFound";
-        }
-
-        model.addAttribute("order", order);
-        return "my/modal/order-detail-fragment :: fragment";
-    }
-
 
     @GetMapping("/coupon")
     public String coupon(){
@@ -61,29 +43,23 @@ public class MyController {
         if (custNumber == null) {
             return "redirect:/member/login";
         }
+        // ... (home 뷰를 위한 나머지 로직 유지) ...
         List<OrderDTO> recentOrders = myService.getRecentOrders(custNumber);
-
-        DecimalFormat priceFormatter = new DecimalFormat("#,###");
-        SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
 
         for (OrderDTO order : recentOrders) {
             if (order.getPrice() != 0) {
                 order.setPriceString(priceFormatter.format(order.getPrice()) + "원");
             }
-
             if (order.getODate() != null) {
                 order.setDateString(dateFormatter.format(order.getODate()));
             } else {
                 order.setDateString("날짜 없음");
             }
-
-            // 이미지 경로 인코딩 처리
-            String imgPath = order.getImg1();  // ex: /images/product/사조 참치 살코기 안심따개, 135g, 4개_1.jpg
+            String imgPath = order.getImg1();
             if (imgPath != null && !imgPath.isEmpty()) {
                 int lastSlash = imgPath.lastIndexOf("/");
-                String folderPath = imgPath.substring(0, lastSlash + 1);  // /images/product/
-                String fileName = imgPath.substring(lastSlash + 1);       // 사조 참치 살코기 안심따개, 135g, 4개_1.jpg
-
+                String folderPath = imgPath.substring(0, lastSlash + 1);
+                String fileName = imgPath.substring(lastSlash + 1);
                 String encodedFileName = URLEncoder.encode(fileName, "UTF-8");
                 order.setEncodedImg1(folderPath + encodedFileName);
             }

@@ -1,44 +1,52 @@
-new Chart(document.getElementById("bar-chart-grouped"), {
-    type: 'bar',
-    data: {
-      labels: ["10-10", "10-11", "10-12", "10-13", "10-14"],
-      datasets: [
-        { label: "주문", backgroundColor: "#436CFF", data: [133,221,783,1478,2311] },
-        { label: "결제", backgroundColor: "#ED5325", data: [408,547,675,734,323] },
-        { label: "취소", backgroundColor: "#8FCC17", data: [133,221,783,1478,421] }
+window.addEventListener('DOMContentLoaded', () => {
+    const ctx = document.getElementById('bar-chart-grouped').getContext('2d');
 
-      ]
-    },
-    options: {
-      responsive: false,
-      title: { display: true, text: 'Population growth (millions)' },
-      maintainAspectRatio: false
-    }
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: barLabels,
+            datasets: [
+                { label: "주문", backgroundColor: "#436CFF", data: orderData },
+                { label: "결제", backgroundColor: "#ED5325", data: paymentData },
+                { label: "취소", backgroundColor: "#8FCC17", data: cancelData }
+            ]
+        },
+        options: {
+            responsive: false,
+            maintainAspectRatio: false,
+            plugins: {
+                title: { display: true, text: '최근 5일 주문/결제/취소 현황', font: { size: 15 } },
+                legend: { display: true, position: 'bottom' }
+            }
+        }
+    });
 });
 
-new Chart(document.getElementById("pie-chart"), {
-    type: 'pie',
-    data: {
-      labels: ["가전", "식품", "의류", "기타"],
-      datasets: [{ 
-          label: "Population (millions)",
-          backgroundColor: ["#436CFF","#ED5325","#8FCC17","#F9C300"],
-          data: [5267,2267,734,784]
-      }]
-    },
-     options: {
-      responsive: false,
-      maintainAspectRatio: false,
-      plugins: {
-        title: {
-          display: true,
-          text: '주요 매출',
-          font: { size: 15 }
+window.addEventListener('DOMContentLoaded', () => {
+    const ctx = document.getElementById('pie-chart').getContext('2d');
+
+    const labels = pieData.map(item => item.label);
+    const values = pieData.map(item => item.value);
+
+    new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: labels,
+            datasets: [{
+                data: values,
+                backgroundColor: [
+                    "#436CFF","#ED5325","#8FCC17","#F9C300","#FF7F50","#7B68EE",
+                    "#20B2AA","#FFB6C1","#FFA500","#66CDAA","#BA55D3","#00CED1"
+                ]
+            }]
         },
-        legend: {
-          display: true,
-          position: 'bottom'
-        },
-      }
-    }
+        options: {
+            responsive: false,
+            maintainAspectRatio: false,
+            plugins: {
+                title: { display: true, text: '주요 매출', font: { size: 15 } },
+                legend: { display: true, position: 'bottom' }
+            }
+        }
+    });
 });

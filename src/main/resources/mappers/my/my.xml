@@ -15,6 +15,20 @@
         <result property="img1" column="IMG_1"/>
         <result property="manufacture" column="MANUFACTURE"/>
         <result property="prod_name" column="PROD_NAME"/>
+        <result property="discount" column="DISCOUNT"/>
+        <result property="salePrice" column="SALEPRICE"/>
+    </resultMap>
+
+    <resultMap id="SellerDetailMap" type="kr.co.kmarket.dto.MemberDTO">
+        <result property="company_name" column="COMPANY_NAME"/>
+        <result property="name" column="NAME"/>
+        <result property="hp" column="HP"/>
+        <result property="fax_number" column="FAX_NUMBER"/>
+        <result property="email" column="EMAIL"/>
+        <result property="business_number" column="BUSINESS_NUMBER"/>
+        <result property="zip" column="ZIP"/>
+        <result property="addr1" column="ADDR1"/>
+        <result property="addr2" column="ADDR2"/>
     </resultMap>
 
     <select id="selectRecentOrders" resultMap="OrderResultMap" parameterType="int">
@@ -59,6 +73,50 @@
         JOIN PRODUCT c ON b.PROD_NUMBER = c.PROD_NUMBER
         WHERE a.CUST_NUMBER = #{custNumber}
         AND a.ORDERNUMBER = #{orderNumber}
+    </select>
+
+    <select id="selectSellerByManufacture" resultMap="SellerDetailMap" parameterType="string">
+        SELECT
+        a.COMPANY_NAME,
+        a.NAME,
+        a.HP,
+        a.FAX_NUMBER,
+        a.EMAIL,
+        a.BUSINESS_NUMBER,
+        a.ZIP,
+        a.ADDR1,
+        a.ADDR2
+        FROM MEMBER a
+        JOIN PRODUCT b ON a.COMPANY_NAME = b.MANUFACTURE
+        WHERE a.AUTH = 3
+        AND b.MANUFACTURE = #{manufacture}
+        FETCH FIRST 1 ROWS ONLY
+    </select>
+
+    <insert id="insertQna" parameterType="kr.co.kmarket.dto.QnaDTO">
+        INSERT INTO QNA (
+        ID,
+        TYPE1,
+        TYPE2,
+        TITLE,
+        QUEST,
+        USER_ID,
+        STATUS,
+        REG_DATE
+        )
+        VALUES (
+        #{id},      #{type1},
+        #{type2},
+        #{title},
+        #{quest},
+        #{user_id},
+        #{status},
+        SYSDATE
+        )
+    </insert>
+
+    <select id="selectMaxQnaId" resultType="int">
+        SELECT NVL(MAX(ID), 0) + 1 FROM QNA
     </select>
 
 

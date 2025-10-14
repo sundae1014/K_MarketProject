@@ -5,21 +5,62 @@
     <title>주문상세</title>
 </head>
 <body>
-    <div th:fragment="modal">
-        <div class="modal fade modal-top" id="orderModal" tabindex="-1" aria-labelledby="orderModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="orderModalLabel">주문상세</h5>
-                        <p class="modal-sm-title">20xx-12-13</p>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="닫기"></button>
-                    </div>
-                    <div class="modal-body" id="orderModalBody">
-
+<div th:fragment="modal">
+    <div class="modal fade modal-top" id="orderModal" tabindex="-1" aria-labelledby="orderModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="orderModalLabel">주문상세</h5>
+                    <p class="modal-sm-title" id="modal-oDate"></p> <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="닫기"></button>
+                </div>
+                <div class="modal-body" id="orderModalBody">
+                    <div class="content-1">
+                        <div class="content-top">
+                            <div class="content-title">
+                                <span>주문정보</span>
+                            </div>
+                        </div>
+                        <table class="prod-table">
+                            <tr>
+                                <th>날짜</th>
+                                <th></th>
+                                <th class="second-th">상품정보</th>
+                                <th>결제금액</th>
+                                <th>상태</th>
+                            </tr>
+                            <tr>
+                                <td><span id="modal-date"></span></td>
+                                <td>
+                                    <div class="prod-img">
+                                        <img id="modal-prod-img" alt="상품사진"> </div>
+                                </td>
+                                <td class="second-td">
+                                    <div class="prod-info">
+                                        <p>주문번호 : <span id="modal-orderNumber"></span></p>
+                                        <p><span id="modal-manufacture"></span></p>
+                                        <p><span id="modal-prodName"></span></p>
+                                        <p>수량 : <span id="modal-piece"></span></p>
+                                        <h4><span id="modal-realPrice"></span></h4>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="pay-info">
+                                        <p class="flex-between">
+                                            판매가 <span id="modal-price"></span> </p>
+                                        <p class="flex-between">
+                                            할인 <span id="modal-discount"></span> </p>
+                                        <p class="flex-between" style="font-weight: bold">
+                                            결제금액 <span id="modal-salePrice"></span> </p>
+                                    </div>
+                                </td>
+                                <td><span id="modal-stat"></span></td>
+                            </tr>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 </body>
 </html>

@@ -16,7 +16,7 @@
 
 /* /////////////////// 상품 경로 /////////////////// */
 .nav-path {
-    margin: 10px 0;
+    margin: 15px 0 10px;
     font-size: 14px;
     color: var(--gray-600);
 }
@@ -26,28 +26,28 @@
     margin: 0;
     padding: 0;
     display: flex;
-    gap: 10px;
+    gap: 5px;
     flex-wrap: wrap;
 }
 
 .nav-path li {
-    margin: 0;
-    padding: 0;
+    display: inline;
 }
 
 .nav-path li+li::before {
-    content: ">";
+    content: " > ";
+    margin: 0 5px;
     color: var(--gray-500);
 }
 
 .nav-path a {
-    color: var(--gray-700);
-    font-weight: 500;
+    text-decoration: none;
+    color: inherit;
 }
 
 .nav-path a:hover {
-    color: var(--blue);
     text-decoration: underline;
+    color: #336AFD;
 }
 /* ////////////////// 상품 경로 끝 ////////////////// */
 
@@ -114,8 +114,48 @@
 
 /* //////////////////// 베스트 상품 끝 //////////////////// */
 
+/* ////////////////// 타이틀 & 정렬 옵션 ////////////////// */
+.list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.list-title {
+    font-family: Pretendard, sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: #336AFD;
+    margin: 0;
+    padding: 0;
+}
+
+.sort-toggle {
+    display: flex;
+    gap: 5px;
+}
+
+.sort-btn {
+    padding: 5px 10px;
+    color: var(--gray-700);
+    border-radius: 3px;
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+.sort-btn:hover,
+.sort-btn.on {
+    color: var(--blue);
+    font-weight: 700;
+    background: rgba(51,106,253,0.08);
+}
+/* ////////////////// 타이틀 & 정렬 끝 ////////////////// */
+
 /* ============================================================= */
-/* 🔹 검색 여부 상태 전환 (list-mode / search-mode) */
+/* 검색 여부 상태 전환 (list-mode / search-mode) */
 /* ============================================================= */
 
 /* 검색창 숨김: 기본 목록 모드 */
@@ -127,7 +167,6 @@
 .col-b.search-mode .search-box {
     display: block;
     border: 2px solid var(--border);
-    box-shadow: 0 0 6px rgba(51,106,253,0.15);
     margin-bottom: 30px;
     border-radius: 3px;
     background: #fff;
@@ -156,43 +195,98 @@
     color: var(--blue);
 }
 
-/* ////////////////// 타이틀 & 정렬 옵션 ////////////////// */
-.list-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-.list-header h2 {
-    margin: 0;
-    padding: 0;
-}
-
-.list-title {
-    font-family: Pretendard, sans-serif;
-    font-size: 22px;
-    font-weight: 700;
-    color: #336AFD;
-}
-
-.sort-toggle {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 20px;
-}
-.sort-btn {
-    padding: 5px 10px;
-    color: var(--gray-700);
+/* ============================================================= */
+/* 검색창 내부 구성 */
+/* ============================================================= */
+/* ====================== 검색 박스 전체 ====================== */
+.search-box {
+    width: 100%;
+    margin-bottom: 40px;
+    padding: 20px 20px;
+    background: #ffffff;
+    border: 1px solid var(--border);
     border-radius: 3px;
-    font-size: 14px;
-    transition: 0.2s;
 }
-.sort-btn:hover,
-.sort-btn.on {
+
+/* ====================== 검색결과 타이틀 ====================== */
+.search-result {
+    font-size: 16px;
+    color: var(--gray-800);
+    font-weight: 700;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+}
+
+.search-result span {
     color: var(--blue);
     font-weight: 700;
-    background: rgba(51,106,253,0.08);
+}
+
+/* ====================== 검색 폼 ====================== */
+.search-form {
+    width: 100%;
+}
+
+.search-row {
+    display: flex;
+    justify-content: space-between; /* 양쪽 끝 정렬 */
+    align-items: center;
+    flex-wrap: wrap; /* 화면 좁을 때 자동 줄바꿈 */
+    gap: 10px;
+}
+
+/* 입력창 + 버튼 */
+.search-inputs {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.search-inputs input {
+    width: 200px;
+    padding: 8px 10px;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    font-size: 14px;
+}
+
+.search-inputs input:focus {
+    border-color: var(--blue);
+    box-shadow: 0 0 4px rgba(51,106,253,0.25);
+}
+
+.search-inputs button {
+    height: 34px;
+    padding: 0 12px;
+    font-size: 14px;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    background: #ffffff;
+    cursor: pointer;
+}
+
+.search-inputs button:hover {
+    background: #f3f4f6;
+}
+
+/* 체크박스 + 가격 옵션 */
+.search-options {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    font-size: 14px;
+    color: var(--gray-700);
+}
+
+.search-options input[type="number"] {
+    width: 160px;
+    padding: 8px;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    font-size: 14px;
 }
 
 /* ////////////////// 상품 목록 컨테이너 ////////////////// */

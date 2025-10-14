@@ -36,4 +36,10 @@ public class SearchDTO {
     public String getCate_cd() {
         return (cate_cd == null || cate_cd.isBlank()) ? "0" : cate_cd;
     }
+
+    // keyword가 공백/NULL일 때, 안전하게 처리 가능
+    public String getKeyword() {
+        return (keyword == null) ? "" : keyword.trim();
+    }
+
 }

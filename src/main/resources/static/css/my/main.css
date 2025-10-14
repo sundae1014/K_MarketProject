@@ -129,7 +129,6 @@ ul, ol, li{
 .banner-ad img{
     width: 810px;
     height: 86px;
-    border: 1px solid #d9d9d9;
 }
 
 .content-top {
@@ -214,8 +213,6 @@ ul, ol, li{
 }
 
 .prod-img{
-    border: 1px solid black;
-    display: flex;
     width: 118.32px;
     height: 114.90px;
 }
