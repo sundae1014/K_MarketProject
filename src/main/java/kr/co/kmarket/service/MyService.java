@@ -39,7 +39,7 @@ public class MyService {
         // 1. ID 설정: MAX(ID) + 1 로직으로 고유 ID 생성
         int nextId = myMapper.selectMaxQnaId();
 
-        dto.setId(String.valueOf(nextId));
+        dto.setId(nextId);
 
         myMapper.insertQna(dto);
     }
