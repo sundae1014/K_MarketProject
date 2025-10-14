@@ -1,23 +1,29 @@
 package kr.co.kmarket.dto;
 
-import lombok.*;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
-@Getter
-@Setter
-@ToString
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class QnaDTO {
+    private int id;
+    private String type1;
+    private String type2;
+    private String title;
+    private String quest;
+    private String answer;
+    private String user_id;
+    private String admin_id;
 
-    private String id;
-    private String type1; // 문의자 타입
-    private String type2; // 문의 유형
-    private String title; // 제목
-    private String quest; // 문의내용
-    private String user_id; // custId
-    private Date reg_date; // 작성시간
-    private String status; // 문의상태 기본:검토중
+    @JsonFormat(pattern = "yy.MM.dd", timezone = "Asia/Seoul")
+    private LocalDateTime reg_date;
+    private String status;
 }
+

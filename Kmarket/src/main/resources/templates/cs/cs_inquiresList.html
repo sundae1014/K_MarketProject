@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> <!-- 일단 사이드바 url 생각중-->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -16,10 +16,12 @@
 
             const check_s = document.querySelectorAll(".check");
             check_s.forEach(check => {
-                if(check.innerText === "검토중") {
+                if(check.innerText === "waiting") {
                     check.style.color = "#808080";
+                    check.innerText = "검토중";
                 } else {
                     check.style.color = "#0070C0";
+                    check.innerText = "답변완료";
                 }
             })
         });
@@ -132,7 +134,7 @@
                             </ul>
                         </li>
                         <li>
-                            <a href="#" class="navList_a">배송</a>
+                            <a th:href="@{/cs/qna/list/deliver}" class="navList_a">배송</a>
                             <ul class="subMenu">
                                 <li><a href="#">배송상태 / 기간</a></li>
                                 <li><a href="#">배송정보확인/변경</a></li>
@@ -142,7 +144,7 @@
                             </ul>
                         </li>
                         <li>
-                            <a href="#" class="navList_a">취소 / 반품 / 교환</a>
+                            <a th:href="@{/cs/qna/list/cancelAndReturnAndExchange}" class="navList_a">취소 / 반품 / 교환</a>
                             <ul class="subMenu">
                                 <li><a href="#">반품신청 / 철회</a></li>
                                 <li><a href="#">반품정보확인 / 변경</a></li>
@@ -153,14 +155,14 @@
                             </ul>
                         </li>
                         <li>
-                            <a href="#" class="navList_a">여행 / 숙박 / 항공</a>
+                            <a th:href="@{/cs/qna/list/traverlAndAccommodationAndAviation}" class="navList_a">여행 / 숙박 / 항공</a>
                             <ul class="subMenu">
                                 <li><a href="#">여행 / 숙박</a></li>
                                 <li><a href="#">항공</a></li>
                             </ul>
                         </li>
                         <li>
-                            <a href="#" class="navList_a">안전거래</a>
+                            <a th:href="@{/cs/qna/list/Safetrade}" class="navList_a">안전거래</a>
                             <ul class="subMenu">
                                 <li><a href="#">서비스 이용규칙 위반</a></li>
                                 <li><a href="#">지식재산권침해</a></li>
@@ -175,129 +177,22 @@
                 </div>
                 <div id="inquires_all" style="width:900px;height:800px;">
                     <div id="inquires_title">
-                        <h3 id="inquires_title_h3">회원</h3>
-                        <span>회원관련 자주묻는 질문 입니다.</span>
+                        <h3 id="inquires_title_h3">[[${typeName}]]</h3>
+                        <span>[[${typeName}]]관련 자주묻는 질문 입니다.</span>
                     </div>
                     <div style="border:1px solid black; float:right;width:814px;"></div>
                     <div id="inquires_list">
                         <ul style="margin:0px;">
-                            <li>
-                                <a href="#" class="link_item">
+                            <li th:each="qna, stat:${pageResponseDTO.dtoList}">
+                                <input type="hidden" name="id" th:value="${qna.id}">
+                                <a th:href="@{/cs/qna/view(id=${qna.id})}" class="link_item">
                                     <span class="left">
-                                        <span>[가입] &nbsp;가입문의내용</span>
-                                        <span class="check">검토중</span>
+                                        <span>[[${'[' + qna.type2 + ']'}]] [[${qna.title}]]</span>
+                                        <span class="check">[[${qna.status}]]</span>
                                     </span>
                                     <span class="right">
-                                        <span>chh**</span>
-                                        <span>00.00.00</span>
-                                    </span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="link_item">
-                                    <span class="left">
-                                        <span>[탈퇴] &nbsp;탈퇴 문의내용</span>
-                                        <span class="check">검토중</span>
-                                    </span>
-                                    <span class="right">
-                                        <span>chh**</span>
-                                        <span>00.00.00</span>
-                                    </span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="link_item">
-                                    <span class="left">
-                                        <span>[회원정보] &nbsp;회원정보 문의 내용</span>
-                                        <span class="check">답변완료</span>
-                                    </span>
-                                    <span class="right">
-                                        <span>chh**</span>
-                                        <span>00.00.00</span>
-                                    </span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="link_item">
-                                    <span class="left">
-                                        <span>[로그인] &nbsp;회원정보 문의 내용</span>
-                                        <span class="check">답변완료</span>
-                                    </span>
-                                    <span class="right">
-                                        <span>chh**</span>
-                                        <span>00.00.00</span>
-                                    </span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="link_item">
-                                    <span class="left">
-                                        <span>[로그인] &nbsp;회원정보 문의 내용</span>
-                                        <span class="check">답변완료</span>
-                                    </span>
-                                    <span class="right">
-                                        <span>chh**</span>
-                                        <span>00.00.00</span>
-                                    </span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="link_item">
-                                    <span class="left">
-                                        <span>[로그인] &nbsp;회원정보 문의 내용</span>
-                                        <span class="check">답변완료</span>
-                                    </span>
-                                    <span class="right">
-                                        <span>chh**</span>
-                                        <span>00.00.00</span>
-                                    </span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="link_item">
-                                    <span class="left">
-                                        <span>[로그인] &nbsp;회원정보 문의 내용</span>
-                                        <span class="check">답변완료</span>
-                                    </span>
-                                    <span class="right">
-                                        <span>chh**</span>
-                                        <span>00.00.00</span>
-                                    </span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="link_item">
-                                    <span class="left">
-                                        <span>[로그인] &nbsp;회원정보 문의 내용</span>
-                                        <span class="check">답변완료</span>
-                                    </span>
-                                    <span class="right">
-                                        <span>chh**</span>
-                                        <span>00.00.00</span>
-                                    </span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="link_item">
-                                    <span class="left">
-                                        <span>[로그인] &nbsp;회원정보 문의 내용</span>
-                                        <span class="check">답변완료</span>
-                                    </span>
-                                    <span class="right">
-                                        <span>chh**</span>
-                                        <span>00.00.00</span>
-                                    </span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="link_item">
-                                    <span class="left">
-                                        <span>[로그인] &nbsp;회원정보 문의 내용</span>
-                                        <span class="check">답변완료</span>
-                                    </span>
-                                    <span class="right">
-                                        <span>chh**</span>
-                                        <span>00.00.00</span>
+                                        <span th:text="${#strings.substring(qna.user_id, 0, 3) + #strings.repeat('*', #strings.length(qna.user_id) - 3)}"></span>
+                                        <span th:text="${#temporals.format(qna.reg_date, 'yy.MM.dd')}"></span>
                                     </span>
                                 </a>
                             </li>
@@ -306,11 +201,12 @@
 
                     <div style="position: relative;">
                         <ul class="pagenation">
-                            <li><a href="#"><span class="prev"></span></a></li>
-                            <li><a href="#" class="active2">1</a></li>
-                            <li><a href="#" class="pageNum">2</a></li>
-                            <li><a href="#" class="pageNum">3</a></li>
-                            <li><a href="#"><span class="next"></span></a></li>
+                            <li><a th:if="${pageResponseDTO.prev}" th:href="@{/cs/qna/list(pg=${pageResponseDTO.start - 1})}"><span class="prev"></span></a></li>
+                            <th:block th:each="num:${#numbers.sequence(pageResponseDTO.start, pageResponseDTO.end)}">
+                                <li><a th:href="@{/cs/qna/list(pg=${num})}" th:class="${num == pageResponseDTO.pg ? 'active2' : 'pageNum'}">[[${num}]]</a></li>
+                            </th:block>
+
+                            <li><a th:if="${pageResponseDTO.next}" th:href="@{/cs/qna/list(pg=${pageResponseDTO.end + 1})}"><span class="next"></span></a></li>
                         </ul>
                         <button class="inquires" th:onclick="|location.href='@{/cs/qna/write}'|">문의하기</button>
                     </div>
