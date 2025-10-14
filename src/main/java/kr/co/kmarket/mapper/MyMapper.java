@@ -1,6 +1,8 @@
 package kr.co.kmarket.mapper;
 
+import kr.co.kmarket.dto.MemberDTO;
 import kr.co.kmarket.dto.OrderDTO;
+import kr.co.kmarket.dto.QnaDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -16,5 +18,11 @@ public interface MyMapper {
 
     public OrderDTO selectOrderDetailByCustomer(@Param("custNumber") int custNumber,
                                                 @Param("orderNumber") int orderNumber);
+
+    public MemberDTO selectSellerByManufacture(@Param("manufacture") String manufacture); // ⬅️ MemberDTO 사용
+
+    public int insertQna(QnaDTO qnaDTO);
+
+    public int selectMaxQnaId();
 
 }

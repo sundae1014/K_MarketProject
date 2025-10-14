@@ -26,4 +26,5 @@ public interface ProductService {
     ProductNoticeDTO selectProductNoticeByNo(int prod_number);
 
     List<ProductReviewDTO> selectProductReviews(int prod_number);
+
 }

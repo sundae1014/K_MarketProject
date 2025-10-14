@@ -1,72 +1,42 @@
-### IntelliJ ###
-.idea/
-*.iml
-
-### Maven/Gradle ###
-target/
+HELP.md
+.gradle
 build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+### VS Code ###
+.vscode/
 
 ### Logs ###
 *.log
 logs/
 *.out
-
-### OS Files ###
-.DS_Store
-Thumbs.db
-
-### Backup and temp files ###
-*.bak
-*~
-.#*
-*.swp
-*.swo
-
-### Git ###
-*.local
-*.localz
-*.git
-
-### Others ###
-**/.do_pool/
-**/*#JDEVADF_*
-**/*.scc
-**/*.mv.*
-**/*.unmkelem.*
-**/*.sync.*
-**/*.rename.*
-**/*.unbranch.*
-**/*.unco.*
-**/*.saved.*
-**/*.client_contrib
-**/.svn/
-**/.data/
-**/*.cdi
-**/*.generated.java
-**/*.ignore
-**/*.labellog.emd
-**/.*.cs
-**/.fullsource_nt
-**/.fullsource
-**/.depprod_nt
-**/.depprod
-**/.ade_path/
-**/*.contrib*
-**/*.keep
-**/*.rvi
-**/CVS/
-**/*.localz
-**/*.local
-**/*.git
-**/*.DS_Store
-**/.DS_Store
-**/.do_pool/**
-**/.do_pool
-**/*~
-**/.svn/**
-**/.data/**
-**/*.bak
-**/.ade_path
-**/.ade_path/**
-**/.#*
-**/CVS/**

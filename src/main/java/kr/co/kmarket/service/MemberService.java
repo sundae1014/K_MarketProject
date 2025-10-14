@@ -2,20 +2,16 @@ package kr.co.kmarket.service;
 
 import kr.co.kmarket.dto.MemberDTO;
 import kr.co.kmarket.dto.PolicyDTO;
-import lombok.RequiredArgsConstructor;
 import kr.co.kmarket.mapper.MemberMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
 public class MemberService {
-
-
     private final MemberMapper memberMapper;
 
     private final PasswordEncoder passwordEncoder;
@@ -24,6 +20,10 @@ public class MemberService {
     public void save(MemberDTO memberDTO){
         String encodedPass = passwordEncoder.encode(memberDTO.getPw());
         memberDTO.setPw(encodedPass);
+        memberMapper.insertMember(memberDTO);
+    }
+    public void saveSocial(MemberDTO memberDTO){
+        memberDTO.setPw(passwordEncoder.encode("SOCIAL_USER"));
         memberMapper.insertMember(memberDTO);
     }
 

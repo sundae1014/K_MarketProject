@@ -29,6 +29,9 @@ public class UserProductController {
                        @RequestParam(defaultValue = "recent") String sort,
                        Model model) {
 
+        // 🔹 keyword 로그 찍어보기
+        log.info("검색 키워드: {}", searchDTO.getKeyword());
+
         List<ProductDTO> products = productService.selectProducts(searchDTO, sort);
         int totalCount = productService.countProducts(searchDTO);
 
@@ -36,6 +39,9 @@ public class UserProductController {
         model.addAttribute("totalCount", totalCount);
         model.addAttribute("search", searchDTO);
         model.addAttribute("sort", sort);
+
+        // 🔹 검색어가 있을 경우만 "상품 검색 결과" 모드
+        model.addAttribute("category2Name", "식품 선물세트");
 
         return "product/prodList";
     }
