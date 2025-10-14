@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.kmarket.mapper.QnaMapper">
+
+    <select id="findById" resultType="kr.co.kmarket.dto.QnaDTO">
+        SELECT *
+        FROM QNA
+        WHERE ID = #{id}
+    </select>
+
+    <select id="findTypeAll" resultType="kr.co.kmarket.dto.QnaDTO">
+        SELECT *
+        FROM QNA
+        WHERE TYPE1 = #{type1}
+        ORDER BY ID DESC
+        OFFSET #{pageRequestDTO.offset} ROWS
+        FETCH NEXT #{pageRequestDTO.size} ROWS ONLY
+    </select>
+
+    <select id="findAll" resultType="kr.co.kmarket.dto.QnaDTO">
+        SELECT *
+        FROM QNA
+        ORDER BY ID DESC
+        OFFSET #{pageRequestDTO.offset} ROWS
+        FETCH NEXT #{pageRequestDTO.size} ROWS ONLY
+    </select>
+    <select id="selectCountTotal" resultType="int">
+        SELECT COUNT(*) FROM QNA
+    </select>
+
+    <insert id="insert">
+        INSERT INTO QNA(TYPE1, TYPE2,TITLE, QUEST, USER_ID, REG_DATE, STATUS)
+        VALUES (#{type1}, #{type2}, #{title}, #{quest}, #{user_id}, #{reg_date}, #{status})
+    </insert>
+</mapper>
