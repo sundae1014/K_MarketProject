@@ -18,71 +18,23 @@
             <div class="blog-section">
 
                 <div class="blog-cateLink">
-                    <button data-cate="all" class="active">전체</button>
-                    <button data-cate="culture">기업문화</button>
-                    <button data-cate="interview">인터뷰</button>
-                    <button data-cate="recruit">채용</button>
-                    <button data-cate="news">보도자료</button>
-                    <button data-cate="esg">ESG</button>
+                    <button data-cate="0" class="active">전체</button>
+                    <button data-cate="1">기업문화</button>
+                    <button data-cate="2">인터뷰</button>
+                    <button data-cate="3">채용</button>
+                    <button data-cate="4">보도자료</button>
+                    <button data-cate="5">ESG</button>
                 </div>
 
                 <div class="blog-item">
-                    <div class="blog-post" data-cate="culture">
+                    <div th:each="story : ${storyItems}" class="blog-post" th:data-cate="${story.cate}">
                         <div class="blog-card">
-                            <a th:href="@{/company/story/detail(id=${1})}">
-                            <img th:src="@{/images/company/detail1.PNG}" alt="기업문화 이미지">
-                            <div class="card-content">
-                                <h3>직원 이야기: 개발팀 하루</h3>
-                                <p>큐팡 개발팀의 하루를 소개합니다. 어떤 과정을 거쳐 서비스를 개선하는지 생생하게 볼 수 있습니다.</p>
-                            </div>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="blog-post" data-cate="interview">
-                        <div class="blog-card">
-                            <a th:href="@{/company/story/detail(id=${2})}">
-                            <img th:src="@{/images/company/detail2.PNG}" alt="인터뷰 이미지">
-                            <div class="card-content">
-                                <h3>신입 개발자 인터뷰</h3>
-                                <p>큐팡 신입 개발자가 입사 후 경험한 실제 프로젝트 이야기와 성장 과정 인터뷰.</p>
-                            </div>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="blog-post" data-cate="recruit">
-                        <div class="blog-card">
-                            <a th:href="@{/company/story/detail(id=${3})}">
-                            <img th:src="@{/images/company/detail3.PNG}" alt="채용 이미지">
-                            <div class="card-content">
-                                <h3>채용 공고: 2025 상반기</h3>
-                                <p>큐팡에서 진행하는 상반기 채용 정보를 확인하고 지원 방법을 안내합니다.</p>
-                            </div>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="blog-post" data-cate="news">
-                        <div class="blog-card">
-                            <a th:href="@{/company/story/detail(id=${4})}">
-                            <img th:src="@{/images/company/detail4.PNG}" alt="보도자료 이미지">
-                            <div class="card-content">
-                                <h3>큐팡, 새로운 물류 센터 오픈</h3>
-                                <p>큐팡의 최신 물류 센터 오픈 소식을 전하고, 서비스 향상을 위한 계획을 소개합니다.</p>
-                            </div>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="blog-post" data-cate="esg">
-                        <div class="blog-card">
-                            <a th:href="@{/company/story/detail(id=${5})}">
-                            <img th:src="@{/images/company/detail5.PNG}" alt="ESG 이미지">
-                            <div class="card-content">
-                                <h3>큐팡 ESG 활동 소개</h3>
-                                <p>환경과 사회, 거버넌스를 고려한 큐팡의 지속가능한 활동과 프로젝트를 공유합니다.</p>
-                            </div>
+                            <a th:href="@{/company/story/detail(story_no=${story.story_no})}">
+                                <img th:src="@{${story.img_path}}" alt="소식과 이야기 이미지">
+                                <div class="card-content">
+                                    <h3 th:text="${story.title}"></h3>
+                                    <p th:text="${story.subtitle}"></p>
+                                </div>
                             </a>
                         </div>
                     </div>
