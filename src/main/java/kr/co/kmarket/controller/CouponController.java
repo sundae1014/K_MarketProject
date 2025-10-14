@@ -1,4 +1,4 @@
-package kr.co.kmarket.controller;
+/*package kr.co.kmarket.controller;
 
 import java.util.List;
 
@@ -45,3 +45,4 @@ public class CouponController {
         return couponService.addCoupon(coupon); // save()는 PK 있으면 update, 없으면 insert
     }
 }
+*/
