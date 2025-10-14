@@ -2,6 +2,7 @@ package kr.co.kmarket.mapper;
 
 import kr.co.kmarket.dto.MemberDTO;
 import kr.co.kmarket.dto.OrderDTO;
+import kr.co.kmarket.dto.ProductReviewDTO;
 import kr.co.kmarket.dto.QnaDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -25,4 +26,20 @@ public interface MyMapper {
 
     public int selectMaxQnaId();
 
+    // 주문 상태(stat)를 조회
+    public OrderDTO selectOrderStat1(@Param("orderNumber") int orderNumber,
+                                    @Param("custNumber") int custNumber);
+
+    // 구매 확정 상태를 업데이트
+    public int updateOrderConfirmation(@Param("orderNumber") int orderNumber,
+                                       @Param("custNumber") int custNumber);
+
+    public int updateOrderCancel(@Param("orderNumber") int orderNumber,
+                                 @Param("custNumber") int custNumber);
+
+    public int insertReview(ProductReviewDTO reviewDTO);
+
+    public Integer selectOrderStat(@Param("orderNumber") int orderNumber,
+                                   @Param("prodNo") int prodNo,
+                                   @Param("custNumber") int custNumber);
 }

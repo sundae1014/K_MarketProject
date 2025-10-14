@@ -52,3 +52,7 @@ spring:
       name: user
       password: 1234
       roles: ADMIN
+
+file:
+  upload:
+    path: C:/Kmarket/uploads/

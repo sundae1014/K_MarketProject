@@ -1,36 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Mypage Main</title>
-    <link rel="stylesheet" th:href="@{/css/my/main.css}">
-    <link rel="stylesheet" th:href="@{/css/main/style_header.css}">
-</head>
-<body>
-    <main>
-        <div th:replace="~{/my/_header :: headerFragment}"></div>
-        <div class="content-wraper">
-            <div class="top-info">
-                <div class="info-title">
-                    <span><a th:href="@{/my/home}">나의쇼핑정보</a></span>
-                </div>
-                <div class="status">
-                    <table>
-                        <tr>
-                            <th>주문</th>
-                            <th>쿠폰</th>
-                            <th>포인트</th>
-                            <th>문의</th>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>1</td>
-                            <td>1,000</td>
-                            <td>1</td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
+<div th:replace="~{my/_header.html}"></div>
             <div class="main-container">
                 <div class="side-menu">
                     <div class="menu-list">

@@ -4,16 +4,20 @@ package kr.co.kmarket.controller;
 import jakarta.servlet.http.HttpSession;
 import kr.co.kmarket.dto.MemberDTO;
 import kr.co.kmarket.dto.OrderDTO;
+import kr.co.kmarket.dto.ProductReviewDTO;
 import kr.co.kmarket.dto.QnaDTO;
 import kr.co.kmarket.service.MyService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*; // ⬅️ @RestController 사용
+import org.springframework.web.multipart.MultipartFile;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -126,6 +130,129 @@ public class MyRestController {
 
         resultMap.put("success", true);
         resultMap.put("message", "문의가 성공적으로 등록되었습니다.");
+
+        return resultMap;
+    }
+
+    @PostMapping("/confirmPurchase")
+    public Map<String, Object> confirmPurchase(@RequestParam("orderNumber") int orderNumber,
+                                               HttpSession session) {
+
+        Map<String, Object> resultMap = new HashMap<>();
+
+        // 1. 고객 번호(cust_number)를 세션에서 가져와 보안 검증
+        // 🚨 세션에 저장된 키가 "cust_number"라고 가정합니다.
+        Object custNumberObj = session.getAttribute("cust_number");
+
+        if (custNumberObj == null) {
+            resultMap.put("success", false);
+            resultMap.put("message", "로그인이 필요합니다.");
+            return resultMap;
+        }
+        // Integer로 캐스팅
+        int custNumber = (Integer) custNumberObj;
+
+        try {
+            // 2. Service의 검증 및 업데이트 로직 호출
+            int result = myService.updateOrderConfirmation(orderNumber, custNumber);
+
+            if (result > 0) {
+                // 성공: Service에서 DB 업데이트가 성공한 경우
+                resultMap.put("success", true);
+                resultMap.put("message", "구매가 확정되었습니다.");
+            } else {
+                // 실패: Service에서 stat!=5 일 때 return 0을 보낸 경우
+                resultMap.put("success", false);
+                resultMap.put("message", "구매 확정은 배송완료 상태에서만 가능합니다.");
+            }
+        } catch (Exception e) {
+            log.error("구매 확정 처리 중 오류 발생 - Order: {}, Cust: {}", orderNumber, custNumber, e);
+            resultMap.put("success", false);
+            resultMap.put("message", "시스템 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+        }
+
+        return resultMap;
+    }
+
+    @PostMapping("/cancelOrder")
+    public Map<String, Object> cancelOrder(@RequestParam("orderNumber") int orderNumber,
+                                           HttpSession session) {
+
+        Map<String, Object> resultMap = new HashMap<>();
+        Object custNumberObj = session.getAttribute("cust_number");
+
+        if (custNumberObj == null) {
+            resultMap.put("success", false);
+            resultMap.put("message", "로그인이 필요합니다.");
+            return resultMap;
+        }
+        int custNumber = (Integer) custNumberObj;
+
+        try {
+            // MyService에 주문 취소 로직을 호출합니다. (STAT을 9로 업데이트)
+            int result = myService.updateOrderCancel(orderNumber, custNumber);
+
+            if (result > 0) {
+                resultMap.put("success", true);
+                resultMap.put("message", "주문이 취소되었습니다.");
+            } else {
+                resultMap.put("success", false);
+                // 1 또는 2가 아닌 상태에서 취소를 시도했을 경우 등
+                resultMap.put("message", "취소 가능한 주문 상태가 아닙니다.");
+            }
+        } catch (Exception e) {
+            log.error("주문 취소 처리 중 오류 발생 - Order: {}, Cust: {}", orderNumber, custNumber, e);
+            resultMap.put("success", false);
+            resultMap.put("message", "시스템 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+        }
+
+        return resultMap;
+    }
+
+    @PostMapping("/registerReview")
+    public Map<String, Object> registerReview(
+            @RequestParam("orderNumber") int orderNumber,
+            @RequestParam("prodNo") int prodNo,
+            @RequestParam("rating") int rating,
+            @RequestParam("reviewContent") String reviewContent,
+            @RequestParam(name="images", required=false) List<MultipartFile> images,
+            HttpSession session) {
+
+        Map<String, Object> resultMap = new HashMap<>();
+        Object custNumberObj = session.getAttribute("cust_number");
+
+        if (custNumberObj == null) {
+            resultMap.put("success", false);
+            resultMap.put("message", "로그인이 필요합니다.");
+            return resultMap;
+        }
+        int cust_number = (Integer) custNumberObj;
+
+        try {
+            ProductReviewDTO reviewDTO = ProductReviewDTO.builder()
+                    .orderNumber(orderNumber)
+                    .prod_number(prodNo)
+                    .cust_number(cust_number)
+                    .rating(rating)
+                    .content(reviewContent)
+                    .build();
+
+            myService.registerReview(reviewDTO, images);
+
+            resultMap.put("success", true);
+            resultMap.put("message", "상품평이 성공적으로 등록되었습니다.");
+
+            // 🚨 [추가]: 구매 확정 조건 미달 시 오류 처리 (STAT != 8)
+        } catch (IllegalStateException e) {
+            log.warn("리뷰 작성 권한 오류 발생: {}", e.getMessage());
+            resultMap.put("success", false);
+            resultMap.put("message", e.getMessage());
+
+        } catch (Exception e) {
+            log.error("상품평 등록 처리 중 시스템 오류 발생 - Cust: {}", cust_number, e);
+            resultMap.put("success", false);
+            resultMap.put("message", "시스템 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+        }
 
         return resultMap;
     }

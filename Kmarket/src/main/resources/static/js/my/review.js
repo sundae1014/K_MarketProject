@@ -46,28 +46,14 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-
-// 파일 업로드 타입 선택
-    function selectFileType(type) {
-        currentUploadType = type;
-
-        // 버튼 스타일 업데이트
-        document.querySelectorAll('.file-upload-btn').forEach(btn => {
-            btn.classList.remove('selected');
-        });
-        event.target.classList.add('selected');
-
-        // 파일 선택 창 열기
-        document.getElementById('fileInput').click();
-    }
-
 // 파일 업로드 처리
     function handleFileUpload(event) {
         const files = Array.from(event.target.files);
 
         files.forEach(file => {
-            if (uploadedFiles.length >= 5) {
-                alert('최대 5장까지 업로드 가능합니다.');
+            // 🚨 [수정]: 최대 5장 -> 최대 3장으로 변경
+            if (uploadedFiles.length >= 3) {
+                alert('최대 3장까지 업로드 가능합니다.');
                 return;
             }
 
@@ -78,7 +64,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
             const fileObj = {
                 file: file,
-                type: currentUploadType,
                 id: Date.now() + Math.random()
             };
 
@@ -133,36 +118,48 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        // 내용 가져오기
+        // 🚨 [추가]: Hidden Field에서 주문 및 상품 번호 가져오기
+        const orderNumber = document.getElementById('reviewOrderNumber').value;
+        const prodNo = document.getElementById('reviewProdNo').value;
         const content = this.reviewContent.value.trim();
 
         // 폼 데이터 수집
         const formData = new FormData();
+        // 🚨 [추가]: orderNumber, prodNo 추가 (서버 Controller에서 받음)
+        formData.append('orderNumber', orderNumber);
+        formData.append('prodNo', prodNo);
         formData.append('rating', currentRating);
         formData.append('reviewContent', content);
 
         // 파일 추가
         uploadedFiles.forEach((fileObj, index) => {
+            // 🚨 [수정]: imageTypes 필드는 제거하고, files만 추가합니다.
             formData.append(`images`, fileObj.file);
-            formData.append(`imageTypes`, fileObj.type);
+            // formData.append(`imageTypes`, fileObj.type); // 삭제
         });
 
-        // 여기서 실제 서버로 데이터 전송
-        console.log('리뷰 데이터:', {
-            rating: currentRating,
-            content: content,
-            fileCount: uploadedFiles.length
+        // 🚨 [추가]: AJAX 요청으로 서버에 전송
+        $.ajax({
+            url: '/kmarket/my/registerReview',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+
+            success: function(response) {
+                const modal = bootstrap.Modal.getInstance(document.getElementById('reviewModal'));
+                if(response.success) {
+                    alert("상품평이 등록되었습니다. 감사합니다.");
+                    modal.hide();
+                    location.reload(); // 등록 후 페이지 새로고침
+                } else {
+                    alert("상품평 등록 실패: " + (response.message || "처리 중 오류가 발생했습니다."));
+                }
+            },
+            error: function() {
+                alert("상품평 등록 중 통신 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.");
+            }
         });
-
-        // 성공 메시지 표시
-        alert(`상품평이 등록되었습니다!\n\n별점: ${currentRating}점\n내용: ${content.substring(0, 30)}...\n첨부 이미지: ${uploadedFiles.length}장`);
-
-        // 모달 닫기
-        const modal = bootstrap.Modal.getInstance(document.getElementById('reviewModal'));
-        modal.hide();
-
-        // 폼 초기화
-        resetForm();
     });
 
 // 폼 유효성 검사 함수
@@ -238,8 +235,22 @@ document.addEventListener('DOMContentLoaded', function() {
         counter.classList.remove('over-limit', 'under-limit', 'valid');
     }
 
-// 모달이 닫힐 때 폼 초기화
-    document.getElementById('reviewModal').addEventListener('hidden.bs.modal', function () {
+// 모달이 열릴 때 주문 정보를 Hidden Input에 설정하는 로직
+    const reviewModal = document.getElementById('reviewModal');
+    reviewModal.addEventListener('show.bs.modal', function (event) {
+        const button = event.relatedTarget;
+        const orderNumber = button.getAttribute('data-order-number');
+        const prodNo = button.getAttribute('data-prod-no');
+        const prodName = button.getAttribute('data-prod-name');
+
+        document.getElementById('reviewOrderNumber').value = orderNumber;
+        document.getElementById('reviewProdNo').value = prodNo;
+        document.getElementById('reviewProductName').textContent = prodName;
+
         resetForm();
     });
+
+    window.handleFileUpload = handleFileUpload;
+    window.removeFile = removeFile;
+
 })
