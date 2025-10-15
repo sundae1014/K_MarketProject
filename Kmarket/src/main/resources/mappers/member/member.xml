@@ -52,6 +52,10 @@
         SELECT custid, name, email, "Date" FROM member WHERE name = #{name} AND email = #{email}
     </select>
 
+    <select id="findCustIdInfoHp" resultType="kr.co.kmarket.dto.MemberDTO">
+        SELECT custid, name, hp, "Date" FROM member WHERE name = #{name} AND hp = #{hp}
+    </select>
+
     <update id="updatePw">
         UPDATE member SET pw = #{pw} WHERE custid = #{custid}
     </update>
