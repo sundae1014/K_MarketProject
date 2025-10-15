@@ -4,6 +4,6 @@ import kr.co.kmarket.dto.OrderDTO;
 
 public interface OrderService {
 
-    void insertOrder(OrderDTO order);
+    void insertOrder(OrderDTO orderDTO);
 
 }

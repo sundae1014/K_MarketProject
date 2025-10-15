@@ -21,19 +21,20 @@
             BARGUP
         ) VALUES (
                      COUPON_SEQ.NEXTVAL,
-                     #{coupon_type},
-                     #{coupon_name},
-                     #{benefit},
-                     #{use_period},
-                     #{issuer},
-                     #{issue_date},
-                     #{use_count},
-                     #{status},
-                     #{manage},
-                     #{sayoung},
-                     #{bargup}
+                     #{couponType, jdbcType=INTEGER},
+                     #{couponName, jdbcType=VARCHAR},
+                     #{benefit, jdbcType=VARCHAR},
+                     #{usePeriod, jdbcType=VARCHAR},
+                     #{issuer, jdbcType=VARCHAR},
+                     #{issueDate, jdbcType=DATE},
+                     #{useCount, jdbcType=INTEGER},
+                     #{status, jdbcType=VARCHAR},
+                     #{manage, jdbcType=VARCHAR},
+                     #{sayoung, jdbcType=INTEGER},
+                     #{bargup, jdbcType=INTEGER}
                  )
     </insert>
+
 
     <!-- 쿠폰 목록 -->
     <select id="selectCoupons" resultType="kr.co.kmarket.dto.CouponDTO">

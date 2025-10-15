@@ -547,7 +547,17 @@ html, body {
                         <th>발급처</th><td><input type="text" id="newIssuer" placeholder="발급처 입력"></td>
                     </tr>
                     <tr>
-                        <th>쿠폰종류</th><td><input type="text" id="newType" placeholder="쿠폰종류 입력"></td>
+                        <th>쿠폰종류</th>
+                        <td>
+                            <select id="newType">
+                                <option value="">쿠폰종류 선택</option>
+                                <option value="개별상품 할인">개별상품 할인</option>
+                                <option value="주문금액 할인">주문금액 할인</option>
+                                <option value="배송비 무료">배송비 무료</option>
+                                <option value="회원등급 전용">회원등급 전용</option>
+                                <option value="첫구매 전용">첫구매 전용</option>
+                            </select>
+                        </td>
                     </tr>
                     <tr>
                         <th>혜택</th>
@@ -566,9 +576,12 @@ html, body {
                         </td>
                     </tr>
                     <tr>
-                        <th>사용기간</th><td><input type="text" id="newPeriod" placeholder="YYYY-MM-DD ~ YYYY-MM-DD"></td>
+                        <th>사용기간</th>
+                        <td>
+                            <input type="date" id="startDate"> ~
+                            <input type="date" id="endDate">
+                        </td>
                     </tr>
-                    <tr>
                         <th>유의사항</th><td><textarea id="newNote" placeholder="유의사항 입력" rows="3" style="width:100%;"></textarea></td>
                     </tr>
                 </table>
@@ -604,14 +617,16 @@ html, body {
 
     function registerCoupon() {
         const selectedBenefit = document.querySelector('input[name="benefit"]:checked');
+        const startDate = document.getElementById('startDate');
+        const endDate = document.getElementById('endDate');
 
         const data = {
             issuer: document.getElementById('newIssuer').value,
-            coupon_type: document.getElementById('newType').value,
-            benefit: selectedBenefit ? selectedBenefit.value : '', // 선택 안 되어 있으면 빈 문자열
-            use_period: document.getElementById('newPeriod').value,
+            couponType: document.getElementById('newType').value,
+            benefit: selectedBenefit ? selectedBenefit.value : '',
+            usePeriod: (startDate && endDate) ? `${startDate.value} ~ ${endDate.value}` : '',
             manage: document.getElementById('newNote').value,
-            coupon_name: '자동등록쿠폰'
+            couponName: '자동등록쿠폰'
         };
 
         fetch(`${contextPath}/admin/coupon/register`, {
@@ -621,8 +636,9 @@ html, body {
         })
             .then(res => res.text())
             .then(result => {
-                if(result === 'success'){
+                if (result === 'success') {
                     alert('등록 성공!');
+                    closeRegister();
                     location.reload();
                 } else {
                     alert('등록 실패!');

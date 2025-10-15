@@ -13,6 +13,8 @@
                 <button type="button" id="hpBtn">휴대폰 인증</button>
             </div>
 
+            <input type="hidden" name="authMethod" id="authMethod" value="1">
+
             <form th:action="@{/member/find/userId}" method="post">
             <table class="auth-table" id="authEmailTable">
                 <tr>
@@ -45,7 +47,7 @@
                     <th>휴대폰</th>
                     <td>
                         <div class="input-row">
-                            <input type="text" name="hp">
+                            <input type="text" name="hp" placeholder="- 포함 12자리 입력">
                             <button type="button" id="hp-auth-send">인증번호 전송</button>
                         </div>
                         <div class="input-row">
