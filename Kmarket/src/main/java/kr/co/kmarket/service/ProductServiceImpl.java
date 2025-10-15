@@ -50,7 +50,11 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductReviewDTO> selectProductReviews(int prod_number) {
-        return mapper.selectProductReviews(prod_number);
+        List<ProductReviewDTO> list = mapper.selectProductReviews(prod_number);
+        for (ProductReviewDTO r : list) {
+            System.out.println("리뷰 이미지 경로 확인 >>> " + r.getR_img1());
+        }
+        return list;
     }
 
     @Override
@@ -73,4 +77,11 @@ public class ProductServiceImpl implements ProductService {
         return mapper.selectPagedReviews(prod_number, offset, pageSize);
     }
 
+    // 메인 - 테마별 상품 조회
+    @Override public List<ProductDTO> selectHitProducts(){ return mapper.selectHitProducts(); }
+    @Override public List<ProductDTO> selectRecommendProducts(){ return mapper.selectRecommendProducts(); }
+    @Override public List<ProductDTO> selectNewProducts(){ return mapper.selectNewProducts(); }
+    @Override public List<ProductDTO> selectPopularProducts(){ return mapper.selectPopularProducts(); }
+    @Override public List<ProductDTO> selectDiscountProducts(){ return mapper.selectDiscountProducts(); }
+    @Override public List<ProductDTO> selectBestProducts(){ return mapper.selectBestProducts(); }
 }

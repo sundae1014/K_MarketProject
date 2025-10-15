@@ -20,7 +20,6 @@ public interface ProductMapper {
 
     // 총 상품 개수 조회
     int countProducts(SearchDTO searchDTO);
-
     ProductDTO selectProductByNo(int prodNo);
 
     ProductNoticeDTO selectProductNoticeByNo(int prodNo);
@@ -33,9 +32,15 @@ public interface ProductMapper {
 
     // 평균 리뷰 점수
     double selectAvgRating(int prod_number);
-
     int countProductReviews(int prod_number);
-
     List<ProductReviewDTO> selectPagedReviews(int prod_number, int offset, int pageSize);
+
+    // 메인 - 테마별 상품 조회
+    List<ProductDTO> selectHitProducts();
+    List<ProductDTO> selectRecommendProducts();
+    List<ProductDTO> selectNewProducts();
+    List<ProductDTO> selectPopularProducts();
+    List<ProductDTO> selectDiscountProducts();
+    List<ProductDTO> selectBestProducts();
 
 }
