@@ -4,7 +4,24 @@
 
 <mapper namespace="kr.co.kmarket.mapper.admin.CouponMapper">
 
-    <!-- 쿠폰 등록 -->
+    <!-- ✅ 컬럼 ↔ DTO 필드 매핑 -->
+    <resultMap id="couponMap" type="kr.co.kmarket.dto.CouponDTO">
+        <result column="COUPON_NO" property="couponNo"/>
+        <result column="COUPON_TYPE" property="couponType"/>
+        <result column="COUPON_NAME" property="couponName"/>
+        <result column="BENEFIT" property="benefit"/>
+        <result column="USE_PERIOD" property="usePeriod"/>
+        <result column="ISSUER" property="issuer"/>
+        <result column="ISSUE_DATE" property="issueDate"/>
+        <result column="USE_COUNT" property="useCount"/>
+        <result column="STATUS" property="status"/>
+        <result column="MANAGE" property="manage"/>
+        <result column="SAYOUNG" property="sayoung"/>
+        <result column="BARGUP" property="bargup"/>
+    </resultMap>
+
+
+    <!-- ✅ 쿠폰 등록 -->
     <insert id="insertCoupon" parameterType="kr.co.kmarket.dto.CouponDTO">
         INSERT INTO COUPON (
             COUPON_NO,
@@ -36,21 +53,21 @@
     </insert>
 
 
-    <!-- 쿠폰 목록 -->
-    <select id="selectCoupons" resultType="kr.co.kmarket.dto.CouponDTO">
+    <!-- ✅ 쿠폰 목록 -->
+    <select id="selectCoupons" resultMap="couponMap">
         SELECT
-            COUPON_NO AS coupon_no,
-            COUPON_TYPE AS coupon_type,
-            COUPON_NAME AS coupon_name,
-            BENEFIT AS benefit,
-            USE_PERIOD AS use_period,
-            ISSUER AS issuer,
-            ISSUE_DATE AS issue_date,
-            USE_COUNT AS use_count,
-            STATUS AS status,
-            MANAGE AS manage,
-            SAYOUNG AS sayoung,
-            BARGUP AS bargup
+            COUPON_NO,
+            COUPON_TYPE,
+            COUPON_NAME,
+            BENEFIT,
+            USE_PERIOD,
+            ISSUER,
+            ISSUE_DATE,
+            USE_COUNT,
+            STATUS,
+            MANAGE,
+            SAYOUNG,
+            BARGUP
         FROM COUPON
         ORDER BY COUPON_NO DESC
     </select>
