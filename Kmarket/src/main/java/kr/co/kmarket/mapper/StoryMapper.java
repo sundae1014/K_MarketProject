@@ -11,4 +11,7 @@ public interface StoryMapper {
     List<StoryDTO> selectCardData();
 
     StoryDTO selectById(int story_no);
+
+    List<StoryDTO> selectRecent();
+
 }
