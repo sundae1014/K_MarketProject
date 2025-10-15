@@ -1,0 +1,42 @@
+<div th:replace="~{member/_head.html}"></div>
+<script th:src="@{/js/member/msgBox.js}" defer></script>
+    <main>
+        <div class="board">
+            <div class="boardUpper">
+                <h2 class="boardText">아이디 찾기 결과</h2>
+            </div>
+
+            <div th:if="${msg}" th:data-msg="${msg}" id="msgBox"></div>
+
+            <table class="auth-table" id="authEmailTable" th:if="${findIdInfo != null}">
+                <tr>
+                    <th>이름</th>
+                    <td>[[${findIdInfo.name}]]</td>
+                </tr>
+                <tr>
+                    <th>아이디</th>
+                    <td>[[${findIdInfo.custid}]]</td>
+                </tr>
+                <tr>
+                    <th>이메일</th>
+                    <td>[[${findIdInfo.email}]]</td>
+                </tr>
+                <tr>
+                    <th>가입일</th>
+                    <td>[[${findIdInfo.Date}]]</td>
+                </tr>
+            </table>
+
+
+            
+            <h2 class="auth-mt" th:if="${findIdInfo != null}">고객님의 정보와 일치하는 아이디 입니다.</h2>
+                
+            <div class="pre-or-next">
+                <a th:href="@{/member/login}" class="pre btn">로그인</a>
+                <a th:href="@{/member/find/password}" class="next btn">비밀번호 찾기</a>
+            </div>
+        
+        </div>
+    </main>
+
+    <div th:replace="~{member/_tail.html}"></div>

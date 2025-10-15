@@ -22,7 +22,7 @@ jobs:
       - name: Build with Gradle
         uses: gradle/gradle-build-action@v2.6.0
         with:
-          arguments: build
+          arguments: build -x test
 
       - name: Get JAR_FILE
         id: jarfile

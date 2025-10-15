@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.kmarket.mapper.admin.RecruitMapper">
+
+    <sql id="searchWhere">
+        <where>
+            <if test="searchType != null and keyword != null and keyword != ''">
+                <choose>
+                    <when test="searchType == 'hire_no'">
+                        AND a.rn = #{keyword}
+                    </when>
+                    <when test="searchType == 'department'">
+                        AND a.department LIKE '%' || #{keyword} || '%'
+                    </when>
+                    <when test="searchType == 'hire_type'">
+                        AND a.hire_type LIKE '%' || #{keyword} || '%'
+                    </when>
+                    <when test="searchType == 'title'">
+                        AND a.title LIKE '%' || #{keyword} || '%'
+                    </when>
+                </choose>
+            </if>
+        </where>
+    </sql>
+
+    <select id="selectAllHireList" resultType="kr.co.kmarket.dto.HireDTO">
+        SELECT *
+        FROM HIRE
+        ORDER BY create_date
+    </select>
+
+    <select id="selectSearch" resultType="kr.co.kmarket.dto.HireDTO">
+        SELECT *
+        FROM (
+        SELECT
+        hire_no,
+        department,
+        experience,
+        hire_type,
+        title,
+        author,
+        status,
+        create_date,
+        recruit_period_start,
+        recruit_period_end,
+        content,
+        ROW_NUMBER() OVER (ORDER BY create_date DESC) AS rn
+        FROM hire
+        ) a
+        <include refid="searchWhere"/>
+        order by create_date
+    </select>
+
+    <select id="selectHireNo" parameterType="int" resultType="kr.co.kmarket.dto.HireDTO">
+        select * from hire
+        where hire_no = #{hire_no}
+    </select>
+
+    <delete id="deleteAllByHireNo" parameterType="java.util.List">
+        delete from hire where hire_no in
+        <foreach item="hire_no" collection="list" open="(" separator="," close=")">
+            #{hire_no}
+        </foreach>
+    </delete>
+    <insert id="insertHire" parameterType="kr.co.kmarket.dto.HireDTO">
+        insert into hire (hire_no, department, experience, hire_type, title, author, status,
+        recruit_period_start, recruit_period_end, create_date, content ) VALUES (
+        HIRE_SEQ.NEXTVAL,
+        #{department,jdbcType=VARCHAR},
+        #{experience,jdbcType=VARCHAR},
+        #{hire_type,jdbcType=VARCHAR},
+        #{title},
+        #{author},
+        #{status},
+        #{recruit_period_start, jdbcType=VARCHAR},
+        #{recruit_period_end, jdbcType=VARCHAR},
+        SYSDATE,
+        #{content, jdbcType=VARCHAR}
+        )
+    </insert>
+    <update id="updateExpiredHires">
+        UPDATE hire
+        SET status = '종료'
+        WHERE recruit_period_end &lt; SYSDATE
+        AND status != '종료'
+    </update>
+
+    <select id="selectHireListPage" resultType="kr.co.kmarket.dto.HireDTO">
+        SELECT *
+        FROM (
+        SELECT hire_no, department, experience, hire_type, title, author,
+        status, create_date, recruit_period_start, recruit_period_end,
+        content,
+        ROW_NUMBER() OVER (ORDER BY hire_no ASC) AS rn
+        FROM hire
+        ) a
+        WHERE a.rn BETWEEN #{offset}+1 AND #{offset}+#{size}
+        ORDER BY a.rn ASC
+    </select>
+
+    <select id="countHires" resultType="int">
+        SELECT COUNT(*) FROM hire
+    </select>
+
+    <select id="selectSearchPage" resultType="kr.co.kmarket.dto.HireDTO">
+        SELECT *
+        FROM (
+        SELECT hire_no, department, experience, hire_type, title, author, status,
+        create_date, recruit_period_start, recruit_period_end, content,
+        ROW_NUMBER() OVER (ORDER BY hire_no ASC) AS rn
+        FROM hire
+        <where>
+            <if test="searchType != null and keyword != null and keyword != ''">
+                <choose>
+                    <when test="searchType == 'hire_no'">
+                        TO_CHAR(hire_no) LIKE '%' || #{keyword} || '%'
+                    </when>
+                    <when test="searchType == 'department'">
+                        department LIKE '%' || #{keyword} || '%'
+                    </when>
+                    <when test="searchType == 'hire_type'">
+                        hire_type LIKE '%' || #{keyword} || '%'
+                    </when>
+                    <when test="searchType == 'title'">
+                        title LIKE '%' || #{keyword} || '%'
+                    </when>
+                </choose>
+            </if>
+        </where>
+        ) a
+        WHERE a.rn BETWEEN #{offset} + 1 AND #{offset} + #{size}
+    </select>
+
+    <select id="countSearchHires" resultType="int">
+        SELECT COUNT(*)
+        FROM hire
+        <where>
+            <if test="searchType != null and keyword != null and keyword != ''">
+                <choose>
+                    <when test="searchType == 'hire_no'">
+                        hire_no = #{keyword}
+                    </when>
+                    <when test="searchType == 'department'">
+                        department LIKE '%' || #{keyword} || '%'
+                    </when>
+                    <when test="searchType == 'hire_type'">
+                        hire_type LIKE '%' || #{keyword} || '%'
+                    </when>
+                    <when test="searchType == 'title'">
+                        title LIKE '%' || #{keyword} || '%'
+                    </when>
+                </choose>
+            </if>
+        </where>
+    </select>
+
+</mapper>

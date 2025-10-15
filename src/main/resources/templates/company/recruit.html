@@ -1,0 +1,85 @@
+<div th:replace="~{company/_head.html}"></div>
+
+    <main>
+
+        <a href="#" class="scroll-down">
+            <div class="scroll">
+                <span class="scroll-dot"></span>
+            </div>
+            <div class="arrow-down"></div>
+        </a>
+
+        <div class="board">
+            
+            <div class="highlight">
+                큐팡과 함께 성장할 당신을 기다립니다.
+            </div>
+
+            <div class="subtext">
+                <p>큐팡과 함께 혁신적인 아이디어를 실현하며 성장할 당신을 기다립니다.</p>
+                <p>열린 소통과 협력을 통해 다양한 도전을 경험하고, 역량을 마음껏 발휘하세요.</p>
+                <p>즐거움과 배움이 공존하는 환경에서, 함께 더 나은 내일을 만들어갑니다.</p>
+            </div>
+
+            <table class="recruit-table">                        
+                <tr>
+                    <th class="col-num">번호</th>
+                    <th class="col-dept">채용부서</th>
+                    <th class="col-career">경력사항</th>
+                    <th class="col-type">채용형태</th>
+                    <th class="col-title">제목</th>
+                    <th class="col-status">상태</th>
+                    <th class="col-period">모집기간</th>
+                </tr>
+                <tr th:each="hire, iterStat : ${RecruitPage.dtoList}"
+                    th:onclick="'location.href=\'/kmarket/company/recruit/detail?hire_no=' + ${hire.hire_no} + '\''"
+                    class="clickable-row">
+                    <td class="col-num">[[${(RecruitPage.pg - 1) * RecruitPage.size + iterStat.index + 1}]]</td>
+                    <td class="col-dept">[[${hire.department}]]</td>
+                    <td class="col-career">[[${hire.experience}]]</td>
+                    <td class="col-type">[[${hire.hire_type}]]</td>
+                    <td class="col-title">[[${hire.title}]]</td>
+                    <td class="col-status" th:classappend="${hire.status} == '모집중' ? ' status-open' : ' status-closed'">[[${hire.status}]]</td>
+                    <td class="col-period">[[${hire.recruit_period_start}]] ~ [[${hire.recruit_period_end}]]</td>
+                </tr>
+
+            </table>
+
+            <div class="page">
+                <div class="prev">
+                    <a th:href="@{/company/recruit(pg=1)}"
+                       th:classappend="${RecruitPage.pg == 1} ? ' disabled' : ''">
+                        <img th:src="@{/images/company/btn-first-page.png}">
+                    </a>
+
+                    <a th:href="@{/company/recruit(pg=${RecruitPage.pg - 1})}"
+                       th:classappend="${RecruitPage.pg == 1} ? ' disabled' : ''">
+                        <img th:src="@{/images/company/btn-prev-page.png}">
+                    </a>
+                </div>
+
+                <div class="pagenumber">
+                    <a th:each="i : ${#numbers.sequence(RecruitPage.start, RecruitPage.end)}"
+                       th:href="@{/company/recruit(pg=${i})}"
+                       th:text="${i}"
+                       th:class="${i == RecruitPage.pg} ? 'active' : ''">
+                    </a>
+                </div>
+
+                <div class="last">
+                    <a th:href="@{/company/recruit(pg=${RecruitPage.pg + 1})}"
+                       th:classappend="${RecruitPage.pg == RecruitPage.end} ? ' disabled' : ''">
+                        <img th:src="@{/images/company/btn-next-page.png}">
+                    </a>
+
+                    <a th:href="@{/company/recruit(pg=${RecruitPage.end})}"
+                       th:classappend="${RecruitPage.pg == RecruitPage.end} ? ' disabled' : ''">
+                        <img th:src="@{/images/company/btn-last-page.png}">
+                    </a>
+                </div>
+            </div>
+        </div>
+
+
+    </main>
+    <div th:replace="~{company/_tail.html}"></div>

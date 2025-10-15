@@ -1,0 +1,152 @@
+* { /* 기본 */
+    margin: 0;
+    box-sizing: border-box;
+}
+.container { /*전체 틀*/
+    display: flex;
+    min-height: 100vh;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* 본문 영역 */
+.content {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.content-header {
+    align-items: flex-start;
+    border-bottom: 2px solid #808080;
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 10px;
+    width:960px;
+}
+
+.top-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-right: 20px;
+}
+
+/* 상품등록 메인*/
+.title_p {
+    background-color: #F2F2F2;
+    padding: 13px;
+}
+#category_box {
+    border-top: 1px solid #A6A6A6;
+    border-bottom: 1px solid #A6A6A6;
+    margin-top: 10px;
+}
+.line_row {
+    align-items: center;
+    border-bottom: 1px solid #A6A6A6;
+    display: flex;
+}
+.line_row_last {
+    align-items: center;
+    display: flex;
+}
+
+.category_option_input {
+    border: 2px solid #BFBFBF;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    width: 35%;
+}
+.menu-item {
+    border-bottom: 2px solid #BFBFBF;
+    position: relative;
+}
+.menu-item:last-child {border-bottom: none;}
+.menu-header {
+    align-items: center;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 20px;
+    transition: background 0.2s;
+}
+.menu-header:hover {background: #f8f9fa;} /*임시 배경색*/
+.menu-header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.arrow {
+    font-size: 12px;
+    transition: transform 0.3s;
+    display: inline-block;
+}
+.arrow.open {
+    transform: rotate(90deg);
+}
+.delete-btn {
+    padding: 4px 12px;
+    background: white;
+    border: 1px solid #ff0000;
+    color: #ff0000;
+    font-size: 12px;
+    cursor: pointer;
+    border-radius: 3px;
+    transition: all 0.2s;
+}
+.delete-btn:hover {
+    background: #ff0000;
+    color: white;
+}
+.submenu {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+.submenu.open {
+    max-height: 500px; /*임시 크기*/
+}
+.submenu-item {
+    padding: 0 0 7px 60px;
+}
+.submenu-item:hover {
+    background: #f8f9fa; /*임시 배경색*/
+}
+.add-item {
+    align-items: center;
+    color: #808080;
+    display: flex;
+    gap: 8px;
+    padding: 12px 20px 12px 45px;
+}
+.add-btn {
+    width: 20px;
+    height: 20px;
+    border: 1px solid #808080;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 16px;
+    color: #808080;
+    background: white;
+    transition: all 0.2s;
+}
+
+.bottom_p {
+    background-color: #FFFFCC;
+    color:#595959;
+    height: 67px;
+    padding: 10px;
+}
+.modify_btn {
+    background-color: #8EB4E3;
+    border: none;
+    color: white;
+    cursor: pointer;
+    height: 37px;
+    margin-top: 10px;
+    width: 96px;
+}
+.modify_btn:hover {background-color: #2a71c9; }

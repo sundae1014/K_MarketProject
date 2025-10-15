@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.kmarket.mapper.admin.VersionMapper">
+
+    <select id="findAll" resultType="kr.co.kmarket.dto.VersionDTO">
+        SELECT *
+        FROM VERSION
+        ORDER BY ID asc
+        OFFSET #{pageRequestDTO.offset} ROWS
+        FETCH NEXT #{pageRequestDTO.size} ROWS ONLY
+    </select>
+    <select id="selectCountTotal" resultType="int">
+        SELECT COUNT(*) FROM VERSION
+    </select>
+
+    <select id="findById" resultType="kr.co.kmarket.dto.VersionDTO">
+        SELECT *
+        FROM VERSION
+        WHERE ID = #{versionId}
+    </select>
+
+    <insert id="insert">
+        INSERT INTO VERSION(VERSION_NO, CONTENT, WRITER, REG_DATE)
+        VALUES(#{version_no}, #{content}, #{writer}, #{reg_date})
+    </insert>
+
+    <delete id="delete" parameterType="list">
+        DELETE FROM VERSION
+        WHERE ID IN
+        <foreach item="id" collection="list" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

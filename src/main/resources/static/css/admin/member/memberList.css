@@ -1,0 +1,263 @@
+* { /* 기본 */
+    margin: 0;
+    box-sizing: border-box;
+}
+.container { /*전체 틀*/
+    display: flex;
+    min-height: 100vh;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* 본문 영역 */
+.content {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.content-header {
+    align-items: flex-start;
+    border-bottom: 2px solid #808080;
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 10px;
+    width:960px;
+}
+
+.top-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-right: 20px;
+}
+
+#search-select {
+    appearance: none;
+    border: 2px solid #BFBFBF;
+    height: 35px;
+    outline: none;
+    padding-left: 10px;
+    width: 95px;
+}
+#search-input {
+    border: 2px solid #BFBFBF;
+    height: 35px;
+    outline: none;
+    padding-left: 10px;
+    width:148px;
+}
+.search-btn {
+    background-color: #BFBFBF;
+    border:none;
+    color:white;
+    height: 35px;
+    width: 62px;
+}
+.search-btn:hover {
+    background-color: #706c6c;
+    cursor: pointer;
+}
+
+.table-container {
+    flex: 1;
+    margin-bottom: 20px;
+}
+
+table {
+    border-collapse: collapse;
+    font-size: 14px;
+    width: 100%;
+}
+th {
+    font-weight: 600;
+    padding: 12px 8px;
+    border-top: 1px solid #A6A6A6;
+    border-bottom: 1px solid #A6A6A6;
+    text-align: center;
+}
+td {
+    padding:15px;
+    text-align: center;
+    border-bottom: 1px solid #e9ecef;
+}
+.grade {
+    border: 1px solid #BFBFBF;
+    height: 28px;
+    outline: none;
+    width: 68px;
+}
+.status_btn {
+    background-color: white;
+    border:none;
+    cursor: pointer;
+}
+
+.bottom-section {
+    margin-top: auto;
+    padding-top: 20px;
+}
+
+/*페이지네이션 부분*/
+.pagenation {
+    width: 100%;
+    height: 62px;
+    padding:0px;
+    margin: 30px auto 0 auto;
+    text-align: center;
+}
+.pagenation li {
+    display: inline-block;
+    list-style: none;
+    width: 32px;
+    height: 32px;
+}
+.active2 {
+    color:#436CFF;
+    display: block;
+    font-weight: bold;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    text-decoration: none;
+}
+.pagenation .pageNum {
+    color: #888888;
+    display: block;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    text-decoration: none;
+}
+.pagenation li a {
+    display: block;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+.pagenation li a span {
+    background-size: contain;
+    background-repeat: no-repeat;
+    display:inline-block;
+    width: 10px;
+    height: 10px;
+}
+.pagenation .first {
+    background-image: url('/Kmarket/images/admin/member/btn-first-page.png');
+}
+.pagenation .prev {
+    background-image: url('/Kmarket/images/admin/member/btn-prev-page.png');
+}
+.pagenation .next {
+    background-image: url('/Kmarket/images/admin/member/btn-next-page.png');
+}
+.pagenation .last {
+    background-image: url('/Kmarket/images/admin/member/btn-last-page.png');
+}
+
+.btn_box {
+    display:flex;
+    justify-content: space-between;
+}
+.shopList_Btn {
+    border:none;
+    color:white;
+    height: 38px;
+    width: 96px;
+}
+.select_modify {background-color: #BFBFBF;}
+.select_modify:hover {
+    background-color: #706c6c;
+    cursor: pointer;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(0,0,0,0.5);
+}
+.modal-content {
+    background: white;
+    border-radius: 8px;
+    height: 730px;
+    margin: 5% auto;
+    width: 680px;
+}
+.close {
+    float: right;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.modal-header {
+    background-color: #404040;
+    color: white;
+    padding: 10px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 8px 8px 0 0;
+}
+
+.form-body {
+    border-top:1px solid black;
+    border-bottom: 1px solid black;
+    margin:10px 15px 18px 15px;
+}
+.form-row {
+    align-items: center;
+    display: flex;
+}
+.form-label {
+    background-color: #F2F2F2;
+    display:flex;
+    height: 40px;
+    padding: 10px;
+    width: 137px;
+}
+.radio_box {
+    display: flex;
+    justify-content: space-between;
+    margin-left: 10px;
+    width: 70px;
+}
+.addr_btn {
+    background-color: white;
+    border: none;
+    margin-left: 10px;
+}
+.form-input {
+    border:2px solid #BFBFBF;
+    height: 26px;
+    outline: none;
+    padding-left: 10px;
+    margin-left: 10px;
+}
+.form-address {
+    border:2px solid #BFBFBF;
+    height: 26px;
+    outline: none;
+    padding-left: 10px;
+    margin: 3px 3px 3px 10px;
+}
+.form_btn {
+    background-color: #00B050;
+    border:none;
+    color:white;
+    cursor: pointer;
+    height: 40px;
+    width: 133px;
+}
+
+.other_title {align-items: center;height: 102px;}
+#other {
+    border:2px solid #BFBFBF;
+    height: 82px;
+    outline: none;
+    padding: 10px;
+    margin: 10px 0 10px 10px;
+    width: 335px;
+    resize: none;
+}

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>배송입력</title>
+</head>
+<body>
+<div th:fragment="modal">
+    <div class="modal fade modal-top" id="addressModal" tabindex="-1" aria-labelledby="addressModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addressModalLabel">배송입력</h5>
+                    <p class="modal-sm-title">10121211341</p>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="닫기"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="addr-form">
+                        <form action="">
+                            <table class="addr-table">
+                                <tr>
+                                    <th>주문번호</th>
+                                    <td>
+                                        <input type="number" name="" value="" readonly>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>수령인</th>
+                                    <td>
+                                        <input type="text" name="" value="">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>우편번호</th>
+                                    <td>
+                                        <input type="number" name="" value="">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>기본주소</th>
+                                    <td>
+                                        <input type="text" name="" value="">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>상세주소</th>
+                                    <td>
+                                        <input type="text" name="" value="">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>택배사</th>
+                                    <td>
+                                        <select>
+                                            <option>택배사선택</option>
+                                            <option>한진택배</option>
+                                            <option>CJ 대한통운</option>
+                                            <option>로젠택배</option>
+                                            <option>롯데택배</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>운송장번호</th>
+                                    <td>
+                                        <input type="number" name="" id="" placeholder="발급받은 택배사 송장 번호 입력">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>기타</th>
+                                    <td>
+                                        <textarea placeholder="기타 정보 입력" name="" id="text-area">
+                                        </textarea>
+                                    </td>
+                                </tr>
+                            </table>
+                            <div class="btn-area">
+                                <button class="submit-btn">등록하기</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" th:href="@{/css/admin/order/order.css}">
+    <link rel="stylesheet" th:href="@{/css/admin/order/order-modal.css}">
+    <link rel="stylesheet" th:href="@{/css/admin/order/address-modal.css}">
+</head>
+<body>
+<main>
+    <div class="content-wraper">
+        <div class="content-title">
+            <div class="title-items">
+                <div class="item1">
+                    <h4>주문현황</h4>
+                </div>
+                <div class="item2">
+                    <span>HOME&nbsp>&nbsp주문관리&nbsp>&nbsp</span>
+                    <h6>주문현황</h6>
+                </div>
+            </div>
+        </div>
+        <div class="search">
+            <div class="search-box">
+                <form>
+                    <input type="text" value="주문번호" readonly>
+                    <input type="text" name="" placeholder="검색어 입력">
+                    <input type="button" class="search-btn" value="검색">
+                </form>
+            </div>
+        </div>
+        <div class="main-content">
+            <table class="orders-table">
+                <tr>
+                    <th>주문번호</th>
+                    <th>주문자</th>
+                    <th>주문자명</th>
+                    <th>주문건수</th>
+                    <th>주문합계</th>
+                    <th>결제수단</th>
+                    <th>주문상태</th>
+                    <th>주문일</th>
+                    <th>배송</th>
+                </tr>
+                <tr>
+                    <td>
+                        <a data-bs-toggle="modal" data-bs-target="#orderModal">10121211341</a>
+                    </td>
+                    <td>abc123</td>
+                    <td>김유신</td>
+                    <td>2</td>
+                    <td>102,900</td>
+                    <td>신용카드</td>
+                    <td>결제완료</td>
+                    <td>0000-00-00 00:00:00</td>
+                    <td>
+                        <button class="btn btn-white" data-bs-toggle="modal" data-bs-target="#addressModal">
+                            배송하기
+                        </button>
+                    </td>
+                </tr>
+            </table>
+            <div class="bottom-section" style="position: relative;">
+                <ul class="pagenation">
+                    <li><a href="#"><span class="first"></span></a></li>
+                    <li><a href="#"><span class="prev"></span></a></li>
+                    <li><a href="#" class="page1">1</a></li>
+                    <li><a href="#" class="page2">2</a></li>
+                    <li><a href="#" class="page3">3</a></li>
+                    <li><a href="#"><span class="next"></span></a></li>
+                    <li><a href="#"><span class="last"></span></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</main>
+<div th:insert="~{admin/order/modal/order-modal :: modal}"></div>
+<div th:insert="~{admin/order/modal/address-modal :: modal}"></div>
+</body>
+</html>

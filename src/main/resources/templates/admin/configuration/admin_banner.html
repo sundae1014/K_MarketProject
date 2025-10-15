@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>배너관리</title>
+    <link rel="stylesheet" th:href="@{/css/admin/main/header_footer.css}">
+    <link rel="stylesheet" th:href="@{/css/admin/configuration/banner.css}">
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const banner_btns = document.querySelectorAll(".banner_select");
+
+            banner_btns.forEach(banner_btn => { //배너 버튼 기능
+                banner_btn.addEventListener("click", function() {
+                    banner_btns.forEach(banner => banner.classList.remove("active"));
+                    this.classList.add("active");
+                });
+            });
+
+            const allSelect = document.querySelector(".all_select"); // 전체 선택 체크박스
+            const checkboxes = document.querySelectorAll("tbody input[type='checkbox']"); // 테이블 안 체크박스들
+
+            allSelect.addEventListener("change", function() {
+                checkboxes.forEach(cb => cb.checked = allSelect.checked);
+            });
+
+            /*모달 파트*/
+            const modal = document.getElementById("myModal");
+            const openBtn = document.querySelector(".banner_regist");
+            const closeBtn = modal.querySelector(".close");
+            const form = document.getElementById("bannerForm");
+
+            openBtn.addEventListener("click", () => {
+                modal.style.display = "block";
+            });
+
+            closeBtn.addEventListener("click", () => modal.style.display = "none");
+            window.addEventListener("click", (e) => {
+                if (e.target === modal) modal.style.display = "none";
+            });
+
+            const modalContent = modal.querySelector(".modal-content");
+                modalContent.addEventListener("click", (e) => {
+                    e.stopPropagation(); // 클릭 이벤트가 부모로 전달되지 않도록 막음
+            });
+
+            form.addEventListener("submit", (e) => {
+                e.preventDefault();
+
+                const data = {
+                    banner_name: form.banner_name.value,
+                    banner_size: form.banner_size.value,
+                    background_color: form.background_color.value,
+                    banner_link: form.banner_link.value,
+                    banner_location: form.banner_location.value,
+                    start_date: form.start_date.value,
+                    end_date: form.end_date.value,
+                    start_time: form.start_time.value,
+                    end_time: form.end_time.value,
+                    banner_file: form.banner_file.value
+                };
+
+                console.log("폼 데이터: ", data);
+
+                alert("상점이 등록되었습니다!");
+
+                form.reset();
+                modal.style.display = "none";
+            });
+        });
+    </script>
+    <script th:src="@{/js/admin/cs/recruit/sidebarAction.js}" defer></script>
+    <link rel="stylesheet" th:href="@{/css/admin/main/sidebar.css}">
+</head>
+<body>
+    <header>
+        <div class="header-layout">
+            <div class="header-content">
+                <a th:href="@{/admin}">
+                    <img th:src="@{/images/admin/main/cupangMS_logo(color).png}" alt="로고">
+                </a>
+
+                <div class="header-link">
+                    <div class="header-item">
+                        <a th:href="@{/}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-house-icon lucide-house"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+                            <p>HOME</p>
+                        </a>
+                    </div>
+
+                    <div class="header-item">
+                        <a th:href="@{/cs/index}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-headset-icon lucide-headset"><path d="M3 11h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-5Zm0 0a9 9 0 1 1 18 0m0 0v5a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3Z"/><path d="M21 16v2a4 4 0 0 1-4 4h-5"/></svg>
+                            <p>고객센터</p>
+                        </a>
+                    </div>
+
+                    <button>로그아웃</button>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main>
+        <div class="container">
+            <aside class="sidebar">
+                <div class="side-item">
+                    <div class="main-menu">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-settings-icon lucide-settings"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"/><circle cx="12" cy="12" r="3"/></svg>
+                        <p>환경설정</p>
+                    </div>
+                    <ul class="sub-menu">
+                        <li><a th:href="@{/admin/config/basic}" class="sub-link">기본설정</a></li>
+                        <li><a th:href="@{/admin/config/banner}" class="sub-link">배너관리</a></li>
+                        <li><a th:href="@{/admin/config/policy}" class="sub-link">약관관리</a></li>
+                        <li><a th:href="@{/admin/config/category}" class="sub-link">카테고리</a></li>
+                        <li><a th:href="@{/admin/config/version}" class="sub-link">버전관리</a></li>
+                    </ul>
+                </div>
+                <div class="side-item">
+                    <div class="main-menu">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-store-icon lucide-store"><path d="M15 21v-5a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v5"/><path d="M17.774 10.31a1.12 1.12 0 0 0-1.549 0 2.5 2.5 0 0 1-3.451 0 1.12 1.12 0 0 0-1.548 0 2.5 2.5 0 0 1-3.452 0 1.12 1.12 0 0 0-1.549 0 2.5 2.5 0 0 1-3.77-3.248l2.889-4.184A2 2 0 0 1 7 2h10a2 2 0 0 1 1.653.873l2.895 4.192a2.5 2.5 0 0 1-3.774 3.244"/><path d="M4 10.95V19a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8.05"/></svg>
+                        <p>상점관리</p>
+                    </div>
+                    <ul class="sub-menu">
+                        <li><a th:href="@{/admin/shop/list}" class="sub-link">상점목록</a></li>
+                        <li><a th:href="@{/admin/shop/sales}" class="sub-link">매출현황</a></li>
+                    </ul>
+                </div>
+                <div class="side-item">
+                    <div class="main-menu">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-pen-icon lucide-user-pen"><path d="M11.5 15H7a4 4 0 0 0-4 4v2"/><path d="M21.378 16.626a1 1 0 0 0-3.004-3.004l-4.01 4.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z"/><circle cx="10" cy="7" r="4"/></svg>
+                        <p>회원관리</p>
+                    </div>
+                    <ul class="sub-menu">
+                        <li><a th:href="@{/admin/member/list}" class="sub-link">회원목록</a></li>
+                        <li><a th:href="@{/admin/member/point}" class="sub-link">포인트관리</a></li>
+                    </ul>
+                </div>
+                <div class="side-item">
+                    <div class="main-menu">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-package-open-icon lucide-package-open"><path d="M12 22v-9"/><path d="M15.17 2.21a1.67 1.67 0 0 1 1.63 0L21 4.57a1.93 1.93 0 0 1 0 3.36L8.82 14.79a1.655 1.655 0 0 1-1.64 0L3 12.43a1.93 1.93 0 0 1 0-3.36z"/><path d="M20 13v3.87a2.06 2.06 0 0 1-1.11 1.83l-6 3.08a1.93 1.93 0 0 1-1.78 0l-6-3.08A2.06 2.06 0 0 1 4 16.87V13"/><path d="M21 12.43a1.93 1.93 0 0 0 0-3.36L8.83 2.2a1.64 1.64 0 0 0-1.63 0L3 4.57a1.93 1.93 0 0 0 0 3.36l12.18 6.86a1.636 1.636 0 0 0 1.63 0z"/></svg>
+                        <p>상품관리</p>
+                    </div>
+                    <ul class="sub-menu">
+                        <li><a th:href="@{/admin/product/list}" class="sub-link">상품목록</a></li>
+                        <li><a th:href="@{/admin/product/register}" class="sub-link">상품등록</a></li>
+                    </ul>
+                </div>
+                <div class="side-item">
+                    <div class="main-menu">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-receipt-text-icon lucide-receipt-text"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z"/><path d="M14 8H8"/><path d="M16 12H8"/><path d="M13 16H8"/></svg>
+                        <p>주문관리</p>
+                    </div>
+                    <ul class="sub-menu">
+                        <li><a th:href="@{/admin/order/list}" class="sub-link">주문현황</a></li>
+                        <li><a th:href="@{/admin/order/delivery}" class="sub-link">배송현황</a></li>
+                    </ul>
+                </div>
+                <div class="side-item">
+                    <div class="main-menu">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-ticket-percent-icon lucide-ticket-percent"><path d="M2 9a3 3 0 1 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 1 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M9 9h.01"/><path d="m15 9-6 6"/><path d="M15 15h.01"/></svg>
+                        <p>쿠폰관리</p>
+                    </div>
+                    <ul class="sub-menu">
+                        <li><a th:href="@{/admin/coupon/list}" class="sub-link">쿠폰목록</a></li>
+                        <li><a th:href="@{/admin/coupon/issued}" class="sub-link">쿠폰발급현황</a></li>
+                    </ul>
+                </div>
+                <div class="side-item">
+                    <div class="main-menu">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-laptop-minimal-check-icon lucide-laptop-minimal-check"><path d="M2 20h20"/><path d="m9 10 2 2 4-4"/><rect x="3" y="4" width="18" height="12" rx="2"/></svg>
+                        <p>고객센터</p>
+                    </div>
+                    <ul class="sub-menu">
+                        <li><a th:href="@{/admin/cs/notice/list}" class="sub-link">공지사항</a></li>
+                        <li><a th:href="@{/admin/cs/faq/list}" class="sub-link">자주묻는질문</a></li>
+                        <li><a th:href="@{/admin/cs/qna/list}" class="sub-link">문의하기</a></li>
+                        <li><a th:href="@{/admin/cs/recruit/list}" class="sub-link">채용하기</a></li>
+                    </ul>
+                </div>
+            </aside>
+
+            <div class="content">
+                <div class="content-header">
+                    <h1 class="top-title">배너관리</h1>
+                    <div>
+                        <span>HOME</span> &nbsp;&gt;&nbsp;
+                        <span>환경설정</span> &nbsp;&gt;&nbsp;
+                        <span style="font-weight: bold;">배너관리</span> 
+                    </div>
+                </div>
+
+                <div id="banner_box">
+                    <div class="banner_select active">메인 상단 배너</div>
+                    <div class="banner_select">메인 슬라이더 배너</div>
+                    <div class="banner_select">상품 상세 보기 배너</div>
+                    <div class="banner_select">회원 로그인 배너</div>
+                    <div class="banner_select">마이페이지 배너</div>
+                </div>
+                
+                <div style="margin-bottom: 10px;">
+                    <h4>메인 상단배너</h4>
+                </div>
+                <div class="table-container">
+                    <div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th><input type="checkbox" class="all_select"></th>
+                                    <th>번호</th>
+                                    <th>이미지</th>
+                                    <th>배너정보</th>
+                                    <th>배너위치</th>
+                                    <th>시작일</th>
+                                    <th>종료일</th>
+                                    <th>시작시간</th>
+                                    <th>종료시간</th>
+                                    <th>관리</th>
+                                </tr>                         
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><input type="checkbox"></td>
+                                    <td>1</td>
+                                    <td><img th:src="@{/images/admin/configuration/cola.jpg}" alt="콜라" style="width:80px;height: 80px;"></td>
+                                    <td style="text-align: left;">
+                                        <span>배너명</span><br>
+                                        <span>크기: 1200 x 80</span><br>
+                                        <span>배경색: #ffff00</span><br>
+                                        <a href="#" class="banner_a">배너링크</a>
+                                    </td>
+                                    <td>MAIN1</td>
+                                    <td>2023/01/01</td>
+                                    <td>2023/01/07</td>
+                                    <td>13:00</td>
+                                    <td>15:00</td>
+                                    <td>
+                                        <button class="status_btn">[활성]</button><br>
+                                        <button class="status_btn">[비활성]</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox"></td>
+                                    <td>2</td>
+                                    <td><img th:src="@{/images/admin/configuration/cola.jpg}" alt="콜라" style="width:80px;height: 80px;"></td>
+                                    <td style="text-align: left;">
+                                        <span>배너명</span><br>
+                                        <span>크기: 1200 x 80</span><br>
+                                        <span>배경색: #ffff00</span><br>
+                                        <a href="#" class="banner_a">배너링크</a>
+                                    </td>
+                                    <td>MAIN1</td>
+                                    <td>2023/01/01</td>
+                                    <td>2023/01/07</td>
+                                    <td>13:00</td>
+                                    <td>15:00</td>
+                                    <td>
+                                        <button class="status_btn">[활성]</button><br>
+                                        <button class="status_btn">[비활성]</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox"></td>
+                                    <td>3</td>
+                                    <td><img th:src="@{/images/admin/configuration/cola.jpg}" alt="콜라" style="width:80px;height: 80px;"></td>
+                                    <td style="text-align: left;">
+                                        <span>배너명</span><br>
+                                        <span>크기: 1200 x 80</span><br>
+                                        <span>배경색: #ffff00</span><br>
+                                        <a href="#" class="banner_a">배너링크</a>
+                                    </td>
+                                    <td>MAIN1</td>
+                                    <td>2023/01/01</td>
+                                    <td>2023/01/07</td>
+                                    <td>13:00</td>
+                                    <td>15:00</td>
+                                    <td>
+                                        <button class="status_btn">[활성]</button><br>
+                                        <button class="status_btn">[비활성]</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox"></td>
+                                    <td>4</td>
+                                    <td><img th:src="@{/images/admin/configuration/cola.jpg}" alt="콜라" style="width:80px;height: 80px;"></td>
+                                    <td style="text-align: left;">
+                                        <span>배너명</span><br>
+                                        <span>크기: 1200 x 80</span><br>
+                                        <span>배경색: #ffff00</span><br>
+                                        <a href="#" class="banner_a">배너링크</a>
+                                    </td>
+                                    <td>MAIN1</td>
+                                    <td>2023/01/01</td>
+                                    <td>2023/01/07</td>
+                                    <td>13:00</td>
+                                    <td>15:00</td>
+                                    <td>
+                                        <button class="status_btn">[활성]</button><br>
+                                        <button class="status_btn">[비활성]</button>
+                                    </td>
+                                </tr>
+                            </tbody>                  
+                        </table>
+                    </div>          
+                </div>
+                <div>
+                    <div class="btn_box">
+                        <button class="banner_btn select_delete">선택삭제</button>
+                        <button class="banner_btn banner_regist">배너등록</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 모달 박스 -->
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 style="font-size: 20px;">배너 등록</h3>
+                    <span class="close">&times;</span>
+                </div>
+
+                <form action="#" method="post" id="bannerForm">
+                    <div class="form-body">
+                        <div class="form_row">
+                            <div class="form-label">배너이름</div>
+                            <input type="text" name="banner_name" class="form-input" placeholder="배너명입력">
+                        </div>
+                        <div class="form_row">
+                            <div class="form-label">배너크기</div>
+                            <input type="text" name="banner_size" class="form-input" placeholder="배너크기입력">
+                        </div>
+                        <div class="form_row">
+                            <div class="form-label">배경색</div>
+                            <input type="text" name="background_color" class="form-input" placeholder="배너배경색입력">
+                        </div>
+                        <div class="form_row">
+                            <div class="form-label">배너링크</div>
+                            <input type="text" name="banner_link" class="form-input" placeholder="배너링크입력">                           
+                        </div>
+                        <div class="form_row">
+                            <div class="form-label">배너위치</div>
+                            <select name="banner_location" id="banner_location" class="form-input">
+                                <option>선택</option>
+                                <option value="main1">MAIN1</option>
+                                <option value="main2">MAIN2</option>
+                                <option value="product1">PRODUCT1</option>
+                                <option value="my1">MY1</option>
+                            </select>
+                        </div>
+                        <div class="form_row">
+                            <div class="form-label">노출날짜</div>
+                            <div>
+                                <input type="date" name="start_date" class="form-input">&nbsp;~&nbsp;
+                                <input type="date" name="end_date" class="form-input">
+                            </div>
+                            
+                        </div>
+                        <div class="form_row">
+                            <div class="form-label">노출시간</div>
+                            <div>
+                                <input type="time" name="start_time" class="form-input" style="width: 121px;">&nbsp;~&nbsp;
+                                <input type="time" name="end_time" class="form-input">
+                            </div>
+                        </div>
+                        <div class="form_row_last">
+                            <div class="form-label">배너파일</div>
+                            <input type="file" name="banner_file" class="info_file">
+                            <span style="font-size:14px;margin-left: 10px;">노출 위치에 맞는 크기 권장</span>
+                        </div>
+                    </div>
+                    <div style="text-align: center;">
+                        <input type="submit" value="등록하기" class="form_btn">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <div class="footer-layout">
+            <div class="footer-content">
+                <img th:src="@{/images/admin/main/cupangMS_logo(color).png}" alt="로고">
+                <div class="about-company">
+                    <h2>(주)큐팡</h2>
+                    <h2>대표이사 이름(db)</h2>
+                    <h2>|</h2>
+                    <h2>사업자등록번호</h2>
+                    <h2>123-132-1231232(db)</h2>
+                    <h2>|</h2>
+                    <h2>통신판매업신고</h2>
+                    <h2>2023-부산 해운대구-1232(db)</h2>
+                    <h2>|</h2>
+                    <h2>부산광역시 부산진구 중앙동(db)</h2>
+                    <h2>(삼성동, green빌딩) 7층(db)</h2>
+                </div>
+                <div class="about-company">
+                    <h2>고객센터</h2>
+                    <h2>|</h2>
+                    <h2>02-1234-1231</h2>
+                    <h2>평일 09:00 ~ 18:00(db)</h2>
+
+                    <h2>이메일</h2>
+                    <h2>abc@cupang(db)</h2>
+
+                    <h2>전자금융거래 분쟁담당</h2>
+                    <h2>12321-12321(db)</h2>
+                </div>
+                <h2>Copyright@cupang.All.rights.reserved (db)</h2>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

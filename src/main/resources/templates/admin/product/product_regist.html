@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>상품등록</title>
+    <link rel="stylesheet" th:href="@{/css/admin/main/header_footer.css}">
+    <link rel="stylesheet" th:href="@{/css/admin/product/product_regist.css}">
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            let optionCount = 3;
+
+            function addRow() {
+                optionCount++;
+
+                const option_box = document.querySelector(".option_box");
+                const newDiv = document.createElement("div");
+                newDiv.className = "line_row";
+                newDiv.innerHTML = `
+                    <div class="option_title">옵션${optionCount}</div>
+                    <input type="text" name="option${optionCount}" class="option_content">
+                    <div class="option_title" style="margin-left: 20px;">옵션${optionCount} 항목</div>
+                    <input type="text" name="option${optionCount}_detail" class="option_content">
+                `;
+                option_box.appendChild(newDiv);
+            }
+            
+            document.querySelector(".option_pls").addEventListener("click", function() {
+                addRow();
+            });
+        });
+    </script>
+    <script th:src="@{/js/admin/cs/recruit/sidebarAction.js}" defer></script>
+    <link rel="stylesheet" th:href="@{/css/admin/main/sidebar.css}">
+</head>
+<body>
+    <header>
+        <div class="header-layout">
+            <div class="header-content">
+                <a th:href="@{/admin}">
+                    <img th:src="@{/images/admin/main/cupangMS_logo(color).png}" alt="로고">
+                </a>
+
+                <div class="header-link">
+                    <div class="header-item">
+                        <a th:href="@{/}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-house-icon lucide-house"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+                            <p>HOME</p>
+                        </a>
+                    </div>
+
+                    <div class="header-item">
+                        <a th:href="@{/cs/index}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-headset-icon lucide-headset"><path d="M3 11h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-5Zm0 0a9 9 0 1 1 18 0m0 0v5a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3Z"/><path d="M21 16v2a4 4 0 0 1-4 4h-5"/></svg>
+                            <p>고객센터</p>
+                        </a>
+                    </div>
+
+                    <button>로그아웃</button>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main>
+        <div class="container">
+            <aside class="sidebar">
+                <div class="side-item">
+                    <div class="main-menu">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-settings-icon lucide-settings"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"/><circle cx="12" cy="12" r="3"/></svg>
+                        <p>환경설정</p>
+                    </div>
+                    <ul class="sub-menu">
+                        <li><a th:href="@{/admin/config/basic}" class="sub-link">기본설정</a></li>
+                        <li><a th:href="@{/admin/config/banner}" class="sub-link">배너관리</a></li>
+                        <li><a th:href="@{/admin/config/policy}" class="sub-link">약관관리</a></li>
+                        <li><a th:href="@{/admin/config/category}" class="sub-link">카테고리</a></li>
+                        <li><a th:href="@{/admin/config/version}" class="sub-link">버전관리</a></li>
+                    </ul>
+                </div>
+                <div class="side-item">
+                    <div class="main-menu">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-store-icon lucide-store"><path d="M15 21v-5a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v5"/><path d="M17.774 10.31a1.12 1.12 0 0 0-1.549 0 2.5 2.5 0 0 1-3.451 0 1.12 1.12 0 0 0-1.548 0 2.5 2.5 0 0 1-3.452 0 1.12 1.12 0 0 0-1.549 0 2.5 2.5 0 0 1-3.77-3.248l2.889-4.184A2 2 0 0 1 7 2h10a2 2 0 0 1 1.653.873l2.895 4.192a2.5 2.5 0 0 1-3.774 3.244"/><path d="M4 10.95V19a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8.05"/></svg>
+                        <p>상점관리</p>
+                    </div>
+                    <ul class="sub-menu">
+                        <li><a th:href="@{/admin/shop/list}" class="sub-link">상점목록</a></li>
+                        <li><a th:href="@{/admin/shop/sales}" class="sub-link">매출현황</a></li>
+                    </ul>
+                </div>
+                <div class="side-item">
+                    <div class="main-menu">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-pen-icon lucide-user-pen"><path d="M11.5 15H7a4 4 0 0 0-4 4v2"/><path d="M21.378 16.626a1 1 0 0 0-3.004-3.004l-4.01 4.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z"/><circle cx="10" cy="7" r="4"/></svg>
+                        <p>회원관리</p>
+                    </div>
+                    <ul class="sub-menu">
+                        <li><a th:href="@{/admin/member/list}" class="sub-link">회원목록</a></li>
+                        <li><a th:href="@{/admin/member/point}" class="sub-link">포인트관리</a></li>
+                    </ul>
+                </div>
+                <div class="side-item">
+                    <div class="main-menu">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-package-open-icon lucide-package-open"><path d="M12 22v-9"/><path d="M15.17 2.21a1.67 1.67 0 0 1 1.63 0L21 4.57a1.93 1.93 0 0 1 0 3.36L8.82 14.79a1.655 1.655 0 0 1-1.64 0L3 12.43a1.93 1.93 0 0 1 0-3.36z"/><path d="M20 13v3.87a2.06 2.06 0 0 1-1.11 1.83l-6 3.08a1.93 1.93 0 0 1-1.78 0l-6-3.08A2.06 2.06 0 0 1 4 16.87V13"/><path d="M21 12.43a1.93 1.93 0 0 0 0-3.36L8.83 2.2a1.64 1.64 0 0 0-1.63 0L3 4.57a1.93 1.93 0 0 0 0 3.36l12.18 6.86a1.636 1.636 0 0 0 1.63 0z"/></svg>
+                        <p>상품관리</p>
+                    </div>
+                    <ul class="sub-menu">
+                        <li><a th:href="@{/admin/product/list}" class="sub-link">상품목록</a></li>
+                        <li><a th:href="@{/admin/product/register}" class="sub-link">상품등록</a></li>
+                    </ul>
+                </div>
+                <div class="side-item">
+                    <div class="main-menu">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-receipt-text-icon lucide-receipt-text"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z"/><path d="M14 8H8"/><path d="M16 12H8"/><path d="M13 16H8"/></svg>
+                        <p>주문관리</p>
+                    </div>
+                    <ul class="sub-menu">
+                        <li><a th:href="@{/admin/order/list}" class="sub-link">주문현황</a></li>
+                        <li><a th:href="@{/admin/order/delivery}" class="sub-link">배송현황</a></li>
+                    </ul>
+                </div>
+                <div class="side-item">
+                    <div class="main-menu">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-ticket-percent-icon lucide-ticket-percent"><path d="M2 9a3 3 0 1 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 1 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M9 9h.01"/><path d="m15 9-6 6"/><path d="M15 15h.01"/></svg>
+                        <p>쿠폰관리</p>
+                    </div>
+                    <ul class="sub-menu">
+                        <li><a th:href="@{/admin/coupon/list}" class="sub-link">쿠폰목록</a></li>
+                        <li><a th:href="@{/admin/coupon/issued}" class="sub-link">쿠폰발급현황</a></li>
+                    </ul>
+                </div>
+                <div class="side-item">
+                    <div class="main-menu">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-laptop-minimal-check-icon lucide-laptop-minimal-check"><path d="M2 20h20"/><path d="m9 10 2 2 4-4"/><rect x="3" y="4" width="18" height="12" rx="2"/></svg>
+                        <p>고객센터</p>
+                    </div>
+                    <ul class="sub-menu">
+                        <li><a th:href="@{/admin/cs/notice/list}" class="sub-link">공지사항</a></li>
+                        <li><a th:href="@{/admin/cs/faq/list}" class="sub-link">자주묻는질문</a></li>
+                        <li><a th:href="@{/admin/cs/qna/list}" class="sub-link">문의하기</a></li>
+                        <li><a th:href="@{/admin/cs/recruit/list}" class="sub-link">채용하기</a></li>
+                    </ul>
+                </div>
+            </aside>
+
+            <div class="content">
+                <div class="content-header">
+                    <h1 class="top-title">상품등록</h1>
+                    <div>
+                        <span>HOME</span> &nbsp;&gt;&nbsp;
+                        <span>상품관리</span> &nbsp;&gt;&nbsp;
+                        <span style="font-weight: bold;">상품등록</span> 
+                    </div>
+                </div>
+
+                <form action="#" method="post">
+                    <div id="product_classification">
+                        <div style="margin-top: 10px;">
+                            <h4>상품분류</h4>
+                            <p class="title_p">1차, 2차 카테고리 기본분류는 반드시 선택하셔야 합니다.</p>
+                        </div>
+                        <div id="category_box">
+                            <div class="line_row">
+                                <div class="category_title">1차분류</div>
+                                <select name="category1" class="category_select">
+                                    <option>1차 분류 선택</option>
+                                </select>
+                            </div>
+                            <div style="align-items: center;display: flex;">
+                                <div class="category_title">2차분류</div>
+                                <select name="category2" class="category_select">
+                                    <option>2차 분류 선택</option>
+                                </select>
+                            </div>
+                        </div>   
+                    </div>
+
+                    <div id="basic_info">
+                        <div style="margin-top: 10px;">
+                            <h4>기본정보</h4>
+                            <p class="title_p">기본정보는 반드시 입력하셔야 합니다.</p>
+                        </div>
+                            
+                        <div class="basic_info_input">
+                            <div class="line_row">
+                                <div class="info_title">상품명</div>
+                                <input type="text" name="product_name" class="info_content" placeholder="상품명 입력">
+                            </div>
+                            <div class="line_row">
+                                <div class="info_title">기본설명</div>
+                                <input type="text" name="info" class="info_content" placeholder="기본설명 입력">
+                            </div>
+                            <div class="line_row">
+                                <div class="info_title">제조사</div>
+                                <input type="text" name="make" class="info_content" placeholder="제조사 입력">
+                            </div>
+                            <div class="line_row">
+                                <div class="info_title">상품금액</div>
+                                <input type="number" name="price" class="info_content" placeholder="상품금액 입력">&nbsp;원
+                            </div>
+                            <div class="line_row">
+                                <div class="info_title">할인율</div>
+                                <input type="number" name="sales" class="info_content" placeholder="할인율 입력">&nbsp;%
+                            </div>
+                            <div class="line_row">
+                                <div class="info_title">포인트</div>
+                                <input type="number" name="point" class="info_content">&nbsp;원
+                            </div>
+                            <div class="line_row">
+                                <div class="info_title">재고수량</div>
+                                <input type="number" name="stock" class="info_content" placeholder="재고수량 입력">&nbsp;개
+                            </div>
+                            <div class="line_row">
+                                <div class="info_title">배송비</div>
+                                <input type="number" name="delevery_price" class="info_content" placeholder="배송비 입력">&nbsp;원
+                            </div>
+                            <div class="line_row">
+                                <div class="info_title_last">상품 이미지</div>
+                                <div id="file_uploads" style="padding: 10px 0;">
+                                    <input type="file" name="image1" class="info_file"><span class="file_span">크기 190 x 190, 상품 목록에 출력 될 이미지 입니다.</span><br>
+                                    <input type="file" name="image2" class="info_file"><span class="file_span">크기 230 x 230, 상품 메인에 출력 될 이미지 입니다.</span><br>
+                                    <input type="file" name="image3" class="info_file_last"><span class="file_span">크기 456 x 456, 상품 상세에 출력 될 이미지 입니다.</span>
+                                </div>
+                            </div>
+                            <div class="line_row_last">
+                                <div class="info_title">상품 상세정보</div>
+                                <input type="file" name="detail_info" class="info_file_last"><span class="file_span">크기 가로 940px, 높이 제약없음, 크기 최대 1MB</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="basic_select_info">
+                        <div style="margin-top: 10px;">
+                            <h4>상품 선택정보</h4>
+                            <p class="title_p">상품별 선택정보(옵션) 입력입니다.<br>
+                            예시) 옵션1: 사이즈, 옵션1 항목: XXL, XL, L, M, S (,콤마로 구분)</p>
+                        </div>
+
+                        <div class="option_box">
+                            <div class="line_row">
+                                <div class="option_title">옵션1</div>
+                                <input type="text" name="option1" class="option_content">
+                                <div class="option_title" style="margin-left: 20px;">옵션1 항목</div>
+                                <input type="text" name="option1_detail" class="option_content">
+                            </div>
+                            <div class="line_row">
+                                <div class="option_title">옵션2</div>
+                                <input type="text" name="option2" class="option_content">
+                                <div class="option_title" style="margin-left: 20px;">옵션2 항목</div>
+                                <input type="text" name="option2_detail" class="option_content">
+                            </div>
+                            <div class="line_row">
+                                <div class="option_title">옵션3</div>
+                                <input type="text" name="option3" class="option_content">
+                                <div class="option_title" style="margin-left: 20px;">옵션3 항목</div>
+                                <input type="text" name="option3_detail" class="option_content">
+                            </div>    
+                        </div>
+                        <div style="display: flex; justify-content: flex-end;">
+                            <input type="button" value="옵션 추가" class="option_pls">
+                        </div>
+                    </div>
+
+                    <div id="product_info">
+                        <div style="margin-top: 10px;">
+                            <h4>상품정보 제공고시</h4>
+                            <p class="title_p">[전자상거래에 관한 상품정보 제공에 관한 고시] 항목에 의거 등록하는 정보입니다.</p>
+                        </div>
+
+                        <div class="product_info_input">
+                            <div class="line_row">
+                                <div class="info_title">상품상태</div>
+                                <input type="text" name="info" class="product_info_content" value="새 상품">
+                            </div>
+                            <div class="line_row">
+                                <div class="info_title">부가세 면세 여부</div>
+                                <input type="text" name="info" class="product_info_content" value="과세 상품">
+                            </div>
+                            <div class="line_row">
+                                <div class="info_title">영수증 발행</div>
+                                <input type="text" name="info" class="product_info_content2" value="발행가능 - 신용카드 전표, 온라인 현금 영수증">
+                            </div>
+                            <div class="line_row">
+                                <div class="info_title">사업자 구분</div>
+                                <input type="text" name="info" class="product_info_content2" value="사업자 판매자">
+                            </div>
+                            <div class="line_row">
+                                <div class="info_title">원산지</div>
+                                <input type="text" name="info" class="product_info_content" value="국내산">
+                            </div>
+                        </div>
+                    </div>
+
+                    <p class="bottom_p">전자상거래 등에서의 상품 등의 정보 제공에 관한 고시에 따라 총 35개 상품군에 대해 상품 특성을 양식에 따라<br>
+                    입력할 수 있습니다.</p>
+
+                    <div style="display: flex; justify-content: flex-end;">
+                        <input type="submit" value="등록하기" class="regist_btn">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <div class="footer-layout">
+            <div class="footer-content">
+                <img th:src="@{/images/admin/main/cupangMS_logo(color).png}" alt="로고">
+                <div class="about-company">
+                    <h2>(주)큐팡</h2>
+                    <h2>대표이사 이름(db)</h2>
+                    <h2>|</h2>
+                    <h2>사업자등록번호</h2>
+                    <h2>123-132-1231232(db)</h2>
+                    <h2>|</h2>
+                    <h2>통신판매업신고</h2>
+                    <h2>2023-부산 해운대구-1232(db)</h2>
+                    <h2>|</h2>
+                    <h2>부산광역시 부산진구 중앙동(db)</h2>
+                    <h2>(삼성동, green빌딩) 7층(db)</h2>
+                </div>
+                <div class="about-company">
+                    <h2>고객센터</h2>
+                    <h2>|</h2>
+                    <h2>02-1234-1231</h2>
+                    <h2>평일 09:00 ~ 18:00(db)</h2>
+
+                    <h2>이메일</h2>
+                    <h2>abc@cupang(db)</h2>
+
+                    <h2>전자금융거래 분쟁담당</h2>
+                    <h2>12321-12321(db)</h2>
+                </div>
+                <h2>Copyright@cupang.All.rights.reserved (db)</h2>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

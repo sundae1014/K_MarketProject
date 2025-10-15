@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.kmarket.mapper.MyMapper">
+
+    <!-- resultMap 정의 -->
+    <resultMap id="OrderResultMap" type="kr.co.kmarket.dto.OrderDTO">
+        <result property="orderNumber" column="ORDERNUMBER"/>
+        <result property="oDate" column="O_DATE"/>
+        <result property="stat" column="STAT"/>
+        <result property="piece" column="PIECE"/>
+        <result property="price" column="PRICE"/>
+        <result property="img1" column="IMG_1"/>
+        <result property="manufacture" column="MANUFACTURE"/>
+        <result property="prod_name" column="PROD_NAME"/>
+        <result property="discount" column="DISCOUNT"/>
+        <result property="salePrice" column="SALEPRICE"/>
+        <result property="prod_number" column="PROD_NUMBER"/>
+    </resultMap>
+
+    <resultMap id="SellerDetailMap" type="kr.co.kmarket.dto.MemberDTO">
+        <result property="company_name" column="COMPANY_NAME"/>
+        <result property="name" column="NAME"/>
+        <result property="hp" column="HP"/>
+        <result property="fax_number" column="FAX_NUMBER"/>
+        <result property="email" column="EMAIL"/>
+        <result property="business_number" column="BUSINESS_NUMBER"/>
+        <result property="zip" column="ZIP"/>
+        <result property="addr1" column="ADDR1"/>
+        <result property="addr2" column="ADDR2"/>
+    </resultMap>
+
+    <select id="selectRecentOrders" resultMap="OrderResultMap" parameterType="int">
+        SELECT
+        a.ORDERNUMBER,
+        a.O_DATE,
+
+        CAST(a.STAT AS INT) AS STAT,
+
+        b.PIECE,
+        b.PRICE,
+        c.IMG_1,
+        c.MANUFACTURE,
+        c.PROD_NAME,
+
+        b.PROD_NUMBER
+
+        FROM "Order" a
+        JOIN ORDERDETAIL b ON a.ORDERNUMBER = b.ORDERNUMBER
+        JOIN PRODUCT c ON b.PROD_NUMBER = c.PROD_NUMBER
+        WHERE a.CUST_NUMBER = #{custNumber}
+        ORDER BY a.O_DATE DESC
+        FETCH FIRST 5 ROWS ONLY
+    </select>
+
+    <select id="countNotConfirmedOrders" resultType="int" parameterType="int">
+        SELECT COUNT(*)
+        FROM "Order"
+        WHERE CUST_NUMBER = #{custNumber}
+        AND STAT != 8
+    </select>
+
+    <select id="selectOrderDetailByCustomer" resultMap="OrderResultMap" parameterType="int">
+        SELECT
+        a.ORDERNUMBER,
+        a.O_DATE,
+        a.STAT,
+        b.PIECE,
+        b.PRICE,
+        b.PROD_NUMBER,
+        c.IMG_1,
+        c.MANUFACTURE,
+        c.PROD_NAME,
+        c.DISCOUNT,
+        c.SALEPRICE
+        FROM "Order" a
+        JOIN ORDERDETAIL b ON a.ORDERNUMBER = b.ORDERNUMBER
+        JOIN PRODUCT c ON b.PROD_NUMBER = c.PROD_NUMBER
+        WHERE a.CUST_NUMBER = #{custNumber}
+        AND a.ORDERNUMBER = #{orderNumber}
+    </select>
+
+    <select id="selectSellerByManufacture" resultMap="SellerDetailMap" parameterType="string">
+        SELECT
+        a.COMPANY_NAME,
+        a.NAME,
+        a.HP,
+        a.FAX_NUMBER,
+        a.EMAIL,
+        a.BUSINESS_NUMBER,
+        a.ZIP,
+        a.ADDR1,
+        a.ADDR2
+        FROM MEMBER a
+        JOIN PRODUCT b ON a.COMPANY_NAME = b.MANUFACTURE
+        WHERE a.AUTH = 3
+        AND b.MANUFACTURE = #{manufacture}
+        FETCH FIRST 1 ROWS ONLY
+    </select>
+
+    <insert id="insertQna" parameterType="kr.co.kmarket.dto.QnaDTO">
+        INSERT INTO QNA (
+        ID,
+        TYPE1,
+        TYPE2,
+        TITLE,
+        QUEST,
+        USER_ID,
+        STATUS,
+        REG_DATE
+        )
+        VALUES (
+        #{id},      #{type1},
+        #{type2},
+        #{title},
+        #{quest},
+        #{user_id},
+        #{status},
+        SYSDATE
+        )
+    </insert>
+
+    <select id="selectMaxQnaId" resultType="int">
+        SELECT NVL(MAX(ID), 0) + 1 FROM QNA
+    </select>
+
+    <select id="selectOrderStat1" resultType="kr.co.kmarket.dto.OrderDTO">
+        SELECT
+        ORDERNUMBER,
+        STAT
+        FROM "Order"
+        WHERE ORDERNUMBER = #{orderNumber} AND CUST_NUMBER = #{custNumber}
+    </select>
+
+    <update id="updateOrderConfirmation">
+        UPDATE "Order"
+        SET
+        STAT = 8
+        WHERE ORDERNUMBER = #{orderNumber}
+        AND CUST_NUMBER = #{custNumber}
+    </update>
+
+    <update id="updateOrderCancel">
+        UPDATE "Order"
+        SET
+        STAT = 5
+        WHERE ORDERNUMBER = #{orderNumber}
+        AND CUST_NUMBER = #{custNumber}
+        AND STAT IN (1, 2)
+    </update>
+
+    <insert id="insertReview" keyProperty="review_no">
+        <selectKey keyProperty="review_no" resultType="int" order="BEFORE">
+            SELECT REVIEW_SEQ.NEXTVAL FROM DUAL
+        </selectKey>
+
+        INSERT INTO REVIEW (
+        REVIEW_NO,
+        CUST_NUMBER,
+        PROD_NUMBER,
+        CONTENT,
+        RATING,
+        R_DATE,
+        R_IMG1,
+        R_IMG2,
+        R_IMG3
+        ) VALUES (
+        #{review_no},
+        #{cust_number},
+        #{prod_number},
+        #{content},
+        #{rating},
+        SYSDATE,
+        #{r_img1, jdbcType=VARCHAR},
+        #{r_img2, jdbcType=VARCHAR},
+        #{r_img3, jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <select id="selectOrderStat" resultType="java.lang.Integer">
+        SELECT
+            a.STAT
+        FROM "Order" a
+        JOIN ORDERDETAIL b ON a.ORDERNUMBER = b.ORDERNUMBER
+        JOIN PRODUCT c ON b.PROD_NUMBER = c.PROD_NUMBER
+        WHERE a.ORDERNUMBER = #{orderNumber}
+        AND c.PROD_NUMBER = #{prodNo}
+        AND a.CUST_NUMBER = #{custNumber}
+    </select>
+
+    <select id="selectRecentReviews" resultType="kr.co.kmarket.dto.ProductReviewDTO">
+        SELECT * FROM (
+            SELECT
+                a.REVIEW_NO,
+                a.PROD_NUMBER,
+                a.CONTENT,
+                a.RATING,
+                a.R_DATE,
+                b.PROD_NAME
+            FROM REVIEW a
+            JOIN PRODUCT b ON a.PROD_NUMBER  = b.PROD_NUMBER
+            WHERE CUST_NUMBER = #{custNumber}
+            ORDER BY a.R_DATE DESC
+        )
+        WHERE ROWNUM &lt;= 5
+    </select>
+
+    <select id="selectRecentQnas" resultType="kr.co.kmarket.dto.QnaDTO">
+        SELECT * FROM (
+            SELECT
+                ID ,
+                TYPE1 ,
+                TITLE ,
+                REG_DATE ,
+                STATUS
+            FROM QNA
+            WHERE USER_ID = #{user_id}
+            ORDER BY REG_DATE  DESC
+        )
+        WHERE ROWNUM &lt;= 5
+    </select>
+
+</mapper>

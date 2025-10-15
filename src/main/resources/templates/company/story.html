@@ -1,0 +1,50 @@
+<div th:replace="~{company/_head.html}"></div>
+
+    <main>
+
+        <a href="#" class="scroll-down">
+            <div class="scroll">
+                <span class="scroll-dot"></span>
+            </div>
+            <div class="arrow-down"></div>
+        </a>
+
+        <div class="board">
+            <div class="slogan-header">
+                <h1>큐팡을 더 알고 싶다면!</h1>
+                <p>새로운 소식과 흥미로운 이야기가 기다리고 있어요.</p>
+            </div>
+            
+            <div class="blog-section">
+
+                <div class="blog-cateLink">
+                    <button data-cate="0" class="active">전체</button>
+                    <button data-cate="1">기업문화</button>
+                    <button data-cate="2">인터뷰</button>
+                    <button data-cate="3">채용</button>
+                    <button data-cate="4">보도자료</button>
+                    <button data-cate="5">ESG</button>
+                </div>
+
+                <div class="blog-item">
+                    <div th:each="story : ${storyItems}" class="blog-post" th:data-cate="${story.cate}">
+                        <div class="blog-card">
+                            <a th:href="@{/company/story/detail(story_no=${story.story_no})}">
+                                <img th:src="@{${story.img_path}}" alt="소식과 이야기 이미지">
+                                <div class="card-content">
+                                    <h3 th:text="${story.title}"></h3>
+                                    <p th:text="${story.subtitle}"></p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </main>
+
+    <div th:replace="~{company/_tail.html}"></div>

@@ -1,0 +1,30 @@
+<div th:replace="~{company/_head.html}"></div>
+<main>
+
+    <a href="#" class="scroll-down">
+        <div class="scroll">
+            <span class="scroll-dot"></span>
+        </div>
+        <div class="arrow-down"></div>
+    </a>
+
+    <div class="board">
+        <div class="detail-area">
+            <div class="blog-section">
+                <article class="blog-detail">
+                    <h1 th:text="${storyitem.title}"></h1>
+                    <p class="meta">
+                        <span th:text="${storyitem.reg_date}"></span> |
+                        <span th:text="${storyitem.author}"></span>
+                    </p>
+                    <img th:src="@{${storyitem.img_path}}" alt="소식과 이야기 이미지" style="max-width:100%; margin: 20px 0;">
+                    <div class="content" th:utext="${storyitem.content}"></div>
+                </article>
+            </div>
+            <a th:href="@{/company/story}">목록으로 돌아가기</a>
+        </div>
+
+    </div>
+</main>
+
+<div th:replace="~{company/_tail.html}"></div>

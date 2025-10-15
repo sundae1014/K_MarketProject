@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>상점목록</title>
+    <link rel="stylesheet" th:href="@{/css/admin/main/header_footer.css}">
+    <link rel="stylesheet" th:href="@{/css/admin/shop/admin_shopList.css}">
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const allSelect = document.querySelector(".all_select"); // 전체 선택 체크박스
+            const checkboxes = document.querySelectorAll("tbody input[type='checkbox']"); // 테이블 안 체크박스들
+
+            allSelect.addEventListener("change", function() {
+                checkboxes.forEach(cb => cb.checked = allSelect.checked);
+            });
+
+            //삭제 기능
+            const deleteBtn = document.querySelector(".select_delete");
+            deleteBtn.addEventListener("click", async () => {
+                const selected = document.querySelectorAll("tbody .row-checkbox:checked");
+                const idList = Array.from(selected).map(cb => cb.value);
+                console.log("삭제 id리스트: ", idList);
+
+                const response = await fetch("/kmarket/admin/shop/list", {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(idList)
+                });
+
+                if(response.ok) {
+                    alert("삭제 완료!");
+                    location.reload();
+                } else {
+                    alert("삭제 실패!");
+                }
+            });
+
+            //상태 버튼
+            document.querySelectorAll(".operation-btn").forEach(btn => {
+                btn.addEventListener("click", async function() {
+                    const id = this.dataset.id;
+                    let current = this.dataset.operation;
+                    let next;
+
+                    if (current === "ready") next = "run";
+                    else if (current === "run") next = "stop";
+                    else next = "run";
+
+                    try {
+                        const response = await fetch(`/kmarket/admin/shop/list`, {
+                            method: "PATCH",
+                            headers: {
+                                "Content-Type" : "application/json"
+                            },
+                            body: JSON.stringify({
+                                cust_number: id,
+                                operation: next
+                            })
+                        });
+
+                        if(response.ok) {
+                            this.dataset.operation = next;
+                            this.textContent = (next === "run") ? "[중단]" : "[재개]"; //오류 가능성
+
+                            const statusDot = this.closest("tr").querySelector(".status-dot");
+                            statusDot.classList.remove("status-blue", "status-red", "status-green");
+                            if (next === "ready") statusDot.classList.add("status-blue");
+                            else if (next === "stop") statusDot.classList.add("status-red");
+                            else if (next === "run") statusDot.classList.add("status-green");
+                        } else {
+                            alert("상태 변경 실패");
+                        }
+                    } catch(err) {
+                        console.error(err);
+                        alert("오류 발생");
+                    }
+                });
+            });
+
+            //상점 등록
+            const modal = document.getElementById("myModal");
+            const openBtn = document.querySelector(".shop_regist");
+            const closeBtn = modal.querySelector(".close");
+            const form = document.getElementById("shopForm");
+
+            openBtn.addEventListener("click", () => {
+                modal.style.display = "block";
+            });
+
+            closeBtn.addEventListener("click", () => {
+                modal.style.display = "none"
+                form.reset();
+            });
+            window.addEventListener("click", (e) => {
+                if (e.target === modal) modal.style.display = "none";
+            });
+
+            const modalContent = modal.querySelector(".modal-content");
+                modalContent.addEventListener("click", (e) => {
+                    e.stopPropagation(); // 클릭 이벤트가 부모로 전달되지 않도록 막음
+            });
+        });
+    </script>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script th:src="@{/js/member/postcode.js}" defer></script>
+    <script th:src="@{/js/admin/shop/validation.js}" defer></script>
+    <script th:src="@{/js/admin/cs/recruit/sidebarAction.js}" defer></script>
+    <link rel="stylesheet" th:href="@{/css/admin/main/sidebar.css}">
+</head>
+<body>
+    <header>
+        <div class="header-layout">
+            <div class="header-content">
+                <a th:href="@{/admin}">
+                    <img th:src="@{/images/admin/main/cupangMS_logo(color).png}" alt="로고">
+                </a>
+
+                <div class="header-link">
+                    <div class="header-item">
+                        <a th:href="@{/}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-house-icon lucide-house"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+                            <p>HOME</p>
+                        </a>
+                    </div>
+
+                    <div class="header-item">
+                        <a th:href="@{/cs/index}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-headset-icon lucide-headset"><path d="M3 11h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-5Zm0 0a9 9 0 1 1 18 0m0 0v5a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3Z"/><path d="M21 16v2a4 4 0 0 1-4 4h-5"/></svg>
+                            <p>고객센터</p>
+                        </a>
+                    </div>
+
+                    <button>로그아웃</button>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main>
+        <div class="container">
+            <aside class="sidebar">
+                <div class="side-item">
+                    <div class="main-menu">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-settings-icon lucide-settings"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"/><circle cx="12" cy="12" r="3"/></svg>
+                        <p>환경설정</p>
+                    </div>
+                    <ul class="sub-menu">
+                        <li><a th:href="@{/admin/config/basic}" class="sub-link">기본설정</a></li>
+                        <li><a th:href="@{/admin/config/banner}" class="sub-link">배너관리</a></li>
+                        <li><a th:href="@{/admin/config/policy}" class="sub-link">약관관리</a></li>
+                        <li><a th:href="@{/admin/config/category}" class="sub-link">카테고리</a></li>
+                        <li><a th:href="@{/admin/config/version}" class="sub-link">버전관리</a></li>
+                    </ul>
+                </div>
+                <div class="side-item">
+                    <div class="main-menu">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-store-icon lucide-store"><path d="M15 21v-5a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v5"/><path d="M17.774 10.31a1.12 1.12 0 0 0-1.549 0 2.5 2.5 0 0 1-3.451 0 1.12 1.12 0 0 0-1.548 0 2.5 2.5 0 0 1-3.452 0 1.12 1.12 0 0 0-1.549 0 2.5 2.5 0 0 1-3.77-3.248l2.889-4.184A2 2 0 0 1 7 2h10a2 2 0 0 1 1.653.873l2.895 4.192a2.5 2.5 0 0 1-3.774 3.244"/><path d="M4 10.95V19a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8.05"/></svg>
+                        <p>상점관리</p>
+                    </div>
+                    <ul class="sub-menu">
+                        <li><a th:href="@{/admin/shop/list}" class="sub-link">상점목록</a></li>
+                        <li><a th:href="@{/admin/shop/sales}" class="sub-link">매출현황</a></li>
+                    </ul>
+                </div>
+                <div class="side-item">
+                    <div class="main-menu">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-pen-icon lucide-user-pen"><path d="M11.5 15H7a4 4 0 0 0-4 4v2"/><path d="M21.378 16.626a1 1 0 0 0-3.004-3.004l-4.01 4.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z"/><circle cx="10" cy="7" r="4"/></svg>
+                        <p>회원관리</p>
+                    </div>
+                    <ul class="sub-menu">
+                        <li><a th:href="@{/admin/member/list}" class="sub-link">회원목록</a></li>
+                        <li><a th:href="@{/admin/member/point}" class="sub-link">포인트관리</a></li>
+                    </ul>
+                </div>
+                <div class="side-item">
+                    <div class="main-menu">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-package-open-icon lucide-package-open"><path d="M12 22v-9"/><path d="M15.17 2.21a1.67 1.67 0 0 1 1.63 0L21 4.57a1.93 1.93 0 0 1 0 3.36L8.82 14.79a1.655 1.655 0 0 1-1.64 0L3 12.43a1.93 1.93 0 0 1 0-3.36z"/><path d="M20 13v3.87a2.06 2.06 0 0 1-1.11 1.83l-6 3.08a1.93 1.93 0 0 1-1.78 0l-6-3.08A2.06 2.06 0 0 1 4 16.87V13"/><path d="M21 12.43a1.93 1.93 0 0 0 0-3.36L8.83 2.2a1.64 1.64 0 0 0-1.63 0L3 4.57a1.93 1.93 0 0 0 0 3.36l12.18 6.86a1.636 1.636 0 0 0 1.63 0z"/></svg>
+                        <p>상품관리</p>
+                    </div>
+                    <ul class="sub-menu">
+                        <li><a th:href="@{/admin/product/list}" class="sub-link">상품목록</a></li>
+                        <li><a th:href="@{/admin/product/register}" class="sub-link">상품등록</a></li>
+                    </ul>
+                </div>
+                <div class="side-item">
+                    <div class="main-menu">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-receipt-text-icon lucide-receipt-text"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z"/><path d="M14 8H8"/><path d="M16 12H8"/><path d="M13 16H8"/></svg>
+                        <p>주문관리</p>
+                    </div>
+                    <ul class="sub-menu">
+                        <li><a th:href="@{/admin/order/list}" class="sub-link">주문현황</a></li>
+                        <li><a th:href="@{/admin/order/delivery}" class="sub-link">배송현황</a></li>
+                    </ul>
+                </div>
+                <div class="side-item">
+                    <div class="main-menu">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-ticket-percent-icon lucide-ticket-percent"><path d="M2 9a3 3 0 1 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 1 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M9 9h.01"/><path d="m15 9-6 6"/><path d="M15 15h.01"/></svg>
+                        <p>쿠폰관리</p>
+                    </div>
+                    <ul class="sub-menu">
+                        <li><a th:href="@{/admin/coupon/list}" class="sub-link">쿠폰목록</a></li>
+                        <li><a th:href="@{/admin/coupon/issued}" class="sub-link">쿠폰발급현황</a></li>
+                    </ul>
+                </div>
+                <div class="side-item">
+                    <div class="main-menu">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-laptop-minimal-check-icon lucide-laptop-minimal-check"><path d="M2 20h20"/><path d="m9 10 2 2 4-4"/><rect x="3" y="4" width="18" height="12" rx="2"/></svg>
+                        <p>고객센터</p>
+                    </div>
+                    <ul class="sub-menu">
+                        <li><a th:href="@{/admin/cs/notice/list}" class="sub-link">공지사항</a></li>
+                        <li><a th:href="@{/admin/cs/faq/list}" class="sub-link">자주묻는질문</a></li>
+                        <li><a th:href="@{/admin/cs/qna/list}" class="sub-link">문의하기</a></li>
+                        <li><a th:href="@{/admin/cs/recruit/list}" class="sub-link">채용하기</a></li>
+                    </ul>
+                </div>
+            </aside>
+
+            <div class="content">
+                <div class="content-header">
+                    <h1 class="top-title">상점목록</h1>
+                    <div>
+                        <span>HOME</span> &nbsp;&gt;&nbsp;
+                        <span>상점관리</span> &nbsp;&gt;&nbsp;
+                        <span style="font-weight: bold;">상점목록</span> 
+                    </div>
+                </div>
+
+                <form th:action="@{/admin/shop/list/search}" method="get" style="margin-top: 20px;">
+                    <select id="search-select" name="searchType">
+                        <option value="trade_name">상호명</option>
+                        <option value="ceo">대표자</option>
+                        <option value="business_num">사업자등록번호</option>
+                        <option value="hp">연락처</option>
+                    </select>
+                    <input type="text" name="keyword" id="search-input" placeholder="검색어 입력">
+                    <input type="submit" class="search-btn" value="검색">
+                </form>
+                <div class="table-container">
+                    <div style="float:right;margin-bottom: 5px;">
+                        <span class="status" style="color: #00B050;">운영 중</span>
+                        <span class="status " style="color: #FF0000;">운영 중지</span>
+                        <span class="status" style="color: #0070C0;">운영 준비</span>
+                    </div>
+                    <div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th><input type="checkbox" class="all_select"></th>
+                                    <th>번호</th>
+                                    <th>상호명</th>
+                                    <th>대표</th>
+                                    <th>사업자등록번호</th>
+                                    <th>통신판매업번호</th>
+                                    <th>연락처</th>
+                                    <th>운영</th>
+                                    <th>관리</th>
+                                </tr>                         
+                            </thead>
+                            <tbody>
+                            <tr th:each="dto, stat:${pageResponseDTO.dtoList}">
+                                    <td><input type="checkbox" class="row-checkbox" th:value="${dto.cust_number}"></td>
+                                    <td>[[${dto.cust_number}]]</td>
+                                    <td>[[${dto.company_name}]]</td>
+                                    <td>[[${dto.name}]]</td>
+                                    <td>[[${dto.business_number}]]</td>
+                                    <td>[[${dto.ecommerce_number}]]</td>
+                                    <td>[[${dto.hp}]]</td>
+                                    <td>
+                                        <span class="status-dot"
+                                              th:class="'status-dot ' + (${dto.operation} == 'ready' ? 'status-blue' : (${dto.operation} == 'stop' ? 'status-red' : (${dto.operation} == 'run' ? 'status-green' : '')))">
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="operation-btn"
+                                                th:data-id="${dto.cust_number}"
+                                                th:data-operation="${dto.operation}"
+                                                th:text="${dto.operation == 'ready' ? '[승인]'
+                                                          : (dto.operation == 'run' ? '[중단]'
+                                                          : '[재개]')}">
+
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>                  
+                        </table>
+                    </div>          
+                </div>
+                <div class="bottom-section" style="position: relative;">
+                    <ul class="pagenation">
+                        <li><a th:if="${pageResponseDTO.prev}" th:href="@{/admin/shop/list(pg=${pageResponseDTO.start - 1})}"><span class="prev"></span></a></li>
+                        <th:block th:each="num:${#numbers.sequence(pageResponseDTO.start, pageResponseDTO.end)}">
+                            <li><a th:href="@{/admin/shop/list(pg=${num})}" th:class="${num == pageResponseDTO.pg ? 'active2' : 'pageNum'}">[[${num}]]</a></li>
+                        </th:block>
+                        <li><a th:if="${pageResponseDTO.next}" th:href="@{/admin/shop/list(pg=${pageResponseDTO.end + 1})}"><span class="next"></span></a></li>
+                    </ul>
+                    <div class="btn_box">
+                        <button class="shopList_Btn select_delete">선택삭제</button>
+                        <button class="shopList_Btn shop_regist">상점등록</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 모달 박스 -->
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 style="font-size: 20px;">상점 등록</h3>
+                    <span class="close">&times;</span>
+                </div>
+
+                <form th:action="@{/admin/shop/list}" method="post" id="shopForm">
+                    <div class="form-head">
+                        <div class="form-row">
+                            <div class="form-label">아이디</div>
+                            <input type="text" name="custid" class="form-input" required placeholder="아이디 입력">
+                            <span style="font-size:14px;margin-left: 10px;">영문, 숫자 4~12자 설정</span>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-label">비밀번호</div>
+                            <input type="password" name="pw" id="checkPw" class="form-input" required placeholder="비밀번호 입력">
+                            <span class="passResult" style="font-size:14px;margin-left: 10px;" >영문, 숫자, 특수문자 8~12자 설정</span>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-label">비밀번호 확인</div>
+                            <input type="password" name="pw2" class="form-input" required placeholder="비밀번호 재입력">
+                        </div>
+                    </div>
+
+                    <div class="form-body">
+                        <div class="form-row">
+                            <div class="form-label">상호명</div>
+                            <input type="text" name="company_name" class="form-input" required placeholder="상호명 입력">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-label">대표</div>
+                            <input type="text" name="name" class="form-input" required placeholder="이름 입력">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-label">사업자등록번호</div>
+                            <input type="text" name="business_number" class="form-input" required placeholder="사업자등록번호 입력">
+                            <span style="font-size:14px;margin-left: 10px;">- 포함 12자리 입력</span>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-label">통신판매업번호</div>
+                            <input type="text" name="ecommerce_number" class="form-input" required placeholder="통신판매업번호 입력">
+                            <span style="font-size:14px;margin-left: 10px;">- 포함 12자리 입력</span>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-label">전화번호</div>
+                            <input type="text" name="hp" class="form-input" required placeholder="전화번호 입력">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-label">팩스</div>
+                            <input type="number" name="fax_number" class="form-input" required placeholder="팩스번호 입력">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-label addr">주소</div>
+                            <div style="padding: 10px 0;">
+                                <input type="text" id="zip" class="form-address" name="zip" readonly placeholder="우편번호 검색" onclick="postcode()"><br>
+	                            <input type="text" id="addr1" class="form-address" name="addr1" readonly placeholder="기본주소 검색" style="width: 335px;"><br>
+	                            <input type="text" id="addr2" class="form-address" name="addr2" placeholder="상세주소 입력" style="width: 335px;"><br>
+                            </div>                  
+                        </div>
+                    </div>
+                    <div style="text-align: center;">
+                        <input type="submit" value="등록하기" class="form_btn">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <div class="footer-layout">
+            <div class="footer-content">
+                <img th:src="@{/images/admin/main/cupangMS_logo(color).png}" alt="로고">
+                <div class="about-company">
+                    <h2>(주)큐팡</h2>
+                    <h2>대표이사 이름(db)</h2>
+                    <h2>|</h2>
+                    <h2>사업자등록번호</h2>
+                    <h2>123-132-1231232(db)</h2>
+                    <h2>|</h2>
+                    <h2>통신판매업신고</h2>
+                    <h2>2023-부산 해운대구-1232(db)</h2>
+                    <h2>|</h2>
+                    <h2>부산광역시 부산진구 중앙동(db)</h2>
+                    <h2>(삼성동, green빌딩) 7층(db)</h2>
+                </div>
+                <div class="about-company">
+                    <h2>고객센터</h2>
+                    <h2>|</h2>
+                    <h2>02-1234-1231</h2>
+                    <h2>평일 09:00 ~ 18:00(db)</h2>
+
+                    <h2>이메일</h2>
+                    <h2>abc@cupang(db)</h2>
+
+                    <h2>전자금융거래 분쟁담당</h2>
+                    <h2>12321-12321(db)</h2>
+                </div>
+                <h2>Copyright@cupang.All.rights.reserved (db)</h2>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
