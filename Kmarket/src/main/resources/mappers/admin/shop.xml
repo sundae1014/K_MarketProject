@@ -35,7 +35,7 @@
         FETCH NEXT #{pageRequestDTO.size} ROWS ONLY
     </select>
     <select id="selectCountTotal" resultType="int">
-        SELECT COUNT(*) FROM MEMBER
+        SELECT COUNT(*) FROM MEMBER WHERE AUTH=3
     </select>
 
     <select id="searchAll" resultType="kr.co.kmarket.dto.MemberDTO">

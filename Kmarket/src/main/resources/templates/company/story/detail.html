@@ -10,8 +10,16 @@
 
     <div class="board">
         <div class="detail-area">
-            <div id="post-detail" class="blog-item">
-                <!-- storydetail.js가 여기에 글 내용 넣음 -->
+            <div class="blog-section">
+                <article class="blog-detail">
+                    <h1 th:text="${storyitem.title}"></h1>
+                    <p class="meta">
+                        <span th:text="${storyitem.reg_date}"></span> |
+                        <span th:text="${storyitem.author}"></span>
+                    </p>
+                    <img th:src="@{${storyitem.img_path}}" alt="소식과 이야기 이미지" style="max-width:100%; margin: 20px 0;">
+                    <div class="content" th:utext="${storyitem.content}"></div>
+                </article>
             </div>
             <a th:href="@{/company/story}">목록으로 돌아가기</a>
         </div>

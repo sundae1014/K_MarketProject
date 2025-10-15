@@ -1,6 +1,7 @@
 package kr.co.kmarket.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import kr.co.kmarket.dto.MemberDTO;
 import kr.co.kmarket.dto.PolicyDTO;
 import kr.co.kmarket.service.EmailService;
@@ -31,7 +32,16 @@ public class MemberController {
     }
 
     @GetMapping("/login")
-    public String login(){
+    public String login(@RequestParam(value = "redirect_uri", required = false) String redirectUri,
+                        HttpSession session) {
+        if (redirectUri != null) {
+            session.setAttribute("redirect_uri", redirectUri);
+        }
+        return "member/login";
+    }
+
+    @PostMapping("/login")
+    public String login(@RequestParam("redirect_uri") String redirect_uri){
         return "member/login";
     }
 

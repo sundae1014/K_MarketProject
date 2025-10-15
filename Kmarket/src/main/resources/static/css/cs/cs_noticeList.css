@@ -132,16 +132,16 @@ html, body { /* 기본 세팅 */
     height: 10px;
 }
 .pagenation .first {
-    background-image: url('/Kmarket/images/cs/btn-first-page.png');
+    background-image: url('/kmarket/images/cs/btn-first-page.png');
 }
 .pagenation .prev {
-    background-image: url('/Kmarket/images/cs/btn-prev-page.png');
+    background-image: url('/kmarket/images/cs/btn-prev-page.png');
 }
 .pagenation .next {
-    background-image: url('/Kmarket/images/cs/btn-next-page.png');
+    background-image: url('/kmarket/images/cs/btn-next-page.png');
 }
 .pagenation .last {
-    background-image: url('/Kmarket/images/cs/btn-last-page.png');
+    background-image: url('/kmarket/images/cs/btn-last-page.png');
 }
 
 /* 공통 적용 사항 */

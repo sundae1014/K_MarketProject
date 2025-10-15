@@ -15,12 +15,16 @@
                     </div>
                     <div class="modal-body review-contents">
                         <form id="reviewForm">
+
+                            <input type="hidden" id="reviewOrderNumber" name="orderNumber" value="">
+                            <input type="hidden" id="reviewProdNo" name="prodNo" value="">
+
                             <table class="review-table">
                                 <tr>
                                     <th>상품명</th>
                                     <td>
                                         <div class="product-info">
-                                            상품명 출력
+                                            <span id="reviewProductName">상품명 출력</span>
                                         </div>
                                     </td>
                                 </tr>
@@ -33,6 +37,7 @@
                                             <span class="star" data-rating="3">★</span>
                                             <span class="star" data-rating="4">★</span>
                                             <span class="star" data-rating="5">★</span>
+                                            <input type="hidden" id="ratingValue" name="rating" value="0">
                                         </div>
                                     </td>
                                 </tr>
@@ -40,7 +45,7 @@
                                     <th>내용</th>
                                     <td>
                                     <textarea name="reviewContent" class="review-textarea"
-                                              placeholder="최소 10자 이상, 200자 내외로 작성하세요." required ></textarea>
+                                              placeholder="최소 10자 이상, 100자 내외로 작성하세요." required ></textarea>
                                     </td>
                                 </tr>
                                 <tr>
@@ -48,13 +53,13 @@
                                     <td>
                                         <div class="file-upload-container">
                                             <div class="file-upload-buttons">
-                                                <button type="button" class="file-upload-btn" onclick="selectFileType('file1')">
+                                                <button type="button" class="file-upload-btn" onclick="document.getElementById('fileInput').click()">
                                                     파일선택
                                                 </button>
-                                                <button type="button" class="file-upload-btn" onclick="selectFileType('file2')">
+                                                <button type="button" class="file-upload-btn" onclick="document.getElementById('fileInput').click()">
                                                     파일선택
                                                 </button>
-                                                <button type="button" class="file-upload-btn" onclick="selectFileType('file3')">
+                                                <button type="button" class="file-upload-btn" onclick="document.getElementById('fileInput').click()">
                                                     파일선택
                                                 </button>
                                             </div>

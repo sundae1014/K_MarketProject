@@ -1,4 +1,4 @@
-<!DOCTYPE html> <!-- 일단 사이드바 url 생각중-->
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -12,6 +12,24 @@
             if("회원" === nt_h3.innerText) {
                 nav[0].style.color = "black";
                 nav[0].style.textDecoration = "underline";
+            } else if ("쿠폰 / 혜택 / 이벤트" === nt_h3.innerText) {
+                nav[1].style.color = "black";
+                nav[1].style.textDecoration = "underline";
+            } else if ("주문 / 결제" === nt_h3.innerText) {
+                nav[2].style.color = "black";
+                nav[2].style.textDecoration = "underline";
+            } else if ("배송" === nt_h3.innerText) {
+                nav[3].style.color = "black";
+                nav[3].style.textDecoration = "underline";
+            } else if ("취소 / 반품 / 교환" === nt_h3.innerText) {
+                nav[4].style.color = "black";
+                nav[4].style.textDecoration = "underline";
+            } else if ("여행 / 숙박 / 항공" === nt_h3.innerText) {
+                nav[5].style.color = "black";
+                nav[5].style.textDecoration = "underline";
+            } else if ("안전거래" === nt_h3.innerText) {
+                nav[6].style.color = "black";
+                nav[6].style.textDecoration = "underline";
             }
 
             const check_s = document.querySelectorAll(".check");
@@ -23,7 +41,7 @@
                     check.style.color = "#0070C0";
                     check.innerText = "답변완료";
                 }
-            })
+            });
         });
     </script>
     <!-- 로그인/로그아웃/관리자 메뉴 기능 -->
@@ -109,68 +127,68 @@
                         <li>
                             <a th:href="@{/cs/qna/list/member}" class="navList_a">회원</a>
                             <ul class="subMenu">
-                                <li><a href="#">가입</a></li>
-                                <li><a href="#">탈퇴</a></li>
-                                <li><a href="#">회원정보</a></li>
-                                <li><a href="#">로그인</a></li>
+                                <li><a th:href="@{/cs/qna/list/member/register}">가입</a></li>
+                                <li><a th:href="@{/cs/qna/list/member/withdrawal}">탈퇴</a></li>
+                                <li><a th:href="@{/cs/qna/list/member/info}">회원정보</a></li>
+                                <li><a th:href="@{/cs/qna/list/member/login}">로그인</a></li>
                             </ul>
                         </li>
                         <li>
-                            <a th:href="@{/cs/qna/list/couponAnd}" class="navList_a">쿠폰 / 이벤트</a>
+                            <a th:href="@{/cs/qna/list/benefit}" class="navList_a">쿠폰 / 혜택 / 이벤트</a>
                             <ul class="subMenu">
-                                <li><a href="#">쿠폰 / 할인혜택</a></li>
-                                <li><a href="#">포인트</a></li>
-                                <li><a href="#">제휴</a></li>
-                                <li><a href="#">이벤트</a></li>
+                                <li><a th:href="@{/cs/qna/list/benefit/couponAndDiscount}">쿠폰 / 할인혜택</a></li>
+                                <li><a th:href="@{/cs/qna/list/benefit/point}">포인트</a></li>
+                                <li><a th:href="@{/cs/qna/list/benefit/partnership}">제휴</a></li>
+                                <li><a th:href="@{/cs/qna/list/benefit/event}">이벤트</a></li>
                             </ul>
                         </li>
                         <li>
                             <a th:href="@{/cs/qna/list/orderAndPay}" class="navList_a">주문 / 결제</a>
                             <ul class="subMenu">
-                                <li><a href="#">상품</a></li>
-                                <li><a href="#">결제</a></li>
-                                <li><a href="#">구매내역</a></li>
-                                <li><a href="#">영수증 / 증빙</a></li>
+                                <li><a th:href="@{/cs/qna/list/orderAndPay/product}">상품</a></li>
+                                <li><a th:href="@{/cs/qna/list/orderAndPay/pay}">결제</a></li>
+                                <li><a th:href="@{/cs/qna/list/orderAndPay/buyList}">구매내역</a></li>
+                                <li><a th:href="@{/cs/qna/list/orderAndPay/receipt}">영수증 / 증빙</a></li>
                             </ul>
                         </li>
                         <li>
                             <a th:href="@{/cs/qna/list/deliver}" class="navList_a">배송</a>
                             <ul class="subMenu">
-                                <li><a href="#">배송상태 / 기간</a></li>
-                                <li><a href="#">배송정보확인/변경</a></li>
-                                <li><a href="#">해외배송</a></li>
-                                <li><a href="#">당일배송</a></li>
-                                <li><a href="#">해외직구</a></li>
+                                <li><a th:href="@{/cs/qna/list/deliver/statusAndPeriod}">배송상태 / 기간</a></li>
+                                <li><a th:href="@{/cs/qna/list/deliver/checkAndChange}">배송정보확인 / 변경</a></li>
+                                <li><a th:href="@{/cs/qna/list/deliver/foreign}">해외배송</a></li>
+                                <li><a th:href="@{/cs/qna/list/deliver/day}">당일배송</a></li>
+                                <li><a th:href="@{/cs/qna/list/deliver/direct}">해외직구</a></li>
                             </ul>
                         </li>
                         <li>
                             <a th:href="@{/cs/qna/list/cancelAndReturnAndExchange}" class="navList_a">취소 / 반품 / 교환</a>
                             <ul class="subMenu">
-                                <li><a href="#">반품신청 / 철회</a></li>
-                                <li><a href="#">반품정보확인 / 변경</a></li>
-                                <li><a href="#">교환 AS신청 / 철회</a></li>
-                                <li><a href="#">교환정보확인 / 변경</a></li>
-                                <li><a href="#">취소신청 / 철회</a></li>
-                                <li><a href="#">취소확인 / 환불정보</a></li>
+                                <li><a th:href="@{/cs/qna/list/cancelAndReturnAndExchange/returnAndWithdrawal}">반품신청 / 철회</a></li>
+                                <li><a th:href="@{/cs/qna/list/cancelAndReturnAndExchange/returnAndChange}">반품정보확인 / 변경</a></li>
+                                <li><a th:href="@{/cs/qna/list/cancelAndReturnAndExchange/exchangeAndWithdrawal}">교환 AS신청 / 철회</a></li>
+                                <li><a th:href="@{/cs/qna/list/cancelAndReturnAndExchange/exchangeAndChange}">교환정보확인 / 변경</a></li>
+                                <li><a th:href="@{/cs/qna/list/cancelAndReturnAndExchange/cancelAndWithdrawal}">취소신청 / 철회</a></li>
+                                <li><a th:href="@{/cs/qna/list/cancelAndReturnAndExchange/cancelAndRefund}">취소확인 / 환불정보</a></li>
                             </ul>
                         </li>
                         <li>
                             <a th:href="@{/cs/qna/list/traverlAndAccommodationAndAviation}" class="navList_a">여행 / 숙박 / 항공</a>
                             <ul class="subMenu">
-                                <li><a href="#">여행 / 숙박</a></li>
-                                <li><a href="#">항공</a></li>
+                                <li><a th:href="@{/cs/qna/list/traverlAndAccommodationAndAviation/travel}">여행 / 숙박</a></li>
+                                <li><a th:href="@{/cs/qna/list/traverlAndAccommodationAndAviation/flight}">항공</a></li>
                             </ul>
                         </li>
                         <li>
                             <a th:href="@{/cs/qna/list/Safetrade}" class="navList_a">안전거래</a>
                             <ul class="subMenu">
-                                <li><a href="#">서비스 이용규칙 위반</a></li>
-                                <li><a href="#">지식재산권침해</a></li>
-                                <li><a href="#">법령 및 정책위반 상품</a></li>
-                                <li><a href="#">게시물 정책위반</a></li>
-                                <li><a href="#">직거래 / 외부거래유도</a></li>
-                                <li><a href="#">표시광고</a></li>
-                                <li><a href="#">청소년 위해상품/이미지</a></li>
+                                <li><a th:href="@{/cs/qna/list/Safetrade/service}">서비스 이용규칙 위반</a></li>
+                                <li><a th:href="@{/cs/qna/list/Safetrade/knowledge}">지식재산권침해</a></li>
+                                <li><a th:href="@{/cs/qna/list/Safetrade/contraveningGoods}">법령 및 정책위반 상품</a></li>
+                                <li><a th:href="@{/cs/qna/list/Safetrade/article}">게시물 정책위반</a></li>
+                                <li><a th:href="@{/cs/qna/list/Safetrade/induction}">직거래 / 외부거래유도</a></li>
+                                <li><a th:href="@{/cs/qna/list/Safetrade/advertising}">표시광고</a></li>
+                                <li><a th:href="@{/cs/qna/list/Safetrade/teenager}">청소년 위해상품 / 이미지</a></li>
                             </ul>  
                         </li>
                     </ul>
@@ -187,7 +205,7 @@
                                 <input type="hidden" name="id" th:value="${qna.id}">
                                 <a th:href="@{/cs/qna/view(id=${qna.id})}" class="link_item">
                                     <span class="left">
-                                        <span>[[${'[' + qna.type2 + ']'}]] [[${qna.title}]]</span>
+                                        <span>[[${'[' + qna.type2 + ']'}]] &nbsp;[[${qna.title}]]</span>
                                         <span class="check">[[${qna.status}]]</span>
                                     </span>
                                     <span class="right">
@@ -201,12 +219,35 @@
 
                     <div style="position: relative;">
                         <ul class="pagenation">
-                            <li><a th:if="${pageResponseDTO.prev}" th:href="@{/cs/qna/list(pg=${pageResponseDTO.start - 1})}"><span class="prev"></span></a></li>
-                            <th:block th:each="num:${#numbers.sequence(pageResponseDTO.start, pageResponseDTO.end)}">
-                                <li><a th:href="@{/cs/qna/list(pg=${num})}" th:class="${num == pageResponseDTO.pg ? 'active2' : 'pageNum'}">[[${num}]]</a></li>
+                            <li>
+                                <a th:if="${pageResponseDTO.prev} and ${typeCode != null}"
+                                   th:href="@{/cs/qna/list/{type1}(type1=${typeCode}, pg=${pageResponseDTO.start - 1})}">
+                                    <span class="prev"></span>
+                                </a>
+                                <a th:if="${pageResponseDTO.prev} and ${typeCode == null}"
+                                   th:href="@{/cs/qna/list(pg=${pageResponseDTO.start - 1})}">
+                                    <span class="prev"></span>
+                                </a>
+                            </li>
+                            <th:block th:if="${pageResponseDTO.total > 0}" th:each="num:${#numbers.sequence(pageResponseDTO.start, pageResponseDTO.end)}">
+                                <li>
+                                    <a th:if="${typeCode != null}" th:href="@{/cs/qna/list/{type1}(type1=${typeCode}, pg=${num})}"
+                                       th:class="${num == pageResponseDTO.pg ? 'active2' : 'pageNum'}">[[${num}]]</a>
+                                    <a th:if="${typeCode == null}" th:href="@{/cs/qna/list(pg=${num})}"
+                                       th:class="${num == pageResponseDTO.pg ? 'active2' : 'pageNum'}">[[${num}]]</a>
+                                </li>
                             </th:block>
 
-                            <li><a th:if="${pageResponseDTO.next}" th:href="@{/cs/qna/list(pg=${pageResponseDTO.end + 1})}"><span class="next"></span></a></li>
+                            <li>
+                                <a th:if="${pageResponseDTO.next} and ${typeCode != null}"
+                                   th:href="@{/cs/qna/list/{type1}(type1=${typeCode}, pg=${pageResponseDTO.end + 1})}">
+                                    <span class="next"></span>
+                                </a>
+                                <a th:if="${pageResponseDTO.next} and ${typeCode == null}"
+                                   th:href="@{/cs/qna/list(pg=${pageResponseDTO.end + 1})}">
+                                    <span class="next"></span>
+                                </a>
+                            </li>
                         </ul>
                         <button class="inquires" th:onclick="|location.href='@{/cs/qna/write}'|">문의하기</button>
                     </div>

@@ -22,6 +22,12 @@ ul, ol, li{
     list-style: none;
 }
 
+.container {
+    max-width: 1200px !important;
+    width: 100% !important;
+    margin: 0 auto !important;
+}
+
 .content-wraper,
 .top-info {
     width: 100%;
@@ -45,14 +51,18 @@ ul, ol, li{
     align-items: center;
     font-weight: 700;
     font-size: 18.03px;
-    color: #000;
     margin-left: 50px;
+}
+
+.info-title a{
+    color: black !important;
+    text-decoration: none !important;
 }
 
 .top-info .status{
     display: block;
     margin-left: auto;
-    margin-right: 35px;
+    margin-right: 20px;
 }
 
 .status table{
@@ -77,7 +87,7 @@ ul, ol, li{
 }
 
 .status table th:last-child, td:last-child{
-    border-right: none;
+    border-right: none !important;
 }
 
 .status table td{
@@ -91,6 +101,7 @@ ul, ol, li{
 
 .side-menu{
     width: 20%;
+    min-width: 210px;
     position: relative;
     overflow-y: auto;
     border-top: 1px solid #d9d9d9;
@@ -196,6 +207,7 @@ ul, ol, li{
 
 .second-th{
     text-align: left;
+    padding-left: 5px;
 }
 
 .second-td .prod-info{
@@ -338,3 +350,20 @@ ul, ol, li{
 .status-return-request { color: #FF0000; font-weight: bold; }    /* 반품요청 */
 .status-exchange-request { color: #FF8C00; font-weight: bold; }  /* 교환요청 */
 .status-purchase-confirmed {color: #6f42c1; font-weight: bold; } /* 구매확정 */
+
+/* 별점 컨테이너 */
+.rating-stars {
+    white-space: nowrap; /* 별이 줄바꿈되지 않도록 */
+}
+
+/* 1. 노란색 별 (채워진 별) */
+.rating-stars .active-star {
+    color: #ffc107; /* 부트스트랩 노란색 계열 */
+    font-size: 16px; /* 적절한 크기 설정 */
+}
+
+/* 2. 회색 별 (빈 별) */
+.rating-stars .inactive-star {
+    color: #ccc; /* 연한 회색 */
+    font-size: 16px;
+}

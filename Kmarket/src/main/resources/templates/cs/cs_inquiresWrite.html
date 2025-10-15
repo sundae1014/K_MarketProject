@@ -16,7 +16,7 @@
 
             const category_box = { // 카테고리 
                 "회원": ["가입", "탈퇴", "회원정보", "로그인"],
-                "쿠폰 / 이벤트": ["쿠폰 / 할인혜택", "포인트", "제휴", "이벤트"],
+                "쿠폰 / 혜택 / 이벤트": ["쿠폰 / 할인혜택", "포인트", "제휴", "이벤트"],
                 "주문 / 결제": ["상품", "결제", "구매내역", "영수증 / 증빙"],
                 "배송": ["배송상태 / 기간", "배송정보확인 / 변경", "해외배송", "당일배송", "해외직구"],
                 "취소 / 반품 / 교환": ["반품신청 / 철회", "반품정보확인 / 변경", "교환 AS신청 / 철회", "교환정보확인 / 변경", "취소신청 / 철회", "취소확인 / 환불정보"],
@@ -25,7 +25,7 @@
             };
             const category1 = document.getElementById("category1");
             const category2 = document.getElementById("category2");
-            category2.innerHTML = '<option>상세유형 선택</option>';
+            category2.innerHTML = '<option>2차 선택</option>';
             
             category1.addEventListener("change", function() {
                 const selected = this.value;
@@ -39,7 +39,7 @@
                         category2.appendChild(option);
                     });
                 } else {
-                    category2.innerHTML = '<option>상세유형 선택</option>';
+                    category2.innerHTML = '<option>2차 선택</option>';
                 }
             });
         });
@@ -125,7 +125,7 @@
 
                     <ul id="navList">
                         <li>
-                            <a href="#" class="navList_a">회원</a>
+                            <a th:href="@{/cs/qna/list/member}" class="navList_a">회원</a>
                             <ul class="subMenu">
                                 <li><a href="#">가입</a></li>
                                 <li><a href="#">탈퇴</a></li>
@@ -134,7 +134,7 @@
                             </ul>
                         </li>
                         <li>
-                            <a href="#" class="navList_a">쿠폰 / 이벤트</a>
+                            <a th:href="@{/cs/qna/list/benefit}" class="navList_a">쿠폰 / 혜택 / 이벤트</a>
                             <ul class="subMenu">
                                 <li><a href="#">쿠폰 / 할인혜택</a></li>
                                 <li><a href="#">포인트</a></li>
@@ -143,7 +143,7 @@
                             </ul>
                         </li>
                         <li>
-                            <a href="#" class="navList_a">주문 / 결제</a>
+                            <a th:href="@{/cs/qna/list/orderAndPay}" class="navList_a">주문 / 결제</a>
                             <ul class="subMenu">
                                 <li><a href="#">상품</a></li>
                                 <li><a href="#">결제</a></li>
@@ -152,7 +152,7 @@
                             </ul>
                         </li>
                         <li>
-                            <a href="#" class="navList_a">배송</a>
+                            <a th:href="@{/cs/qna/list/deliver}" class="navList_a">배송</a>
                             <ul class="subMenu">
                                 <li><a href="#">배송상태 / 기간</a></li>
                                 <li><a href="#">배송정보확인/변경</a></li>
@@ -162,7 +162,7 @@
                             </ul>
                         </li>
                         <li>
-                            <a href="#" class="navList_a">취소 / 반품 / 교환</a>
+                            <a th:href="@{/cs/qna/list/cancelAndReturnAndExchange}" class="navList_a">취소 / 반품 / 교환</a>
                             <ul class="subMenu">
                                 <li><a href="#">반품신청 / 철회</a></li>
                                 <li><a href="#">반품정보확인 / 변경</a></li>
@@ -173,14 +173,14 @@
                             </ul>
                         </li>
                         <li>
-                            <a href="#" class="navList_a">여행 / 숙박 / 항공</a>
+                            <a th:href="@{/cs/qna/list/traverlAndAccommodationAndAviation}" class="navList_a">여행 / 숙박 / 항공</a>
                             <ul class="subMenu">
                                 <li><a href="#">여행 / 숙박</a></li>
                                 <li><a href="#">항공</a></li>
                             </ul>
                         </li>
                         <li>
-                            <a href="#" class="navList_a">안전거래</a>
+                            <a th:href="@{/cs/qna/list/Safetrade}" class="navList_a">안전거래</a>
                             <ul class="subMenu">
                                 <li><a href="#">서비스 이용규칙 위반</a></li>
                                 <li><a href="#">지식재산권침해</a></li>
@@ -210,9 +210,9 @@
                                     <th>문의유형</th>
                                     <td>
                                         <select name="type1" id="category1">
-                                            <option>문의유형 선택</option>
+                                            <option>1차 선택</option>
                                             <option value="회원">회원</option>
-                                            <option value="쿠폰 / 이벤트">쿠폰 / 이벤트</option>
+                                            <option value="쿠폰 / 혜택 / 이벤트">쿠폰 / 혜택 / 이벤트</option>
                                             <option value="주문 / 결제">주문 / 결제</option>
                                             <option value="배송">배송</option>
                                             <option value="취소 / 반품 / 교환">취소 / 반품 / 교환</option>

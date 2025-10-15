@@ -87,6 +87,11 @@
     cursor: pointer;
 }
 
+.pass-btn a{
+    text-decoration: none !important;
+    color: black !important;
+}
+
 .del-btn{
     width: 85px;
     height: 30px;
@@ -96,7 +101,7 @@
 }
 
 .del-btn a{
-    color: white;
+    color: white !important;
 }
 
 .final-modify-btn{
