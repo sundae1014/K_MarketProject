@@ -591,6 +591,7 @@
     justify-content: center;
     width: 75%;
     margin-top: 50px;
+    margin-bottom: 60px;
 }
 
 /* 상품평 */
@@ -614,36 +615,68 @@
     margin-bottom: 10px;
 }
 
+/* 평균 평점 (상단 큰 별) */
 .big-stars {
     display: flex;
     align-items: center;
-    font-size: 28px;
-    font-weight: 700;
-    color: orange;
+    gap: 8px;
     border-bottom: 2px solid var(--border);
-    padding-bottom: 50px;
+    padding-bottom: 40px;
 }
 
-.big-stars .stars span {
+.big-stars .fa-star {
     color: orange;
-    font-size: 28px;
-    margin-right: 4px;
-    letter-spacing: 1px;
-    font-weight: 700;
+    font-size: 22px;
+    margin-right: 3px;
 }
 
-.big-stars {
+.big-stars .stars {
+    letter-spacing: 2px;
+}
+
+.big-stars span {
+    font-size: 16px;
+    font-weight: 700;
+    color: #000;
+}
+
+.small-stars .fa-star {
+    color: var(--gray-500);
+    font-size: 17px;
+    margin-right: 2px;
+}
+
+.review-top {
     display: flex;
     align-items: center;
     gap: 10px;
-    border-bottom: 2px solid var(--border);
-    padding-bottom: 30px;
+    margin-bottom: 8px;
 }
 
-.big-stars span:last-child {
-    font-size: 18px;
-    color: #000;
-    margin-left: 10px;
+.review-writer {
+    font-weight: 600;
+    color: var(--gray-800);
+    font-size: 14px;
+}
+
+.review-prod {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--gray-500);
+    margin-bottom: 10px;
+}
+
+.review-content {
+    font-size: 15px;
+    color: #000000;
+    margin-bottom: 15px;
+    line-height: 1.5;
+    word-break: break-word;
+}
+
+.date {
+    font-size: 13px;
+    color: var(--gray-500);
 }
 
 .review-list {
@@ -657,53 +690,17 @@
     padding: 30px 0;
 }
 
-.review-top {
+.review-image {
+    margin: 10px 0 40px 0;
     display: flex;
-    align-items: center;
     gap: 10px;
-    font-size: 14px;
-    color: var(--gray-600);
-    margin-bottom: 8px;
-}
-
-.small-stars {
-    display: flex;
-    gap: 2px;
-    color: var(--gray-600);
-    font-size: 16px;
-}
-
-.review-writer {
-    font-size: 14px;
-    font-weight: 500;
-    color: #000000;
-}
-
-.prod-review .review-prod {
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--gray-500);
-    margin-bottom: 20px;
-}
-
-.prod-review .review-content {
-    font-size: 14px;
-    font-weight: 500;
-    color: #000000;
-    margin-bottom: 10px;
-}
-
-.prod-review .review-image {
-    margin: 10px 0;
-    display: flex;
-    gap: 10px;              /* 여러 장일 때 간격 */
-    flex-wrap: wrap;        /* 여러 줄 배치 가능 */
+    flex-wrap: wrap;
 }
 
 .review-image img {
-    width: 100px;           /* 썸네일 크기 */
+    width: 100px;
     height: 100px;
-    object-fit: cover;      /* 비율 유지하며 잘라내기 */
+    object-fit: cover;
     border: 1px solid var(--border);
     border-radius: 3px;
     cursor: pointer;
@@ -711,21 +708,7 @@
 }
 
 .review-image img:hover {
-    transform: scale(1.05); /* 마우스 올리면 확대 */
-}
-
-.prod-review .date {
-    display: block;
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--gray-500);
-    margin-top: 40px;
-}
-
-.small-stars, .big-stars .stars {
-    color: orange;
-    letter-spacing: 2px;
-    font-size: 20px;
+    transform: scale(1.05);
 }
 
 /* ////////////////// 페이지네이션 시작 ////////////////// */

@@ -107,10 +107,26 @@
         SELECT * FROM PRODUCT_NOTICE WHERE PROD_NUMBER = #{prod_number}
     </select>
 
-    <!-- 상품 후기 목록 -->
+    <!-- 상품 후기 목록 (회원 아이디 + 상품명 포함) -->
     <select id="selectProductReviews" resultType="kr.co.kmarket.dto.ProductReviewDTO">
-        SELECT * FROM REVIEW WHERE PROD_NUMBER = #{prod_number} ORDER BY R_DATE DESC
+        SELECT
+        r.REVIEW_NO,
+        r.PROD_NUMBER,
+        p.PROD_NAME,
+        r.RATING,
+        r.CONTENT,
+        r.R_DATE,
+        r.R_IMG1,
+        r.R_IMG2,
+        r.R_IMG3,
+        m.CUSTID AS "custid"
+        FROM REVIEW r
+        JOIN MEMBER m ON r.CUST_NUMBER = m.CUST_NUMBER
+        JOIN PRODUCT p ON r.PROD_NUMBER = p.PROD_NUMBER
+        WHERE r.PROD_NUMBER = #{prod_number}
+        ORDER BY r.R_DATE DESC
     </select>
+
 
     <!-- 상품 개수 (검색용 카운트) -->
     <select id="countProducts" resultType="int" parameterType="kr.co.kmarket.dto.SearchDTO">
@@ -178,13 +194,82 @@
     <select id="selectPagedReviews" resultType="kr.co.kmarket.dto.ProductReviewDTO">
         SELECT * FROM (
             SELECT ROWNUM AS rn, t.* FROM (
-                SELECT * FROM REVIEW
-                WHERE PROD_NUMBER = #{prod_number}
-                ORDER BY R_DATE DESC
+                SELECT
+                    r.REVIEW_NO,
+                    r.PROD_NUMBER,
+                    p.PROD_NAME,
+                    r.RATING,
+                    r.CONTENT,
+                    r.R_DATE,
+                    r.R_IMG1,
+                    r.R_IMG2,
+                    r.R_IMG3,
+                    m.CUSTID AS custid
+                FROM REVIEW r
+                JOIN MEMBER m ON r.CUST_NUMBER = m.CUST_NUMBER
+                JOIN PRODUCT p ON r.PROD_NUMBER = p.PROD_NUMBER
+                WHERE r.PROD_NUMBER = #{prod_number}
+                ORDER BY r.R_DATE DESC
             ) t
             WHERE ROWNUM &lt;= #{offset} + #{pageSize}
         )
         WHERE rn &gt; #{offset}
+    </select>
+
+    <!-- 히트상품 -->
+    <select id="selectHitProducts" resultType="kr.co.kmarket.dto.ProductDTO">
+        SELECT * FROM PRODUCT ORDER BY HIT DESC FETCH FIRST 8 ROWS ONLY
+    </select>
+
+    <!-- 추천상품 -->
+    <select id="selectRecommendProducts" resultType="kr.co.kmarket.dto.ProductDTO">
+        SELECT p.*, NVL(r.avgScore, 0) AS avgScore
+        FROM PRODUCT p
+        LEFT JOIN (
+            SELECT PROD_NUMBER, AVG(RATING) AS avgScore
+            FROM REVIEW
+            GROUP BY PROD_NUMBER
+        ) r ON p.PROD_NUMBER = r.PROD_NUMBER
+        ORDER BY r.avgScore DESC
+        FETCH FIRST 8 ROWS ONLY
+    </select>
+
+
+    <!-- 최신상품 -->
+    <select id="selectNewProducts" resultType="kr.co.kmarket.dto.ProductDTO">
+        SELECT * FROM PRODUCT ORDER BY REG_DATE DESC FETCH FIRST 8 ROWS ONLY
+    </select>
+
+    <!-- 인기상품 (조회수+평점) -->
+    <select id="selectPopularProducts" resultType="kr.co.kmarket.dto.ProductDTO">
+        SELECT p.*, NVL(r.avgScore, 0) AS avgScore
+        FROM PRODUCT p
+        LEFT JOIN (
+            SELECT PROD_NUMBER, AVG(RATING) AS avgScore
+            FROM REVIEW
+            GROUP BY PROD_NUMBER
+        ) r ON p.PROD_NUMBER = r.PROD_NUMBER
+        ORDER BY (p.HIT * 0.6 + NVL(r.avgScore, 0) * 0.4) DESC
+        FETCH FIRST 8 ROWS ONLY
+    </select>
+
+
+    <!-- 할인상품 -->
+    <select id="selectDiscountProducts" resultType="kr.co.kmarket.dto.ProductDTO">
+        SELECT * FROM PRODUCT ORDER BY DISCOUNT DESC FETCH FIRST 8 ROWS ONLY
+    </select>
+
+    <!-- 베스트상품 (판매량 기준) -->
+    <select id="selectBestProducts" resultType="kr.co.kmarket.dto.ProductDTO">
+        SELECT p.*, NVL(s.soldCount, 0) AS soldCount
+        FROM PRODUCT p
+         LEFT JOIN (
+            SELECT PROD_NUMBER, SUM(PIECE) AS soldCount
+            FROM ORDERDETAIL
+            GROUP BY PROD_NUMBER
+        ) s ON p.PROD_NUMBER = s.PROD_NUMBER
+        ORDER BY s.soldCount DESC
+        FETCH FIRST 5 ROWS ONLY
     </select>
 
 </mapper>

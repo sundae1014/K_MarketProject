@@ -28,7 +28,7 @@
     <script th:src="@{/js/product/view-image.js}" defer></script>
     <!-- 상품 상세 페이지 - 카드사별 추가 혜택 기능 -->
     <script th:src="@{/js/product/view-card.js}" defer></script>
-    <!-- 상품 상세 페이지 - 카드사별 추가 혜택 기능 -->
+    <!-- 상품 상세 페이지 - 배송정보 (도착 예정일 자동 계산) 기능 -->
     <script th:src="@{/js/product/view-delivery.js}" defer></script>
     <!-- 상품 상세 페이지 - 옵션 기능-->
     <script th:src="@{/js/product/option.js}" defer></script>
@@ -111,8 +111,7 @@
                                   rounded=${T(java.lang.Math).round(raw)},
                                   filled=${T(java.lang.Math).min(T(java.lang.Math).max(rounded.doubleValue(), 0.0), 5.0)}">
 
-
-                    <!-- 꽉 찬 별 -->
+                        <!-- 꽉 찬 별 -->
                         <i class="fa-solid fa-star" th:each="i : ${#numbers.sequence(1, filled)}"></i>
                         <!-- 빈 별 -->
                         <i class="fa-regular fa-star" th:each="i : ${#numbers.sequence(filled + 1, 5)}"></i>
@@ -276,28 +275,58 @@
                 <!-- 평균 평점 -->
                 <div class="big-stars">
                     <div class="stars">
-                        <span th:each="i : ${#numbers.sequence(1, 5)}"
-                              th:text="${i <= avgRating ? '★' : '☆'}"></span>
+                        <i th:each="i : ${#numbers.sequence(1,5)}"
+                           th:classappend="${i <= avgRating} ? 'fa-solid fa-star' : 'fa-regular fa-star'"></i>
                     </div>
                     <span th:text="'평균 ' + ${#numbers.formatDecimal(avgRating, 1, 1)} + '점'"></span>
                 </div>
 
                 <!-- 리뷰 리스트 -->
-                <ul class="review-list">
+                <ul class="review-list" th:if="${!#lists.isEmpty(reviews)}">
                     <li th:each="review : ${reviews}">
                         <div class="review-top">
-                            <div class="small-stars" th:utext="${'★'.repeat(review.rating) + '☆'.repeat(5 - review.rating)}"></div>
-                            <span class="review-writer" th:text="${review.cust_number}">홍길동</span>
-                            <span class="date" th:text="${#dates.format(review.r_date, 'yyyy-MM-dd')}"></span>
+                            <!-- 별점 -->
+                            <div class="small-stars">
+                                <i th:each="i : ${#numbers.sequence(1,5)}"
+                                   th:classappend="${i <= review.rating} ? 'fa-solid fa-star' : 'fa-regular fa-star'"></i>
+                            </div>
+
+                            <!-- 작성자 (마스킹 처리) -->
+                            <span class="review-writer"
+                                  th:text="${#strings.substring(review.custid, 0, 3)} + '*****'">abc*****</span>
                         </div>
-                        <p class="review-prod" th:text="${review.prod_number}"></p>
-                        <p class="review-content" th:text="${review.content}"></p>
+
+                        <!-- 상품명 -->
+                        <p class="review-prod" th:text="${review.prod_name}">상품명 표시</p>
+
+                        <!-- 내용 -->
+                        <p class="review-content" th:text="${review.content}">리뷰 내용 표시</p>
+
+                        <div class="review-image" th:if="${review.r_img1 != null}">
+                            <img th:if="${review.r_img1 != null}"
+                                 th:src="@{'/images/product/' + ${review.r_img1}}"
+                                 alt="리뷰 이미지1">
+
+                            <img th:if="${review.r_img2 != null}"
+                                 th:src="@{'/images/product/' + ${review.r_img2}}"
+                                 alt="리뷰 이미지2">
+
+                            <img th:if="${review.r_img3 != null}"
+                                 th:src="@{'/images/product/' + ${review.r_img3}}"
+                                 alt="리뷰 이미지3">
+                        </div>
+
+                        <!-- 작성일 -->
+                        <span class="date"
+                              th:text="${#temporals.format(review.r_date, 'yyyy-MM-dd')}">2025-09-22</span>
                     </li>
                 </ul>
 
+                <!-- 리뷰가 없을 때 -->
                 <ul class="review-list" th:if="${#lists.isEmpty(reviews)}">
                     <li><p>등록된 리뷰가 없습니다.</p></li>
                 </ul>
+
 
                 <!-- 페이지네이션 -->
                 <div class="pagination" th:if="${totalPages > 1}">
