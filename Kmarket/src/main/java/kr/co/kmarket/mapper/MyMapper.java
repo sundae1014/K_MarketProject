@@ -42,4 +42,9 @@ public interface MyMapper {
     public Integer selectOrderStat(@Param("orderNumber") int orderNumber,
                                    @Param("prodNo") int prodNo,
                                    @Param("custNumber") int custNumber);
+
+    public List<ProductReviewDTO> selectRecentReviews(@Param("custNumber") int custNumber);
+
+    public List<QnaDTO> selectRecentQnas(@Param("user_id") String user_id);
+
 }
