@@ -20,18 +20,18 @@ public class CouponController {
     @GetMapping("/list")
     public String list(Model model) {
         model.addAttribute("coupons", service.getCoupons());
-        return "/admin/coupon/couponList";
+        return "admin/coupon/couponList";
     }
 
     @PostMapping("/register")
     @ResponseBody
     public String register(@RequestBody CouponDTO coupon) {
         try {
-            coupon.setUse_count(0);
+            coupon.setUseCount(0);;
             coupon.setStatus("미사용");
             coupon.setSayoung(0);
             coupon.setBargup(0);
-            coupon.setIssue_date(new Date(System.currentTimeMillis()));
+            coupon.setIssueDate(new Date(System.currentTimeMillis()));
             service.insertCoupon(coupon);
             return "success";
         } catch (Exception e) {
