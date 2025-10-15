@@ -350,3 +350,20 @@ ul, ol, li{
 .status-return-request { color: #FF0000; font-weight: bold; }    /* 반품요청 */
 .status-exchange-request { color: #FF8C00; font-weight: bold; }  /* 교환요청 */
 .status-purchase-confirmed {color: #6f42c1; font-weight: bold; } /* 구매확정 */
+
+/* 별점 컨테이너 */
+.rating-stars {
+    white-space: nowrap; /* 별이 줄바꿈되지 않도록 */
+}
+
+/* 1. 노란색 별 (채워진 별) */
+.rating-stars .active-star {
+    color: #ffc107; /* 부트스트랩 노란색 계열 */
+    font-size: 16px; /* 적절한 크기 설정 */
+}
+
+/* 2. 회색 별 (빈 별) */
+.rating-stars .inactive-star {
+    color: #ccc; /* 연한 회색 */
+    font-size: 16px;
+}

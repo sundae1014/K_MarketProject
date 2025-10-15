@@ -33,6 +33,7 @@ public class OrderDTO {
     private String img1;
     private String manufacture;
     private String prod_name;
+    private int prod_number;
     private String encodedImg1;
     private int discount;
     private int salePrice;

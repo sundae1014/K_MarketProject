@@ -11,4 +11,10 @@
         select story_no, title, author, img_path, content, TO_CHAR(reg_date, 'YYYY-MM-DD') AS reg_date from story
         where story_no = #{story_no}
     </select>
+
+    <select id="selectRecent" parameterType="kr.co.kmarket.dto.StoryDTO">
+        select story_no, title, TO_CHAR(reg_date, 'YYYY-MM-DD') AS reg_date from story
+        order by reg_date
+        fetch first 5 rows only
+    </select>
 </mapper>

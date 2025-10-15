@@ -1,9 +1,6 @@
 package kr.co.kmarket.mapper;
 
-import kr.co.kmarket.dto.ProductDTO;
-import kr.co.kmarket.dto.ProductNoticeDTO;
-import kr.co.kmarket.dto.ProductReviewDTO;
-import kr.co.kmarket.dto.SearchDTO;
+import kr.co.kmarket.dto.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -29,4 +26,8 @@ public interface ProductMapper {
     ProductNoticeDTO selectProductNoticeByNo(int prodNo);
 
     List<ProductReviewDTO> selectProductReviews(int prodNo);
+
+    List<ProductOptionDTO> selectProductOptions(int prod_number);
+
+    double selectAvgRating(int prod_number);
 }

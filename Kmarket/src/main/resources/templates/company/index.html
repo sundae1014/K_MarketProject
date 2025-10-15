@@ -94,38 +94,10 @@
                 </div>
 
                 <ul class="news-list">
-                    <li>
-                        <span class="news-date">2025.10</span>
-                        <a th:href="@{/company/story/detail(id=${5})}" class="news-title">
-                            큐팡 ESG 활동 소개
-                            <span class="arrow-right"></span>
-                        </a>
-                    </li>
-                    <li>
-                        <span class="news-date">2025.10</span>
-                        <a th:href="@{/company/story/detail(id=${4})}" class="news-title">
-                            큐팡, 새로운 물류 센터 오픈
-                            <span class="arrow-right"></span>
-                        </a>
-                    </li>
-                    <li>
-                        <span class="news-date">2025.10</span>
-                        <a th:href="@{/company/story/detail(id=${1})}" class="news-title">
-                            직원 이야기: 개발팀 하루
-                            <span class="arrow-right"></span>
-                        </a>
-                    </li>
-                    <li>
-                        <span class="news-date">2025.09</span>
-                        <a th:href="@{/company/story/detail(id=${2})}" class="news-title">
-                            신입 개발자 인터뷰
-                            <span class="arrow-right"></span>
-                        </a>
-                    </li>
-                    <li>
-                        <span class="news-date">2025.09</span>
-                        <a th:href="@{/company/story/detail(id=${3})}" class="news-title">
-                            채용 공고: 2025 상반기
+                    <li th:each="recentStory : ${recentStorys}">
+                        <span class="news-date">[[${recentStory.reg_date}]]</span>
+                        <a th:href="@{/company/story/detail(story_no=${recentStory.story_no})}" class="news-title">
+                            [[${recentStory.title}]]
                             <span class="arrow-right"></span>
                         </a>
                     </li>

@@ -5,7 +5,7 @@
 
 <mapper namespace="kr.co.kmarket.mapper.ProductMapper">
 
-    <!-- SearchDTO 기반 검색 -->
+    <!-- 상품 검색 (SearchDTO 기반) -->
     <select id="selectProducts" parameterType="kr.co.kmarket.dto.SearchDTO"
             resultType="kr.co.kmarket.dto.ProductDTO">
 
@@ -71,9 +71,9 @@
             )
         </if>
 
-        <!-- 카테고리 -->
-        <if test="cate_cd != null and cate_cd != ''">
-            AND p.CATE_CD = #{cate_cd}
+        <!-- 카테고리 조건 (대분류·소분류 포함 검색) -->
+        <if test="cate_cd != null and cate_cd != '' and cate_cd != 'all'">
+            AND p.CATE_CD LIKE #{cate_cd} || '%'
         </if>
 
         <!-- 가격 범위 -->
@@ -86,36 +86,40 @@
 
         <!-- 정렬 조건 -->
         <choose>
-            <when test="sort == 'sold'"> ORDER BY s.soldCount DESC</when>
-            <when test="sort == 'lowPrice'"> ORDER BY p.SALEPRICE ASC</when>
-            <when test="sort == 'highPrice'"> ORDER BY p.SALEPRICE DESC</when>
-            <when test="sort == 'score'"> ORDER BY r.avgScore DESC</when>
-            <when test="sort == 'review'"> ORDER BY r.reviewCount DESC</when>
-            <otherwise> ORDER BY p.REG_DATE DESC</otherwise>
+            <when test="sort == 'sold'">ORDER BY s.soldCount DESC</when>
+            <when test="sort == 'lowPrice'">ORDER BY p.SALEPRICE ASC</when>
+            <when test="sort == 'highPrice'">ORDER BY p.SALEPRICE DESC</when>
+            <when test="sort == 'score'">ORDER BY r.avgScore DESC</when>
+            <when test="sort == 'review'">ORDER BY r.reviewCount DESC</when>
+            <otherwise>ORDER BY p.REG_DATE DESC</otherwise>
         </choose>
 
     </select>
 
+
+    <!-- 상품 상세 -->
     <select id="selectProductByNo" resultType="kr.co.kmarket.dto.ProductDTO">
-        SELECT * FROM PRODUCT WHERE PROD_NUMBER = #{prodNo}
+        SELECT * FROM PRODUCT WHERE PROD_NUMBER = #{prod_number}
     </select>
 
+    <!-- 상품 공지 -->
     <select id="selectProductNoticeByNo" resultType="kr.co.kmarket.dto.ProductNoticeDTO">
-        SELECT * FROM PRODUCT_NOTICE WHERE PROD_NUMBER = #{prodNo}
+        SELECT * FROM PRODUCT_NOTICE WHERE PROD_NUMBER = #{prod_number}
     </select>
 
+    <!-- 상품 후기 목록 -->
     <select id="selectProductReviews" resultType="kr.co.kmarket.dto.ProductReviewDTO">
-        SELECT * FROM REVIEW WHERE PROD_NUMBER = #{prodNo} ORDER BY R_DATE DESC
+        SELECT * FROM REVIEW WHERE PROD_NUMBER = #{prod_number} ORDER BY R_DATE DESC
     </select>
 
-    <!-- 상품 개수 조회 -->
+    <!-- 상품 개수 (검색용 카운트) -->
     <select id="countProducts" resultType="int" parameterType="kr.co.kmarket.dto.SearchDTO">
         SELECT COUNT(*)
         FROM PRODUCT
         WHERE 1=1
 
         <if test="keyword != null and keyword.trim() != ''">
-        AND (
+            AND (
             <if test="searchName">
                 PROD_NAME LIKE '%' || #{keyword} || '%'
             </if>
@@ -130,16 +134,32 @@
             )
         </if>
 
-        <if test="cate_cd != null and cate_cd != ''">
-            AND CATE_CD = #{cate_cd}
+        <!-- 카테고리 조건 (대·소분류 포함) -->
+        <if test="cate_cd != null and cate_cd != '' and cate_cd != 'all'">
+            AND CATE_CD LIKE #{cate_cd} || '%'
         </if>
 
+        <!-- 가격 범위 -->
         <if test="minPrice != null">
             AND PRICE &gt;= #{minPrice}
         </if>
         <if test="maxPrice != null">
             AND PRICE &lt;= #{maxPrice}
         </if>
+    </select>
+
+    <!-- 상품별 옵션 선택 기능 -->
+    <select id="selectProductOptions" resultType="kr.co.kmarket.dto.ProductOptionDTO">
+        SELECT OPTION_ID, PROD_NUMBER, OPT_NAME, OPT_PRICE
+        FROM PRODUCT_OPTION
+        WHERE PROD_NUMBER = #{prod_number}
+    </select>
+
+    <!-- 상품별 평균 평점 조회 -->
+    <select id="selectAvgRating" parameterType="int" resultType="double">
+        SELECT NVL(ROUND(AVG(RATING), 1), 0)
+        FROM REVIEW
+        WHERE PROD_NUMBER = #{prod_number}
     </select>
 
 </mapper>

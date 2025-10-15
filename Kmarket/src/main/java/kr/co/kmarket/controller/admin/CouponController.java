@@ -7,6 +7,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Date;
+
+
 @Controller
 @RequestMapping("/admin/coupon")
 @RequiredArgsConstructor
@@ -14,19 +17,27 @@ public class CouponController {
 
     private final CouponService service;
 
-    // 쿠폰 목록 페이지
     @GetMapping("/list")
     public String list(Model model) {
         model.addAttribute("coupons", service.getCoupons());
-        return "/admin/coupon/couponList"; // Thymeleaf list.html
+        return "/admin/coupon/couponList";
     }
 
-    // 모달 등록 Ajax
     @PostMapping("/register")
     @ResponseBody
-    public String register(@RequestBody CouponDTO dto) {
-        service.insertCoupon(dto);
-        return "success";
+    public String register(@RequestBody CouponDTO coupon) {
+        try {
+            coupon.setUse_count(0);
+            coupon.setStatus("미사용");
+            coupon.setSayoung(0);
+            coupon.setBargup(0);
+            coupon.setIssue_date(new Date(System.currentTimeMillis()));
+            service.insertCoupon(coupon);
+            return "success";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "fail";
+        }
     }
 }
 

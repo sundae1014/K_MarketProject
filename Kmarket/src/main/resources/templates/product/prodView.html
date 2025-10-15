@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Cupang::상품상세</title>
-    <link rel="stylesheet" th:href="@{/css/product/style_index.css}">
-    <link rel="stylesheet" th:href="@{/css/product/style_prodView.css}">
     <link rel="stylesheet" th:href="@{/css/product/style_header.css}">
     <link rel="stylesheet" th:href="@{/css/product/style_footer.css}">
+    <link rel="stylesheet" th:href="@{/css/product/style_index.css}">
+    <link rel="stylesheet" th:href="@{/css/product/style_prodView.css}">
     <link rel="stylesheet"
           th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css}">
 
@@ -20,9 +20,17 @@
     <script th:src="@{/js/product/category.js}" defer></script>
     <!-- 베스트상품 온앤오프 & 스크롤 기능 -->
     <script th:src="@{/js/product/best.js}" defer></script>
-    <!-- 상품 상세 페이지 스크롤 기능 -->
+    <!-- 2차 카테고리 > 상품 목록 타이틀 갱신 기능 -->
+    <script th:src="@{/js/product/list-title.js}" defer></script>
+    <!-- 상품 상세 페이지 - 스크롤 기능 -->
     <script th:src="@{/js/product/view-scroll.js}" defer></script>
-    <!-- 상품 상세 페이지 옵션 기능-->
+    <!-- 상품 상세 페이지 - 썸네일 클릭 시 메인 이미지 교체 기능 -->
+    <script th:src="@{/js/product/view-image.js}" defer></script>
+    <!-- 상품 상세 페이지 - 카드사별 추가 혜택 기능 -->
+    <script th:src="@{/js/product/view-card.js}" defer></script>
+    <!-- 상품 상세 페이지 - 카드사별 추가 혜택 기능 -->
+    <script th:src="@{/js/product/view-delivery.js}" defer></script>
+    <!-- 상품 상세 페이지 - 옵션 기능-->
     <script th:src="@{/js/product/option.js}" defer></script>
     <!-- 토스트 메세지 기능 -->
     <script th:src="@{/js/product/toast.js}" defer></script>
@@ -42,8 +50,9 @@
             <nav class="nav-path">
                 <ol>
                     <li><a th:href="@{/}">HOME</a></li>
-                    <li><a href="#">식품</a></li>
-                    <li><a href="#">식품 선물세트</a></li>
+                    <li th:if="${category1Name != null}" th:text="${category1Name}"></li>
+                    <li th:if="${category2Name != null}" th:text="${category2Name}"></li>
+                    <li th:if="${category2Name == null}" th:text="'상품 검색 결과'"></li>
                 </ol>
             </nav>
         </div>
@@ -68,12 +77,21 @@
             <section class="col-b">
                 <div class="prod-media">
                     <div class="main-img">
-                        <img th:src="@{${product.img_1}}" alt="대표 이미지">
+                        <img th:src="@{'/images/product/' + ${#strings.substringAfter(product.img_1, '/product/')}}" alt="대표 이미지">
                     </div>
+
                     <div class="thumb-list">
-                        <img th:src="@{${product.img_1}}" alt="썸네일1">
-                        <img th:src="@{${product.img_2}}" alt="썸네일2">
-                        <img th:src="@{${product.img_3}}" alt="썸네일3">
+                        <img th:src="@{'/images/product/' + ${#strings.substringAfter(product.img_1, '/product/')}}"
+                             th:attr="data-src=@{'/images/product/' + ${#strings.substringAfter(product.img_1, '/product/')}}"
+                             alt="썸네일1">
+
+                        <img th:src="@{'/images/product/' + ${#strings.substringAfter(product.img_2, '/product/')}}"
+                             th:attr="data-src=@{'/images/product/' + ${#strings.substringAfter(product.img_2, '/product/')}}"
+                             alt="썸네일2">
+
+                        <img th:src="@{'/images/product/' + ${#strings.substringAfter(product.img_3, '/product/')}}"
+                             th:attr="data-src=@{'/images/product/' + ${#strings.substringAfter(product.img_3, '/product/')}}"
+                             alt="썸네일3">
                     </div>
                 </div>
             </section>
@@ -112,8 +130,11 @@
                     </div>
 
                     <div class="prod-detail">
-                        <dt>카드 추가 혜택</dt><dd class="dd-bold">31,480원~</dd>
-                        <dt>무이자 할부</dt><dd>카드사별 무이자 혜택</dd>
+                        <dt>카드 추가 혜택</dt>
+                        <dd id="card-benefit" class="dd-bold"></dd>
+
+                        <dt>무이자 할부</dt>
+                        <dd>카드사별 무이자 혜택</dd>
 
                         <dt>할인 쿠폰</dt>
                         <dd>
@@ -136,7 +157,10 @@
                         <div class="select-wrap">
                             <select id="opt">
                                 <option value="" disabled selected>선택하세요.</option>
-                                <option value="1" th:attr="data-price=${product.salePrice}">1세트</option>
+                                <option th:each="opt : ${options}"
+                                        th:value="${opt.option_id}"
+                                        th:attr="data-price=${opt.opt_price}"
+                                        th:text="${opt.opt_name}"></option>
                             </select>
 
                             <div class="prod-selected" id="selected-list"></div>
@@ -225,11 +249,17 @@
                 <p class="sub-text">동일한 상품에 대한 상품평입니다.</p>
 
                 <div class="big-stars"
-                     th:with="raw=${reviews.rating ?: 0},
-                                          rounded=${T(java.lang.Math).round(raw)},
-                                          filled=${T(java.lang.Math).min(T(java.lang.Math).max(rounded,0),5)}">
+                     th:with="raw=${avgRating != null ? avgRating : 0.0},
+                     rounded=${T(java.lang.Math).round(raw)},
+                     filled=${T(java.lang.Math).min(T(java.lang.Math).max(rounded.doubleValue(), 0.0), 5.0)}">
+
+                    <!-- 꽉 찬 별 -->
                     <i class="fa-solid fa-star" th:each="i : ${#numbers.sequence(1, filled)}"></i>
+                    <!-- 빈 별 -->
                     <i class="fa-regular fa-star" th:each="i : ${#numbers.sequence(filled + 1, 5)}"></i>
+
+                    <!-- 평균 점수 숫자 표시 -->
+                    <span class="avg-score" th:text="'평균 ' + ${#numbers.formatDecimal(avgRating,1,1)} + '점'"></span>
                 </div>
 
                 <ul class="review-list">

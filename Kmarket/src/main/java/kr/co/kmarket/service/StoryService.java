@@ -20,4 +20,8 @@ public class StoryService {
     public StoryDTO getStoryById(int story_no){
         return storyMapper.selectById(story_no);
     }
+
+    public List<StoryDTO> getRecentStory(){
+        return storyMapper.selectRecent();
+    }
 }

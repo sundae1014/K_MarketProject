@@ -30,7 +30,6 @@ public class MyRestController {
     private final SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
     private final DecimalFormat priceFormatter = new DecimalFormat("#,###");
 
-    // 🚨 JS가 요청하는 경로와 일치해야 합니다.
     @GetMapping("/orderDetail")
     public OrderDTO getOrderDetail(@RequestParam("orderNumber") int orderNumber,
                                    HttpSession session) throws UnsupportedEncodingException {
@@ -90,12 +89,10 @@ public class MyRestController {
 
         // 1. 세션에서 사용자 ID (String)를 로드합니다.
         String userId = (String) session.getAttribute("user_id");
-        // ... (로그인 확인 로직 생략)
 
         // 2. DTO 필드에 세션에서 가져온 ID 및 기본값 설정
         qnaDTO.setUser_id(userId);
 
-        // 🚨 [수정]: type2 값에 따라 type1을 동적으로 결정하는 로직 (기본값 없음)
         String type2 = qnaDTO.getType2();
         String type1Value = null; // 초기값을 null로 설정
 
@@ -123,13 +120,13 @@ public class MyRestController {
         qnaDTO.setType1(type1Value); // 동적으로 결정된 type1 값 설정
 
         // 3. STATUS는 DB가 VARCHAR이므로 문자열 설정
-        qnaDTO.setStatus("검토중");
+        qnaDTO.setStatus("waiting");
         // -------------------------------------------------------------
 
         myService.registerQna(qnaDTO); // 서비스 호출
 
         resultMap.put("success", true);
-        resultMap.put("message", "문의가 성공적으로 등록되었습니다.");
+        resultMap.put("message", "문의가 등록되었습니다.");
 
         return resultMap;
     }
@@ -240,15 +237,16 @@ public class MyRestController {
             myService.registerReview(reviewDTO, images);
 
             resultMap.put("success", true);
-            resultMap.put("message", "상품평이 성공적으로 등록되었습니다.");
+            resultMap.put("message", "상품평이 등록되었습니다.");
 
-            // 🚨 [추가]: 구매 확정 조건 미달 시 오류 처리 (STAT != 8)
         } catch (IllegalStateException e) {
-            log.warn("리뷰 작성 권한 오류 발생: {}", e.getMessage());
+            // 💡 [개선] 구매 확정 조건 미달 등 비즈니스 로직 오류는 WARN 레벨로 처리
+            log.warn("리뷰 작성 권한/조건 오류 발생 (Cust: {}): {}", cust_number, e.getMessage());
             resultMap.put("success", false);
             resultMap.put("message", e.getMessage());
 
         } catch (Exception e) {
+            // 시스템 레벨의 예상치 못한 오류는 ERROR 레벨로 처리
             log.error("상품평 등록 처리 중 시스템 오류 발생 - Cust: {}", cust_number, e);
             resultMap.put("success", false);
             resultMap.put("message", "시스템 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");

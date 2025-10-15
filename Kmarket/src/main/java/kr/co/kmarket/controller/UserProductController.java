@@ -1,9 +1,6 @@
 package kr.co.kmarket.controller;
 
-import kr.co.kmarket.dto.ProductDTO;
-import kr.co.kmarket.dto.ProductNoticeDTO;
-import kr.co.kmarket.dto.ProductReviewDTO;
-import kr.co.kmarket.dto.SearchDTO;
+import kr.co.kmarket.dto.*;
 import kr.co.kmarket.enums.CategoryEnum;
 import kr.co.kmarket.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
@@ -87,11 +84,20 @@ public class UserProductController {
         ProductNoticeDTO notice = productService.selectProductNoticeByNo(prod_number);
         List<ProductReviewDTO> reviews = productService.selectProductReviews(prod_number);
 
+        // ✅ 평균 평점 추가
+        double avgRating = productService.selectAvgRating(prod_number);
+        model.addAttribute("avgRating", avgRating);
+
         model.addAttribute("product", product);
         model.addAttribute("notice", notice);
         model.addAttribute("reviews", reviews);
+
+        List<ProductOptionDTO> options = productService.selectProductOptions(prod_number);
+        model.addAttribute("options", options);
+
         return "product/prodView";
     }
+
 
     @GetMapping("/cart")
     public String cart(){
