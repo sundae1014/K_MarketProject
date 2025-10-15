@@ -21,6 +21,8 @@ public class ProductReviewDTO {
     private int rating;             // 리뷰 별점
     private int prod_number;        // 상품 번호
     private String content;         // 리뷰 본문 내용
-    private String r_img;           // 리뷰 첨부 이미지
+    private String r_img1;           // 리뷰 첨부 이미지
+    private String r_img2;           // 리뷰 첨부 이미지
+    private String r_img3;           // 리뷰 첨부 이미지
 
 }

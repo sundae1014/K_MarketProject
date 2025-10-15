@@ -25,9 +25,9 @@ public class UserOrderController {
 
     // 주문 처리 (결제 완료 버튼 누른 후)
     @PostMapping("/complete")
-    public String orderComplete(OrderDTO order, Model model) {
-        orderService.insertOrder(order);
-        model.addAttribute("order", order);
+    public String orderComplete(OrderDTO orderDTO, Model model) {
+        orderService.insertOrder(orderDTO);
+        model.addAttribute("order", orderDTO);
         return "product/prodComplete";
     }
 }

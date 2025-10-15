@@ -2,6 +2,7 @@
 const selectOpt = document.getElementById("opt");
 const selectedList = document.getElementById("selected-list");
 const totalPrice = document.getElementById("total-price");
+const prodTotal = document.querySelector(".prod-total");
 
 let selections = []; // 선택된 옵션 저장
 
@@ -12,6 +13,9 @@ selectOpt.addEventListener("change", () => {
 
     if (!value) return; // 옵션 선택 안했으면 무시
 
+    // 화살표 숨김 클래스 추가 (선택 후)
+    selectOpt.classList.add("selected");
+
     // 중복 선택 방지
     if (selections.find(item => item.value === value)) return;
 
@@ -20,18 +24,16 @@ selectOpt.addEventListener("change", () => {
     renderSelections();
 });
 
-const prodTotal = document.querySelector(".prod-total");
-
 function renderSelections() {
     selectedList.innerHTML = "";
     let total = 0;
 
     if (selections.length === 0) {
         selectedList.style.display = "none";
-        prodTotal.style.display = "none";     // 합계 숨김
+        prodTotal.style.display = "none";
     } else {
         selectedList.style.display = "block";
-        prodTotal.style.display = "block";    // 합계 표시
+        prodTotal.style.display = "block";
     }
 
     selections.forEach((item, idx) => {
