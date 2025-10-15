@@ -18,6 +18,18 @@ public class QnaService {
 
     public QnaDTO getQna(int id) {return qnaMapper.findById(id);}
 
+    public PageResponseDTO selectAll(PageRequestDTO pageRequestDTO) {
+        List<QnaDTO> dtoList = qnaMapper.findAll(pageRequestDTO);
+
+        int total = qnaMapper.selectCount(pageRequestDTO);
+
+        return PageResponseDTO.<QnaDTO>builder()
+                .pageRequestDTO(pageRequestDTO)
+                .dtoList(dtoList)
+                .total(total)
+                .build();
+    }
+
     public PageResponseDTO selectTypeAll(String type1, PageRequestDTO pageRequestDTO) {
         List<QnaDTO> dtoList = qnaMapper.findTypeAll(type1, pageRequestDTO);
         log.info("dtoList={}", dtoList);
@@ -49,4 +61,6 @@ public class QnaService {
     }
 
     public void insertQna(QnaDTO qnaDTO) {qnaMapper.insert(qnaDTO);}
+    public void insertAnswer(QnaDTO qnaDTO) {qnaMapper.update(qnaDTO);}
+    public void remove(List<Long> idList) {qnaMapper.delete(idList);}
 }
