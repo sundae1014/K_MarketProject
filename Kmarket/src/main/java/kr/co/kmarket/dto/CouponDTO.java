@@ -15,6 +15,7 @@ public class CouponDTO {
 
     private int coupon_no;
     private int coupon_type;
+    private String couponTypename;
     private String coupon_name;
     private String benefit;
     private String benefit2;
