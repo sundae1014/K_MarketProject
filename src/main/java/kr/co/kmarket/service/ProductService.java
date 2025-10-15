@@ -18,14 +18,21 @@ public interface ProductService {
     // 총 상품 개수 조회
     int countProducts(SearchDTO searchDTO);
 
-    ProductDTO selectProductByNo(int prod_number);
+    ProductDTO selectProductByNo(int prodNo);
 
-    ProductNoticeDTO selectProductNoticeByNo(int prod_number);
+    ProductNoticeDTO selectProductNoticeByNo(int prodNo);
 
-    List<ProductReviewDTO> selectProductReviews(int prod_number);
+    // 상품 리뷰 조회
+    List<ProductReviewDTO> selectProductReviews(int prodNo);
 
+    // 상품 옵션 조회
     List<ProductOptionDTO> selectProductOptions(int prod_number);
 
+    // 평균 리뷰 점수
     double selectAvgRating(int prod_number);
+
+    int countProductReviews(int prod_number);
+
+    List<ProductReviewDTO> selectPagedReviews(int prod_number, int offset, int pageSize);
 
 }

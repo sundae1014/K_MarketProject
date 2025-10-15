@@ -19,6 +19,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // 이메일 인증 버튼 클릭
         emailBtn.addEventListener("click", () => {
+            document.getElementById("authMethod").value = 1;
+
             emailBtn.classList.add("active");
             hpBtn.classList.remove("active");
 
@@ -31,6 +33,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // 휴대폰 인증 버튼 클릭
         hpBtn.addEventListener("click", () => {
+            document.getElementById("authMethod").value = 2;
+
             hpBtn.classList.add("active");
             emailBtn.classList.remove("active");
 

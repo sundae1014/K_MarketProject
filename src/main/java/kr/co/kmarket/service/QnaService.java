@@ -63,4 +63,5 @@ public class QnaService {
     public void insertQna(QnaDTO qnaDTO) {qnaMapper.insert(qnaDTO);}
     public void insertAnswer(QnaDTO qnaDTO) {qnaMapper.update(qnaDTO);}
     public void remove(List<Long> idList) {qnaMapper.delete(idList);}
+    public void remove2(long id) {qnaMapper.deleteById(id);}
 }

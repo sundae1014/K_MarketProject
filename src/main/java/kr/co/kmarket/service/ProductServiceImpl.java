@@ -1,6 +1,5 @@
 package kr.co.kmarket.service;
 
-import jakarta.annotation.PostConstruct;
 import kr.co.kmarket.dto.*;
 import kr.co.kmarket.mapper.ProductMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,4 +62,15 @@ public class ProductServiceImpl implements ProductService {
     public double selectAvgRating(int prod_number) {
         return mapper.selectAvgRating(prod_number);
     }
+
+    @Override
+    public int countProductReviews(int prod_number) {
+        return mapper.countProductReviews(prod_number);
+    }
+
+    @Override
+    public List<ProductReviewDTO> selectPagedReviews(int prod_number, int offset, int pageSize) {
+        return mapper.selectPagedReviews(prod_number, offset, pageSize);
+    }
+
 }
