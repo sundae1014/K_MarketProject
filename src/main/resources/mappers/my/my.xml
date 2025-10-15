@@ -17,6 +17,7 @@
         <result property="prod_name" column="PROD_NAME"/>
         <result property="discount" column="DISCOUNT"/>
         <result property="salePrice" column="SALEPRICE"/>
+        <result property="prod_number" column="PROD_NUMBER"/>
     </resultMap>
 
     <resultMap id="SellerDetailMap" type="kr.co.kmarket.dto.MemberDTO">
@@ -35,12 +36,17 @@
         SELECT
         a.ORDERNUMBER,
         a.O_DATE,
-        a.STAT,
+
+        CAST(a.STAT AS INT) AS STAT,
+
         b.PIECE,
         b.PRICE,
         c.IMG_1,
         c.MANUFACTURE,
-        c.PROD_NAME
+        c.PROD_NAME,
+
+        b.PROD_NUMBER
+
         FROM "Order" a
         JOIN ORDERDETAIL b ON a.ORDERNUMBER = b.ORDERNUMBER
         JOIN PRODUCT c ON b.PROD_NUMBER = c.PROD_NUMBER
@@ -63,6 +69,7 @@
         a.STAT,
         b.PIECE,
         b.PRICE,
+        b.PROD_NUMBER,
         c.IMG_1,
         c.MANUFACTURE,
         c.PROD_NAME,
@@ -144,21 +151,75 @@
         AND STAT IN (1, 2)
     </update>
 
-    <insert id="insertReview" useGeneratedKeys="true" keyProperty="review_no">
+    <insert id="insertReview" keyProperty="review_no">
+        <selectKey keyProperty="review_no" resultType="int" order="BEFORE">
+            SELECT REVIEW_SEQ.NEXTVAL FROM DUAL
+        </selectKey>
+
         INSERT INTO REVIEW (
-        CUST_NUMBER, PROD_NUMBER, CONTENT, RATING, R_DATE, R_IMG1, R_IMG2, R_IMG3
+        REVIEW_NO,
+        CUST_NUMBER,
+        PROD_NUMBER,
+        CONTENT,
+        RATING,
+        R_DATE,
+        R_IMG1,
+        R_IMG2,
+        R_IMG3
         ) VALUES (
-        #{cust_number}, #{prod_number}, #{content}, #{rating}, SYSDATE, #{r_img1}, #{r_img2}, #{r_img3}
+        #{review_no},
+        #{cust_number},
+        #{prod_number},
+        #{content},
+        #{rating},
+        SYSDATE,
+        #{r_img1, jdbcType=VARCHAR},
+        #{r_img2, jdbcType=VARCHAR},
+        #{r_img3, jdbcType=VARCHAR}
         )
     </insert>
 
     <select id="selectOrderStat" resultType="java.lang.Integer">
         SELECT
-        STAT
-        FROM "Order"
-        WHERE ORDERNUMBER = #{orderNumber}
-        AND PROD_NUMBER = #{prodNo}
-        AND CUST_NUMBER = #{custNumber}
+            a.STAT
+        FROM "Order" a
+        JOIN ORDERDETAIL b ON a.ORDERNUMBER = b.ORDERNUMBER
+        JOIN PRODUCT c ON b.PROD_NUMBER = c.PROD_NUMBER
+        WHERE a.ORDERNUMBER = #{orderNumber}
+        AND c.PROD_NUMBER = #{prodNo}
+        AND a.CUST_NUMBER = #{custNumber}
+    </select>
+
+    <select id="selectRecentReviews" resultType="kr.co.kmarket.dto.ProductReviewDTO">
+        SELECT * FROM (
+            SELECT
+                a.REVIEW_NO,
+                a.PROD_NUMBER,
+                a.CONTENT,
+                a.RATING,
+                a.R_DATE,
+                b.PROD_NAME
+            FROM REVIEW a
+            JOIN PRODUCT b ON a.PROD_NUMBER  = b.PROD_NUMBER
+            WHERE CUST_NUMBER = #{custNumber}
+            ORDER BY a.R_DATE DESC
+        )
+        WHERE ROWNUM &lt;= 5
+    </select>
+
+    <select id="selectRecentQnas" resultType="kr.co.kmarket.dto.QnaDTO">
+        SELECT * FROM (
+            SELECT
+                ID ,
+                TYPE1 ,
+                TITLE ,
+                REG_DATE ,
+                STATUS
+            FROM QNA
+            WHERE USER_ID = #{user_id}
+            ORDER BY REG_DATE  DESC
+        )
+        WHERE ROWNUM &lt;= 5
     </select>
 
 </mapper>

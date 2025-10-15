@@ -39,7 +39,7 @@ public class PageResponseDTO<T> {
             blockSize = 5;
         }
         else {
-            blockSize = 10;
+            blockSize = 5;
         }
 
         this.end = (int) (Math.ceil(this.pg / (double) blockSize)) * blockSize;
@@ -48,8 +48,11 @@ public class PageResponseDTO<T> {
         int last = (int) (Math.ceil(total / (double) size));
         this.end = Math.min(this.end, last);
 
+//        this.prev = this.start > 1;
+//        this.next = total > this.end * this.size;
+
         this.prev = this.start > 1;
-        this.next = total > this.end * this.size;
+        this.next = this.end < last;
 
         this.searchType = pageRequestDTO.getSearchType();
         this.keyword = pageRequestDTO.getKeyword();

@@ -24,8 +24,13 @@ public class MyService {
 
     private final MyMapper myMapper;
 
-    @Value("${file.upload.path}") // application.properties의 키값과 일치해야 합니다.
+    @Value("${file.upload.path}")
     private String fileUploadPath;
+
+    private static final int DELIVERY_COMPLETE_CODE = 4;
+    private static final int PURCHASE_CONFIRMED_CODE = 8;
+    private static final int CANCELED_CODE = 9;
+
 
     public List<OrderDTO> getRecentOrders(int custNumber) {
         return myMapper.selectRecentOrders(custNumber);
@@ -39,30 +44,22 @@ public class MyService {
         return myMapper.selectOrderDetailByCustomer(custNumber, orderNumber);
     }
 
-    public MemberDTO getSellerByManufacture(String manufacture) { // ⬅️ MemberDTO 사용
+    public MemberDTO getSellerByManufacture(String manufacture) {
         return myMapper.selectSellerByManufacture(manufacture);
     }
 
     public void registerQna(QnaDTO dto) {
-
-        // 1. ID 설정: MAX(ID) + 1 로직으로 고유 ID 생성
-        int nextId = myMapper.selectMaxQnaId();
-
-        dto.setId(nextId);
-
         myMapper.insertQna(dto);
     }
 
     public int updateOrderConfirmation(int orderNumber, int custNumber) {
-
-        final int DELIVERY_COMPLETE_CODE = 4;
 
         // 1. 현재 주문 정보(stat 포함)를 DB에서 조회
         OrderDTO order = myMapper.selectOrderStat1(orderNumber, custNumber);
 
         if (order == null || order.getStat() != DELIVERY_COMPLETE_CODE) {
             log.warn("구매 확정 실패: 주문 번호 {}는 현재 상태({})로 구매 확정이 불가합니다.",
-                    orderNumber, order.getStat());
+                    orderNumber, order == null ? "NULL" : order.getStat());
             return 0; // 상태 불일치
         }
 
@@ -71,14 +68,12 @@ public class MyService {
     }
 
     public int updateOrderCancel(int orderNumber, int custNumber) {
-        // 🚨 여기에 DAO/Mapper 호출하여 주문 상태를 9로 업데이트하는 로직을 작성합니다.
         return myMapper.updateOrderCancel(orderNumber, custNumber);
     }
 
     @Transactional
     public void registerReview(ProductReviewDTO reviewDTO, List<MultipartFile> images) {
 
-        // 1. 🚨 [핵심]: 주문 상태 확인 (STAT = 8)
         Integer stat = myMapper.selectOrderStat(
                 reviewDTO.getOrderNumber(),
                 reviewDTO.getProd_number(),
@@ -86,9 +81,9 @@ public class MyService {
         );
 
         // STAT이 8이 아니거나, 주문 상품이 조회되지 않은 경우
-        if (stat == null || stat != 8) {
-            log.warn("리뷰 작성 실패: 주문 {} 상품 {} 상태가 구매 확정(8)이 아님. 현재 상태: {}",
-                    reviewDTO.getOrderNumber(), reviewDTO.getProd_number(), stat);
+        if (stat == null || stat != PURCHASE_CONFIRMED_CODE) { // 💡 상수 사용
+            log.warn("리뷰 작성 실패: 주문 {} 상품 {} 상태가 구매 확정({})이 아님. 현재 상태: {}",
+                    reviewDTO.getOrderNumber(), reviewDTO.getProd_number(), PURCHASE_CONFIRMED_CODE, stat);
             // IllegalStateException을 던져 Controller로 오류 전달
             throw new IllegalStateException("구매 확정된 상품에 대해서만 리뷰를 작성할 수 있습니다.");
         }
@@ -111,20 +106,23 @@ public class MyService {
         File uploadDir = new File(path);
 
         if (!uploadDir.exists()) {
-            uploadDir.mkdirs();
+            if (!uploadDir.mkdirs()) {
+                log.error("파일 업로드 디렉토리 생성 실패: {}", path);
+                throw new RuntimeException("파일 업로드 디렉토리 생성에 실패했습니다.");
+            }
         }
 
         for (int i = 0; i < Math.min(images.size(), 3); i++) {
             MultipartFile file = images.get(i);
 
-            // ... (파일 저장 로직 유지) ...
             if (!file.isEmpty()) {
                 String oriName = file.getOriginalFilename();
                 String ext = oriName.substring(oriName.lastIndexOf("."));
                 String newName = UUID.randomUUID().toString() + ext;
 
                 try {
-                    file.transferTo(new File(path, newName));
+                    File saveFile = new File(path, newName); // 💡 저장 파일 객체 생성
+                    file.transferTo(saveFile);
 
                     if (i == 0) {
                         reviewDTO.setR_img1(newName);
@@ -140,5 +138,13 @@ public class MyService {
                 }
             }
         }
+    }
+
+    public List<QnaDTO> getRecentQnas(String user_id) {
+        return myMapper.selectRecentQnas(user_id);
+    }
+
+    public List<ProductReviewDTO> getRecentReviews(int custNumber) {
+        return myMapper.selectRecentReviews(custNumber);
     }
 }

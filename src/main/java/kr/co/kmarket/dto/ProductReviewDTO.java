@@ -4,8 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -25,5 +27,12 @@ public class ProductReviewDTO {
     private String r_img2;
     private String r_img3;
 
+    // 파일 업로드를 위한 임시 필드 (DB에 저장 안 함)
+    private List<MultipartFile> images;
+
     private int orderNumber;
+
+    private String prod_name;
+
+    private String user_id;
 }

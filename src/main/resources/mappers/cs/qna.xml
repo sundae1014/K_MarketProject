@@ -10,6 +10,17 @@
         WHERE ID = #{id}
     </select>
 
+    <select id="findAll" resultType="kr.co.kmarket.dto.QnaDTO">
+        SELECT *
+        FROM QNA
+        ORDER BY ID DESC
+        OFFSET #{pageRequestDTO.offset} ROWS
+        FETCH NEXT #{pageRequestDTO.size} ROWS ONLY
+    </select>
+    <select id="selectCount" resultType="int">
+        SELECT COUNT(*) FROM QNA
+    </select>
+
     <select id="findTypeAll" resultType="kr.co.kmarket.dto.QnaDTO">
         SELECT *
         FROM QNA
@@ -18,20 +29,10 @@
         OFFSET #{pageRequestDTO.offset} ROWS
         FETCH NEXT #{pageRequestDTO.size} ROWS ONLY
     </select>
-
-    <select id="findAll" resultType="kr.co.kmarket.dto.QnaDTO">
-        SELECT *
-        FROM QNA
-        ORDER BY ID DESC
-        OFFSET #{pageRequestDTO.offset} ROWS
-        FETCH NEXT #{pageRequestDTO.size} ROWS ONLY
-    </select>
     <select id="selectCountTotal" resultType="int">
         SELECT COUNT(*) FROM QNA
         WHERE TYPE1 = #{type1}
     </select>
-
-
 
     <select id="findTypeAll2" resultType="kr.co.kmarket.dto.QnaDTO">
         SELECT *
@@ -54,4 +55,17 @@
         INSERT INTO QNA(TYPE1, TYPE2,TITLE, QUEST, USER_ID, REG_DATE, STATUS)
         VALUES (#{type1}, #{type2}, #{title}, #{quest}, #{user_id}, #{reg_date}, #{status})
     </insert>
+    <update id="update">
+        UPDATE QNA SET
+        ANSWER = #{answer}, ADMIN_ID = #{admin_id}, STATUS = #{status}
+        WHERE ID = #{id}
+    </update>
+
+    <delete id="delete" parameterType="list">
+        DELETE FROM QNA
+        WHERE ID IN
+        <foreach item="id" collection="list" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
 </mapper>

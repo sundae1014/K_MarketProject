@@ -1,20 +1,43 @@
 package kr.co.kmarket.controller.admin;
 
+import kr.co.kmarket.dto.CouponDTO;
+import kr.co.kmarket.service.admin.CouponService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+import java.sql.Date;
+
 
 @Controller
 @RequestMapping("/admin/coupon")
+@RequiredArgsConstructor
 public class CouponController {
 
+    private final CouponService service;
+
     @GetMapping("/list")
-    public String list(){
-        return "admin/coupon/couponList";
+    public String list(Model model) {
+        model.addAttribute("coupons", service.getCoupons());
+        return "/admin/coupon/couponList";
     }
 
-    @GetMapping("/issued")
-    public String issued(){
-        return "admin/coupon/couponStat";
+    @PostMapping("/register")
+    @ResponseBody
+    public String register(@RequestBody CouponDTO coupon) {
+        try {
+            coupon.setUse_count(0);
+            coupon.setStatus("미사용");
+            coupon.setSayoung(0);
+            coupon.setBargup(0);
+            coupon.setIssue_date(new Date(System.currentTimeMillis()));
+            service.insertCoupon(coupon);
+            return "success";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "fail";
+        }
     }
 }
+

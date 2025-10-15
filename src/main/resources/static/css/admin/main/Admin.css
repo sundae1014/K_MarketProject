@@ -161,7 +161,8 @@
 }
 
 
-table {
+.qna-table,
+.notice-table {
     border-collapse: collapse;
     margin-top: 7px;
     font-size: 14px;
@@ -169,7 +170,8 @@ table {
     width: 470px;
 }
 
-table td {
+.qna-table td,
+.notice-table td {
     border-bottom: 1px solid #ccc;
     box-sizing: border-box;
     padding-top: 20px;

@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const cate = btn.dataset.cate;
 
                 posts.forEach(post => {
-                    if(cate === 'all' || post.dataset.cate === cate){
+                    if(cate === '0' || post.dataset.cate === cate){
                         post.classList.add('show');
                     } else {
                         post.classList.remove('show');
@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             });
         });
-        document.querySelector('[data-cate="all"]').click();
+        document.querySelector('[data-cate="0"]').click();
     }
 
 });

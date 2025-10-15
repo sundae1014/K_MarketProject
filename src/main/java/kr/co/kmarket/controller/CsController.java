@@ -51,6 +51,7 @@ public class CsController {
         model.addAttribute("typeName", type1);
         return "/cs/cs_inquiresList";
     }
+
     @GetMapping("/qna/list/{type1}")
     public String qnaList(@PathVariable("type1") String type1, PageRequestDTO pageRequestDTO, Model model) {
         String typeName = switch(type1){
@@ -72,7 +73,6 @@ public class CsController {
 
         return "/cs/cs_inquiresList";
     }
-
 
     @GetMapping("/qna/list/{type1}/{type2}")
     public String qnaList(@PathVariable("type1") String type1, @PathVariable("type2") String type2, PageRequestDTO pageRequestDTO, Model model) {
@@ -130,7 +130,6 @@ public class CsController {
 
         return "/cs/cs_inquiresList";
     }
-
 
     @GetMapping("/qna/view")
     public String qnaView(int id, Model model){

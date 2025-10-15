@@ -384,36 +384,44 @@
       </div>
     </div>
 
-    <table>
-      <tbody>
-        <tr class="type-title">
-          <th>유형</th>
-          <td>회원 - 가입</td>
-        </tr>
-        <tr class="type-title">
-          <th>제목</th>
-          <td>아이디를 여러개 사용할 수 있나요 ?</td>
-        </tr>
-        <tr class="content-answer">
-          <th>내용</th>
-          <td>개인적인 사정으로 아이디를 3개 사용했으면 하는데 사용할 수 있나요 ?</td>
-        </tr>
-        <tr class="content-answer">
-          <th>답변</th>
-          <td>
-              <textarea name="qna_content" id="qna_content">대한민국 No.1 오픈마켓 Kmarket
-안녕하세요.dream 고객님 저희 케이 마켓을 이용해 주셔서 감사합니다. 안타깝게도 개인 회원은 1개의 계정만 사용 할 수 있습니다.
-              </textarea>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+      <form th:action="@{/admin/cs/qna/reply}" method="post">
+          <input type="hidden" name="id" th:value="${qnaDTO.id}"/>
+          <input type="hidden" name="type1" th:value="${qnaDTO.type1}"/>
+          <input type="hidden" name="type2" th:value="${qnaDTO.type2}"/>
+          <input type="hidden" name="title" th:value="${qnaDTO.title}"/>
+          <input type="hidden" name="quest" th:value="${qnaDTO.quest}"/>
+          <input type="hidden" name="user_id" th:value="${qnaDTO.user_id}"/>
+          <input type="hidden" name="reg_date" th:value="${qnaDTO.reg_date}"/>
+          <input type="hidden" name="status" th:value="${qnaDTO.status}"/>
+          <table>
+              <tbody>
+                <tr class="type-title">
+                  <th>유형</th>
+                  <td>[[${qnaDTO.type1}]] - [[${qnaDTO.type2}]]</td>
+                </tr>
+                <tr class="type-title">
+                  <th>제목</th>
+                  <td>[[${qnaDTO.title}]]</td>
+                </tr>
+                <tr class="content-answer">
+                  <th>내용</th>
+                  <td>[[${qnaDTO.quest}]]</td>
+                </tr>
+                <tr class="content-answer">
+                  <th>답변</th>
+                  <td>
+                      <textarea name="answer" id="qna_content"></textarea>
+                  </td>
+                </tr>
+              </tbody>
+          </table>
 
-    <div class="bottom-bar">
-      <button class="btn2">&nbsp;&nbsp;삭제&nbsp;&nbsp;</button>
-       <button class="btn">답변등록</button>
-      <button class="btn" th:onclick="|location.href='@{/admin/cs/qna/list}'|">&nbsp;&nbsp;목록&nbsp;&nbsp;</button>
-    </div>
+          <div class="bottom-bar">
+              <button class="btn2" type="button">&nbsp;&nbsp;삭제&nbsp;&nbsp;</button>
+              <button class="btn" type="submit">답변등록</button>
+              <button class="btn" type="button" th:onclick="|location.href='@{/admin/cs/qna/list}'|">&nbsp;&nbsp;목록&nbsp;&nbsp;</button>
+          </div>
+      </form>
   </div>
 </div>
 <footer>

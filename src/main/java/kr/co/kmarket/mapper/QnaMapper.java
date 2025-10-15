@@ -11,8 +11,10 @@ import java.util.List;
 public interface QnaMapper {
     public QnaDTO findById(@Param("id") int id);
 
-    public List<QnaDTO> findTypeAll(@Param("type1") String type1, @Param("pageRequestDTO") PageRequestDTO pageRequestDTO);
     public List<QnaDTO> findAll(@Param("pageRequestDTO") PageRequestDTO pageRequestDTO);
+    public int selectCount(@Param("pageRequestDTO")  PageRequestDTO pageRequestDTO);
+
+    public List<QnaDTO> findTypeAll(@Param("type1") String type1, @Param("pageRequestDTO") PageRequestDTO pageRequestDTO);
     public int selectCountTotal(@Param("type1") String type1, @Param("pageRequestDTO")  PageRequestDTO pageRequestDTO);
 
 
@@ -20,5 +22,8 @@ public interface QnaMapper {
     public int selectCountTotal2(@Param("type1") String type1, @Param("type2") String type2 , @Param("pageRequestDTO")  PageRequestDTO pageRequestDTO);
 
 
-    public void insert(QnaDTO qnaDTO);
+    public void insert(QnaDTO qnaDTO); //질문
+    public void update(QnaDTO qnaDTO); //답변
+
+    public void delete(@Param("list") List<Long> idList);
 }
