@@ -49,8 +49,6 @@
         AND TYPE2 = #{type2}
     </select>
 
-
-
     <insert id="insert">
         INSERT INTO QNA(TYPE1, TYPE2,TITLE, QUEST, USER_ID, REG_DATE, STATUS)
         VALUES (#{type1}, #{type2}, #{title}, #{quest}, #{user_id}, #{reg_date}, #{status})
@@ -67,5 +65,10 @@
         <foreach item="id" collection="list" open="(" separator="," close=")">
             #{id}
         </foreach>
+    </delete>
+
+    <delete id="deleteById">
+        DELETE FROM QNA
+        WHERE ID = #{id}
     </delete>
 </mapper>

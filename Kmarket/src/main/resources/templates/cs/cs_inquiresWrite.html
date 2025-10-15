@@ -25,7 +25,7 @@
             };
             const category1 = document.getElementById("category1");
             const category2 = document.getElementById("category2");
-            category2.innerHTML = '<option>상세유형 선택</option>';
+            category2.innerHTML = '<option>2차 선택</option>';
             
             category1.addEventListener("change", function() {
                 const selected = this.value;
@@ -39,7 +39,7 @@
                         category2.appendChild(option);
                     });
                 } else {
-                    category2.innerHTML = '<option>상세유형 선택</option>';
+                    category2.innerHTML = '<option>2차 선택</option>';
                 }
             });
         });
@@ -210,7 +210,7 @@
                                     <th>문의유형</th>
                                     <td>
                                         <select name="type1" id="category1">
-                                            <option>문의유형 선택</option>
+                                            <option>1차 선택</option>
                                             <option value="회원">회원</option>
                                             <option value="쿠폰 / 혜택 / 이벤트">쿠폰 / 혜택 / 이벤트</option>
                                             <option value="주문 / 결제">주문 / 결제</option>

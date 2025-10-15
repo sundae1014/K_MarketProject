@@ -5,7 +5,6 @@
   <title>공지사항 등록</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
       margin: 0;
       background-color: #f5f5f5;
     }
@@ -403,65 +402,64 @@
                         <li><a th:href="@{/admin/cs/recruit/list}" class="sub-link">채용하기</a></li>
                     </ul>
                 </div>
+</aside>
+    <!-- 메인 콘텐츠 -->
+    <div class="content">
+        <div class="header-top">
+            <h1>자주묻는질문 작성</h1>
+            <div class="breadcrumb">
+                <a href="#">HOME</a> &gt;
+                <a href="#">고객센터</a> &gt;
+                <span>자주묻는질문</span>
+            </div>
+        </div>
 
-            </aside>
-
-  <!-- 메인 콘텐츠 -->
-  <div class="content">
-    <div class="header-top">
-      <h1>자주묻는질문 작성</h1>
-      <div class="breadcrumb">
-        <a href="#">HOME</a> &gt; 
-        <a href="#">고객센터</a> &gt; 
-        <span>자주묻는질문</span>
-      </div>
+      <form th:action="@{/admin/cs/faq/write}" method="post">
+          <table>
+              <tbody>
+              <tr>
+                  <th>유형</th>
+                  <td>
+                      <div class="input-box select-row">
+                          <select name="type1" id="category1">
+                              <option>1차 선택</option>
+                              <option value="회원">회원</option>
+                              <option value="쿠폰 / 이벤트">쿠폰 / 이벤트</option>
+                              <option value="주문 / 결제">주문 / 결제</option>
+                              <option value="배송">배송</option>
+                              <option value="취소 / 반품 / 교환">취소 / 반품 / 교환</option>
+                              <option value="여행 / 숙박 / 항공">여행 / 숙박 / 항공</option>
+                              <option value="안전거래">안전거래</option>
+                          </select>
+                          <select name="type2" id="category2">
+                          </select>
+                      </div>
+                  </td>
+              </tr>
+              <tr>
+                  <th>제목</th>
+                  <td>
+                      <div class="input-box">
+                          <input type="text" name="title" placeholder="제목을 입력하세요">
+                      </div>
+                  </td>
+              </tr>
+              <tr>
+                  <th>내용</th>
+                  <td>
+                      <div class="input-box">
+                          <textarea name="content" placeholder="내용을 입력하세요"></textarea>
+                      </div>
+                  </td>
+              </tr>
+              </tbody>
+          </table>
+          <div class="bottom-bar">
+              <button class="btn2" th:onclick="|location.href='@{/admin/cs/faq/list}'|">취소하기</button>
+              <button type="submit" class="btn">등록하기</button>
+          </div>
+      </form>
     </div>
-
-    <table>
-      <tbody>
-        <tr>
-          <th>유형</th>
-          <td>
-            <div class="input-box select-row">
-                <select name="category1" id="category1">
-                    <option>1차 선택</option>
-                    <option value="회원">회원</option>
-                    <option value="쿠폰 / 이벤트">쿠폰 / 이벤트</option>
-                    <option value="주문 / 결제">주문 / 결제</option>
-                    <option value="배송">배송</option>
-                    <option value="취소 / 반품 / 교환">취소 / 반품 / 교환</option>
-                    <option value="여행 / 숙박 / 항공">여행 / 숙박 / 항공</option>
-                    <option value="안전거래">안전거래</option>
-                </select>
-                <select name="category2" id="category2">
-                </select>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <th>제목</th>
-          <td>
-            <div class="input-box">
-              <input type="text" placeholder="제목을 입력하세요">
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <th>내용</th>
-          <td>
-            <div class="input-box">
-              <textarea placeholder="내용을 입력하세요"></textarea>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-
-    <div class="bottom-bar">
-      <button class="btn2" th:onclick="|location.href='@{/admin/cs/faq/list}'|">취소하기</button>
-      <button class="btn">등록하기</button>
-    </div>
-  </div>
 </div>
 <footer>
     <div class="footer-layout">
