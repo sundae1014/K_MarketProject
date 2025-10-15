@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="kr.co.kmarket.mapper.admin.CouponMapper">
 
-    <!-- INSERT -->
+    <!-- 쿠폰 등록 -->
     <insert id="insertCoupon" parameterType="kr.co.kmarket.dto.CouponDTO">
         INSERT INTO COUPON (
             COUPON_NO,
@@ -17,38 +16,42 @@
             ISSUE_DATE,
             USE_COUNT,
             STATUS,
-            MANAGE
+            MANAGE,
+            SAYOUNG,
+            BARGUP
         ) VALUES (
-                     coupon_seq.NEXTVAL,
+                     COUPON_SEQ.NEXTVAL,
                      #{coupon_type},
                      #{coupon_name},
                      #{benefit},
                      #{use_period},
                      #{issuer},
-                     SYSDATE,
-                     0,
-                     '미사용',
-                     #{manage}
+                     #{issue_date},
+                     #{use_count},
+                     #{status},
+                     #{manage},
+                     #{sayoung},
+                     #{bargup}
                  )
     </insert>
 
-    <!-- SELECT -->
+    <!-- 쿠폰 목록 -->
     <select id="selectCoupons" resultType="kr.co.kmarket.dto.CouponDTO">
         SELECT
-            "COUPON_NO" AS coupon_no,
-            "COUPON_TYPE" AS coupon_type,
-            "COUPON_NAME" AS coupon_name,
-            "BENEFIT" AS benefit,
-            "USE_PERIOD" AS use_period,
-            "ISSUER" AS issuer,
-            "ISSUE_DATE" AS issue_date,
-            "USE_COUNT" AS use_count,
-            "STATUS" AS status,
-            "MANAGE" AS manage,
-            "benefit2" AS benefit2
+            COUPON_NO AS coupon_no,
+            COUPON_TYPE AS coupon_type,
+            COUPON_NAME AS coupon_name,
+            BENEFIT AS benefit,
+            USE_PERIOD AS use_period,
+            ISSUER AS issuer,
+            ISSUE_DATE AS issue_date,
+            USE_COUNT AS use_count,
+            STATUS AS status,
+            MANAGE AS manage,
+            SAYOUNG AS sayoung,
+            BARGUP AS bargup
         FROM COUPON
-        ORDER BY "COUPON_NO" DESC
+        ORDER BY COUPON_NO DESC
     </select>
-
 
 </mapper>

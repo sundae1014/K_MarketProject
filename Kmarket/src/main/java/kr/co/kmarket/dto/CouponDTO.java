@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Date;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -12,15 +14,17 @@ import lombok.NoArgsConstructor;
 public class CouponDTO {
 
     private int coupon_no;
-    private String coupon_type;
+    private int coupon_type;
     private String coupon_name;
     private String benefit;
     private String benefit2;
     private String use_period;
     private String issuer;
-    private String issue_date;
+    private Date issue_date;
     private int use_count;
     private String status;
     private String manage;
-
+    private int sayoung;
+    private int bargup;
+    private Date issue;
 }
