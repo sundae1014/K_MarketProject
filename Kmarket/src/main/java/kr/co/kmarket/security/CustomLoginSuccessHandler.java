@@ -40,7 +40,6 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
         log.info("로그인 성공! user_id 세션에 저장된 값: {}", userIdToStore);
 
         String redirectUri = null;
-
         RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
         if (session != null) {
@@ -51,7 +50,11 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
         if (redirectUri != null) {
             redirectStrategy.sendRedirect(request, response, redirectUri);
         } else {
-            redirectStrategy.sendRedirect(request, response, "/kmarket");
+            if(member.getAuth() == 2 || member.getAuth() == 3) {
+                redirectStrategy.sendRedirect(request, response, "/admin");
+            }else{
+                redirectStrategy.sendRedirect(request, response, "/");
+            }
         }
     }
 }
