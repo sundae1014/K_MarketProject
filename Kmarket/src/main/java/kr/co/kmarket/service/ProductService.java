@@ -1,9 +1,6 @@
 package kr.co.kmarket.service;
 
-import kr.co.kmarket.dto.ProductDTO;
-import kr.co.kmarket.dto.ProductNoticeDTO;
-import kr.co.kmarket.dto.ProductReviewDTO;
-import kr.co.kmarket.dto.SearchDTO;
+import kr.co.kmarket.dto.*;
 
 import java.util.List;
 
@@ -26,5 +23,9 @@ public interface ProductService {
     ProductNoticeDTO selectProductNoticeByNo(int prod_number);
 
     List<ProductReviewDTO> selectProductReviews(int prod_number);
+
+    List<ProductOptionDTO> selectProductOptions(int prod_number);
+
+    double selectAvgRating(int prod_number);
 
 }
