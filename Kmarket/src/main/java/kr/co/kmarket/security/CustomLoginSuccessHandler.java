@@ -7,6 +7,8 @@ import jakarta.servlet.http.HttpSession;
 import kr.co.kmarket.dto.MemberDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.web.DefaultRedirectStrategy;
+import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
@@ -37,6 +39,19 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
         // 로그를 확인하여 실제 ID가 찍히는지 확인해 보세요!
         log.info("로그인 성공! user_id 세션에 저장된 값: {}", userIdToStore);
 
-        response.sendRedirect("/kmarket");
+        String redirectUri = null;
+
+        RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+
+        if (session != null) {
+            redirectUri = (String) session.getAttribute("redirect_uri");
+            session.removeAttribute("redirect_uri");
+        }
+
+        if (redirectUri != null) {
+            redirectStrategy.sendRedirect(request, response, redirectUri);
+        } else {
+            redirectStrategy.sendRedirect(request, response, "/kmarket");
+        }
     }
 }

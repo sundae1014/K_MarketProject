@@ -80,7 +80,7 @@
                     </svg>
                     <span>찜</span>
                 </a>
-                <a th:href="${#authorization.expression('isAuthenticated()') ? '/kmarket/my/home' : '/kmarket/member/login'}"
+                <a th:href="${#authorization.expression('isAuthenticated()') ? '/kmarket/my/home' : '/kmarket/member/login?redirect_uri=/my/home'}"
                    class="quick-action" aria-label="마이페이지">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2"
                          stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-round-icon lucide-user-round">
@@ -89,7 +89,7 @@
                     </svg>
                     <span>마이페이지</span>
                 </a>
-                <a th:href="${#authorization.expression('isAuthenticated()') ? '/kmarket/product/cart' : '/kmarket/member/login'}"
+                <a th:href="${#authorization.expression('isAuthenticated()') ? '/kmarket/product/cart' : '/kmarket/member/login?redirect_uri=/product/cart'}"
                    class="quick-action" id="header-cart" aria-label="장바구니">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2"
                          stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shopping-cart-icon lucide-shopping-cart">
