@@ -1,24 +1,14 @@
 let currentRating = 0;
 let uploadedFiles = [];
-let currentUploadType = '';
 
-// 별점 기능
+// 별점 기능 및 DOM 로직
 document.addEventListener('DOMContentLoaded', function() {
     const stars = document.querySelectorAll('.star');
-    const ratingText = document.getElementById('ratingText');
     const ratingValue = document.getElementById('ratingValue');
     const textarea = document.querySelector('textarea[name="reviewContent"]');
-    const charCount = document.getElementById('charCount');
+    const MAX_CHARS = 255;
 
-    const ratingTexts = {
-        0: '별점을 선택해주세요 (필수)',
-        1: '매우 불만족',
-        2: '불만족',
-        3: '보통',
-        4: '만족',
-        5: '매우 만족'
-    };
-
+    // 별점 이벤트 리스너
     stars.forEach(star => {
         star.addEventListener('mouseenter', function () {
             const rating = parseInt(this.dataset.rating);
@@ -32,7 +22,6 @@ document.addEventListener('DOMContentLoaded', function() {
         star.addEventListener('click', function () {
             currentRating = parseInt(this.dataset.rating);
             ratingValue.value = currentRating;
-            ratingText.textContent = ratingTexts[currentRating];
             highlightStars(currentRating, false);
         });
     });
@@ -46,12 +35,12 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+
 // 파일 업로드 처리
     function handleFileUpload(event) {
         const files = Array.from(event.target.files);
 
         files.forEach(file => {
-            // 🚨 [수정]: 최대 5장 -> 최대 3장으로 변경
             if (uploadedFiles.length >= 3) {
                 alert('최대 3장까지 업로드 가능합니다.');
                 return;
@@ -118,14 +107,12 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        // 🚨 [추가]: Hidden Field에서 주문 및 상품 번호 가져오기
         const orderNumber = document.getElementById('reviewOrderNumber').value;
         const prodNo = document.getElementById('reviewProdNo').value;
-        const content = this.reviewContent.value.trim();
+        const content = textarea.value.trim(); // 💡 (개선) 상위 스코프의 textarea 변수 사용
 
         // 폼 데이터 수집
         const formData = new FormData();
-        // 🚨 [추가]: orderNumber, prodNo 추가 (서버 Controller에서 받음)
         formData.append('orderNumber', orderNumber);
         formData.append('prodNo', prodNo);
         formData.append('rating', currentRating);
@@ -133,12 +120,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // 파일 추가
         uploadedFiles.forEach((fileObj, index) => {
-            // 🚨 [수정]: imageTypes 필드는 제거하고, files만 추가합니다.
             formData.append(`images`, fileObj.file);
-            // formData.append(`imageTypes`, fileObj.type); // 삭제
         });
 
-        // 🚨 [추가]: AJAX 요청으로 서버에 전송
+        //  AJAX 요청으로 서버에 전송
         $.ajax({
             url: '/kmarket/my/registerReview',
             type: 'POST',
@@ -151,7 +136,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if(response.success) {
                     alert("상품평이 등록되었습니다. 감사합니다.");
                     modal.hide();
-                    location.reload(); // 등록 후 페이지 새로고침
+                    location.reload();
                 } else {
                     alert("상품평 등록 실패: " + (response.message || "처리 중 오류가 발생했습니다."));
                 }
@@ -185,14 +170,16 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         // 내용 필수 검증
-        const content = document.querySelector('textarea[name="reviewContent"]').value.trim();
-        const textarea = document.querySelector('textarea[name="reviewContent"]');
+        const content = textarea.value.trim();
 
         if (content.length === 0) {
             errorMessage += '• 상품평 내용을 작성해주세요.\n';
             isValid = false;
         } else if (content.length < 10) {
             errorMessage += '• 상품평은 최소 10자 이상 작성해주세요.\n';
+            isValid = false;
+        } else if (content.length > MAX_CHARS) { // 💡 (추가) 글자 수 초과 유효성 검사
+            errorMessage += `• 상품평은 최대 ${MAX_CHARS}자 이하로 작성해주세요.\n`;
             isValid = false;
         }
 
@@ -208,11 +195,8 @@ document.addEventListener('DOMContentLoaded', function() {
     function resetForm() {
         currentRating = 0;
         uploadedFiles = [];
-        currentUploadType = '';
 
         document.getElementById('ratingValue').value = 0;
-        document.getElementById('ratingText').textContent = '별점을 선택해주세요 (필수)';
-        document.getElementById('charCount').textContent = '0';
         document.querySelectorAll('.star').forEach(star => {
             star.classList.remove('active', 'hover');
         });
@@ -223,7 +207,6 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('reviewForm').reset();
 
         // 스타일 초기화
-        const textarea = document.querySelector('textarea[name="reviewContent"]');
         textarea.style.borderColor = '#ced4da';
         textarea.style.boxShadow = 'none';
 
@@ -231,8 +214,6 @@ document.addEventListener('DOMContentLoaded', function() {
         starRating.style.border = 'none';
         starRating.style.padding = '0';
 
-        const counter = document.getElementById('charCount').parentElement;
-        counter.classList.remove('over-limit', 'under-limit', 'valid');
     }
 
 // 모달이 열릴 때 주문 정보를 Hidden Input에 설정하는 로직

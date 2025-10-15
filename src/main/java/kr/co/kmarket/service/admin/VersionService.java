@@ -22,7 +22,7 @@ public class VersionService {
     public PageResponseDTO selectAll(PageRequestDTO pageRequestDTO) {
         List<VersionDTO> dtoList = versionMapper.findAll(pageRequestDTO);
 
-        int total =versionMapper.selectCountTotal(pageRequestDTO);
+        int total = versionMapper.selectCountTotal(pageRequestDTO);
 
         return PageResponseDTO.<VersionDTO>builder()
                 .pageRequestDTO(pageRequestDTO)

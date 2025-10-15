@@ -2,6 +2,8 @@ package kr.co.kmarket.controller;
 
 import jakarta.servlet.http.HttpSession;
 import kr.co.kmarket.dto.OrderDTO;
+import kr.co.kmarket.dto.ProductReviewDTO;
+import kr.co.kmarket.dto.QnaDTO;
 import kr.co.kmarket.service.MyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -40,6 +42,7 @@ public class MyController {
     @GetMapping("/home")
     public String home(Model model, HttpSession session) throws UnsupportedEncodingException {
         Integer custNumber = (Integer) session.getAttribute("cust_number");
+        String user_id = (String) session.getAttribute("user_id");
         if (custNumber == null) {
             return "redirect:/member/login";
         }
@@ -66,6 +69,13 @@ public class MyController {
         }
 
         model.addAttribute("recentOrders", recentOrders);
+
+        List<ProductReviewDTO> recentReviews = myService.getRecentReviews(custNumber);
+        model.addAttribute("recentReviews", recentReviews);
+
+        List<QnaDTO> recentQnas = myService.getRecentQnas(user_id);
+        model.addAttribute("recentQnas", recentQnas);
+
         return "my/home";
     }
 

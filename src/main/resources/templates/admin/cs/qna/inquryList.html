@@ -3,273 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>공지사항 목록</title>
-    <style>
-        /* 기본 리셋 및 폰트 */
-        html, body {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-        }
-
-        /* 헤더 */
-        .header-layout{
-            height: 60px;
-            width: 100%;
-            background-color: #325a83;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-sizing: border-box;
-        }
-
-        .header-content{
-            width: 80%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .header-content img{
-            width: 200px;
-        }
-
-        .header-link {
-            display: flex;
-            gap: 25px;
-            align-items: center;
-        }
-
-        .header-link p {
-            margin: 0;
-        }
-
-        .header-link a, .header-link button {
-            text-decoration: none;
-            color: white;
-            font-weight: 500;
-            font-size: 10px;
-        }
-
-        .header-link button {
-            border: none;
-            outline: none;
-            background-color: #91a9ce;
-            padding: 5px 15px;
-            cursor: pointer;
-        }
-
-        /* 메인 + 사이드바 영역 */
-        .container {
-            display: flex;
-            min-height: 80vh;
-            margin: 0 auto;
-            max-width: 1200px;
-        }
-
-        /* 사이드바 */
-        .sidebar {
-            width: 200px;
-            display: flex;
-            flex-direction: column;
-            background-color: #e0e0e0;
-        }
-
-        .side-item {
-            border-bottom: 1px solid #ccc;
-        }
-
-        .main-menu {
-            display: flex;
-            align-items: center;
-            padding: 10px;
-            cursor: pointer;
-        }
-
-        .main-menu p {
-            margin: 0;
-            font-size: 15px;
-            color: black;
-        }
-
-        .sub-menu {
-            display: none;
-            flex-direction: column;
-            gap: 6px;
-            padding-left: 20px;
-        }
-
-        .sub-menu.active {
-            display: flex;
-        }
-
-        .sub-menu a {
-            color: black;
-            font-size: 14px;
-            text-decoration: none;
-        }
-        .main-menu svg{
-        width: 17px;
-        height: 17px;
-        margin-right: 10px;
-    }
-
-        /* 메인 콘텐츠 */
-        .content {
-            flex: 1;
-            padding: 20px;
-            background-color: #fff;
-            overflow: auto;
-        }
-
-        .header-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            border-bottom: 2px solid #000;
-            padding-bottom: 10px;
-        }
-
-        .header-top h1 {
-            font-size: 20px;
-            margin: 0;
-        }
-
-        .breadcrumb {
-            font-size: 14px;
-        }
-
-        .breadcrumb a {
-            text-decoration: none;
-            color: #007bff;
-        }
-
-        .breadcrumb span {
-            color: #555;
-        }
-
-        .breadcrumb a:hover {
-            text-decoration: underline;
-        }
-
-        .search-bar {
-            margin-bottom: 10px;
-        }
-
-        .search-bar select,
-        .search-bar input {
-            margin-right: 5px;
-            outline: none;
-            padding: 5px;
-        }
-
-        #category1, #category2 {
-            border:1px solid #ccc;
-            border-radius: 5px;
-            width: 130px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 14px;
-        }
-
-        th, td {
-            border: 1px solid #ddd;
-            padding: 10px;
-            text-align: center;
-        }
-
-        th {
-            background-color: #f0f0f0;
-        }
-
-        .bottom-bar {
-            margin-top: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .pagination {
-            display: flex;
-            gap: 5px;
-            margin: 0 auto;
-        }
-
-        .pagination a {
-            text-decoration: none;
-            color: #000;
-        }
-
-        .btn {
-            padding: 6px 12px;
-            background-color: #3693c2;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-
-        .btn2 {
-            padding: 6px 12px;
-            background-color: #bfbfbf;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-
-        .btn:hover {
-            background-color: #2980b9;
-        }
-
-        .completed {
-            color: #007bff;
-            font-weight: bold;
-        }
-
-        /* 푸터 */
-        .footer-layout{
-            height: 110px;
-            width: 100%;
-            background-color: #325a83;
-            flex-shrink: 0; /* 푸터가 줄어들지 않게 고정 */
-        }
-
-        .footer-content{
-            width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            padding-top: 15px;
-            text-align: center;
-            gap: 2px;
-        }
-
-        .footer-content img{
-            width: 150px;
-            display: block;
-            margin: 0 auto;
-        }
-
-        .about-company{
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .footer-content h2{
-            font-size: 12px;
-            color: #fff;
-            font-weight: 400;
-            margin: 0 2px;
-        }
-
-        .footer-content a{
-            color: white;
-            font-size: 13px;
-        }
-    </style>
+    <link rel="stylesheet" th:href="@{/css/admin/cs/qna/inquryList.css}">
     <link rel="stylesheet" th:href="@{/css/admin/main/header_footer.css}">
 
     <script th:src="@{/js/admin/cs/recruit/sidebarAction.js}" defer></script>
@@ -285,7 +19,8 @@
                 checkboxes.forEach(cb => cb.checked = allSelect.checked);
             });
 
-            const category_box = { // 카테고리
+            //1차,2차 카테고리
+            const category_box = {
                 "회원": ["가입", "탈퇴", "회원정보", "로그인"],
                 "쿠폰 / 이벤트": ["쿠폰 / 할인혜택", "포인트", "제휴", "이벤트"],
                 "주문 / 결제": ["상품", "결제", "구매내역", "영수증 / 증빙"],
@@ -311,6 +46,41 @@
                     });
                 } else {
                     category2.innerHTML = '<option>2차 선택</option>';
+                }
+            });
+
+            //상태 - 검토중, 답변완료 구현
+            const check_s = document.querySelectorAll(".check");
+            check_s.forEach(check => {
+                if(check.innerText === "waiting") {
+                    check.style.color = "#808080";
+                    check.innerText = "검토중";
+                } else {
+                    check.style.color = "#0070C0";
+                    check.innerText = "답변완료";
+                }
+            });
+
+            //삭제 기능
+            const deleteBtn = document.querySelector(".select_delete");
+            deleteBtn.addEventListener("click", async () => {
+                const selected = document.querySelectorAll("tbody .row-checkbox:checked");
+                const idList = Array.from(selected).map(cb => cb.value);
+                console.log("삭제 id리스트: ", idList);
+
+                const response = await fetch("/kmarket/admin/cs/qna/list", {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(idList)
+                });
+
+                if(response.ok) {
+                    alert("삭제 완료!");
+                    location.reload();
+                } else {
+                    alert("삭제 실패!");
                 }
             });
         });
@@ -464,49 +234,41 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td><input type="checkbox"></td>
-                    <td>10</td>
-                    <td>회원</td>
-                    <td>가입</td>
-                    <td>개인회원과 법인회원에 차이가 있나요 ?</td>
-                    <td>dream</td>
-                    <td>2025.09.30.</td>
-                    <td>검토 중</td>
-                </tr>
-                <tr>
-                    <td><input type="checkbox"></td>
-                    <td>9</td>
-                    <td>회원</td>
-                    <td>가입</td>
-                    <td>개인회원과 법인회원에 차이가 있나요 ?</td>
-                    <td>dream</td>
-                    <td>2025.09.30.</td>
-                    <td>검토 중</td>
-                </tr>
-                <tr>
-                    <td><input type="checkbox"></td>
-                    <td>8</td>
-                    <td>회원</td>
-                    <td>탈퇴</td>
-                    <td>회원 탈퇴 후 재가입 가능</td>
-                    <td>dream</td>
-                    <td>2025.09.30.</td>
-                    <td class="completed">답변 완료</td>
+                <tr th:each="qna, stat:${pageResponseDTO.dtoList}">
+                    <td><input type="checkbox" class="row-checkbox" th:value="${qna.id}"></td>
+                    <td>[[${qna.id}]]</td>
+                    <td>[[${qna.type1}]]</td>
+                    <td>[[${qna.type2}]]</td>
+                    <td> <!-- 검토중일 경우 reply로 작성, 답변완료일 경우 view로 보기 -->
+                        <a th:if="${qna.status == 'waiting'}"
+                           th:href="@{/admin/cs/qna/reply(id=${qna.id})}">[[${qna.title}]]
+                        </a>
+                        <a th:if="${qna.status == 'complete'}"
+                           th:href="@{/admin/cs/qna/view(id=${qna.id})}">[[${qna.title}]]
+                        </a>
+                    </td>
+                    <td th:text="${#strings.substring(qna.user_id, 0, 3) + #strings.repeat('*', #strings.length(qna.user_id) - 3)}"></td>
+                    <td th:text="${#temporals.format(qna.reg_date, 'yy.MM.dd')}"></td>
+                    <td class="check">[[${qna.status}]]</td>
                 </tr>
             </tbody>
         </table>
 
         <div class="bottom-bar">
-            <button class="btn2">선택삭제</button>
+            <button class="btn2 select_delete">선택삭제</button>
             <div class="pagination">
-                <a href="#">이전</a>
-                <a href="#">1</a>
-                <a href="#">2</a>
-                <a href="#">3</a>
-                <a href="#">4</a>
-                <a href="#">5</a>
-                <a href="#">다음</a>
+                <a th:if="${pageResponseDTO.prev}"
+                   th:href="@{/admin/cs/qna/list(pg=${pageResponseDTO.start - 1})}" class="arrow">
+                    <span class="prev"></span>
+                </a>
+                <th:block th:if="${pageResponseDTO.total > 0}" th:each="num:${#numbers.sequence(pageResponseDTO.start, pageResponseDTO.end)}">
+                        <a th:href="@{/admin/cs/qna/list (pg=${num})}"
+                           th:class="${num == pageResponseDTO.pg ? 'active2' : 'pageNum'}">[[${num}]]</a>
+                </th:block>
+                <a th:if="${pageResponseDTO.next}"
+                   th:href="@{/admin/cs/qna/list(pg=${pageResponseDTO.end + 1})}" class="arrow">
+                    <span class="next"></span>
+                </a>
             </div>
         </div>
     </div>
@@ -542,11 +304,7 @@
             </div>
             <h2>Copyright@cupang.All.rights.reserved (db)</h2>
         </div>
-
     </div>
-
 </footer>
-
-
 </body>
 </html>
