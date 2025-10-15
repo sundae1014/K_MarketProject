@@ -25,9 +25,17 @@ public interface ProductMapper {
 
     ProductNoticeDTO selectProductNoticeByNo(int prodNo);
 
+    // 상품 리뷰 조회
     List<ProductReviewDTO> selectProductReviews(int prodNo);
 
+    // 상품 옵션 조회
     List<ProductOptionDTO> selectProductOptions(int prod_number);
 
+    // 평균 리뷰 점수
     double selectAvgRating(int prod_number);
+
+    int countProductReviews(int prod_number);
+
+    List<ProductReviewDTO> selectPagedReviews(int prod_number, int offset, int pageSize);
+
 }

@@ -148,11 +148,18 @@
         </if>
     </select>
 
-    <!-- 상품별 옵션 선택 기능 -->
-    <select id="selectProductOptions" resultType="kr.co.kmarket.dto.ProductOptionDTO">
-        SELECT OPTION_ID, PROD_NUMBER, OPT_NAME, OPT_PRICE
+    <!-- 상품번호로 옵션 리스트 조회 -->
+    <select id="selectProductOptions"
+            parameterType="int"
+            resultType="kr.co.kmarket.dto.ProductOptionDTO">
+        SELECT
+            OPTION_ID,
+            PROD_NUMBER,
+            OPT_NAME,
+            OPT_PRICE
         FROM PRODUCT_OPTION
         WHERE PROD_NUMBER = #{prod_number}
+        ORDER BY OPTION_ID
     </select>
 
     <!-- 상품별 평균 평점 조회 -->
@@ -160,6 +167,24 @@
         SELECT NVL(ROUND(AVG(RATING), 1), 0)
         FROM REVIEW
         WHERE PROD_NUMBER = #{prod_number}
+    </select>
+
+    <!-- 전체 리뷰 개수 -->
+    <select id="countProductReviews" resultType="int">
+        SELECT COUNT(*) FROM REVIEW WHERE PROD_NUMBER = #{prod_number}
+    </select>
+
+    <!-- 페이지 단위 리뷰 -->
+    <select id="selectPagedReviews" resultType="kr.co.kmarket.dto.ProductReviewDTO">
+        SELECT * FROM (
+            SELECT ROWNUM AS rn, t.* FROM (
+                SELECT * FROM REVIEW
+                WHERE PROD_NUMBER = #{prod_number}
+                ORDER BY R_DATE DESC
+            ) t
+            WHERE ROWNUM &lt;= #{offset} + #{pageSize}
+        )
+        WHERE rn &gt; #{offset}
     </select>
 
 </mapper>

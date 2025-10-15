@@ -130,49 +130,72 @@
                     </div>
 
                     <div class="prod-detail">
-                        <dt>카드 추가 혜택</dt>
-                        <dd id="card-benefit" class="dd-bold"></dd>
+                        <dl>
+                            <dt>카드 추가 혜택</dt>
+                            <dd id="card-benefit" class="dd-bold"></dd>
+                        </dl>
 
-                        <dt>무이자 할부</dt>
-                        <dd>카드사별 무이자 혜택</dd>
+                        <dl>
+                            <dt>무이자 할부</dt>
+                            <dd>카드사별 무이자 혜택</dd>
+                        </dl>
 
-                        <dt>할인 쿠폰</dt>
-                        <dd>
-                            <a href="javascript:void(0);" onclick="showToast('쿠폰 받기 완료!')">
-                                <img th:src="@{/images/product/cupang_coupon.png}" alt="할인 쿠폰" class="coupon-img">
-                            </a>
-                        </dd>
+                        <dl>
+                            <dt>할인 쿠폰</dt>
+                            <dd>
+                                <a href="javascript:void(0);" onclick="showToast('쿠폰 받기 완료!')">
+                                    <img th:src="@{/images/product/cupang_coupon.png}" alt="할인 쿠폰" class="coupon-img">
+                                </a>
+                            </dd>
+                        </dl>
 
                         <!-- 토스트 메시지 컨테이너 -->
                         <div id="toast"></div>
                     </div>
 
                     <div class="prod-detail">
-                        <dt>배송정보</dt><dd><strong>택배배송</strong><br>모레(금) 10/24 도착 예정</dd>
-                        <dt>배송비</dt><dd>무료배송<br>제주 4,000원, 도서산간 4,000원 추가</dd>
+                        <dl>
+                            <dt>배송정보</dt>
+                            <dd>
+                                <strong>택배배송</strong><br>
+                                <span class="delivery-date"></span>
+                            </dd>
+                        </dl>
+
+                        <dl>
+                            <dt>배송비</dt>
+                            <dd>
+                                <span>무료배송</span><br>
+                                <small>제주 4,000원, 도서산간 4,000원 추가</small>
+                            </dd>
+                        </dl>
                     </div>
 
                     <div class="prod-option">
                         <label for="opt">옵션 선택</label>
+
                         <div class="select-wrap">
-                            <select id="opt">
-                                <option value="" disabled selected>선택하세요.</option>
-                                <option th:each="opt : ${options}"
-                                        th:value="${opt.option_id}"
-                                        th:attr="data-price=${opt.opt_price}"
-                                        th:text="${opt.opt_name}"></option>
-                            </select>
+                            <div class="select-inner">
+                                <select id="opt">
+                                    <option value="" disabled selected>선택하세요.</option>
+                                    <option th:each="opt : ${options}"
+                                            th:value="${opt.option_id}"
+                                            th:attr="data-price=${opt.opt_price}"
+                                            th:text="${opt.opt_name}">
+                                    </option>
+                                </select>
 
-                            <div class="prod-selected" id="selected-list"></div>
-                            <div class="prod-total">
-                                합계 <strong id="total-price">0원</strong>
+                                <svg class="chevron-down" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                     stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="m6 9 6 6 6-6"/>
+                                </svg>
                             </div>
+                        </div>
 
-                            <svg class="chevron-down" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                 stroke-linecap="round" stroke-linejoin="round">
-                                <path d="m6 9 6 6 6-6"/>
-                            </svg>
+                        <div class="prod-selected" id="selected-list"></div>
+                        <div class="prod-total">
+                            합계 <strong id="total-price">0원</strong>
                         </div>
                     </div>
 
@@ -199,7 +222,9 @@
             <div class="tab-menu">
                 <button class="active">상품정보 제공고시</button>
                 <button>상품상세</button>
-                <button>상품평 (1,653)</button>
+                <button th:classappend="${reviewCount == 0} ? 'no-review'">
+                    상품평 (<span th:text="${reviewCount}">0</span>)
+                </button>
             </div>
 
             <!-- 상품정보 제공고시 -->
@@ -243,93 +268,62 @@
                 <img th:src="@{${product.detail_img}}" alt="상품 상세 이미지">
             </div>
 
-            <!-- 상품평 -->
-            <div id="reviewSection" class="prod-review">
+            <!-- 리뷰 섹션 -->
+            <section id="reviewSection" class="prod-review">
                 <h3>상품평</h3>
-                <p class="sub-text">동일한 상품에 대한 상품평입니다.</p>
+                <p class="sub-text">등록된 상품평은 총 <span th:text="${reviewCount}">0</span>개 입니다.</p>
 
-                <div class="big-stars"
-                     th:with="raw=${avgRating != null ? avgRating : 0.0},
-                     rounded=${T(java.lang.Math).round(raw)},
-                     filled=${T(java.lang.Math).min(T(java.lang.Math).max(rounded.doubleValue(), 0.0), 5.0)}">
-
-                    <!-- 꽉 찬 별 -->
-                    <i class="fa-solid fa-star" th:each="i : ${#numbers.sequence(1, filled)}"></i>
-                    <!-- 빈 별 -->
-                    <i class="fa-regular fa-star" th:each="i : ${#numbers.sequence(filled + 1, 5)}"></i>
-
-                    <!-- 평균 점수 숫자 표시 -->
-                    <span class="avg-score" th:text="'평균 ' + ${#numbers.formatDecimal(avgRating,1,1)} + '점'"></span>
+                <!-- 평균 평점 -->
+                <div class="big-stars">
+                    <div class="stars">
+                        <span th:each="i : ${#numbers.sequence(1, 5)}"
+                              th:text="${i <= avgRating ? '★' : '☆'}"></span>
+                    </div>
+                    <span th:text="'평균 ' + ${#numbers.formatDecimal(avgRating, 1, 1)} + '점'"></span>
                 </div>
 
+                <!-- 리뷰 리스트 -->
                 <ul class="review-list">
                     <li th:each="review : ${reviews}">
                         <div class="review-top">
-                            <div class="small-stars"
-                                 th:with="raw=${review.rating ?: 0},
-                                          rounded=${T(java.lang.Math).round(raw)},
-                                          filled=${T(java.lang.Math).min(T(java.lang.Math).max(rounded,0),5)}">
-                                <i class="fa-solid fa-star" th:each="i : ${#numbers.sequence(1, filled)}"></i>
-                                <i class="fa-regular fa-star" th:each="i : ${#numbers.sequence(filled + 1, 5)}"></i>
-                            </div>
-
-                            <span class="review-writer" th:text="${review.cust_number}"></span>
+                            <div class="small-stars" th:utext="${'★'.repeat(review.rating) + '☆'.repeat(5 - review.rating)}"></div>
+                            <span class="review-writer" th:text="${review.cust_number}">홍길동</span>
+                            <span class="date" th:text="${#dates.format(review.r_date, 'yyyy-MM-dd')}"></span>
                         </div>
-                        <p class="review-prod" th:text="${product.prod_name}"></p>
+                        <p class="review-prod" th:text="${review.prod_number}"></p>
                         <p class="review-content" th:text="${review.content}"></p>
-
-                        <div class="review-image" th:if="${review.r_img != null}">
-                            <img th:src="@{${review.r_img}}" alt="리뷰 이미지">
-                        </div>
-
-                        <span class="date" th:text="${#dates.format(review.r_date,'yyyy-MM-dd')}"></span>
                     </li>
                 </ul>
-            </div>
 
+                <ul class="review-list" th:if="${#lists.isEmpty(reviews)}">
+                    <li><p>등록된 리뷰가 없습니다.</p></li>
+                </ul>
 
-            <!-- 페이지네이션 -->
-            <nav class="pagination">
-                <a href="#" class="page-link prev" aria-label="이전 페이지">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                         viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                         class="lucide lucide-chevron-left-icon lucide-chevron-left">
-                        <path d="m15 18-6-6 6-6"/>
-                    </svg>
-                </a>
-                <a href="#" class="page-link active">1</a>
-                <a href="#" class="page-link">2</a>
-                <a href="#" class="page-link">3</a>
-                <a href="#" class="page-link">4</a>
-                <a href="#" class="page-link next" aria-label="다음 페이지">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                         viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                         class="lucide lucide-chevron-right-icon lucide-chevron-right">
-                        <path d="m9 18 6-6-6-6"/>
-                    </svg>
-                </a>
-                <a href="#" class="page-link GTEnd" aria-label="맨 끝으로 이동">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                         viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                         class="lucide lucide-chevrons-right-icon lucide-chevrons-right">
-                        <path d="m6 17 5-5-5-5"/><path d="m13 17 5-5-5-5"/>
-                    </svg>
-                </a>
-            </nav>
+                <!-- 페이지네이션 -->
+                <div class="pagination" th:if="${totalPages > 1}">
+                    <a th:href="@{/product/view(prod_number=${product.prod_number}, page=${currentPage - 1})}"
+                       th:if="${currentPage > 1}" class="page-link prev">&lt;</a>
+
+                    <a th:each="p : ${#numbers.sequence(1, totalPages)}"
+                       th:classappend="${p == currentPage} ? 'active'"
+                       th:href="@{/product/view(prod_number=${product.prod_number}, page=${p})}"
+                       th:text="${p}" class="page-link"></a>
+
+                    <a th:href="@{/product/view(prod_number=${product.prod_number}, page=${currentPage + 1})}"
+                       th:if="${currentPage < totalPages}" class="page-link next">&gt;</a>
+                </div>
+            </section>
+
+            <!-- TOP 버튼 -->
+            <button id="topBtn" class="top-btn" aria-label="맨 위로 이동">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                     class="lucide lucide-chevrons-up-icon lucide-chevrons-up">
+                    <path d="m17 11-5-5-5 5"/>
+                    <path d="m17 18-5-5-5 5"/>
+                </svg>
+            </button>
         </div>
-
-        <!-- TOP 버튼 -->
-        <button id="topBtn" class="top-btn" aria-label="맨 위로 이동">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                 class="lucide lucide-chevrons-up-icon lucide-chevrons-up">
-                <path d="m17 11-5-5-5 5"/>
-                <path d="m17 18-5-5-5 5"/>
-            </svg>
-        </button>
 
         <!-- 푸터 -->
         <div th:replace="~{_footer :: footerFragment}"></div>
