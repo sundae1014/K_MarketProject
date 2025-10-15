@@ -26,4 +26,5 @@ public interface QnaMapper {
     public void update(QnaDTO qnaDTO); //답변
 
     public void delete(@Param("list") List<Long> idList);
+    public void deleteById(@Param("id")  long id);
 }
