@@ -2,12 +2,14 @@ package kr.co.kmarket.service;
 
 import kr.co.kmarket.dto.MemberDTO;
 import kr.co.kmarket.dto.PolicyDTO;
-import kr.co.kmarket.mapper.MemberMapper;
 import lombok.RequiredArgsConstructor;
+import kr.co.kmarket.mapper.MemberMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -33,6 +35,10 @@ public class MemberService {
 
     public MemberDTO getUserIdInfo(String name, String email){
         return memberMapper.findCustIdInfo(name, email);
+    }
+
+    public MemberDTO getUserIdInfoHp(String name, String hp){
+        return memberMapper.findCustIdInfoHp(name, hp);
     }
 
     public int countUser(String type, String value){

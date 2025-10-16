@@ -1,5 +1,6 @@
 package kr.co.kmarket.security;
 
+import kr.co.kmarket.service.CustomOauth2UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -22,7 +23,7 @@ public class SecurityConfig {
     private final CustomLoginSuccessHandler successHandler = new CustomLoginSuccessHandler();
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http, CustomOauth2UserService customOauth2UserService) throws Exception {
         // 로그인 설정
         http.formLogin(form -> form
                 .loginPage("/member/login")
@@ -61,6 +62,16 @@ public class SecurityConfig {
         // 권한 없는 사용자 접근
         http.exceptionHandling(exception -> exception
                 .accessDeniedHandler(new CustomAccessDeniedHandler())
+        );
+
+        // 소셜 로그인
+        http.oauth2Login(oauth -> oauth
+                .loginPage("/member/login")
+                .userInfoEndpoint(userInfo -> userInfo
+                        .userService(customOauth2UserService)
+                )
+                .defaultSuccessUrl("/")
+                .failureUrl("/member/login?error=true")
         );
 
         // 기타 설정

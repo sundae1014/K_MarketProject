@@ -1,6 +1,3 @@
-const API_KEY = "AIzaSyAQjhwx0D9Iza3ntEaZFDP0BGYGSYsZn9c";
-const PLAYLIST_ID = "PLZGDyqLjHoLQpBJ59m1lRHGP__TCvSDF2";
-
 async function loadPlaylist() {
     const container = document.getElementById("playlist-container");
 
@@ -8,7 +5,7 @@ async function loadPlaylist() {
 
     let nextPageToken = "";
     do {
-        const res = await fetch(`https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${PLAYLIST_ID}&maxResults=10&pageToken=${nextPageToken}&key=${API_KEY}`);
+        const res = await fetch('/kmarket/company/media/playlist/data');
         const data = await res.json();
 
         data.items.forEach(item => {

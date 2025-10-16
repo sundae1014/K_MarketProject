@@ -8,11 +8,15 @@ import kr.co.kmarket.service.StoryService;
 import kr.co.kmarket.service.admin.RecruitService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
@@ -25,6 +29,12 @@ public class CompanyController {
     private final RecruitService recruitService;
 
     private final StoryService storyService;
+
+    @Value("${spring.youtube.api.api-key}")
+    private String apiKey;
+
+    @Value("${spring.youtube.api.playlist-id}")
+    private String playlistId;
 
     @GetMapping("/culture")
     public String culture(){
@@ -42,6 +52,16 @@ public class CompanyController {
     public String media(){
         return "company/media";
     }
+
+    @GetMapping("/media/playlist/data")
+    @ResponseBody
+    public ResponseEntity<?> getPlaylistData() {
+        String url = "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=" + playlistId + "&maxResults=10&key=" + apiKey;
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
+        return ResponseEntity.ok(response.getBody());
+    }
+
 
     @GetMapping("/recruit")
     public String recruit(PageRequestDTO pageRequestDTO, Model model){
@@ -66,6 +86,11 @@ public class CompanyController {
     @GetMapping("/recruit/detail")
     public String recruitDetail(@RequestParam("hire_no") int hire_no, Model model) {
         HireDTO hire = recruitService.getHire(hire_no);
+
+        if (hire.getCreate_date() != null && hire.getCreate_date().length() >= 10) {
+            hire.setCreate_date(hire.getCreate_date().substring(0, 10));
+        }
+
         model.addAttribute("hire", hire);
         return "company/recruit/detail";
     }
