@@ -200,6 +200,6 @@ public class MyService {
 
     public List<QnaDTO> selectQnaListPage(String user_id, int start, int limit) {
         // start는 offset, limit은 size 역할을 합니다.
-        return myMapper.selectQnaListPage(user_id, start, limit);
+        return myMapper.selectQnaListPage(user_id, start, limit); 
     }
 }
