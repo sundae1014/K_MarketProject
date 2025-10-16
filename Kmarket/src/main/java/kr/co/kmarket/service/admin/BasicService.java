@@ -1,6 +1,7 @@
 package kr.co.kmarket.service.admin;
 
 
+import kr.co.kmarket.dto.BasicDTO;
 import kr.co.kmarket.mapper.admin.BasicMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,5 +16,13 @@ public class BasicService {
 
     public String getRecentVersion(){
         return basicMapper.selectRecentVersion();
+    }
+
+    public void modifyBasic(BasicDTO basicDTO){
+        basicMapper.updateBasic(basicDTO);
+    }
+
+    public BasicDTO getBasic(){
+        return basicMapper.selectBasic();
     }
 }
