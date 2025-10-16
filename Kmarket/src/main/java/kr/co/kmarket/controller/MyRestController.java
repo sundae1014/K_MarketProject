@@ -275,7 +275,10 @@ public class MyRestController {
             if (result > 0) {
                 resultMap.put("success", true);
                 resultMap.put("message", "반품 요청이 접수되었습니다.");
-            } else {
+            } else if(result == 0) {
+                resultMap.put("success", false);
+                resultMap.put("message", "배송 완료 후 반품 접수 가능합니다.");
+            }else {
                 resultMap.put("success", false);
                 resultMap.put("message", "반품 요청에 실패했습니다.");
             }
@@ -305,6 +308,9 @@ public class MyRestController {
             if (result > 0) {
                 resultMap.put("success", true);
                 resultMap.put("message", "교환 요청이 접수되었습니다.");
+            } else if(result == 0) {
+                resultMap.put("success", false);
+                resultMap.put("message", "배송완료 후 교환 접수 가능합니다.");
             } else {
                 resultMap.put("success", false);
                 resultMap.put("message", "교환 요청에 실패했습니다.");
