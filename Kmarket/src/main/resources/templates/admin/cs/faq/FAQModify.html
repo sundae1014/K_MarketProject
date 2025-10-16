@@ -196,7 +196,7 @@
           <table>
               <tbody>
               <!-- 유형 박스 1차/2차 선택 한 줄 -->
-              <tr>
+              <tr class="tr_line">
                   <th>유형</th>
                   <td>
                       <div class="select-row">
@@ -216,14 +216,14 @@
                   </td>
               </tr>
               <!-- 제목 입력 -->
-              <tr>
+              <tr class="tr_line">
                   <th>제목</th>
                   <td>
                       <input type="text" name="title" class="input-box" th:value="${faqDTO.title}">
                   </td>
               </tr>
               <!-- 내용 입력 -->
-              <tr>
+              <tr class="tr_line">
                   <th>내용</th>
                   <td>
                       <textarea class="input-box" name="content" th:text="${faqDTO.content}"></textarea>
