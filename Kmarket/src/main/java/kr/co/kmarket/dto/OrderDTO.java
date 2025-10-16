@@ -14,9 +14,9 @@ import java.util.Date;
 public class OrderDTO {
 
     private int cust_number;
-    private int orderNumber;
+    private String order_number;    // 문자열 변경
     private Date oDate;
-    private String dateString; // 날짜 포맷팅 문자열
+    private String dateString;      // 날짜 포맷팅 문자열
     private int stat;
     private String name;
     private String hp;
@@ -27,6 +27,7 @@ public class OrderDTO {
     private String etc;
     private String exchange;
     private String exchange_reason;
+
     private int piece;
     private int price;
     private String priceString;       // ⬅️ 최종 결제 금액 포맷 문자열

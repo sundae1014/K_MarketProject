@@ -6,7 +6,13 @@
     <title>고객센터 메인</title>
     <link rel="stylesheet" th:href="@{/css/cs/cs_main.css}">
 
-    <!-- 로그인/로그아웃/관리자 메뉴 기능 -->
+    <!-- 유저별 권한 기능 -->
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        let userType = /*[[${session.member != null ? (session.member.auth == 9 ? 'admin' : 'user') : 'guest'}]]*/ "guest";
+        let userName = /*[[${session.member != null ? session.member.name : ''}]]*/ "";
+        /*]]>*/
+    </script>
     <script th:src="@{/js/main/user-menu.js}" defer></script>
 </head>
 <body>
