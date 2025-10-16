@@ -159,7 +159,7 @@
                     <div id="site_version">
                         <div class="line_row_last">
                             <div class="version_title">사이트 버전</div>
-                            <span style="margin-left: 10px;">1.0.1-RELEASE</span>
+                            <span style="margin-left: 10px;" th:text="${recentVersion}"></span>
                         </div>
                     </div>   
                 </div>
@@ -170,7 +170,7 @@
                         <p class="title_p">브라우저 탭, 헤더 및 푸터 노출 정보 입니다.</p>
                     </div>
                         
-                    <form action="">
+                    <form th:action="@{/admin/config/basic}" method="get">
                     <div class="site_info_input">
                         <div class="line_row">
                             <div class="setting_title">제목</div>
