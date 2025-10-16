@@ -66,4 +66,8 @@ public class MemberService {
         return memberMapper.selectAllPolicy();
     }
 
+    public MemberDTO login(String custid, String pw) {
+        return memberMapper.login(custid, pw);
+    }
+
 }

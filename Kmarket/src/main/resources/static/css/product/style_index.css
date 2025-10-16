@@ -96,9 +96,11 @@
 /* 상품 카드 */
 .best-card {
     position: relative;
-    display: block;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     width: 220px;
-    height:270px;
+    height:280px;
     margin-top: 5px;
     margin-bottom: 10px;
     background: #ffffff;
@@ -110,9 +112,12 @@
 }
 
 .best-thumb {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 200px;
-    height: 170px;
-    margin: 10px;
+    height: 180px;
+    margin: auto;
 }
 
 /* 베스트 상품 이미지 규격 */
@@ -124,7 +129,10 @@
 }
 
 .best-info {
-    margin-bottom: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 80px;
 }
 
 /* 폰트 스타일 */
@@ -133,6 +141,7 @@
     font-weight: 600;
     color: #333333;
     line-height: 1.2;
+    margin-top: 10px;
     overflow: hidden;
     display: -webkit-box;
     -webkit-line-clamp: 2;

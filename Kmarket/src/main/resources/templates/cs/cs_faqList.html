@@ -2,17 +2,34 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>자주묻는질문 목록</title>
     <link rel="stylesheet" th:href="@{/css/cs/cs_faqList.css}">
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const nav = document.querySelectorAll(".navList_a");
             const nt_h3 = document.querySelector("#faq_title_h3");
-
             if("회원" === nt_h3.innerText) {
                 nav[0].style.color = "black";
                 nav[0].style.textDecoration = "underline";
+            } else if ("쿠폰 / 혜택 / 이벤트" === nt_h3.innerText) {
+                nav[1].style.color = "black";
+                nav[1].style.textDecoration = "underline";
+            } else if ("주문 / 결제" === nt_h3.innerText) {
+                nav[2].style.color = "black";
+                nav[2].style.textDecoration = "underline";
+            } else if ("배송" === nt_h3.innerText) {
+                nav[3].style.color = "black";
+                nav[3].style.textDecoration = "underline";
+            } else if ("취소 / 반품 / 교환" === nt_h3.innerText) {
+                nav[4].style.color = "black";
+                nav[4].style.textDecoration = "underline";
+            } else if ("여행 / 숙박 / 항공" === nt_h3.innerText) {
+                nav[5].style.color = "black";
+                nav[5].style.textDecoration = "underline";
+            } else if ("안전거래" === nt_h3.innerText) {
+                nav[6].style.color = "black";
+                nav[6].style.textDecoration = "underline";
             }
 
 
@@ -21,12 +38,12 @@
             box_question.forEach(box => {
                 const list = box.querySelector(".list_question");
                 const btn = box.querySelector(".btn_more");
-                const collapsedHeight = 174; 
+                const collapsedHeight = 174;
 
                 list.style.maxHeight = collapsedHeight + "px";
 
-                const items = list.querySelectorAll(".list-item"); 
-                if(items.length === 3) {
+                const items = list.querySelectorAll(".list-item");
+                if(items.length <= 3) {
                     btn.style.display = "none";
                 }
 
@@ -128,259 +145,88 @@
 
                     <ul id="navList">
                         <li>
-                            <a href="#" class="navList_a">회원</a>
+                            <a th:href="@{/cs/faq/list/member}" class="navList_a">회원</a>
                             <ul class="subMenu">
-                                <li><a href="#">가입</a></li>
-                                <li><a href="#">탈퇴</a></li>
-                                <li><a href="#">회원정보</a></li>
-                                <li><a href="#">로그인</a></li>
+                                <li><a th:href="@{/cs/faq/list/member/register}">가입</a></li>
+                                <li><a th:href="@{/cs/faq/list/member/withdrawal}">탈퇴</a></li>
+                                <li><a th:href="@{/cs/faq/list/member/info}">회원정보</a></li>
+                                <li><a th:href="@{/cs/faq/list/member/login}">로그인</a></li>
                             </ul>
                         </li>
                         <li>
-                            <a href="#" class="navList_a">쿠폰 / 혜택 / 이벤트</a>
+                            <a th:href="@{/cs/faq/list/benefit}" class="navList_a">쿠폰 / 혜택 / 이벤트</a>
                             <ul class="subMenu">
-                                <li><a href="#">쿠폰 / 할인혜택</a></li>
-                                <li><a href="#">포인트</a></li>
-                                <li><a href="#">제휴</a></li>
-                                <li><a href="#">이벤트</a></li>
+                                <li><a th:href="@{/cs/faq/list/benefit/couponAndDiscount}">쿠폰 / 할인혜택</a></li>
+                                <li><a th:href="@{/cs/faq/list/benefit/point}">포인트</a></li>
+                                <li><a th:href="@{/cs/faq/list/benefit/partnership}">제휴</a></li>
+                                <li><a th:href="@{/cs/faq/list/benefit/event}">이벤트</a></li>
                             </ul>
                         </li>
                         <li>
-                            <a href="#" class="navList_a">주문 / 결제</a>
+                            <a th:href="@{/cs/faq/list/orderAndPay}" class="navList_a">주문 / 결제</a>
                             <ul class="subMenu">
-                                <li><a href="#">상품</a></li>
-                                <li><a href="#">결제</a></li>
-                                <li><a href="#">구매내역</a></li>
-                                <li><a href="#">영수증 / 증빙</a></li>
+                                <li><a th:href="@{/cs/faq/list/orderAndPay/product}">상품</a></li>
+                                <li><a th:href="@{/cs/faq/list/orderAndPay/pay}">결제</a></li>
+                                <li><a th:href="@{/cs/faq/list/orderAndPay/buyList}">구매내역</a></li>
+                                <li><a th:href="@{/cs/faq/list/orderAndPay/receipt}">영수증 / 증빙</a></li>
                             </ul>
                         </li>
                         <li>
-                            <a href="#" class="navList_a">배송</a>
+                            <a th:href="@{/cs/faq/list/deliver}" class="navList_a">배송</a>
                             <ul class="subMenu">
-                                <li><a href="#">배송상태 / 기간</a></li>
-                                <li><a href="#">배송정보확인/변경</a></li>
-                                <li><a href="#">해외배송</a></li>
-                                <li><a href="#">당일배송</a></li>
-                                <li><a href="#">해외직구</a></li>
+                                <li><a th:href="@{/cs/faq/list/deliver/statusAndPeriod}">배송상태 / 기간</a></li>
+                                <li><a th:href="@{/cs/faq/list/deliver/checkAndChange}">배송정보확인 / 변경</a></li>
+                                <li><a th:href="@{/cs/faq/list/deliver/foreign}">해외배송</a></li>
+                                <li><a th:href="@{/cs/faq/list/deliver/day}">당일배송</a></li>
+                                <li><a th:href="@{/cs/faq/list/deliver/direct}">해외직구</a></li>
                             </ul>
                         </li>
                         <li>
-                            <a href="#" class="navList_a">취소 / 반품 / 교환</a>
+                            <a th:href="@{/cs/faq/list/cancelAndReturnAndExchange}" class="navList_a">취소 / 반품 / 교환</a>
                             <ul class="subMenu">
-                                <li><a href="#">반품신청 / 철회</a></li>
-                                <li><a href="#">반품정보확인 / 변경</a></li>
-                                <li><a href="#">교환 AS신청 / 철회</a></li>
-                                <li><a href="#">교환정보확인 / 변경</a></li>
-                                <li><a href="#">취소신청 / 철회</a></li>
-                                <li><a href="#">취소확인 / 환불정보</a></li>
+                                <li><a th:href="@{/cs/faq/list/cancelAndReturnAndExchange/returnAndWithdrawal}">반품신청 / 철회</a></li>
+                                <li><a th:href="@{/cs/faq/list/cancelAndReturnAndExchange/returnAndChange}">반품정보확인 / 변경</a></li>
+                                <li><a th:href="@{/cs/faq/list/cancelAndReturnAndExchange/exchangeAndWithdrawal}">교환 AS신청 / 철회</a></li>
+                                <li><a th:href="@{/cs/faq/list/cancelAndReturnAndExchange/exchangeAndChange}">교환정보확인 / 변경</a></li>
+                                <li><a th:href="@{/cs/faq/list/cancelAndReturnAndExchange/cancelAndWithdrawal}">취소신청 / 철회</a></li>
+                                <li><a th:href="@{/cs/faq/list/cancelAndReturnAndExchange/cancelAndRefund}">취소확인 / 환불정보</a></li>
                             </ul>
                         </li>
                         <li>
-                            <a href="#" class="navList_a">여행 / 숙박 / 항공</a>
+                            <a th:href="@{/cs/faq/list/traverlAndAccommodationAndAviation}" class="navList_a">여행 / 숙박 / 항공</a>
                             <ul class="subMenu">
-                                <li><a href="#">여행 / 숙박</a></li>
-                                <li><a href="#">항공</a></li>
+                                <li><a th:href="@{/cs/faq/list/traverlAndAccommodationAndAviation/travel}">여행 / 숙박</a></li>
+                                <li><a th:href="@{/cs/faq/list/traverlAndAccommodationAndAviation/flight}">항공</a></li>
                             </ul>
                         </li>
                         <li>
-                            <a href="#" class="navList_a">안전거래</a>
+                            <a th:href="@{/cs/faq/list/Safetrade}" class="navList_a">안전거래</a>
                             <ul class="subMenu">
-                                <li><a href="#">서비스 이용규칙 위반</a></li>
-                                <li><a href="#">지식재산권침해</a></li>
-                                <li><a href="#">법령 및 정책위반 상품</a></li>
-                                <li><a href="#">게시물 정책위반</a></li>
-                                <li><a href="#">직거래 / 외부거래유도</a></li>
-                                <li><a href="#">표시광고</a></li>
-                                <li><a href="#">청소년 위해상품/이미지</a></li>
-                            </ul>  
+                                <li><a th:href="@{/cs/faq/list/Safetrade/service}">서비스 이용규칙 위반</a></li>
+                                <li><a th:href="@{/cs/faq/list/Safetrade/knowledge}">지식재산권침해</a></li>
+                                <li><a th:href="@{/cs/faq/list/Safetrade/contraveningGoods}">법령 및 정책위반 상품</a></li>
+                                <li><a th:href="@{/cs/faq/list/Safetrade/article}">게시물 정책위반</a></li>
+                                <li><a th:href="@{/cs/faq/list/Safetrade/induction}">직거래 / 외부거래유도</a></li>
+                                <li><a th:href="@{/cs/faq/list/Safetrade/advertising}">표시광고</a></li>
+                                <li><a th:href="@{/cs/faq/list/Safetrade/teenager}">청소년 위해상품 / 이미지</a></li>
+                            </ul>
                         </li>
                     </ul>
                 </div>
                 <div id="faq_all" style="width:900px;height:auto;">
                     <div id="top_title">
-                        <h3 id="faq_title_h3">회원</h3>
-                        <span>회원관련 자주묻는 질문 입니다.</span>
+                        <h3 id="faq_title_h3">[[${typeName}]]</h3>
+                        <span>[[${typeName}]] 관련 자주묻는 질문 입니다.</span>
                     </div>
                     <div id="faq_content" style="margin-left: 40px;">
-                        <div>
-                            <h3>가입</h3>
+                        <div th:each="type2 : ${typeName2}">
+                            <h3 th:text="${type2}"></h3>
                             <div class="box_question">
                                 <ul class="list_question">
-                                    <li class="list-item">
-                                        <a href="#" class="link_item">
+                                    <li class="list-item" th:each="faq : ${faqList}" th:if="${faq.type1 == typeName && faq.type2 == type2}">
+                                        <a th:href="@{/cs/faq/view(id=${faq.id})}" class="link_item">
                                             <span class="text_q">Q.</span>
-                                            <span class="text_question">개인회원과 법인회원에 차이가 있나요?</span>
-                                        </a>
-                                    </li>
-                                    <li class="list-item">
-                                        <a href="#" class="link_item">
-                                            <span class="text_q">Q.</span>
-                                            <span class="text_question">개인회원과 법인회원에 차이가 있나요?</span>
-                                        </a>
-                                    </li>
-                                    <li class="list-item">
-                                        <a href="#" class="link_item">
-                                            <span class="text_q">Q.</span>
-                                            <span class="text_question">개인회원과 법인회원에 차이가 있나요?</span>
-                                        </a>
-                                    </li>
-                                    <li class="list-item">
-                                        <a href="#" class="link_item">
-                                            <span class="text_q">Q.</span>
-                                            <span class="text_question">개인회원과 법인회원에 차이가 있나요?</span>
-                                        </a>
-                                    </li>
-                                    <li class="list-item">
-                                        <a href="#" class="link_item">
-                                            <span class="text_q">Q.</span>
-                                            <span class="text_question">개인회원과 법인회원에 차이가 있나요?</span>
-                                        </a>
-                                    </li>
-                                    <li class="list-item">
-                                        <a href="#" class="link_item">
-                                            <span class="text_q">Q.</span>
-                                            <span class="text_question">개인회원과 법인회원에 차이가 있나요?</span>
-                                        </a>
-                                    </li>
-                                    <li class="list-item">
-                                        <a href="#" class="link_item">
-                                            <span class="text_q">Q.</span>
-                                            <span class="text_question">개인회원과 법인회원에 차이가 있나요?</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                                <button class="btn_more"><span class="sprite_help_after">더보기</span></button>
-                            </div>
-                        </div>
-
-                        <div>
-                            <h3>탈퇴</h3>
-                            <div class="box_question">
-                                <ul class="list_question">
-                                    <li class="list-item">
-                                        <a href="#" class="link_item">
-                                            <span class="text_q">Q.</span>
-                                            <span class="text_question">회원탈퇴 후 재가입이 가능한가요?</span>
-                                        </a>
-                                    </li>
-                                    <li class="list-item">
-                                        <a href="#" class="link_item">
-                                            <span class="text_q">Q.</span>
-                                            <span class="text_question">회원탈퇴 후 재가입이 가능한가요?</span>
-                                        </a>
-                                    </li>
-                                    <li class="list-item">
-                                        <a href="#" class="link_item">
-                                            <span class="text_q">Q.</span>
-                                            <span class="text_question">회원탈퇴 후 재가입이 가능한가요?</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                                <button class="btn_more"><span class="sprite_help_after">더보기</span></button>
-                            </div>
-                        </div>
-
-                        <div>
-                            <h3>회원정보</h3>
-                            <div class="box_question">
-                                <ul class="list_question">
-                                    <li class="list-item">
-                                        <a href="#" class="link_item">
-                                            <span class="text_q">Q.</span>
-                                            <span class="text_question">고객센터 이용 방법을 알고 싶어요.</span>
-                                        </a>
-                                    </li>
-                                    <li class="list-item">
-                                        <a href="#" class="link_item">
-                                            <span class="text_q">Q.</span>
-                                            <span class="text_question">고객센터 이용 방법을 알고 싶어요.</span>
-                                        </a>
-                                    </li>
-                                    <li class="list-item">
-                                        <a href="#" class="link_item">
-                                            <span class="text_q">Q.</span>
-                                            <span class="text_question">고객센터 이용 방법을 알고 싶어요.</span>
-                                        </a>
-                                    </li>
-                                    <li class="list-item">
-                                        <a href="#" class="link_item">
-                                            <span class="text_q">Q.</span>
-                                            <span class="text_question">고객센터 이용 방법을 알고 싶어요.</span>
-                                        </a>
-                                    </li>
-                                    <li class="list-item">
-                                        <a href="#" class="link_item">
-                                            <span class="text_q">Q.</span>
-                                            <span class="text_question">고객센터 이용 방법을 알고 싶어요.</span>
-                                        </a>
-                                    </li>
-                                    <li class="list-item">
-                                        <a href="#" class="link_item">
-                                            <span class="text_q">Q.</span>
-                                            <span class="text_question">고객센터 이용 방법을 알고 싶어요.</span>
-                                        </a>
-                                    </li>
-                                    <li class="list-item">
-                                        <a href="#" class="link_item">
-                                            <span class="text_q">Q.</span>
-                                            <span class="text_question">고객센터 이용 방법을 알고 싶어요.</span>
-                                        </a>
-                                    </li>
-                                    <li class="list-item">
-                                        <a href="#" class="link_item">
-                                            <span class="text_q">Q.</span>
-                                            <span class="text_question">고객센터 이용 방법을 알고 싶어요.</span>
-                                        </a>
-                                    </li>
-                                    <li class="list-item">
-                                        <a href="#" class="link_item">
-                                            <span class="text_q">Q.</span>
-                                            <span class="text_question">고객센터 이용 방법을 알고 싶어요.</span>
-                                        </a>
-                                    </li>
-                                    <li class="list-item">
-                                        <a href="#" class="link_item">
-                                            <span class="text_q">Q.</span>
-                                            <span class="text_question">고객센터 이용 방법을 알고 싶어요.</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                                <button class="btn_more"><span class="sprite_help_after">더보기</span></button>
-                            </div>
-                        </div>
-
-                        <div>
-                            <h3>로그인</h3>
-                            <div class="box_question">
-                                <ul class="list_question">
-                                    <li class="list-item">
-                                        <a href="#" class="link_item">
-                                            <span class="text_q">Q.</span>
-                                            <span class="text_question">로그인에 문제가 있어요.</span>
-                                        </a>
-                                    </li>
-                                    <li class="list-item">
-                                        <a href="#" class="link_item">
-                                            <span class="text_q">Q.</span>
-                                            <span class="text_question">로그인에 문제가 있어요.</span>
-                                        </a>
-                                    </li>
-                                    <li class="list-item">
-                                        <a href="#" class="link_item">
-                                            <span class="text_q">Q.</span>
-                                            <span class="text_question">로그인에 문제가 있어요.</span>
-                                        </a>
-                                    </li>
-                                    <li class="list-item">
-                                        <a href="#" class="link_item">
-                                            <span class="text_q">Q.</span>
-                                            <span class="text_question">로그인에 문제가 있어요.</span>
-                                        </a>
-                                    </li>
-                                    <li class="list-item">
-                                        <a href="#" class="link_item">
-                                            <span class="text_q">Q.</span>
-                                            <span class="text_question">로그인에 문제가 있어요.</span>
+                                            <span class="text_question" th:text="${faq.title}"></span>
                                         </a>
                                     </li>
                                 </ul>

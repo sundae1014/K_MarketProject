@@ -17,7 +17,7 @@
     <select id="selectSalesByStatus" resultType="kr.co.kmarket.dto.ChartData">
         SELECT TO_CHAR(TRUNC(O_DATE), 'MM-DD') AS label,
         COUNT(*) AS value
-        FROM "Order"
+        FROM "ORDER"
         WHERE O_DATE >= TRUNC(SYSDATE) - 4
         AND STAT = #{stat}
         GROUP BY TRUNC(O_DATE)
@@ -38,27 +38,27 @@
 
     <select id="selectPriceToday">
         SELECT NVL(SUM(od.PRICE * od.PIECE), 0)
-        FROM "Order" o
+        FROM "ORDER" o
         JOIN ORDERDETAIL od
-        ON o.ORDERNUMBER = od.ORDERNUMBER
+        ON o.ORDER_NUMBER = od.ORDER_NUMBER
         WHERE TRUNC(o.O_DATE) = TRUNC(SYSDATE)
     </select>
     <select id="selectPriceYesterday">
         SELECT NVL(SUM(od.PRICE * od.PIECE), 0)
-        FROM "Order" o
+        FROM "ORDER" o
         JOIN ORDERDETAIL od
-        ON o.ORDERNUMBER = od.ORDERNUMBER
+        ON o.ORDER_NUMBER = od.ORDER_NUMBER
         WHERE TRUNC(o.O_DATE) = TRUNC(SYSDATE) - 1
     </select>
 
     <select id="selectOrderToday">
         SELECT COUNT(*)
-        FROM "Order"
+        FROM "ORDER"
         WHERE TRUNC(O_DATE) = TRUNC(SYSDATE)
     </select>
     <select id="selectOrderYesterday">
         SELECT COUNT(*)
-        FROM "Order"
+        FROM "ORDER"
         WHERE TRUNC(O_DATE) = TRUNC(SYSDATE) - 1
     </select>
 
@@ -77,7 +77,7 @@
 
     <select id="selectStatus">
         SELECT COUNT(*)
-        FROM "Order"
+        FROM "ORDER"
         WHERE STAT = #{status}
     </select>
 
