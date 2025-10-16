@@ -226,8 +226,8 @@
         UPDATE "Order"
         SET
         STAT = 6,
-        "exchange" = #{exchange},
-        "exchange_reason" = #{exchange_reason}
+        EXCHANGE = #{exchange},
+        EXCHANGE_REASON = #{exchange_reason}
         WHERE CUST_NUMBER = #{cust_number}
         AND ORDERNUMBER = #{orderNumber}
     </update>
@@ -236,8 +236,8 @@
         UPDATE "Order"
         SET
         STAT = 7,
-        "exchange" = #{exchange},
-        "exchange_reason" = #{exchange_reason}
+        EXCHANGE = #{exchange},
+        EXCHANGE_REASON = #{exchange_reason}
         WHERE CUST_NUMBER = #{cust_number}
         AND ORDERNUMBER = #{orderNumber}
     </update>
