@@ -22,7 +22,7 @@ public class CouponService {
     public List<CouponDTO> getCoupons() {
         List<CouponDTO> list = mapper.selectCoupons();
         for (CouponDTO dto : list) {
-            dto.setCouponTypename(convertTypeToName(dto.getCoupon_type())); // 변환 추가
+            dto.setCouponTypename(convertTypeToName(dto.getCouponType())); // 변환 추가
         }
         return list;
     }
@@ -38,4 +38,8 @@ public class CouponService {
             default -> "기타";
         };
     }
+    public List<CouponDTO> searchCoupons(String type, String keyword) {
+        return mapper.selectSearchCoupons(type, keyword);
+    }
+
 }

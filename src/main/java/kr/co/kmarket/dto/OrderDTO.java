@@ -25,7 +25,7 @@ public class OrderDTO {
     private String addr2;
     private int payment;
     private String etc;
-    private String exchange;
+    private int exchange;
     private String exchange_reason;
     private int piece;
     private int price;

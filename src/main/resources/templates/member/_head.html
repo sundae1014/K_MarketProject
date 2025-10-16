@@ -34,7 +34,12 @@
                 <ul class="utility-list" id="utility-menu">
                     <!-- 로그인 상태 -->
                     <li sec:authorize="isAuthenticated()">
-                        <span th:text="${member.name}">회원명</span>님
+                        <!-- 일반 로그인일 때 -->
+                        <span th:if="${#authentication.name != null}" th:text="${#authentication.name}"></span>
+
+                        <!-- 소셜 로그인일 때 -->
+                        <span th:if="${oauth2User != null}" th:text="${oauth2User.name}"></span>
+                        님
                     </li>
                     <li sec:authorize="isAuthenticated()">
                         <a th:href="@{/member/logout}">로그아웃</a>

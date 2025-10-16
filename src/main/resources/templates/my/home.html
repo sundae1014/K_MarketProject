@@ -96,7 +96,19 @@
                                             th:data-prod-name="${order.prod_name}">
                                         상품평쓰기
                                     </button><br>
-                                    <button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#returnModal">
+                                    <button class="btn btn-light btn-return"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#returnModal"
+                                            th:data-order-number="${order.orderNumber}"
+                                            th:data-prod-no="${order.prod_number}"
+                                            th:data-prod-name="${order.prod_name}"
+                                            th:data-piece="${order.piece}"
+                                            th:data-date-string="${order.dateString}"
+                                            th:data-encoded-img1="${order.encodedImg1}"
+                                            th:data-price-string="${order.priceString}"
+                                            th:data-manufacture="${order.manufacture}"
+                                            th:data-sale-price-string="${order.salePriceString}"
+                                            th:data-discount-string="${order.discountString}">
                                         반품신청
                                     </button><br>
                                     <button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#exchangeModal">

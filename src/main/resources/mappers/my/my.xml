@@ -222,4 +222,24 @@
         WHERE ROWNUM &lt;= 5
     </select>
 
+    <update id="orderReturn">
+        UPDATE "Order"
+        SET
+        STAT = 9,
+        "exchange" = #{exchange},
+        "exchange_reason" = #{exchange_reason}
+        WHERE CUST_NUMBER = #{custNumber}
+        AND ORDERNUMBER = #{orderNumber}
+    </update>
+
+    <update id="orderExchange">
+        UPDATE "Order"
+        SET
+        STAT = 10,
+        "exchange" = #{exchange},
+        "exchange_reason" = #{exchange_reason}
+        WHERE CUST_NUMBER = #{custNumber}
+        AND ORDERNUMBER = #{orderNumber}
+    </update>
+
 </mapper>

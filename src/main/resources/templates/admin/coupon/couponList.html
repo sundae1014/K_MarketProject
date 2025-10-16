@@ -429,34 +429,24 @@ html, body {
           <th>관리</th>
         </tr>
       </thead>
-      <tbody>
-        <tr>
-          <td><a href="#" onclick="openDetail('1012121212')">1012121212</a></td>
-          <td>개별상품 할인</td>
-          <td>10월 한달 감사 쿠폰</td>
-          <td>2,000원 할인</td>
-          <td>2025.09.17 ~ 2025.09.17</td>
-          <td>(주)다있어</td>
-          <td>102</td>
-          <td>43</td>
-          <td class="status active">발급중</td>
-          <td>2025.09.17 00:00:00</td>
-          <td><a href="#">종료</a></td>
+        <tbody>
+        <tr th:each="coupon : ${coupons}">
+            <td>
+                <a href="#" th:text="${coupon.couponNo}"
+                   th:onclick="'openDetail(' + ${coupon.couponNo} + '); return false;'"></a>
+            </td>
+            <td th:text="${coupon.couponTypename}"></td>
+            <td th:text="${coupon.couponName}"></td>
+            <td th:text="${coupon.benefit}"></td>
+            <td th:text="${coupon.usePeriod}"></td>
+            <td th:text="${coupon.issuer}"></td>
+            <td th:text="${coupon.useCount}"></td>
+            <td th:text="${coupon.useCount}"></td>
+            <td th:text="${coupon.status}"></td>
+            <td th:text="${coupon.issueDate}"></td>
+            <td><a href="#">종료</a></td>
         </tr>
-        <tr>
-          <td><a href="#" onclick="openDetail('201910101')">201910101</a></td>
-          <td>주문상품 할인</td>
-          <td>회원가입 축하 쿠폰</td>
-          <td>15% 할인</td>
-          <td>발급일로 100일 이내</td>
-          <td>최고관리자</td>
-          <td>567</td>
-          <td>262</td>
-          <td class="status active">발급중</td>
-          <td>2025.09.17 00:00:00</td>
-          <td><a href="#">종료</a></td>
-        </tr>
-      </tbody>
+        </tbody>
     </table>
 
     <!-- 하단 바 -->
@@ -547,15 +537,27 @@ html, body {
                         <th>발급처</th><td><input type="text" id="newIssuer" placeholder="발급처 입력"></td>
                     </tr>
                     <tr>
+                        <th>쿠폰명</th>
+                        <td>
+                            <select id="newName">
+                                <option value="">쿠폰명 선택</option>
+                                <option value="10월 한달 감사쿠폰">10월 한달 감사쿠폰</option>
+                                <option value="회원가입 축하쿠폰">회원가입 축하쿠폰</option>
+                                <option value="배송비 무료 쿠폰">배송비 무료 쿠폰</option>
+                                <option value="특별감사 쿠폰">특별감사 쿠폰</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
                         <th>쿠폰종류</th>
                         <td>
                             <select id="newType">
                                 <option value="">쿠폰종류 선택</option>
-                                <option value="개별상품 할인">개별상품 할인</option>
-                                <option value="주문금액 할인">주문금액 할인</option>
-                                <option value="배송비 무료">배송비 무료</option>
-                                <option value="회원등급 전용">회원등급 전용</option>
-                                <option value="첫구매 전용">첫구매 전용</option>
+                                <option value="1">개별상품 할인</option>
+                                <option value="2">주문금액 할인</option>
+                                <option value="3">배송비 무료</option>
+                                <option value="4">회원등급 전용</option>
+                                <option value="5">첫구매 전용</option>
                             </select>
                         </td>
                     </tr>
@@ -582,7 +584,9 @@ html, body {
                             <input type="date" id="endDate">
                         </td>
                     </tr>
-                        <th>유의사항</th><td><textarea id="newNote" placeholder="유의사항 입력" rows="3" style="width:100%;"></textarea></td>
+                    <tr>
+                        <th>유의사항</th>
+                        <td><textarea id="newNote" placeholder="유의사항 입력" rows="3" style="width:100%;"></textarea></td>
                     </tr>
                 </table>
             </div>
@@ -626,7 +630,7 @@ html, body {
             benefit: selectedBenefit ? selectedBenefit.value : '',
             usePeriod: (startDate && endDate) ? `${startDate.value} ~ ${endDate.value}` : '',
             manage: document.getElementById('newNote').value,
-            couponName: '자동등록쿠폰'
+            couponName: document.getElementById('newName').value || '기본쿠폰'
         };
 
         fetch(`${contextPath}/admin/coupon/register`, {

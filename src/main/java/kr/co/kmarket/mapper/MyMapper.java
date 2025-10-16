@@ -47,4 +47,8 @@ public interface MyMapper {
 
     public List<QnaDTO> selectRecentQnas(@Param("user_id") String user_id);
 
+    public int orderReturn(OrderDTO orderDTO);
+
+    public int orderExchange(OrderDTO orderDTO);
+
 }
