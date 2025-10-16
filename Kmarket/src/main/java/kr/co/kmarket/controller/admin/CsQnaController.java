@@ -79,7 +79,7 @@ public class CsQnaController {
             case "teenager" -> "청소년 위해상품 / 이미지";
             default -> throw new IllegalStateException("Unexpected value: " + type1);
         };
-
+        log.info("typeName={}, typeName2={}", typeName, typeName2);
         PageResponseDTO pageResponseDTO = qnaService.selectTypeAll2(typeName, typeName2, pageRequestDTO);
         model.addAttribute("pageResponseDTO", pageResponseDTO);
 
