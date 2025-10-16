@@ -1,343 +1,10 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <title>공지사항 목록</title>
-  <style>
-    
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      background-color: #f5f5f5;
-    }
-
-    /* 컨테이너 좌측 여백 */
-    .container {
-        display: flex;
-        min-height: 80vh;
-        margin: 0 auto;
-        max-width: 1200px;
-    }
-    
-    /*///////////////헤더 푸터 삽입 시 공백 제거///////////////////*/
-    html, body {
-    margin: 0;
-    padding: 0;
-    }
-
-/*////////////////////// header영역 //////////////////////*/
-
-.header-layout{
-    height: 60px;
-    margin: 0 auto;
-    width: 100%;
-    box-sizing: border-box;
-    background-color: #325a83;
-    display: flex;
-    vertical-align: middle;
-    align-items: center;
-    justify-content: center;
-}
-
-.header-content{
-    width: 80%;
-    display: flex;
-    justify-content: space-between;
-    display: flex;
-    align-items: center;
-}
-.header-content img{
-    width: 200px;
-    display: block;
-}
-
-.header-link{
-    display: flex;
-    gap: 25px;
-    vertical-align: middle;
-    align-items: center;
-}
-.header-link p{
-    margin: 0;
-}
-
-.header-link a,
-.header-link button{
-    text-decoration: none;
-    color: white;
-    font-weight: 500;
-    font-size: 10px;
-}
-
-.header-item a{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    color: white;
-
-}
-.header-link button{
-    border: none;
-    outline: none;
-    background-color: #91a9ce;
-    padding: 5px 15px 5px 15px;
-    cursor: pointer;
-
-
-}
-/*////////////////////// footer영역 //////////////////////*/
-.footer-layout{
-    height: 110px;
-    margin: 0 auto;
-    width: 100%;
-    background-color: #325a83;
-}
-
-
-.footer-content{
-    width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    padding-top: 15px;
-    text-align: center;
-    gap: 2px;
-}
-.footer-content img{
-    width: 150px;
-    display: block;
-    margin: 0 auto;
-}
-.about-company{
-    display: flex;
-    justify-content: center;
-}
-.footer-content h2{
-    font-size: 12px;
-    color: #333;
-    font-weight: 400;
-    margin: 0 2px;
-}
-.footer-content a{
-    color: black;
-    font-size: 13px;
-}
-
-  /* 사이드바 */
-
-/*///////////////////사이드 바///////////////////*/
-.sidebar {
-    width: 200px;
-    display: flex;
-    flex-direction: column;
-    background-color: #e0e0e0;
-
-}
-
-.sidebar a {
-    text-decoration: none;
-}
-
-
-.side-item {
-    border-bottom: 1px solid #ccc;
-}
-.main-menu p {
-    color: black;
-    font-size: 15px;
-    cursor: pointer;
-    margin: 0;
-
-}
-
-.main-menu{
-    display: flex;
-    width: 100%;
-    padding: 10px;
-    box-sizing: border-box;
-    display: flex;
-    align-items: center;
-}
-.sub-menu{
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    display: none;
-}
-
-.sub-menu.active {
-    display: flex;
-}
-.sub-menu a{
-    color: black;
-    font-size: 14px;
-}
-
-.sub-menu ul,
-.sub-menu li {
-    margin: 0;
-    list-style-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10"  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/></svg>');
-}
-
-.main-menu svg{
-    width: 17px;
-    height: 17px;
-    margin-right: 10px;
-}
-
-.side-item .main-menu:hover{
-    background-color: #ccc;
-}
-
-.side-item.active .main-menu {
-    background-color: #666;
-}
-
-.side-item.active .main-menu,
-.side-item.active .main-menu p{
-    color: white;
-    font-weight: 500;
-}
-
-.sub-menu a.active {
-    font-weight: bold;
-}
-
-    /* 메인 콘텐츠 */
-    .content {
-      flex: 1;
-      padding: 20px;
-      background-color: #fff;
-    }
-
-    /* 제목과 브레드크럼 같은 줄, 전체 밑줄 적용 */
-    .header-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-      border-bottom: 2px solid #000;
-      padding-bottom: 10px;
-    }
-
-    .header-top h1 {
-      font-size: 20px;
-      margin: 0;
-      border-bottom: none;
-    }
-
-    .breadcrumb {
-      font-size: 14px;
-    }
-
-    .breadcrumb a {
-      text-decoration: none;
-      color: #007bff;
-    }
-
-    .breadcrumb span {
-      color: #555;
-    }
-
-    .breadcrumb a:hover {
-      text-decoration: underline;
-    }
-
-    .top-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 14px;
-      background-color: #eee;
-      padding: 10px 20px;
-      margin-bottom: 10px;
-    }
-
-    .search-bar {
-      margin-bottom: 10px;
-    }
-
-    .search-bar select,
-    .search-bar input {
-        margin-right: 5px;
-        outline: none;
-        padding: 5px;
-    }
-
-    #category1, #category2 {
-        border:1px solid #ccc;
-        border-radius: 5px;
-        outline: none;
-        width: 130px;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 14px;
-    }
-
-    th, td {
-      border: 1px solid #ddd;
-      padding: 10px;
-      text-align: center;
-    }
-
-    th {
-      background-color: #f0f0f0;
-    }
-
-    .bottom-bar {
-      margin-top: 15px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .pagination a {
-      margin: 0 5px;
-      text-decoration: none;
-      color: #000;
-    }
-
-    .btn {
-      padding: 6px 12px;
-      background-color: #3693c2;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-
-    .btn2 {
-      padding: 6px 12px;
-      background-color: #bfbfbf;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-
-    .btn:hover {
-      background-color: #2980b9;
-    }
-
-    /* 공지사항 관리 링크 세로 배치 */
-    .action a {
-      display: block;  
-      text-decoration: none;
-      color: black;
-      margin-bottom: 4px;   
-    }
-
-    .action a:last-child {
-      margin-bottom: 0;
-    }
-    
-  </style>
-</head>
-<body>
-<head>
+    <meta charset="UTF-8">
+    <title>공지사항 목록</title>
     <link rel="stylesheet" th:href="@{/css/admin/main/header_footer.css}">
-
+    <link rel="stylesheet" th:href="@{/css/admin/cs/faq/faqList.css}">
     <script th:src="@{/js/admin/cs/recruit/sidebarAction.js}" defer></script>
     <link rel="stylesheet" th:href="@{/css/admin/main/sidebar.css}">
 
@@ -351,14 +18,46 @@
                 checkboxes.forEach(cb => cb.checked = allSelect.checked);
             });
 
-            const category_box = { // 카테고리
-                "회원": ["가입", "탈퇴", "회원정보", "로그인"],
-                "쿠폰 / 이벤트": ["쿠폰 / 할인혜택", "포인트", "제휴", "이벤트"],
-                "주문 / 결제": ["상품", "결제", "구매내역", "영수증 / 증빙"],
-                "배송": ["배송상태 / 기간", "배송정보확인 / 변경", "해외배송", "당일배송", "해외직구"],
-                "취소 / 반품 / 교환": ["반품신청 / 철회", "반품정보확인 / 변경", "교환 AS신청 / 철회", "교환정보확인 / 변경", "취소신청 / 철회", "취소확인 / 환불정보"],
-                "여행 / 숙박 / 항공": ["여행 / 숙박", "항공"],
-                "안전거래": ["서비스 이용규칙 위반", "지식재산권침해", "법령 및 정책위반 상품", "게시물 정책위반", "직거래 / 외부거래유도", "표시광고", "청소년 위해상품 / 이미지"]
+            //1차,2차 카테고리
+            const category_box = {
+                "member": {"register" : "가입", //회원
+                    "withdrawal" : "탈퇴",
+                    "info" : "회원정보", "login" : "로그인"
+                },
+                "benefit": {"couponAndDiscount" : "쿠폰 / 할인혜택", //쿠폰 / 혜택 / 이벤트
+                    "point" : "포인트",
+                    "partnership" : "제휴",
+                    "event" : "이벤트"
+                },
+                "orderAndPay": {"product" : "상품", //주문 / 결제
+                    "pay" : "결제",
+                    "buyList" : "구매내역",
+                    "receipt" : "영수증 / 증빙"
+                },
+                "deliver": {"statusAndPeriod" : "배송상태 / 기간",  //배송
+                    "checkAndChange" : "배송정보확인 / 변경",
+                    "foreign" : "해외배송",
+                    "day" : "당일배송",
+                    "direct" : "해외직구"
+                },
+                "cancelAndReturnAndExchange": {"returnAndWithdrawal": "반품신청 / 철회", //취소 / 반품 / 교환
+                    "returnAndChange" : "반품정보확인 / 변경",
+                    "exchangeAndWithdrawal" : "교환 AS신청 / 철회",
+                    "exchangeAndChange" : "교환정보확인 / 변경",
+                    "cancelAndWithdrawal": "취소신청 / 철회",
+                    "cancelAndRefund" : "취소확인 / 환불정보"
+                },
+                "traverlAndAccommodationAndAviation": {"travel" : "여행 / 숙박", //여행 / 숙박 / 항공
+                    "flight": "항공"
+                },
+                "Safetrade": {"service" : "서비스 이용규칙 위반", //안전거래
+                    "knowledge" : "지식재산권침해",
+                    "contraveningGoods" : "법령 및 정책위반 상품",
+                    "article" : "게시물 정책위반",
+                    "induction" : "직거래 / 외부거래유도",
+                    "advertising" : "표시광고",
+                    "teenager" : "청소년 위해상품 / 이미지"
+                }
             };
             const category1 = document.getElementById("category1");
             const category2 = document.getElementById("category2");
@@ -366,22 +65,52 @@
 
             category1.addEventListener("change", function() {
                 const selected = this.value;
-                category2.innerHTML = '';
+                category2.innerHTML = '<option>2차 선택</option>';
 
                 if(category_box[selected]) {
-                    category_box[selected].forEach(item => {
+                    for(const key in category_box[selected]) {
                         const option = document.createElement("option");
-                        option.value = item;
-                        option.textContent = item;
+                        option.value = key; // 영어 키
+                        option.textContent = category_box[selected][key]; // 한국어 표시
                         category2.appendChild(option);
-                    });
-                } else {
-                    category2.innerHTML = '<option>2차 선택</option>';
+                    }
                 }
             });
+            category2.addEventListener("change", function() {
+                const type1 = category1.value;
+                const type2 = this.value;
+                if(type2) {
+                    window.location.href = `/kmarket/admin/cs/faq/list/${type1}/${type2}`;
+                }
+            });
+
+            //삭제 기능
+            const deleteBtn = document.querySelector(".select_delete");
+            deleteBtn.addEventListener("click", async () => {
+                const selected = document.querySelectorAll("tbody .row-checkbox:checked");
+                const idList = Array.from(selected).map(cb => cb.value);
+                console.log("삭제 id리스트: ", idList);
+
+                const response = await fetch("/kmarket/admin/cs/faq/list", {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(idList)
+                });
+
+                if(response.ok) {
+                    alert("삭제 완료!");
+                    location.reload();
+                } else {
+                    alert("삭제 실패!");
+                }
+            });
+
         });
     </script>
 </head>
+
 <body>
   <header>
     <div class="header-layout">
@@ -503,66 +232,53 @@
     </div>
 
     <div class="search-bar">
-        <select name="category1" id="category1">
+        <select name="type1" id="category1">
             <option>1차 선택</option>
-            <option value="회원">회원</option>
-            <option value="쿠폰 / 이벤트">쿠폰 / 이벤트</option>
-            <option value="주문 / 결제">주문 / 결제</option>
-            <option value="배송">배송</option>
-            <option value="취소 / 반품 / 교환">취소 / 반품 / 교환</option>
-            <option value="여행 / 숙박 / 항공">여행 / 숙박 / 항공</option>
-            <option value="안전거래">안전거래</option>
+            <option value="member">회원</option>
+            <option value="benefit">쿠폰 / 이벤트</option>
+            <option value="orderAndPay">주문 / 결제</option>
+            <option value="deliver">배송</option>
+            <option value="cancelAndReturnAndExchange">취소 / 반품 / 교환</option>
+            <option value="traverlAndAccommodationAndAviation">여행 / 숙박 / 항공</option>
+            <option value="Safetrade">안전거래</option>
         </select>
         <select name="category2" id="category2">
         </select>
     </div>
 
-    <table>
-      <thead>
-        <tr>
-          <th><input type="checkbox" class="all_select"></th>
-          <th>번호</th>
-          <th>1차유형</th>
-          <th>2차유형</th>
-          <th>제목</th>
-          <th>조회</th>
-          <th>날짜</th>
-          <th>관리</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><input type="checkbox"></td>
-          <td>10</td>
-          <td>회원</td>
-          <td>가입</td>
-          <td>개인회원과 법인회원에 차이가 있나요 ?</td>
-          <td>120</td>
-          <td>2025.09.30.</td>
-          <td class="action">
-            <a href="#">[삭제]</a>
-            <a href="#">[수정]</a>
-          </td>
-        </tr>
+      <table>
+          <thead>
           <tr>
-          <td><input type="checkbox"></td>
-          <td>9</td>
-          <td>회원</td>
-          <td>탈퇴</td>
-          <td>회원 종류 및 혜택 안내</td>
-          <td>120</td>
-          <td>2025.09.30.</td>
-          <td class="action">
-            <a href="#">[삭제]</a>
-            <a href="#">[수정]</a>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+              <th><input type="checkbox" class="all_select"></th>
+              <th>번호</th>
+              <th>1차유형</th>
+              <th>2차유형</th>
+              <th>제목</th>
+              <th>조회</th>
+              <th>날짜</th>
+              <th>관리</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="faq : ${dtoList}">
+              <td><input type="checkbox" class="row-checkbox" th:value="${faq.id}"></td>
+              <td>[[${faq.id}]]</td>
+              <td>[[${faq.type1}]]</td>
+              <td>[[${faq.type2}]]</td>
+              <td><a th:href="@{/admin/cs/faq/view(id=${faq.id})}" class="qna_a">[[${faq.title}]]</a></td>
+              <td>[[${faq.views}]]</td>
+              <td th:text="${#temporals.format(faq.reg_date, 'yy.MM.dd')}"></td>
+              <td class="action">
+                  <a th:href="@{/admin/cs/faq/delete(id=${faq.id})}">[삭제]</a>
+                  <a th:href="@{/admin/cs/faq/modify(id=${faq.id})}">[수정]</a>
+              </td>
+          </tr>
+          </tbody>
+      </table>
 
     <div class="bottom-bar">
       <div>
-        <button class="btn2">선택삭제</button>
+        <button class="btn2 select_delete">선택삭제</button>
       </div>
       <div>
         <button class="btn" th:onclick="|location.href='@{/admin/cs/faq/write}'|">작성하기</button>

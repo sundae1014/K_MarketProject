@@ -3,24 +3,18 @@ body {
     background-color: #f5f5f5;
 }
 
+/*///////////////헤더 푸터 삽입 시 공백 제거///////////////////*/
+html, body {
+    margin: 0;
+    padding: 0;
+
+}
 .container {
     display: flex;
     min-height: 80vh;
     margin: 0 auto;
     max-width: 1200px;
 }
-
-/*///////////////헤더 푸터 삽입 시 공백 제거///////////////////*/
-html, body {
-    margin: 0;
-    padding: 0;
-}
-/* 첫 번째 tr 전체 위쪽에 선 추가 */
-table tbody tr:first-child th,
-table tbody tr:first-child td {
-    border-top: 2px solid #000;
-}
-
 /*////////////////////// header영역 //////////////////////*/
 
 .header-layout{
@@ -208,47 +202,21 @@ table tbody tr:first-child td {
 .breadcrumb span { color: #555; }
 
 table { width: 100%; border-collapse: collapse; font-size: 14px; margin-bottom: 20px; }
+th, td { border: none; padding: 10px; text-align: left; }
 
-/* 왼쪽 열(th) 중앙, 오른쪽 열(td) 왼쪽 정렬 */
-th {
-    width: 15%;
-    text-align: center;
-    vertical-align: middle;
-}
+tr {border-bottom: 1px solid #ccc;}
+tr:nth-child(1) {height: 4em}
+tr:nth-child(2) {height: 4em}
+tr:nth-child(3) {height: 12em}
 
-td {
-    width: 85%;
-    text-align: left;
-    vertical-align: middle;
-}
+th {width: 15%;}
+td {width: 85%;}
 
-/* 유형, 제목, 내용 높이 4칸, 답변 9칸 */
-.type-title {
-    border-bottom: 1px solid #ccc;
-    height: 4em;
+/* 첫 번째 tr 전체 위쪽에 선 추가 */
+table tbody tr:first-child th,
+table tbody tr:first-child td {
+    border-top: 2px solid #000; /* 선 굵기와 색상 조절 가능 */
 }
-.content-answer {
-    border-bottom: 1px solid #ccc;
-    height: 9em;
-}
-.content-answer td {
-    position: relative;
-    height: 5em; /* td에 실제 높이 부여 */
-}
-
-/* 답변 td 테두리 */
-#qna_content {
-    border:2px solid #BFBFBF;
-    box-sizing: border-box;
-    display: block;
-    height: 90%;
-    outline: none;
-    padding: 10px;
-    resize: none;
-    text-align: left;
-    width: 100%;
-}
-
 /* bottom-bar */
 .bottom-bar { display: flex; justify-content: flex-end; gap: 10px; }
 .btn { padding: 6px 12px; background-color: #3693c2; color: white; border: none; cursor: pointer; }
