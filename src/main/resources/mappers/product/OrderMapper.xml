@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.kmarket.mapper.OrderMapper">
+    <insert id="insertOrder" parameterType="kr.co.kmarket.dto.OrderDTO">
+        INSERT INTO ORDER_TBL (
+        ORDERNUMBER, CUST_NUMBER, O_DATE, STAT, NAME, HP, ADDR, ADDR2, PAYMENT
+        )
+        VALUES (
+        ORDER_SEQ.NEXTVAL, #{cust_number}, SYSDATE, 1,
+        #{name}, #{hp}, #{addr}, #{addr2}, #{payment}
+        )
+    </insert>
+</mapper>

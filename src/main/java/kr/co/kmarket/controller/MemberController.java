@@ -43,8 +43,27 @@ public class MemberController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestParam("redirect_uri") String redirect_uri){
-        return "member/login";
+    public String login(@RequestParam("custid") String custid,
+                        @RequestParam("pw") String pw,
+                        HttpSession session,
+                        RedirectAttributes ra) {
+
+        MemberDTO member = memberService.login(custid, pw);
+
+        if (member != null) {
+            session.setAttribute("member", member);
+            log.info("로그인 성공: {}", member);
+            return "redirect:/"; // 로그인 성공 시 메인으로 이동
+        } else {
+            ra.addFlashAttribute("msg", "아이디 또는 비밀번호가 잘못되었습니다.");
+            return "redirect:/member/login";
+        }
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate(); // 세션 전체 삭제
+        return "redirect:/"; // 메인으로 이동
     }
 
 

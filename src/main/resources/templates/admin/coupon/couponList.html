@@ -451,13 +451,20 @@ html, body {
 
     <!-- 하단 바 -->
     <div class="bottom-bar">
-      <div class="pagination">
-        <a href="#">이전</a>
-        <a href="#">1</a>
-        <a href="#">2</a>
-        <a href="#">3</a>
-        <a href="#">다음</a>
-      </div>
+        <div class="pagination">
+            <a th:if="${currentPage > 1}"
+               th:href="@{/admin/coupon/list(page=${currentPage - 1}, type=${param.type}, keyword=${param.keyword})}">이전</a>
+
+            <span th:each="i : ${#numbers.sequence(1, totalPages)}">
+      <a th:if="${i != currentPage}"
+         th:href="@{/admin/coupon/list(page=${i}, type=${param.type}, keyword=${param.keyword})}"
+         th:text="${i}"></a>
+      <strong th:if="${i == currentPage}" th:text="${i}" style="color:red"></strong>
+            </span>
+
+            <a th:if="${currentPage < totalPages}"
+               th:href="@{/admin/coupon/list(page=${currentPage + 1}, type=${param.type}, keyword=${param.keyword})}">다음</a>
+        </div>
       <div>
         <button class="btn" onclick="openRegister()">쿠폰등록</button>
       </div>
@@ -650,6 +657,52 @@ html, body {
             })
             .catch(err => console.error('오류:', err));
     }
+    document.addEventListener('DOMContentLoaded', () => {
+    document.querySelector('.search-bar button').addEventListener('click', () => {
+        const type = document.querySelector('.search-bar select').value;
+        const keyword = document.querySelector('.search-bar input').value.trim();
+
+        if (!keyword) {
+            alert('검색어를 입력해주세요.');
+            return;
+        }
+
+        fetch(`${contextPath}/admin/coupon/search?type=${type}&keyword=${keyword}`)
+            .then(res => res.json())
+            .then(data => {
+                const tbody = document.querySelector('table tbody');
+                tbody.innerHTML = ''; // 기존 목록 초기화
+
+                if (data.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="11">검색 결과가 없습니다.</td></tr>`;
+                    return;
+                }
+
+                data.forEach(coupon => {
+                    const row = `
+        <tr>
+            <td><a href="#" onclick="openDetail('${coupon.couponNo}'); return false;">${coupon.couponNo}</a></td>
+            <td>${coupon.couponTypename}</td>
+            <td>${coupon.couponName}</td>
+            <td>${coupon.benefit}</td>
+            <td>${coupon.usePeriod}</td>
+            <td>${coupon.issuer}</td>
+            <td>${coupon.useCount}</td>
+            <td>${coupon.useCount}</td>
+            <td>${coupon.status}</td>
+            <td>${coupon.issueDate}</td>
+            <td><a href="#" class="manage-btn" onclick="endCoupon(${coupon.couponNo})">종료</a></td>
+        </tr>
+    `;
+                    tbody.insertAdjacentHTML('beforeend', row);
+                });
+            })
+            .catch(err => {
+                console.error('검색 오류:', err);
+                alert('검색 중 오류가 발생했습니다.');
+            });
+    });
+    });
 </script>
 </body>
 </html>

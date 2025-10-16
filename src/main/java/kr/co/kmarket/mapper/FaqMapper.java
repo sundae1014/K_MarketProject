@@ -12,6 +12,7 @@ public interface FaqMapper {
     public List<FaqDTO> findAll();
     public int countAll(@Param("type1") String type1, @Param("type2") String type2);
 
+    public List<FaqDTO> findType1(@Param("type1") String type1);
     public List<FaqDTO> findTypeAll(@Param("type1") String type1, @Param("type2") String type2);
 
     public void insert(FaqDTO faqDTO);

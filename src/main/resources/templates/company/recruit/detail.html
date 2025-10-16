@@ -10,30 +10,37 @@
 
     <div class="board">
         <div class="detail-area">
-            <div class="recruit-detail">
-                <h2 class="title">[[${hire.title}]]</h2>
-                <hr>
-                <div class="info">
-                    <div class="detail-info">
-                        <span>부서 | [[${hire.department}]]</span><br/>
-                        <span>경력 | [[${hire.experience}]]</span><br/>
-                        <span>형태 | [[${hire.hire_type}]]</span><br/>
-                    </div>
-                   <div>
-                       <span>작성자 | [[${hire.author}]]</span><br/>
-                       <span>작성일 | [[${hire.create_date}]]</span>
-                   </div>
-                </div>
+                <table class="hire-detail-table">
+                    <tr>
+                        <th colspan="4">[[${hire.title}]]</th>
+                    </tr>
+                    <tr>
+                        <th>부서</th>
+                        <td>[[${hire.department}]]</td>
+                        <th>작성자</th>
+                        <td>[[${hire.author}]]</td>
+                    </tr>
+                    <tr>
+                        <th>경력</th>
+                        <td>[[${hire.experience}]]</td>
+                        <th>작성일</th>
+                        <td>[[${hire.create_date}]]</td>
+                    </tr>
 
-                <hr>
+                    <tr>
+                        <th>형태</th>
+                        <td colspan="3">[[${hire.hire_type}]]</td>
+                    </tr>
+                    <tr>
+                        <th>모집기간</th>
+                        <td colspan="3">[[${hire.recruit_period_start}]] ~ [[${hire.recruit_period_end}]]</td>
+                    </tr>
+                    <tr>
+                        <th>내용</th>
+                        <td colspan="3"><div class="content-cell">[[${hire.content}]]</div></td>
+                    </tr>
+                </table>
 
-                <div class="period">
-                    <strong>모집기간 | </strong>
-                    [[${hire.recruit_period_start}]] ~ [[${hire.recruit_period_end}]]
-                </div>
-                <hr>
-                <div class="content" th:utext="${hire.content}"></div>
-            </div>
             <a th:href="@{/company/recruit}">목록으로 돌아가기</a>
         </div>
 

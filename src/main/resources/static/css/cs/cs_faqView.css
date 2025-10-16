@@ -1,6 +1,6 @@
 @font-face {
     font-family: "Gmarket Sans";
-    src: url("/Kmarket/font/cs/GmarketSansTTFMedium.ttf") format("truetype");
+    src: url("/kmarket/font/cs/GmarketSansTTFMedium.ttf") format("truetype");
     font-weight: normal;
 }
 
@@ -14,7 +14,7 @@ html, body { /* 기본 세팅 */
 }
 .container { /* 메인 */
     margin: 0 auto;
-    width:1063.39px;
+    width:1200px;
 }
 
 #home_faq h4 { /* 홈 > 공지사항 */

@@ -164,34 +164,22 @@
                         </li>
                     </ul>
                 </div>
-                <div id="faq_all" style="width:900px;height:800px;">
+                <div id="faq_all" style="width:1000px;">
                     <div id="top_title">
-                        <h3 id="faq_title_h3">회원</h3>
-                        <span>회원 관련 자주 묻는 질문입니다.</span>
+                        <h3 id="faq_title_h3">[[${faqDTO.type1}]]</h3>
+                        <span>[[${faqDTO.type1}]] 관련 자주 묻는 질문입니다.</span>
                     </div>
-                    <div style="border:1px solid black; float:right;width:814px;"></div>
+                    <div style="border:1px solid black; float:right;width:945px;"></div>
                     <div id="faq_content">
                         <div id="faq_title">
-                            <h3><span class="text_q">Q.</span><span>개인회원과 법인회원에 차이가 있나요?</span></h3>
+                            <h3><span class="text_q">Q.</span><span>[[${faqDTO.title}]]</span></h3>
                         </div>
                         <div id="faq_text">
-                            <p style="margin-top: 30px;">
-                                개인회원에서 법인회원(사업자 회원)으로 전환은 불가하므로 법인회원 (사업자 회원) 전환은 신규 가입으로 진행을 <br>
-                                해야 합니다.                     
-                            </p>
-                            <p style="margin: 30px 0px;">
-                                ※ 피싱 관련 피해 신고
-                            </p>
-
-                            <p style="margin-bottom: 30px;">
-                                ▶ 경찰청사이버수사국 (국번없이) 182 : http://cyberbureau.police.go.kr <br>
-                                ▶ KISA 인터넷침해대응센터 (국번없이)118 : http://www.krcert.or.kr <br>
-                                감사합니다.
-                            </p>
+                            <p style="margin-top: 30px; white-space: pre-wrap;">[[${faqDTO.content}]]</p>
                         </div>
                     </div>
 
-                    <a th:href="@{/cs/faq/list}" id="list_btn">목록</a>
+                    <a href="javascript:history.back()" id="list_btn">목록</a>
                 </div>
             </div>
         </div>
