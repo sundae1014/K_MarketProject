@@ -49,4 +49,10 @@ public class CartController {
         cartService.deleteCart(cart_number);
         return "deleted";
     }
+
+    @PatchMapping("/cart/updateQty")
+    @ResponseBody
+    public void updateQuantity(@RequestBody CartDTO dto) {
+        cartService.updateQuantity(dto);
+    }
 }
