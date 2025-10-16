@@ -14,7 +14,7 @@ import java.util.Date;
 public class OrderDTO {
 
     private int cust_number;
-    private String order_number;    // 문자열 변경
+    private String ordernumber;    // 문자열 변경
     private Date oDate;
     private String dateString;      // 날짜 포맷팅 문자열
     private int stat;
