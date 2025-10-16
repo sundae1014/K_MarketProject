@@ -26,7 +26,7 @@ public class PolicyController {
         model.addAttribute("pageTitle","구매회원 이용약관"); //약관 제목
         model.addAttribute("activeMenu","buyer"); //맨위 약관 버튼 활성화
 
-        return "/policy/policy_list";
+        return "policy/policy_list";
     }
 
     @GetMapping("/seller")
@@ -37,7 +37,7 @@ public class PolicyController {
         model.addAttribute("pageTitle","판매회원 이용약관"); //약관 제목
         model.addAttribute("activeMenu","seller"); //맨위 약관 버튼 활성화
 
-        return "/policy/policy_list";
+        return "policy/policy_list";
     }
 
     @GetMapping("/finance")
@@ -48,7 +48,7 @@ public class PolicyController {
         model.addAttribute("pageTitle","전자금융거래 이용약관"); //약관 제목
         model.addAttribute("activeMenu","finance"); //맨위 약관 버튼 활성화
 
-        return "/policy/policy_list";
+        return "policy/policy_list";
     }
 
     @GetMapping("/location")
@@ -59,7 +59,7 @@ public class PolicyController {
         model.addAttribute("pageTitle","위치정보 이용약관"); //약관 제목
         model.addAttribute("activeMenu","location"); //맨위 약관 버튼 활성화
 
-        return "/policy/policy_list";
+        return "policy/policy_list";
     }
 
     @GetMapping("/privacy")
@@ -70,6 +70,6 @@ public class PolicyController {
         model.addAttribute("pageTitle","개인정보처리방침"); //약관 제목
         model.addAttribute("activeMenu","privacy"); //맨위 약관 버튼 활성화
 
-        return "/policy/policy_list";
+        return "policy/policy_list";
     }
 }
