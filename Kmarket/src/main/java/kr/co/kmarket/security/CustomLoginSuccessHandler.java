@@ -36,6 +36,9 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
         // 세션 키는 QnA Controller에 맞게 "user_id"로 저장합니다.
         session.setAttribute("user_id", userIdToStore);
 
+        // 추가: Thymeleaf와 JS에서도 쓸 수 있게 전체 member 객체 세션 등록
+        session.setAttribute("member", member);
+
         // 로그를 확인하여 실제 ID가 찍히는지 확인해 보세요!
         log.info("로그인 성공! user_id 세션에 저장된 값: {}", userIdToStore);
 

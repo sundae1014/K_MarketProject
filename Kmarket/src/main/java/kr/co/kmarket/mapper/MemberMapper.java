@@ -26,4 +26,6 @@ public interface MemberMapper {
 
     public List<PolicyDTO> selectAllPolicy();
 
+    MemberDTO login(@Param("custid") String custid, @Param("pw") String pw);
+
 }
