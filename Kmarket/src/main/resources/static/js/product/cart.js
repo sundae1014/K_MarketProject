@@ -1,10 +1,19 @@
 // =========================
 // 샘플 데이터 (추후 백엔드 연동 예정)
 // =========================
-let cartData = [
-    { id: 1, name: "동원 튜나리챔 세트1", price: 69900, discount: 0.49, qty: 1 },
-    { id: 2, name: "동원 튜나리챔 세트2", price: 69900, discount: 0.49, qty: 1 }
-];
+let cartData = [];
+
+async function fetchCartData() {
+    try {
+        const res = await fetch("/kmarket/product/cart/list");
+        if (!res.ok) throw new Error("서버 응답 오류");
+        cartData = await res.json();
+        renderCart();
+    } catch (e) {
+        console.error(e);
+        alert("장바구니 데이터를 불러오는 중 오류가 발생했습니다.");
+    }
+}
 
 // =========================
 // 유틸 함수
@@ -159,12 +168,39 @@ document.addEventListener("click", e => {
         cartData = cartData.filter(i => i.id !== id);
         renderCart();
     }
+    if (e.target.classList.contains("btn-remove")) {
+        e.preventDefault();
+        const cart_number = e.target.dataset.id;
+        if (!confirm("이 상품을 장바구니에서 삭제할까요?")) return;
+
+        fetch(`/kmarket/product/cart/${cart_number}`, { method: "DELETE" })
+            .then(res => res.text())
+            .then(result => {
+                if (result === "deleted") {
+                    cartData = cartData.filter(i => i.cart_number != cart_number);
+                    renderCart();
+                } else {
+                    alert("삭제 실패!");
+                }
+            })
+            .catch(err => alert("삭제 중 오류가 발생했습니다."));
+    }
+
     if (e.target.classList.contains("plus") || e.target.classList.contains("minus")) {
-        const id = parseInt(e.target.dataset.id);
-        const item = cartData.find(i => i.id === id);
+        const cart_number = e.target.dataset.id;
+        const item = cartData.find(i => i.cart_number == cart_number);
         if (!item) return;
+
         if (e.target.classList.contains("plus")) item.qty++;
         if (e.target.classList.contains("minus") && item.qty > 1) item.qty--;
+
+        // 서버에 변경 반영
+        fetch("/kmarket/product/cart/updateQty", {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ cart_number, quantity: item.qty })
+        });
+
         renderCart();
     }
 });

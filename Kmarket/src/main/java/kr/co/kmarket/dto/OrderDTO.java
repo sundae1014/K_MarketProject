@@ -41,4 +41,6 @@ public class OrderDTO {
 
     private String salePriceString;   // ⬅️ [추가] 판매가 포맷 문자열
     private String discountString;    // ⬅️ [추가] 할인액 포맷 문자열
+
+
 }
