@@ -135,9 +135,9 @@ public class UserProductController {
     }
 
 
-    @GetMapping("/cart")
+    /*@GetMapping("/cart")
     public String cart(){
         return "product/prodCart";
-    }
+    }*/
 
 }
