@@ -20,7 +20,7 @@ public interface MyMapper {
     public OrderDTO selectOrderDetailByCustomer(@Param("custNumber") int custNumber,
                                                 @Param("orderNumber") int orderNumber);
 
-    public MemberDTO selectSellerByManufacture(@Param("manufacture") String manufacture); // ⬅️ MemberDTO 사용
+    public MemberDTO selectSellerByManufacture(@Param("manufacture") String manufacture);
 
     public int insertQna(QnaDTO qnaDTO);
 
@@ -51,4 +51,21 @@ public interface MyMapper {
 
     public int orderExchange(OrderDTO orderDTO);
 
+    public int updateEmail(@Param("custNumber") int custNumber,
+                           @Param("email") String email);
+
+    public int updateHp(@Param("custNumber") int custNumber,
+                        @Param("hp") String hp);
+
+    public int updateAddr(MemberDTO memberDTO);
+
+    public MemberDTO selectUserOptions(@Param("custNumber") int custNumber);
+
+    public MemberDTO selectUserInfo(@Param("custNumber") int custNumber);
+
+    public int selectQnaCountByUserId(String user_Id);
+
+    public List<QnaDTO> selectQnaListPage(@Param("user_id") String user_id,
+                                          @Param("start") int start,
+                                          @Param("limit") int limit);
 }

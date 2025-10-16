@@ -149,10 +149,57 @@ public class MyService {
     }
 
     public int orderReturn(OrderDTO orderDTO) {
+        OrderDTO stat = myMapper.selectOrderStat1(
+                orderDTO.getOrderNumber(),
+                orderDTO.getCust_number()
+        );
+
+        if (stat == null || stat.getStat() != DELIVERY_COMPLETE_CODE) {
+            return 0;
+        }
+
         return myMapper.orderReturn(orderDTO);
     }
 
     public int orderExchange(OrderDTO orderDTO) {
+        OrderDTO stat = myMapper.selectOrderStat1(
+                orderDTO.getOrderNumber(),
+                orderDTO.getCust_number()
+        );
+
+        if (stat == null || stat.getStat() != DELIVERY_COMPLETE_CODE) {
+            return 0;
+        }
+
         return myMapper.orderExchange(orderDTO);
+    }
+
+    public int updateEmail(int custNumber, String email) {
+        return myMapper.updateEmail(custNumber, email);
+    }
+
+    public int updateHp(int custNumber, String hp) {
+        return myMapper.updateHp(custNumber, hp);
+    }
+
+    public int updateAddr(MemberDTO memberDTO) {
+        return myMapper.updateAddr(memberDTO);
+    }
+
+    public MemberDTO selectUserOptions(int custNumber) {
+        return myMapper.selectUserOptions(custNumber);
+    }
+
+    public MemberDTO selectUserInfo(int custNumber) {
+        return myMapper.selectUserInfo(custNumber);
+    }
+
+    public int selectQnaCountByUserId(String user_id) {
+        return myMapper.selectQnaCountByUserId(user_id);
+    }
+
+    public List<QnaDTO> selectQnaListPage(String user_id, int start, int limit) {
+        // start는 offset, limit은 size 역할을 합니다.
+        return myMapper.selectQnaListPage(user_id, start, limit);
     }
 }

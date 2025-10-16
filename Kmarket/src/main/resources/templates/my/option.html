@@ -22,7 +22,7 @@
                             <table class="option-table">
                                 <tr>
                                     <th>사용자 ID</th>
-                                    <td>sundae****</td>
+                                    <td th:text="${maskedUid}"></td>
                                 </tr>
                                 <tr>
                                     <th>비밀번호</th>
@@ -30,46 +30,46 @@
                                 </tr>
                                 <tr>
                                     <th>이름</th>
-                                    <td>정*권</td>
+                                    <td th:text="${maskedName}"></td>
                                 </tr>
                                 <tr>
                                     <th>생년월일</th>
-                                    <td>0000년 00월 00일</td>
+                                    <td th:text="${userInfo.birth}"></td>
                                 </tr>
                                 <tr>
                                     <th>Email</th>
                                     <td>
-                                        <input type="text" class="id">
+                                        <input type="text" class="id input-group-email" th:value="${emailId}" disabled>
                                         @
-                                        <input type="text" class="domain">
-                                        <select>
-                                            <option value="naver">naver.com</option>
-                                            <option value="hanmail">hanmail.net</option>
-                                            <option value="daum">daum.net</option>
-                                            <option value="gmail">gmail.com</option>
-                                            <option value="" selected>직접입력</option>
+                                        <input type="text" id="emailDomain" class="domain input-group-email" th:value="${emailDomain}" disabled>
+                                        <select class="input-group-email" id="emailDomainSelect" disabled>
+                                            <option value="naver.com" th:selected="${emailDomain == 'naver.com'}">naver.com</option>
+                                            <option value="hanmail.net" th:selected="${emailDomain == 'hanmail.net'}">hanmail.net</option>
+                                            <option value="daum.net" th:selected="${emailDomain == 'daum.net'}">daum.net</option>
+                                            <option value="gmail.com" th:selected="${emailDomain == 'gmail.com'}">gmail.com</option>
+                                            <option value="" th:selected="${emailDomain != 'naver.com' and emailDomain != 'hanmail.net' and emailDomain != 'daum.net' and emailDomain != 'gmail.com'}">직접입력</option>
                                         </select>
-                                        <button class="modi-btn">수정하기</button>
+                                        <button class="modi-btn" data-target="input-group-email">수정하기</button>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>휴대폰</th>
                                     <td>
-                                        <input type="number" class="hpbox"> -
-                                        <input type="number" class="hpbox"> -
-                                        <input type="number" class="hpbox">
-                                        <button class="modi-btn">수정하기</button>
+                                        <input type="number" class="hpbox input-group-hp" th:value="${hp1}" disabled> -
+                                        <input type="number" class="hpbox input-group-hp" th:value="${hp2}" disabled> -
+                                        <input type="number" class="hpbox input-group-hp" th:value="${hp3}" disabled>
+                                        <button class="modi-btn" data-target="input-group-hp">수정하기</button>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>주소</th>
                                     <td>
                                         <div class="input-row">
-                                            <input type="text" id="zip" name="zip" readonly placeholder="우편번호검색클릭" onclick="postcode()"/>
+                                            <input type="text" id="zip" name="zip" readonly placeholder="우편번호검색클릭" onclick="postcode()" th:value="${userInfo.zip}"/>
                                         </div>
                                         <div class="input-row-long">
-                                            <input type="text" id="addr1" name="addr1" readonly placeholder="기본주소검색"/>
-                                            <input type="text" id="addr2" name="addr2" placeholder="상세주소입력"/>
+                                            <input type="text" id="addr1" name="addr1" readonly placeholder="기본주소검색" th:value="${userInfo.addr1}"/>
+                                            <input type="text" id="addr2" name="addr2" placeholder="상세주소입력" th:value="${userInfo.addr2}"/>
                                         </div>
                                     </td>
                                 </tr>

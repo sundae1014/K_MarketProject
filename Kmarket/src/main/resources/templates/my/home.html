@@ -49,7 +49,7 @@
                             </p>
                             <p><a href="#" class="seller-detail-link" th:data-manufacture="${order.manufacture}">
                                 <span th:text="${order.manufacture}">[상호명]</span> </a></p>
-                            <p><a href="#" th:text="${order.prod_name}"></a></p>
+                            <p><a th:href="@{/product/view(prod_number=${order.prod_number})}" th:text="${order.prod_name}"></a></p>
                             <p th:text="'수량 : ' + ${order.piece} + '개'"></p>
                             <h4 th:text="${order.priceString}"></h4>
                         </div>
@@ -111,7 +111,19 @@
                                             th:data-discount-string="${order.discountString}">
                                         반품신청
                                     </button><br>
-                                    <button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#exchangeModal">
+                                    <button class="btn btn-light btn-exchange"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#exchangeModal"
+                                            th:data-order-number="${order.orderNumber}"
+                                            th:data-prod-no="${order.prod_number}"
+                                            th:data-prod-name="${order.prod_name}"
+                                            th:data-piece="${order.piece}"
+                                            th:data-date-string="${order.dateString}"
+                                            th:data-encoded-img1="${order.encodedImg1}"
+                                            th:data-price-string="${order.priceString}"
+                                            th:data-manufacture="${order.manufacture}"
+                                            th:data-sale-price-string="${order.salePriceString}"
+                                            th:data-discount-string="${order.discountString}">
                                         교환신청
                                     </button><br>
                                 </div>
@@ -232,33 +244,33 @@
                 <div class="setting-item">
                     <div class="setting-header">
                         <span class="setting-title">기본배송지 설정</span>
-                        <a href="#" class="edit-link">변경</a>
+                        <a th:href="@{/my/option}" class="edit-link">변경</a>
                     </div>
                     <div class="setting-content">
-                        <div class="setting-address">부산광역시 강서구 명지동 120</div>
-                        <div class="setting-address">한빛빌딩 10층</div>
+                        <div class="setting-address" th:text="${userOptions.addr1}"></div>
+                        <div class="setting-address" th:text="${userOptions.addr2}"></div>
                     </div>
                 </div>
 
                 <div class="setting-item">
                     <div class="setting-header">
-                        <span class="setting-title">Email 설정</span>
-                        <a href="#" class="edit-link">변경</a>
+                        <span class="setting-title" >Email 설정</span>
+                        <a th:href="@{/my/option}" class="edit-link">변경</a>
                     </div>
                     <div class="setting-content">
-                        <div class="setting-email">abc123@naver.com</div>
-                        <div class="setting-date">* 최종수정일 2021-12-10</div>
+                        <div class="setting-email" th:text="${userOptions.email}"></div>
+                        <div class="setting-date" th:text="'(최종수정일'+${userOptions.updated_at}+')'"></div>
                     </div>
                 </div>
 
                 <div class="setting-item">
                     <div class="setting-header">
                         <span class="setting-title">휴대폰 설정</span>
-                        <a href="#" class="edit-link">변경</a>
+                        <a th:href="@{/my/option}" class="edit-link">변경</a>
                     </div>
                     <div class="setting-content">
-                        <div class="setting-phone">010-1234-1001</div>
-                        <div class="setting-date">* 최종수정일 2021-12-10</div>
+                        <div class="setting-phone" th:text="${userOptions.hp}"></div>
+                        <div class="setting-date" th:text="'(최종수정일 '+${userOptions.updated_at}+')'"></div>
                     </div>
                 </div>
             </div>

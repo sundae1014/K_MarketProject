@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Cupang::상품상세(5조)</title>
+    <title>Cupang::상품상세 (5조)</title>
     <link rel="stylesheet" th:href="@{/css/product/style_header.css}">
     <link rel="stylesheet" th:href="@{/css/product/style_footer.css}">
     <link rel="stylesheet" th:href="@{/css/product/style_index.css}">
@@ -11,7 +11,14 @@
           th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css}">
 
     <!-- 유저별 권한 기능 -->
-    <script th:src="@{/js/product/user-menu.js}" defer></script>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        let userType = /*[[${session.member != null ? (session.member.auth == 9 ? 'admin' : 'user') : 'guest'}]]*/ "guest";
+        let userName = /*[[${session.member != null ? session.member.name : ''}]]*/ "";
+        /*]]>*/
+    </script>
+    <script th:src="@{/js/main/user-menu.js}" defer></script>
+
     <!-- 헤더 상단 공용 검색 기능 -->
     <script th:src="@{/js/product/header-search.js}" defer></script>
     <!-- 상품 리스트 내부 검색 + 정렬 기능 -->
@@ -106,19 +113,12 @@
 
                     <h2 class="prod-title" th:text="${product.prod_name}">상품명</h2>
 
-                    <div class="prod-rating"
-                         th:with="raw=${product.pro_score != null ? product.pro_score.doubleValue() : 0.0},
-                                  rounded=${T(java.lang.Math).round(raw)},
-                                  filled=${T(java.lang.Math).min(T(java.lang.Math).max(rounded.doubleValue(), 0.0), 5.0)}">
-
-                        <!-- 꽉 찬 별 -->
-                        <i class="fa-solid fa-star" th:each="i : ${#numbers.sequence(1, filled)}"></i>
-                        <!-- 빈 별 -->
-                        <i class="fa-regular fa-star" th:each="i : ${#numbers.sequence(filled + 1, 5)}"></i>
-
-                        <span class="review-count" th:text="'(' + ${#lists.size(reviews)} + '건 상품평)'"></span>
+                    <div class="prod-rating">
+                        <i th:each="i : ${#numbers.sequence(1,5)}"
+                           th:classappend="${i <= product.pro_score} ? 'fa-solid fa-star' : 'fa-regular fa-star'"></i>
+                        <span class="review-count"
+                              th:text="'(' + ${#lists.size(reviews)} + '건 상품평)'"></span>
                     </div>
-
 
                     <p class="prod-origin">원산지: <span th:text="${notice.prod_origin}"></span></p>
 
