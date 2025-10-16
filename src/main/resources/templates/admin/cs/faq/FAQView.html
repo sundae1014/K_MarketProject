@@ -1,235 +1,14 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <title>공지사항 보기</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      background-color: #f5f5f5;
-    }
-
-    /*///////////////헤더 푸터 삽입 시 공백 제거///////////////////*/
-    html, body {
-        margin: 0;
-        padding: 0;
-        
-    }
-    .container {
-        display: flex;
-        min-height: 80vh;
-        margin: 0 auto;
-        max-width: 1200px;
-    }
-    /*////////////////////// header영역 //////////////////////*/
-
-.header-layout{
-    height: 60px;
-    margin: 0 auto;
-    width: 100%;
-    box-sizing: border-box;
-    background-color: #325a83;
-    display: flex;
-    vertical-align: middle;
-    align-items: center;
-    justify-content: center;
-}
-
-.header-content{
-    width: 80%;
-    display: flex;
-    justify-content: space-between;
-    display: flex;
-    align-items: center;
-}
-.header-content img{
-    width: 200px;
-    display: block;
-}
-
-.header-link{
-    display: flex;
-    gap: 25px;
-    vertical-align: middle;
-    align-items: center;
-}
-.header-link p{
-    margin: 0;
-}
-
-.header-link a,
-.header-link button{
-    text-decoration: none;
-    color: white;
-    font-weight: 500;
-    font-size: 10px;
-}
-
-.header-item a{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    color: white;
-
-}
-.header-link button{
-    border: none;
-    outline: none;
-    background-color: #91a9ce;
-    padding: 5px 15px 5px 15px;
-    cursor: pointer;
-
-
-}
-/*////////////////////// footer영역 //////////////////////*/
-.footer-layout{
-    height: 110px;
-    margin: 0 auto;
-    width: 100%;
-    background-color: #325a83;
-}
-
-
-.footer-content{
-    width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    padding-top: 15px;
-    text-align: center;
-    gap: 2px;
-}
-.footer-content img{
-    width: 150px;
-    display: block;
-    margin: 0 auto;
-}
-.about-company{
-    display: flex;
-    justify-content: center;
-}
-.footer-content h2{
-    font-size: 12px;
-    color: #333;
-    font-weight: 400;
-    margin: 0 2px;
-}
-.footer-content a{
-    color: black;
-    font-size: 13px;
-}
-
-  /* 사이드바 */
-
-/*///////////////////사이드 바///////////////////*/
-.sidebar {
-    width: 200px;
-    display: flex;
-    flex-direction: column;
-    background-color: #e0e0e0;
-
-}
-
-.sidebar a {
-    text-decoration: none;
-}
-
-
-.side-item {
-    border-bottom: 1px solid #ccc;
-}
-.main-menu p {
-    color: black;
-    font-size: 15px;
-    cursor: pointer;
-    margin: 0;
-
-}
-
-.main-menu{
-    display: flex;
-    width: 100%;
-    padding: 10px;
-    box-sizing: border-box;
-    display: flex;
-    align-items: center;
-}
-.sub-menu{
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    display: none;
-}
-
-.sub-menu.active {
-    display: flex;
-}
-.sub-menu a{
-    color: black;
-    font-size: 14px;
-}
-
-.sub-menu ul,
-.sub-menu li {
-    margin: 0;
-    list-style-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10"  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/></svg>');
-}
-
-.main-menu svg{
-    width: 17px;
-    height: 17px;
-    margin-right: 10px;
-}
-
-.side-item .main-menu:hover{
-    background-color: #ccc;
-}
-
-.side-item.active .main-menu {
-    background-color: #666;
-}
-
-.side-item.active .main-menu,
-.side-item.active .main-menu p{
-    color: white;
-    font-weight: 500;
-}
-
-.sub-menu a.active {
-    font-weight: bold;
-}
-
-    /* 메인 콘텐츠 */
-    .content { flex: 1; padding: 20px; background-color: #fff; }
-    .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 60px; border-bottom: 2px solid #000; padding-bottom: 10px; }
-    .header-top h1 { font-size: 20px; margin: 0; }
-    .breadcrumb { font-size: 14px; }
-    .breadcrumb a { text-decoration: none; color: #007bff; }
-    .breadcrumb span { color: #555; }
-
-    table { width: 100%; border-collapse: collapse; font-size: 14px; margin-bottom: 20px; }
-    th, td { border: none; padding: 10px; text-align: left; vertical-align: top; }
-
-    /* 첫 번째 tr 전체 위쪽에 선 추가 */
-    table tbody tr:first-child th,
-    table tbody tr:first-child td {
-      border-top: 2px solid #000; /* 선 굵기와 색상 조절 가능 */
-    }
-    /* bottom-bar */
-    .bottom-bar { display: flex; justify-content: flex-end; gap: 10px; }
-    .btn { padding: 6px 12px; background-color: #3693c2; color: white; border: none; cursor: pointer; }
-    .btn2 { padding: 6px 12px; background-color: #bfbfbf; color: white; border: none; cursor: pointer; }
-    .btn:hover { background-color: #2980b9; }
-  </style>
-</head>
-<body>
-  <head>
+    <meta charset="UTF-8">
+    <title>공지사항 보기</title>
     <link rel="stylesheet" th:href="@{/css/admin/main/header_footer.css}">
-
+    <link rel="stylesheet" th:href="@{/css/admin/cs/faq/faqView.css}">
     <script th:src="@{/js/admin/cs/recruit/sidebarAction.js}" defer></script>
     <link rel="stylesheet" th:href="@{/css/admin/main/sidebar.css}">
 </head>
+
 <body>
 <header>
     <div class="header-layout">
@@ -352,23 +131,22 @@
       <tbody>
         <tr>
           <th>유형</th>
-          <td>회원 - 가입</td>
+          <td>[[${faqDTO.type1}]] - [[${faqDTO.type2}]]</td>
         </tr>
         <tr>
           <th>제목</th>
-          <td>개인회원과 법인회원에 차이가 있나요 ? </td>
+          <td>[[${faqDTO.title}]]</td>
         </tr>
         <tr>
           <th>내용</th>
-          <td>개인회원은 본인인증, 법인회원은 사업자등록번호를 기준으로 사업자 인증 후 가입 가능합니다.<br>개인회원에서 법인회원(사업자회원)으로 전환은 불가하므로<br>
-            전환은 신규가입으로 진행을 해야합니다.</d></td>
+          <td style="white-space: pre-wrap;">[[${faqDTO.content}]]</td>
         </tr>
       </tbody>
     </table>
 
     <div class="bottom-bar">
-      <button class="btn2">삭제</button>
-      <button class="btn2" th:onclick="|location.href='@{/admin/cs/faq/modify}'|">수정</button>
+      <button class="btn2" type="button" th:onclick="|location.href='@{/admin/cs/faq/delete(id=${faqDTO.id})}'|">삭제</button>
+      <button class="btn2" th:onclick="|location.href='@{/admin/cs/faq/modify(id=${faqDTO.id})}'|">수정</button>
       <button class="btn" th:onclick="|location.href='@{/admin/cs/faq/list}'|">목록</button>
     </div>
   </div>

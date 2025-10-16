@@ -35,7 +35,7 @@ public class EmailService {
 
         int code = ThreadLocalRandom.current().nextInt(100000, 1000000);
 
-        String title = "kmarket 인증코드 입니다.";
+        String title = "Cupang 인증코드 입니다.";
         String content = "<h1>인증코드는 " + code + "입니다.</h1>";
 
         try {

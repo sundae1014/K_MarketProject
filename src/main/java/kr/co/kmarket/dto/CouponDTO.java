@@ -12,20 +12,18 @@ import java.sql.Date;
 @NoArgsConstructor
 @Builder
 public class CouponDTO {
-
-    private int coupon_no;
-    private int coupon_type;
-    private String couponTypename;
-    private String coupon_name;
+    private int couponNo;
+    private int couponType;
+    private String couponTypename; // ✅ CASE 결과값 매핑용
+    private String couponName;
     private String benefit;
     private String benefit2;
-    private String use_period;
+    private String usePeriod;
     private String issuer;
-    private Date issue_date;
-    private int use_count;
+    private Date issueDate;
+    private int useCount;
     private String status;
     private String manage;
     private int sayoung;
     private int bargup;
-    private Date issue;
 }

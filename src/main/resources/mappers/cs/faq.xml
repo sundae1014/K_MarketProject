@@ -4,8 +4,60 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="kr.co.kmarket.mapper.FaqMapper">
-    <insert id="insert">
+    <select id="findById" resultType="kr.co.kmarket.dto.FaqDTO">
+        SELECT *
+        FROM FAQ
+        WHERE ID = #{id}
+    </select>
+
+    <select id="findAll" resultType="kr.co.kmarket.dto.FaqDTO">
+        SELECT *
+        FROM FAQ
+        ORDER BY id DESC
+        FETCH FIRST 10 ROWS ONLY
+    </select>
+
+    <select id="countAll" resultType="int">
+        SELECT COUNT(*) FROM faq
+        WHERE TYPE1 = #{type1}
+        AND TYPE2 = #{type2}
+    </select>
+
+    <select id="findTypeAll" resultType="kr.co.kmarket.dto.FaqDTO">
+        SELECT *
+        FROM FAQ
+        WHERE TYPE1 = #{type1}
+        AND TYPE2 = #{type2}
+        ORDER BY ID DESC
+        FETCH FIRST 10 ROWS ONLY
+    </select>
+
+    <insert id="insert"> <!-- 최대 10개까지 입력-->
         INSERT INTO FAQ(TYPE1, TYPE2,TITLE, CONTENT, REG_DATE)
         VALUES (#{type1}, #{type2}, #{title}, #{content}, #{reg_date})
     </insert>
+
+    <update id="update">
+        UPDATE FAQ SET
+        TYPE1 = #{type1}, TYPE2 = #{type2}, TITLE = #{title}, CONTENT = #{content}
+        WHERE ID = #{id}
+    </update>
+    <update id="update2">
+        UPDATE FAQ SET
+        VIEWS = #{views}
+        WHERE ID = #{id}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM FAQ
+        WHERE ID = #{id}
+    </delete>
+
+    <delete id="deleteAll" parameterType="list">
+        DELETE FROM FAQ
+        WHERE ID IN
+        <foreach item="id" collection="list" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
 </mapper>

@@ -239,7 +239,7 @@
                         <table class="qna-table">
                             <tr th:each="cusTableInfo : ${cusTableInfo}">
                                 <td>
-                                    <a href="#">
+                                    <a th:href="@{/admin/cs/qna/view(id=${cusTableInfo.id})}">
                                         [[${cusTableInfo.title}]]
                                     </a>
                                 </td>

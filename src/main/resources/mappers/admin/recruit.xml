@@ -83,7 +83,7 @@
     <update id="updateExpiredHires">
         UPDATE hire
         SET status = '종료'
-        WHERE recruit_period_end &lt; SYSDATE
+        WHERE TRUNC(TO_DATE(recruit_period_end, 'YYYY-MM-DD')) &lt; TRUNC(SYSDATE)
         AND status != '종료'
     </update>
 

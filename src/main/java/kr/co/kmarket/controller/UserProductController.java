@@ -90,7 +90,7 @@ public class UserProductController {
         int total = productService.countProductReviews(prod_number);
         int pageSize = 5;
         int offset = (page - 1) * pageSize;
-        List<ProductReviewDTO> reviews = productService.selectPagedReviews(prod_number, offset, pageSize);
+        List<ProductReviewDTO> reviews = productService.selectProductReviews(prod_number);
         double avgRating = productService.selectAvgRating(prod_number);
 
         int reviewCount = total;

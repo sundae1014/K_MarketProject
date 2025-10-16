@@ -1,5 +1,5 @@
 #exchangeModal{
-    --bs-modal-width: 736px;
+    --bs-modal-width: 930px;
 }
 
 .exchange-contents{
@@ -32,16 +32,9 @@
     text-align: center;
 }
 
-.exchange-prod-table .second-td{
-    display: flex;
-    padding: 20px;
-    padding-right: 0;
-    padding-bottom: 5px;
-}
 
 .second-td .exchange-prod-info{
     flex: auto;
-    margin-left: 30px;
     text-align: left;
 }
 

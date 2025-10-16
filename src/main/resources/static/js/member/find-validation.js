@@ -18,10 +18,11 @@ document.addEventListener('DOMContentLoaded', function(){
     const btnCheckEmail = document.getElementById('btnCheckEmail');
     const btnEmailCode = document.getElementById('btnEmailCode');
 
+    const btnCheckHp = document.getElementById('btnCheckHp');
+    const btnHpCode = document.getElementById('btnHpCode');
 
     const emailResult = document.getElementsByClassName('emailResult')[0];
     const hpResult = document.getElementsByClassName('hpResult')[0];
-
 
     const auth = document.getElementsByClassName('auth')[0];
 
@@ -89,7 +90,6 @@ document.addEventListener('DOMContentLoaded', function(){
                 console.log(err);
                 emailResult.innerText = '이메일 전송 실패';
                 emailResult.style.color = 'red';
-                emailResult.style.color = 'red';
             } finally {
                 preventDblClick = false;
             }
@@ -132,47 +132,107 @@ document.addEventListener('DOMContentLoaded', function(){
     //////////////////////////////////////////////////////////
     // 휴대폰 중복 체크
     //////////////////////////////////////////////////////////
-    form.hp.addEventListener('focusout', function(e){
+    let preventDblClickHp = false;
 
-        const value = form.hp.value;
-        console.log('value : ' + value);
+    if(btnCheckHp){
+        btnCheckHp.addEventListener('click', async function(e){
+            if(preventDblClickHp){
+                return;
+            }
 
-        if(!value.match(reHp)){
-            hpResult.innerText = '휴대폰 번호가 유효하지 않습니다.';
-            hpResult.style.color = 'red';
-            isHpOk = false;
-            return;
-        }
+            const value = form.hp.value;
+            console.log('value: '+value);
 
-        fetch(`/kmarket/member/hp/${value}`)
-            .then(res => res.json())
-            .then(data => {
-                console.log(data);
-                if(data.count > 0){
-                    hpResult.innerText = '이미 사용 중인 휴대폰 입니다.';
+            if(!value.match(reHp)){
+                hpResult.innerText = '휴대폰이 유효하지 않습니다.';
+                hpResult.style.color = 'red';
+                isHpOk = false;
+                return
+            }
+
+            e.preventDefault();
+
+            if(preventDblClickHp) return;
+            preventDblClickHp = true;
+
+            try{
+                const res = await fetch(`/kmarket/member/hp/${value}`);
+                const data = await res.json();
+
+                if(data.count == 0){
+                    hpResult.innerText = '존재하지 않는 사용자 휴대폰 입니다.';
                     hpResult.style.color = 'red';
                     isHpOk = false;
+                    preventDblClickHp = false;
+                    return;
                 }else{
-                    hpResult.innerText = '사용 가능한 휴대폰 입니다.';
+                    hpResult.innerText = '휴대폰으로 인증코드 전송 중 입니다.';
+                    hpResult.style.color = 'green';
+
+                    await fetch("/kmarket/member/hp/send",{
+                        method: "POST",
+                        headers: {"Content-Type": "application/json"},
+                        body:JSON.stringify({hp: value, mode: "find"})
+                    })
+
+                    hpResult.innerText = '휴대폰 인증번호를 입력하세요.';
+                    hpResult.style.color = 'green';
+                }
+            }catch(err){
+                console.log(err);
+                hpResult.innerText = '휴대폰 전송 실패';
+                hpResult.style.color = 'red';
+            }finally {
+                preventDblClickHp = false;
+            }
+        });
+
+    }
+
+    if(btnHpCode){
+        btnHpCode.addEventListener('click', async function(e){
+            const code = hpCode.value.trim();
+            if(code == '') return;
+
+            try{
+                const response = await fetch('/kmarket/member/hp/code',{
+                    method: 'POST',
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify({code: code})
+                });
+
+                const VerifyData = await response.json();
+
+                if(VerifyData.isMatched){
+                    hpResult.innerText = '휴대폰이 인증되었습니다.';
                     hpResult.style.color = 'green';
                     isHpOk = true;
+                }else{
+                    hpResult.innerText = '인증코드가 일치하지 않습니다.';
+                    hpResult.style.color = 'red';
+                    isHpOk = false;
                 }
-            })
-            .catch(err => {
-                console.log(err);
-            });
-    });
+            }catch(err){
+                console.error(err);
+                hpResult.innerText = '인증 확인 중 오류가 발생했습니다.'
+                hpResult.style.color = 'red';
+                isHpOk = false;
+            }
+        });
+    }
 
     // 최종 폼 전송 처리
     form.addEventListener('submit', function(e){
         e.preventDefault(); // 기본 폼전송 해제
 
-        if(btnCheckEmail&&!isEmailOk){
+        const method = document.getElementById('authMethod').value;
+
+        if(method === "1"&&!isEmailOk){
             alert('이메일을 확인하세요.');
             return;
         }
 
-        if(hpResult&&!isHpOk){
+        if(method === "2"&&!isHpOk){
             alert('휴대폰을 확인하세요.');
             return;
         }
