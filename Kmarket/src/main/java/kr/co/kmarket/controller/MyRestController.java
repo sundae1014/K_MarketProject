@@ -254,4 +254,66 @@ public class MyRestController {
 
         return resultMap;
     }
+
+    @PostMapping("/return")
+    public Map<String, Object> requestReturn(@RequestBody OrderDTO orderDTO, HttpSession session) {
+        Map<String, Object> resultMap = new HashMap<>();
+
+        // 1. 로그인 검증
+        Integer custNumber = (Integer) session.getAttribute("cust_number");
+        if (custNumber == null) {
+            resultMap.put("success", false);
+            resultMap.put("message", "로그인이 필요합니다.");
+            return resultMap;
+        }
+
+        // 2. DTO에 현재 로그인 사용자 번호 설정 (보안: 요청 데이터 외에 세션 정보 사용)
+        orderDTO.setCust_number(custNumber);
+
+        try {
+            int result = myService.orderReturn(orderDTO);
+            if (result > 0) {
+                resultMap.put("success", true);
+                resultMap.put("message", "반품 요청이 접수되었습니다.");
+            } else {
+                resultMap.put("success", false);
+                resultMap.put("message", "반품 요청에 실패했습니다.");
+            }
+        } catch (Exception e) {
+            log.error("반품 요청 중 시스템 오류 발생 - Order: {}", orderDTO.getOrderNumber(), e);
+            resultMap.put("success", false);
+            resultMap.put("message", "시스템 오류가 발생했습니다.");
+        }
+        return resultMap;
+    }
+
+    @PostMapping("/exchange")
+    public Map<String, Object> requestExchange(@RequestBody OrderDTO orderDTO, HttpSession session) {
+        Map<String, Object> resultMap = new HashMap<>();
+
+        Integer custNumber = (Integer) session.getAttribute("cust_number");
+        if (custNumber == null) {
+            resultMap.put("success", false);
+            resultMap.put("message", "로그인이 필요합니다.");
+            return resultMap;
+        }
+
+        orderDTO.setCust_number(custNumber);
+
+        try {
+            int result = myService.orderExchange(orderDTO);
+            if (result > 0) {
+                resultMap.put("success", true);
+                resultMap.put("message", "교환 요청이 접수되었습니다.");
+            } else {
+                resultMap.put("success", false);
+                resultMap.put("message", "교환 요청에 실패했습니다.");
+            }
+        } catch (Exception e) {
+            log.error("교환 요청 중 시스템 오류 발생 - Order: {}", orderDTO.getOrderNumber(), e);
+            resultMap.put("success", false);
+            resultMap.put("message", "시스템 오류가 발생했습니다.");
+        }
+        return resultMap;
+    }
 }

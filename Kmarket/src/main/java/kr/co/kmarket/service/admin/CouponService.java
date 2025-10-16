@@ -38,4 +38,8 @@ public class CouponService {
             default -> "기타";
         };
     }
+    public List<CouponDTO> searchCoupons(String type, String keyword) {
+        return mapper.selectSearchCoupons(type, keyword);
+    }
+
 }

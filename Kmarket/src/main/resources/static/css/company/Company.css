@@ -694,7 +694,8 @@ html, body {
 }
 
 .content{
-    font-size: 20px;
+    font-size: 17px;
+    margin-bottom: 100px;
 }
 
 hr {
@@ -703,8 +704,11 @@ hr {
 
 .recruit-detail{
     margin-bottom: 50px;
+    border-top: 2px solid #333;
+    margin-top: 35px;
 }
-/* ===== 페이지네이션 ===== */
+
+    /* ===== 페이지네이션 ===== */
 .page{
     display:flex;
     justify-content:center;

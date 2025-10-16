@@ -435,7 +435,7 @@ html, body {
                 <a href="#" th:text="${coupon.couponNo}"
                    th:onclick="'openDetail(' + ${coupon.couponNo} + '); return false;'"></a>
             </td>
-            <td th:text="${coupon.couponType}"></td>
+            <td th:text="${coupon.couponTypename}"></td>
             <td th:text="${coupon.couponName}"></td>
             <td th:text="${coupon.benefit}"></td>
             <td th:text="${coupon.usePeriod}"></td>
@@ -537,15 +537,27 @@ html, body {
                         <th>발급처</th><td><input type="text" id="newIssuer" placeholder="발급처 입력"></td>
                     </tr>
                     <tr>
+                        <th>쿠폰명</th>
+                        <td>
+                            <select id="newName">
+                                <option value="">쿠폰명 선택</option>
+                                <option value="10월 한달 감사쿠폰">10월 한달 감사쿠폰</option>
+                                <option value="회원가입 축하쿠폰">회원가입 축하쿠폰</option>
+                                <option value="배송비 무료 쿠폰">배송비 무료 쿠폰</option>
+                                <option value="특별감사 쿠폰">특별감사 쿠폰</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
                         <th>쿠폰종류</th>
                         <td>
                             <select id="newType">
                                 <option value="">쿠폰종류 선택</option>
-                                <option value="개별상품 할인">개별상품 할인</option>
-                                <option value="주문금액 할인">주문금액 할인</option>
-                                <option value="배송비 무료">배송비 무료</option>
-                                <option value="회원등급 전용">회원등급 전용</option>
-                                <option value="첫구매 전용">첫구매 전용</option>
+                                <option value="1">개별상품 할인</option>
+                                <option value="2">주문금액 할인</option>
+                                <option value="3">배송비 무료</option>
+                                <option value="4">회원등급 전용</option>
+                                <option value="5">첫구매 전용</option>
                             </select>
                         </td>
                     </tr>
@@ -614,11 +626,11 @@ html, body {
 
         const data = {
             issuer: document.getElementById('newIssuer').value,
-            coupon_type: document.getElementById('newType').value,
+            couponType: document.getElementById('newType').value,
             benefit: selectedBenefit ? selectedBenefit.value : '',
-            use_period: (startDate && endDate) ? `${startDate.value} ~ ${endDate.value}` : '',
+            usePeriod: (startDate && endDate) ? `${startDate.value} ~ ${endDate.value}` : '',
             manage: document.getElementById('newNote').value,
-            coupon_name: '자동등록쿠폰'
+            couponName: document.getElementById('newName').value || '기본쿠폰'
         };
 
         fetch(`${contextPath}/admin/coupon/register`, {

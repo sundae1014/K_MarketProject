@@ -147,4 +147,12 @@ public class MyService {
     public List<ProductReviewDTO> getRecentReviews(int custNumber) {
         return myMapper.selectRecentReviews(custNumber);
     }
+
+    public int orderReturn(OrderDTO orderDTO) {
+        return myMapper.orderReturn(orderDTO);
+    }
+
+    public int orderExchange(OrderDTO orderDTO) {
+        return myMapper.orderExchange(orderDTO);
+    }
 }
