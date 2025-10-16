@@ -42,4 +42,13 @@ public class CouponService {
         return mapper.selectSearchCoupons(type, keyword);
     }
 
+    // 쿠폰 개수 세기
+    public int countCoupons(String type, String keyword) {
+        return mapper.countCoupons(type, keyword);
+    }
+
+    // 페이지 단위 쿠폰 조회
+    public List<CouponDTO> getCouponsPage(String type, String keyword, int offset, int size) {
+        return mapper.selectCouponsPage(type, keyword, offset, size);
+    }
 }

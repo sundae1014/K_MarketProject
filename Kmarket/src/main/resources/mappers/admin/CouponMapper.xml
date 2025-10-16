@@ -4,7 +4,7 @@
 
 <mapper namespace="kr.co.kmarket.mapper.admin.CouponMapper">
 
-    <!-- ✅ 컬럼 ↔ DTO 매핑 -->
+    <!--  컬럼 ↔ DTO 매핑 -->
     <resultMap id="couponMap" type="kr.co.kmarket.dto.CouponDTO">
         <result column="COUPON_NO" property="couponNo"/>
         <result column="COUPON_TYPE" property="couponType"/>
@@ -21,7 +21,7 @@
         <result column="BARGUP" property="bargup"/>
     </resultMap>
 
-    <!-- ✅ 쿠폰 등록 -->
+    <!--  쿠폰 등록 -->
     <insert id="insertCoupon" parameterType="kr.co.kmarket.dto.CouponDTO">
         INSERT INTO COUPON (
             COUPON_NO,
@@ -52,7 +52,7 @@
                  )
     </insert>
 
-    <!-- ✅ 쿠폰 전체 목록 -->
+    <!--  쿠폰 전체 목록 -->
     <select id="selectCoupons" resultMap="couponMap">
         SELECT
             c.coupon_no,
@@ -79,7 +79,7 @@
         ORDER BY c.coupon_no DESC
     </select>
 
-    <!-- ✅ 검색 기능 -->
+    <!-- 검색 기능 -->
     <select id="selectSearchCoupons" resultMap="couponMap">
         SELECT
         c.coupon_no,
@@ -119,4 +119,70 @@
         ORDER BY c.coupon_no DESC
     </select>
 
+    <!-- 페이지네이션 -->
+    <select id="selectCouponsPage" resultMap="couponMap">
+        SELECT * FROM (
+        SELECT a.*, ROWNUM AS rn FROM (
+        SELECT
+        c.coupon_no,
+        c.coupon_type,
+        CASE c.coupon_type
+        WHEN 1 THEN '개별상품 할인'
+        WHEN 2 THEN '주문금액 할인'
+        WHEN 3 THEN '배송비 무료'
+        WHEN 4 THEN '회원등급 전용'
+        WHEN 5 THEN '첫구매 전용'
+        ELSE '기타'
+        END AS coupon_typename,
+        c.coupon_name,
+        c.benefit,
+        c.use_period,
+        c.issuer,
+        c.issue_date,
+        c.use_count,
+        c.status,
+        c.manage,
+        c.sayoung,
+        c.bargup
+        FROM COUPON c
+        <where>
+            <if test="type != null and keyword != null and keyword != ''">
+                <choose>
+                    <when test="type == 'couponName'">
+                        c.coupon_name LIKE '%' || #{keyword} || '%'
+                    </when>
+                    <when test="type == 'issuer'">
+                        c.issuer LIKE '%' || #{keyword} || '%'
+                    </when>
+                    <when test="type == 'couponNo'">
+                        c.coupon_no = #{keyword}
+                    </when>
+                </choose>
+            </if>
+        </where>
+        ORDER BY c.coupon_no DESC
+        ) a
+        WHERE ROWNUM &lt;= #{offset} + #{size}
+        )
+        WHERE rn &gt; #{offset}
+    </select>
+
+    <select id="countCoupons" resultType="int">
+        SELECT COUNT(*) FROM coupon
+        <where>
+            <if test="type != null and keyword != null and keyword != ''">
+                <choose>
+                    <when test="type == 'couponName'">
+                        coupon_name LIKE CONCAT('%', #{keyword}, '%')
+                    </when>
+                    <when test="type == 'issuer'">
+                        issuer LIKE CONCAT('%', #{keyword}, '%')
+                    </when>
+                    <when test="type == 'couponNo'">
+                        coupon_no = #{keyword}
+                    </when>
+                </choose>
+            </if>
+        </where>
+    </select>
 </mapper>
