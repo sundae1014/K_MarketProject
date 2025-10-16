@@ -142,9 +142,16 @@
                         <dl>
                             <dt>할인 쿠폰</dt>
                             <dd>
-                                <a href="javascript:void(0);" onclick="showToast('쿠폰 받기 완료!')">
-                                    <img th:src="@{/images/product/cupang_coupon.png}" alt="할인 쿠폰" class="coupon-img">
+                                <a th:if="${couponImage != null}"
+                                   href="javascript:void(0);"
+                                   th:attr="data-categoryname=${category1Name}"
+                                   onclick="showToast(this.dataset.categoryname + ' 쿠폰 받기 완료!')">
+                                    <img th:src="@{${couponImage}}" alt="할인 쿠폰" class="coupon-img">
                                 </a>
+
+                                <span th:if="${couponImage == null}">
+                                    해당 카테고리는 쿠폰이 없습니다.
+                                </span>
                             </dd>
                         </dl>
 
@@ -210,7 +217,7 @@
 
                         <button id="btnAddCart"
                                 th:data-prod-number="${product.prod_number}"
-                                class="btn-cart">장바구니</button>
+                                class="btn cart">장바구니</button>
 
                         <button class="btn buy">바로구매</button>
                     </div>
