@@ -26,4 +26,6 @@ public class CouponDTO {
     private String manage;
     private int sayoung;
     private int bargup;
+
+    private String couponImage; // 쿠폰 이미지 경로
 }

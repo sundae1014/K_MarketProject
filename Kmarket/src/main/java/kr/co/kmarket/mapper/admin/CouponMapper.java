@@ -24,7 +24,6 @@ public interface CouponMapper {
     int countCoupons(@Param("type") String type,
                      @Param("keyword") String keyword);
 
-
 }
 
 
