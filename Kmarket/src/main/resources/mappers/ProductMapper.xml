@@ -216,12 +216,12 @@
         WHERE rn &gt; #{offset}
     </select>
 
-    <!-- 히트상품 -->
+    <!-- 메인 - 히트상품 -->
     <select id="selectHitProducts" resultType="kr.co.kmarket.dto.ProductDTO">
         SELECT * FROM PRODUCT ORDER BY HIT DESC FETCH FIRST 8 ROWS ONLY
     </select>
 
-    <!-- 추천상품 -->
+    <!-- 메인 - 추천상품 -->
     <select id="selectRecommendProducts" resultType="kr.co.kmarket.dto.ProductDTO">
         SELECT p.*, NVL(r.avgScore, 0) AS avgScore
         FROM PRODUCT p
@@ -234,13 +234,12 @@
         FETCH FIRST 8 ROWS ONLY
     </select>
 
-
-    <!-- 최신상품 -->
+    <!-- 메인 - 최신상품 -->
     <select id="selectNewProducts" resultType="kr.co.kmarket.dto.ProductDTO">
         SELECT * FROM PRODUCT ORDER BY REG_DATE DESC FETCH FIRST 8 ROWS ONLY
     </select>
 
-    <!-- 인기상품 (조회수+평점) -->
+    <!-- 메인 - 인기상품 (조회수+평점) -->
     <select id="selectPopularProducts" resultType="kr.co.kmarket.dto.ProductDTO">
         SELECT p.*, NVL(r.avgScore, 0) AS avgScore
         FROM PRODUCT p
@@ -253,13 +252,12 @@
         FETCH FIRST 8 ROWS ONLY
     </select>
 
-
-    <!-- 할인상품 -->
+    <!-- 메인 - 할인상품 -->
     <select id="selectDiscountProducts" resultType="kr.co.kmarket.dto.ProductDTO">
         SELECT * FROM PRODUCT ORDER BY DISCOUNT DESC FETCH FIRST 8 ROWS ONLY
     </select>
 
-    <!-- 베스트상품 (판매량 기준) -->
+    <!-- 메인 - 베스트상품 (판매량 기준) -->
     <select id="selectBestProducts" resultType="kr.co.kmarket.dto.ProductDTO">
         SELECT p.*, NVL(s.soldCount, 0) AS soldCount
         FROM PRODUCT p

@@ -3,10 +3,10 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Cupang::홈</title>
-    <link rel="stylesheet" th:href="@{/css/main/style_index.css}">
+    <title>Cupang::홈(5조)</title>
     <link rel="stylesheet" th:href="@{/css/main/style_header.css}">
     <link rel="stylesheet" th:href="@{/css/main/style_footer.css}">
+    <link rel="stylesheet" th:href="@{/css/main/style_index.css}">
 
     <!-- 유저별 권한 기능 -->
     <script th:src="@{/js/main/user-menu.js}" defer></script>
@@ -59,113 +59,165 @@
                 </ol>
             </aside>
 
-            <div class="product-wrap">
+            <div class="card-wrap">
 
                 <!-- 히트상품 -->
-                <div class="product-panel" id="hit">
+                <div class="card-panel" id="hit">
                     <h3 class="section-title">히트상품</h3>
 
-                    <div class="product-grid">
-                        <a th:each="p : ${hitProducts}" th:href="@{/product/view(prod_number=${p.prod_number})}" class="product-card">
-
-                            <div class="product-thumb">
-                                <img th:src="@{${p.img_1}}" th:alt="${p.prod_name}">
-                            </div>
-
-                            <p class="product-name" th:text="${p.prod_name}"></p>
-
-                            <div class="product-info">
-                                <div class="product-prices">
-                                    <span class="product-discount"
-                                            th:text="${p.discount != null ? p.discount + '%' : ''}"></span>
-                                    <span class="product-regular"
-                                          th:text="${#numbers.formatInteger(p.price,3,'COMMA')} + '원'"></span>
-                                    <strong class="product-sale"
-                                            th:text="${#numbers.formatInteger(p.salePrice,3,'COMMA')} + '원'"></strong>
+                    <div class="card-grid">
+                        <th:block th:each="p, iterStat : ${hitProducts}">
+                            <a th:href="@{/product/view(prod_number=${p.prod_number})}" class="card-box">
+                                <div class="card-thumb">
+                                    <img th:src="@{${p.img_1}}" th:alt="${p.prod_name}">
                                 </div>
-                                <div class="product-delivery" th:if="${p.delivery_fee == 0}">무료배송</div>
-                            </div>
-                        </a>
+
+                                <p class="card-name" th:text="${p.prod_name}"></p>
+
+                                <div class="card-info">
+                                    <div class="card-prices">
+                                        <span class="card-discount"
+                                            th:text="${p.discount != null ? p.discount + '%' : ''}"></span>
+                                        <span class="card-regular"
+                                             th:text="${#numbers.formatInteger(p.price,3,'COMMA')} + '원'"></span>
+                                        <strong class="card-sale"
+                                             th:text="${#numbers.formatInteger(p.salePrice,3,'COMMA')} + '원'"></strong>
+                                    </div>
+                                    <div class="card-delivery" th:if="${p.delivery_fee == 0}">무료배송</div>
+                                </div>
+                            </a>
+
+                            <!-- 4번째 상품 뒤에만 점선 표시 (8번째에는 X) -->
+                            <div th:if="${iterStat.index == 3}" class="row-divider"></div>
+                        </th:block>
                     </div>
                 </div>
 
                 <!-- 추천상품 -->
-                <div class="product-panel" id="recommend">
+                <div class="card-panel" id="recommend">
                     <h3 class="section-title">추천상품</h3>
 
-                    <div class="hit-grid">
-                        <a th:each="p : ${hitProducts}" th:href="@{'/product/view?prod_number=' + ${p.prod_number}}" class="hit-card">
-                            <div class="hit-thumb">
-                                <img th:src="@{'/images/product/' + ${p.img_1}}" th:alt="${p.prod_name}">
-                            </div>
-                            <p class="hit-name" th:text="${p.prod_name}"></p>
-                            <div class="hit-prices">
-                                <span class="hit-discount" th:text="${p.discount + '%'}"></span>
-                                <del class="hit-regular" th:text="${#numbers.formatInteger(p.price, 3, 'COMMA')} + '원'"></del>
-                                <strong class="hit-sale" th:text="${#numbers.formatInteger(p.salePrice, 3, 'COMMA')} + '원'"></strong>
-                            </div>
-                            <p class="hit-delivery" th:text="${p.delivery_fee == 0 ? '무료배송' : '배송비 ' + p.delivery_fee + '원'}"></p>
-                        </a>
+                    <div class="card-grid">
+                        <th:block th:each="p, iterStat : ${recommendProducts}">
+                            <a th:href="@{/product/view(prod_number=${p.prod_number})}" class="card-box">
+                                <div class="card-thumb">
+                                    <img th:src="@{${p.img_1}}" th:alt="${p.prod_name}">
+                                </div>
+
+                                <p class="card-name" th:text="${p.prod_name}"></p>
+
+                                <div class="card-info">
+                                    <div class="card-prices">
+                                        <span class="card-discount"
+                                              th:text="${p.discount != null ? p.discount + '%' : ''}"></span>
+                                        <span class="card-regular"
+                                              th:text="${#numbers.formatInteger(p.price,3,'COMMA')} + '원'"></span>
+                                        <strong class="card-sale"
+                                                th:text="${#numbers.formatInteger(p.salePrice,3,'COMMA')} + '원'"></strong>
+                                    </div>
+                                    <div class="card-delivery" th:if="${p.delivery_fee == 0}">무료배송</div>
+                                </div>
+                            </a>
+
+                            <!-- 4번째 상품 뒤에만 점선 표시 (8번째에는 X) -->
+                            <div th:if="${iterStat.index == 3}" class="row-divider"></div>
+                        </th:block>
                     </div>
                 </div>
 
                 <!-- 최신상품 -->
-                <div class="product-panel" id="new">
+                <div class="card-panel" id="new">
                     <h3 class="section-title">최신상품</h3>
 
-                    <div class="hit-grid">
-                        <a th:each="p : ${hitProducts}" th:href="@{'/product/view?prod_number=' + ${p.prod_number}}" class="hit-card">
-                            <div class="hit-thumb">
-                                <img th:src="@{'/images/product/' + ${p.img_1}}" th:alt="${p.prod_name}">
-                            </div>
-                            <p class="hit-name" th:text="${p.prod_name}"></p>
-                            <div class="hit-prices">
-                                <span class="hit-discount" th:text="${p.discount + '%'}"></span>
-                                <del class="hit-regular" th:text="${#numbers.formatInteger(p.price, 3, 'COMMA')} + '원'"></del>
-                                <strong class="hit-sale" th:text="${#numbers.formatInteger(p.salePrice, 3, 'COMMA')} + '원'"></strong>
-                            </div>
-                            <p class="hit-delivery" th:text="${p.delivery_fee == 0 ? '무료배송' : '배송비 ' + p.delivery_fee + '원'}"></p>
-                        </a>
+                    <div class="card-grid">
+                        <th:block th:each="p, iterStat : ${newProducts}">
+                            <a th:href="@{/product/view(prod_number=${p.prod_number})}" class="card-box">
+                                <div class="card-thumb">
+                                    <img th:src="@{${p.img_1}}" th:alt="${p.prod_name}">
+                                </div>
+
+                                <p class="card-name" th:text="${p.prod_name}"></p>
+
+                                <div class="card-info">
+                                    <div class="card-prices">
+                                        <span class="card-discount"
+                                              th:text="${p.discount != null ? p.discount + '%' : ''}"></span>
+                                        <span class="card-regular"
+                                              th:text="${#numbers.formatInteger(p.price,3,'COMMA')} + '원'"></span>
+                                        <strong class="card-sale"
+                                                th:text="${#numbers.formatInteger(p.salePrice,3,'COMMA')} + '원'"></strong>
+                                    </div>
+                                    <div class="card-delivery" th:if="${p.delivery_fee == 0}">무료배송</div>
+                                </div>
+                            </a>
+
+                            <!-- 4번째 상품 뒤에만 점선 표시 (8번째에는 X) -->
+                            <div th:if="${iterStat.index == 3}" class="row-divider"></div>
+                        </th:block>
                     </div>
                 </div>
 
                 <!-- 인기상품 -->
-                <div class="product-panel" id="popular">
+                <div class="card-panel" id="popular">
                     <h3 class="section-title">인기상품</h3>
 
-                    <div class="hit-grid">
-                        <a th:each="p : ${hitProducts}" th:href="@{'/product/view?prod_number=' + ${p.prod_number}}" class="hit-card">
-                            <div class="hit-thumb">
-                                <img th:src="@{'/images/product/' + ${p.img_1}}" th:alt="${p.prod_name}">
-                            </div>
-                            <p class="hit-name" th:text="${p.prod_name}"></p>
-                            <div class="hit-prices">
-                                <span class="hit-discount" th:text="${p.discount + '%'}"></span>
-                                <del class="hit-regular" th:text="${#numbers.formatInteger(p.price, 3, 'COMMA')} + '원'"></del>
-                                <strong class="hit-sale" th:text="${#numbers.formatInteger(p.salePrice, 3, 'COMMA')} + '원'"></strong>
-                            </div>
-                            <p class="hit-delivery" th:text="${p.delivery_fee == 0 ? '무료배송' : '배송비 ' + p.delivery_fee + '원'}"></p>
-                        </a>
+                    <div class="card-grid">
+                        <th:block th:each="p, iterStat : ${popularProducts}">
+                            <a th:href="@{/product/view(prod_number=${p.prod_number})}" class="card-box">
+                                <div class="card-thumb">
+                                    <img th:src="@{${p.img_1}}" th:alt="${p.prod_name}">
+                                </div>
+
+                                <p class="card-name" th:text="${p.prod_name}"></p>
+
+                                <div class="card-info">
+                                    <div class="card-prices">
+                                        <span class="card-discount"
+                                              th:text="${p.discount != null ? p.discount + '%' : ''}"></span>
+                                        <span class="card-regular"
+                                              th:text="${#numbers.formatInteger(p.price,3,'COMMA')} + '원'"></span>
+                                        <strong class="card-sale"
+                                                th:text="${#numbers.formatInteger(p.salePrice,3,'COMMA')} + '원'"></strong>
+                                    </div>
+                                    <div class="card-delivery" th:if="${p.delivery_fee == 0}">무료배송</div>
+                                </div>
+                            </a>
+
+                            <!-- 4번째 상품 뒤에만 점선 표시 (8번째에는 X) -->
+                            <div th:if="${iterStat.index == 3}" class="row-divider"></div>
+                        </th:block>
                     </div>
                 </div>
 
                  <!-- 할인상품 -->
-                <div class="product-panel" id="discount">
+                <div class="card-panel" id="discount">
                     <h3 class="section-title">할인상품</h3>
 
-                    <div class="hit-grid">
-                        <a th:each="p : ${hitProducts}" th:href="@{'/product/view?prod_number=' + ${p.prod_number}}" class="hit-card">
-                            <div class="hit-thumb">
-                                <img th:src="@{'/images/product/' + ${p.img_1}}" th:alt="${p.prod_name}">
-                            </div>
-                            <p class="hit-name" th:text="${p.prod_name}"></p>
-                            <div class="hit-prices">
-                                <span class="hit-discount" th:text="${p.discount + '%'}"></span>
-                                <del class="hit-regular" th:text="${#numbers.formatInteger(p.price, 3, 'COMMA')} + '원'"></del>
-                                <strong class="hit-sale" th:text="${#numbers.formatInteger(p.salePrice, 3, 'COMMA')} + '원'"></strong>
-                            </div>
-                            <p class="hit-delivery" th:text="${p.delivery_fee == 0 ? '무료배송' : '배송비 ' + p.delivery_fee + '원'}"></p>
-                        </a>
+                    <div class="card-grid">
+                        <th:block th:each="p, iterStat : ${discountProducts}">
+                            <a th:href="@{/product/view(prod_number=${p.prod_number})}" class="card-box">
+                                <div class="card-thumb">
+                                    <img th:src="@{${p.img_1}}" th:alt="${p.prod_name}">
+                                </div>
+
+                                <p class="card-name" th:text="${p.prod_name}"></p>
+
+                                <div class="card-info">
+                                    <div class="card-prices">
+                                        <span class="card-discount"
+                                              th:text="${p.discount != null ? p.discount + '%' : ''}"></span>
+                                        <span class="card-regular"
+                                              th:text="${#numbers.formatInteger(p.price,3,'COMMA')} + '원'"></span>
+                                        <strong class="card-sale"
+                                                th:text="${#numbers.formatInteger(p.salePrice,3,'COMMA')} + '원'"></strong>
+                                    </div>
+                                    <div class="card-delivery" th:if="${p.delivery_fee == 0}">무료배송</div>
+                                </div>
+                            </a>
+
+                            <!-- 4번째 상품 뒤에만 점선 표시 (8번째에는 X) -->
+                            <div th:if="${iterStat.index == 3}" class="row-divider"></div>
+                        </th:block>
                     </div>
                 </div>
             </div>
