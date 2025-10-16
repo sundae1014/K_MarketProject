@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Date;
+import java.util.List;
 
 
 @Controller
@@ -39,5 +40,13 @@ public class CouponController {
             return "fail";
         }
     }
+    @GetMapping("/search")
+    @ResponseBody
+    public List<CouponDTO> searchCoupons(
+            @RequestParam String type,
+            @RequestParam String keyword) {
+        return service.searchCoupons(type, keyword);
+    }
+
 }
 
