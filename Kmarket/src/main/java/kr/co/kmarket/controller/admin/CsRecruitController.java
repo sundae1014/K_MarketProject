@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -27,12 +28,34 @@ public class CsRecruitController {
     private final RecruitService recruitService;
 
     @GetMapping("/list")
-    public String list(PageRequestDTO pageRequestDTO, Model model){
+    public String listHires(PageRequestDTO pageRequestDTO,
+                            @RequestParam(value="searchType", required=false) String searchType,
+                            @RequestParam(value="keyword", required=false) String keyword,
+                            Model model, RedirectAttributes redirectAttributes) {
+
+        if ("hire_no".equals(searchType)) {
+            try {
+                Integer.parseInt(keyword);
+            } catch (NumberFormatException e) {
+                redirectAttributes.addFlashAttribute("msg", "채용번호 검색 시 숫자만 입력 가능합니다.");
+                return "redirect:/admin/cs/recruit/list";
+            }
+        }
 
         pageRequestDTO.setSize(4);
 
-        List<HireDTO> hires = recruitService.getHiresByPage(pageRequestDTO);
-        int total = recruitService.getTotalHires();
+        List<HireDTO> hires;
+        int total;
+
+        if(searchType != null && keyword != null && !keyword.isEmpty()) {
+            hires = recruitService.selectSearchPage(searchType, keyword, pageRequestDTO);
+            total = recruitService.countSearchHires(searchType, keyword);
+            model.addAttribute("searchType", searchType);
+            model.addAttribute("keyword", keyword);
+        } else {
+            hires = recruitService.getHiresByPage(pageRequestDTO);
+            total = recruitService.getTotalHires();
+        }
 
         PageResponseDTO<HireDTO> pageResponseDTO = PageResponseDTO.<HireDTO>builder()
                 .pageRequestDTO(pageRequestDTO)
@@ -42,10 +65,9 @@ public class CsRecruitController {
 
         model.addAttribute("RecruitPage", pageResponseDTO);
 
-        log.info("RecruitPage = {}", pageResponseDTO);
-
         return "admin/cs/recruit/list";
     }
+
 
 
     @PostMapping("/delete")
@@ -90,31 +112,6 @@ public class CsRecruitController {
        recruitService.updateExpiredHires();
     }
 
-    @GetMapping("/search")
-    public String searchHires(PageRequestDTO pageRequestDTO,
-                              @RequestParam("searchType") String searchType,
-                              @RequestParam("keyword") String keyword,
-                              Model model) {
 
-        log.info("searchHires={}, keyword={}, pageRequestDTO={}", searchType, keyword, pageRequestDTO);
-
-        pageRequestDTO.setSize(4);
-
-        List<HireDTO> hires = recruitService.selectSearchPage(searchType, keyword, pageRequestDTO);
-
-        int total = recruitService.countSearchHires(searchType, keyword);
-
-        PageResponseDTO<HireDTO> pageResponseDTO = PageResponseDTO.<HireDTO>builder()
-                .pageRequestDTO(pageRequestDTO)
-                .dtoList(hires)
-                .total(total)
-                .build();
-
-        model.addAttribute("RecruitPage", pageResponseDTO);
-        model.addAttribute("searchType", searchType);
-        model.addAttribute("keyword", keyword);
-
-        return "admin/cs/recruit/list";
-    }
 
 }

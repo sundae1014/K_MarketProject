@@ -5,15 +5,23 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import kr.co.kmarket.dto.MemberDTO;
 import kr.co.kmarket.security.MyUserDetails;
+import kr.co.kmarket.service.MemberService;
 import kr.co.kmarket.service.PageCounterService;
+import kr.co.kmarket.service.admin.BasicService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 @ControllerAdvice(basePackages = {"kr.co.kmarket.controller"})
 @RequiredArgsConstructor
 public class GlobalController {
+
+    private final PageCounterService counterService;
+
+    private final BasicService basicService;
+
     @ModelAttribute("member")
     public MemberDTO addUserToModel(@AuthenticationPrincipal MyUserDetails myMember) {
         if (myMember != null) {
@@ -21,8 +29,6 @@ public class GlobalController {
         }
         return new MemberDTO();
     }
-
-    private final PageCounterService counterService;
 
     @ModelAttribute("visitorTotal")
     public int visitorTotal(HttpServletRequest request, HttpServletResponse response) {
@@ -38,6 +44,17 @@ public class GlobalController {
     @ModelAttribute("visitorYesterday")
     public int visitorYesterday() {
         return counterService.getYesterdayVisits();
+    }
+
+
+    @ModelAttribute
+    public void basicData(Model model){
+        model.addAttribute("recentVersion", basicService.getRecentVersion());
+    }
+
+    @ModelAttribute
+    public void TitleData(Model model){
+        model.addAttribute("recentVersion", basicService.getRecentVersion());
     }
 
 }
