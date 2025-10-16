@@ -5,60 +5,38 @@
 
 <mapper namespace="kr.co.kmarket.mapper.CartMapper">
 
-    <!-- 장바구니 목록 조회 -->
+    <!-- 장바구니 조회 -->
     <select id="selectCartList" parameterType="int" resultType="kr.co.kmarket.dto.CartDTO">
         SELECT
             c.CART_NUMBER,
             c.CUST_NUMBER,
             c.PROD_NUMBER,
-            c.QUANTITY,
-            c.PRODUCT_AMOUNT,
-            c.DISCOUNT_AMOUNT,
-            c.DELIVERY_FEE,
-            c.TOTAL_ORDER_AMOUNT,
-            c.REWARD_POINTS,
-            c.OPT_NAME,
-            c.IS_SELECTED,
-            c.IS_ORDERED,
-            p.PROD_NAME,
+            p.PROD_NAME AS prod_name,
             p.PRICE,
             p.DISCOUNT,
+            c.QUANTITY AS quantity,
             p.IMG_1
         FROM CART c
                  JOIN PRODUCT p ON c.PROD_NUMBER = p.PROD_NUMBER
-        WHERE c.CUST_NUMBER = #{cust_number}
-        ORDER BY c.C_DATE DESC
+        WHERE c.CUST_NUMBER = #{_parameter}
+        ORDER BY c.CART_NUMBER DESC
     </select>
 
-    <!-- 장바구니 상품 추가 -->
+    <!-- 장바구니 추가 -->
     <insert id="insertCart" parameterType="kr.co.kmarket.dto.CartDTO">
-        INSERT INTO CART (
-            CART_NUMBER, CUST_NUMBER, PROD_NUMBER, C_DATE,
-            QUANTITY, PRODUCT_AMOUNT, DISCOUNT_AMOUNT, DELIVERY_FEE,
-            TOTAL_ORDER_AMOUNT, REWARD_POINTS, OPT_NAME, IS_SELECTED, IS_ORDERED
-        ) VALUES (
-                     CART_SEQ.NEXTVAL, #{cust_number}, #{prod_number}, SYSDATE,
-                     #{quantity}, #{product_amount}, #{discount_amount}, #{delivery_fee},
-                     #{total_order_amount}, #{reward_points}, #{opt_name}, 'Y', 'N'
-                 )
+        INSERT INTO CART (CART_NUMBER, CUST_NUMBER, PROD_NUMBER, QUANTITY)
+        VALUES (CART_SEQ.NEXTVAL, #{cust_number}, #{prod_number}, #{quantity})
     </insert>
 
-    <!-- 선택 상품 삭제 -->
+    <!-- 장바구니 삭제 -->
     <delete id="deleteCart" parameterType="int">
-        DELETE FROM CART WHERE CART_NUMBER = #{cart_number}
-    </delete>
-
-    <!-- 장바구니 전체 비우기 -->
-    <delete id="deleteAllCart" parameterType="int">
-        DELETE FROM CART WHERE CUST_NUMBER = #{cust_number}
+        DELETE FROM CART WHERE CART_NUMBER = #{_parameter}
     </delete>
 
     <!-- 수량 수정 -->
     <update id="updateQuantity" parameterType="kr.co.kmarket.dto.CartDTO">
         UPDATE CART
-        SET QUANTITY = #{quantity},
-            PRODUCT_AMOUNT = #{product_amount},
-            TOTAL_ORDER_AMOUNT = #{total_order_amount}
+        SET QUANTITY = #{quantity}
         WHERE CART_NUMBER = #{cart_number}
     </update>
 
