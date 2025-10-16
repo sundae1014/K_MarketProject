@@ -82,7 +82,7 @@
     </select>
 
     <select id="selectQnq" resultType="kr.co.kmarket.dto.QnaDTO">
-        SELECT title, reg_date, user_id
+        SELECT id, title, reg_date, user_id
         FROM qna
         ORDER BY reg_date DESC
         FETCH FIRST 5 ROWS ONLY
