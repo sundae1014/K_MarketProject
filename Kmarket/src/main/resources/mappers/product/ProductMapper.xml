@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.kmarket.mapper.ProductMapper">
+
+    <!-- 상품 검색 (SearchDTO 기반) -->
+    <select id="selectProducts" parameterType="kr.co.kmarket.dto.SearchDTO"
+            resultType="kr.co.kmarket.dto.ProductDTO">
+
+        SELECT
+        p.PROD_NUMBER        AS prod_number,
+        p.CATE_CD            AS cate_cd,
+        p.PROD_NAME          AS prod_name,
+        p.DESCRIPTION        AS description,
+        p.MANUFACTURE        AS manufacture,
+        p.PRICE              AS price,
+        p.DISCOUNT           AS discount,
+        p.SALEPRICE          AS salePrice,
+        p.DELIVERY_FEE       AS delivery_fee,
+        p.IMG_1              AS img_1,
+        p.IMG_2              AS img_2,
+        p.IMG_3              AS img_3,
+        p.DETAIL_IMG         AS detail_img,
+        p.PROD_STAT          AS prod_stat,
+        p.PROD_TAX           AS prod_tax,
+        p.PROD_BUSINESS      AS prod_business,
+        p.PROD_NATION        AS prod_nation,
+        p.HIT                AS hit,
+        p.PRO_SCORE          AS pro_score,
+        p.REG_DATE           AS reg_date,
+        NVL(r.reviewCount, 0) AS reviewCount,
+        NVL(r.avgScore, 0)    AS avgScore,
+        NVL(s.soldCount, 0)   AS soldCount
+        FROM PRODUCT p
+
+        <!-- 후기 테이블 조인 -->
+        LEFT JOIN (
+        SELECT PROD_NUMBER,
+        COUNT(*) AS reviewCount,
+        NVL(AVG(RATING), 0) AS avgScore
+        FROM REVIEW
+        GROUP BY PROD_NUMBER
+        ) r ON p.PROD_NUMBER = r.PROD_NUMBER
+
+        <!-- 주문 상세 테이블 조인 -->
+        LEFT JOIN (
+        SELECT PROD_NUMBER,
+        SUM(PIECE) AS soldCount
+        FROM ORDERDETAIL
+        GROUP BY PROD_NUMBER
+        ) s ON p.PROD_NUMBER = s.PROD_NUMBER
+
+        WHERE 1=1
+
+        <!-- 키워드 검색 -->
+        <if test="keyword != null and keyword != ''">
+            AND (
+            <if test="searchName">
+                p.PROD_NAME LIKE '%' || #{keyword} || '%'
+            </if>
+            <if test="searchDesc">
+                <if test="searchName"> OR </if>
+                p.DESCRIPTION LIKE '%' || #{keyword} || '%'
+            </if>
+            <if test="searchPrice">
+                <if test="searchName or searchDesc"> OR </if>
+                TO_CHAR(p.PRICE) LIKE '%' || #{keyword} || '%'
+            </if>
+            )
+        </if>
+
+        <!-- 카테고리 조건 (대분류·소분류 포함 검색) -->
+        <if test="cate_cd != null and cate_cd != '' and cate_cd != 'all'">
+            AND p.CATE_CD LIKE #{cate_cd} || '%'
+        </if>
+
+        <!-- 가격 범위 -->
+        <if test="minPrice != null">
+            AND p.PRICE &gt;= #{minPrice}
+        </if>
+        <if test="maxPrice != null">
+            AND p.PRICE &lt;= #{maxPrice}
+        </if>
+
+        <!-- 정렬 조건 -->
+        <choose>
+            <when test="sort == 'sold'">ORDER BY s.soldCount DESC</when>
+            <when test="sort == 'lowPrice'">ORDER BY p.SALEPRICE ASC</when>
+            <when test="sort == 'highPrice'">ORDER BY p.SALEPRICE DESC</when>
+            <when test="sort == 'score'">ORDER BY r.avgScore DESC</when>
+            <when test="sort == 'review'">ORDER BY r.reviewCount DESC</when>
+            <otherwise>ORDER BY p.REG_DATE DESC</otherwise>
+        </choose>
+
+    </select>
+
+
+    <!-- 상품 상세 -->
+    <select id="selectProductByNo" resultType="kr.co.kmarket.dto.ProductDTO">
+        SELECT * FROM PRODUCT WHERE PROD_NUMBER = #{prod_number}
+    </select>
+
+    <!-- 상품 공지 -->
+    <select id="selectProductNoticeByNo" resultType="kr.co.kmarket.dto.ProductNoticeDTO">
+        SELECT * FROM PRODUCT_NOTICE WHERE PROD_NUMBER = #{prod_number}
+    </select>
+
+    <!-- 상품 후기 목록 (회원 아이디 + 상품명 포함) -->
+    <select id="selectProductReviews" resultType="kr.co.kmarket.dto.ProductReviewDTO">
+        SELECT
+        r.REVIEW_NO,
+        r.PROD_NUMBER,
+        p.PROD_NAME,
+        r.RATING,
+        r.CONTENT,
+        r.R_DATE,
+        r.R_IMG1,
+        r.R_IMG2,
+        r.R_IMG3,
+        m.CUSTID AS "custid"
+        FROM REVIEW r
+        JOIN MEMBER m ON r.CUST_NUMBER = m.CUST_NUMBER
+        JOIN PRODUCT p ON r.PROD_NUMBER = p.PROD_NUMBER
+        WHERE r.PROD_NUMBER = #{prod_number}
+        ORDER BY r.R_DATE DESC
+    </select>
+
+
+    <!-- 상품 개수 (검색용 카운트) -->
+    <select id="countProducts" resultType="int" parameterType="kr.co.kmarket.dto.SearchDTO">
+        SELECT COUNT(*)
+        FROM PRODUCT
+        WHERE 1=1
+
+        <if test="keyword != null and keyword.trim() != ''">
+            AND (
+            <if test="searchName">
+                PROD_NAME LIKE '%' || #{keyword} || '%'
+            </if>
+            <if test="searchDesc">
+                <if test="searchName"> OR </if>
+                DESCRIPTION LIKE '%' || #{keyword} || '%'
+            </if>
+            <if test="searchPrice">
+                <if test="searchName or searchDesc"> OR </if>
+                TO_CHAR(PRICE) LIKE '%' || #{keyword} || '%'
+            </if>
+            )
+        </if>
+
+        <!-- 카테고리 조건 (대·소분류 포함) -->
+        <if test="cate_cd != null and cate_cd != '' and cate_cd != 'all'">
+            AND CATE_CD LIKE #{cate_cd} || '%'
+        </if>
+
+        <!-- 가격 범위 -->
+        <if test="minPrice != null">
+            AND PRICE &gt;= #{minPrice}
+        </if>
+        <if test="maxPrice != null">
+            AND PRICE &lt;= #{maxPrice}
+        </if>
+    </select>
+
+    <!-- 상품번호로 옵션 리스트 조회 -->
+    <select id="selectProductOptions"
+            parameterType="int"
+            resultType="kr.co.kmarket.dto.ProductOptionDTO">
+        SELECT
+            OPTION_ID,
+            PROD_NUMBER,
+            OPT_NAME,
+            OPT_PRICE
+        FROM PRODUCT_OPTION
+        WHERE PROD_NUMBER = #{prod_number}
+        ORDER BY OPTION_ID
+    </select>
+
+    <!-- 상품별 평균 평점 조회 -->
+    <select id="selectAvgRating" parameterType="int" resultType="double">
+        SELECT NVL(ROUND(AVG(RATING), 1), 0)
+        FROM REVIEW
+        WHERE PROD_NUMBER = #{prod_number}
+    </select>
+
+    <!-- 전체 리뷰 개수 -->
+    <select id="countProductReviews" resultType="int">
+        SELECT COUNT(*) FROM REVIEW WHERE PROD_NUMBER = #{prod_number}
+    </select>
+
+    <!-- 페이지 단위 리뷰 -->
+    <select id="selectPagedReviews" resultType="kr.co.kmarket.dto.ProductReviewDTO">
+        SELECT * FROM (
+            SELECT ROWNUM AS rn, t.* FROM (
+                SELECT
+                    r.REVIEW_NO,
+                    r.PROD_NUMBER,
+                    p.PROD_NAME,
+                    r.RATING,
+                    r.CONTENT,
+                    r.R_DATE,
+                    r.R_IMG1,
+                    r.R_IMG2,
+                    r.R_IMG3,
+                    m.CUSTID AS custid
+                FROM REVIEW r
+                JOIN MEMBER m ON r.CUST_NUMBER = m.CUST_NUMBER
+                JOIN PRODUCT p ON r.PROD_NUMBER = p.PROD_NUMBER
+                WHERE r.PROD_NUMBER = #{prod_number}
+                ORDER BY r.R_DATE DESC
+            ) t
+            WHERE ROWNUM &lt;= #{offset} + #{pageSize}
+        )
+        WHERE rn &gt; #{offset}
+    </select>
+
+    <!-- 메인 - 히트상품 -->
+    <select id="selectHitProducts" resultType="kr.co.kmarket.dto.ProductDTO">
+        SELECT * FROM PRODUCT ORDER BY HIT DESC FETCH FIRST 8 ROWS ONLY
+    </select>
+
+    <!-- 메인 - 추천상품 -->
+    <select id="selectRecommendProducts" resultType="kr.co.kmarket.dto.ProductDTO">
+        SELECT p.*, NVL(r.avgScore, 0) AS avgScore
+        FROM PRODUCT p
+        LEFT JOIN (
+            SELECT PROD_NUMBER, AVG(RATING) AS avgScore
+            FROM REVIEW
+            GROUP BY PROD_NUMBER
+        ) r ON p.PROD_NUMBER = r.PROD_NUMBER
+        ORDER BY r.avgScore DESC
+        FETCH FIRST 8 ROWS ONLY
+    </select>
+
+    <!-- 메인 - 최신상품 -->
+    <select id="selectNewProducts" resultType="kr.co.kmarket.dto.ProductDTO">
+        SELECT * FROM PRODUCT ORDER BY REG_DATE DESC FETCH FIRST 8 ROWS ONLY
+    </select>
+
+    <!-- 메인 - 인기상품 (조회수+평점) -->
+    <select id="selectPopularProducts" resultType="kr.co.kmarket.dto.ProductDTO">
+        SELECT p.*, NVL(r.avgScore, 0) AS avgScore
+        FROM PRODUCT p
+        LEFT JOIN (
+            SELECT PROD_NUMBER, AVG(RATING) AS avgScore
+            FROM REVIEW
+            GROUP BY PROD_NUMBER
+        ) r ON p.PROD_NUMBER = r.PROD_NUMBER
+        ORDER BY (p.HIT * 0.6 + NVL(r.avgScore, 0) * 0.4) DESC
+        FETCH FIRST 8 ROWS ONLY
+    </select>
+
+    <!-- 메인 - 할인상품 -->
+    <select id="selectDiscountProducts" resultType="kr.co.kmarket.dto.ProductDTO">
+        SELECT * FROM PRODUCT ORDER BY DISCOUNT DESC FETCH FIRST 8 ROWS ONLY
+    </select>
+
+    <!-- 메인 - 베스트상품 (판매량 기준) -->
+    <select id="selectBestProducts" resultType="kr.co.kmarket.dto.ProductDTO">
+        SELECT p.*, NVL(s.soldCount, 0) AS soldCount
+        FROM PRODUCT p
+         LEFT JOIN (
+            SELECT PROD_NUMBER, SUM(PIECE) AS soldCount
+            FROM ORDERDETAIL
+            GROUP BY PROD_NUMBER
+        ) s ON p.PROD_NUMBER = s.PROD_NUMBER
+        ORDER BY s.soldCount DESC
+        FETCH FIRST 5 ROWS ONLY
+    </select>
+
+</mapper>

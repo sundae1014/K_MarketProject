@@ -7,7 +7,7 @@
 
     <!-- resultMap 정의 -->
     <resultMap id="OrderResultMap" type="kr.co.kmarket.dto.OrderDTO">
-        <result property="orderNumber" column="ORDERNUMBER"/>
+        <result property="orderNumber" column="ORDER_NUMBER"/>
         <result property="oDate" column="O_DATE"/>
         <result property="stat" column="STAT"/>
         <result property="piece" column="PIECE"/>
@@ -34,7 +34,7 @@
 
     <select id="selectRecentOrders" resultMap="OrderResultMap" parameterType="int">
         SELECT
-        a.ORDERNUMBER,
+        a.ORDER_NUMBER,
         a.O_DATE,
 
         CAST(a.STAT AS INT) AS STAT,
@@ -47,8 +47,8 @@
 
         b.PROD_NUMBER
 
-        FROM "Order" a
-        JOIN ORDERDETAIL b ON a.ORDERNUMBER = b.ORDERNUMBER
+        FROM "ORDER" a
+        JOIN ORDERDETAIL b ON a.ORDER_NUMBER = b.ORDER_NUMBER
         JOIN PRODUCT c ON b.PROD_NUMBER = c.PROD_NUMBER
         WHERE a.CUST_NUMBER = #{custNumber}
         ORDER BY a.O_DATE DESC
@@ -57,14 +57,14 @@
 
     <select id="countNotConfirmedOrders" resultType="int" parameterType="int">
         SELECT COUNT(*)
-        FROM "Order"
+        FROM "ORDER"
         WHERE CUST_NUMBER = #{custNumber}
         AND STAT != 8
     </select>
 
     <select id="selectOrderDetailByCustomer" resultMap="OrderResultMap" parameterType="int">
         SELECT
-        a.ORDERNUMBER,
+        a.ORDER_NUMBER,
         a.O_DATE,
         a.STAT,
         b.PIECE,
@@ -76,10 +76,10 @@
         c.DISCOUNT,
         c.SALEPRICE
         FROM "Order" a
-        JOIN ORDERDETAIL b ON a.ORDERNUMBER = b.ORDERNUMBER
+        JOIN ORDERDETAIL b ON a.ORDER_NUMBER = b.ORDER_NUMBER
         JOIN PRODUCT c ON b.PROD_NUMBER = c.PROD_NUMBER
         WHERE a.CUST_NUMBER = #{custNumber}
-        AND a.ORDERNUMBER = #{orderNumber}
+        AND a.ORDER_NUMBER = #{orderNumber}
     </select>
 
     <select id="selectSellerByManufacture" resultMap="SellerDetailMap" parameterType="string">
@@ -128,17 +128,17 @@
 
     <select id="selectOrderStat1" resultType="kr.co.kmarket.dto.OrderDTO">
         SELECT
-        ORDERNUMBER,
+        ORDER_NUMBER,
         STAT
         FROM "Order"
-        WHERE ORDERNUMBER = #{orderNumber} AND CUST_NUMBER = #{custNumber}
+        WHERE ORDER_NUMBER = #{orderNumber} AND CUST_NUMBER = #{custNumber}
     </select>
 
     <update id="updateOrderConfirmation">
         UPDATE "Order"
         SET
         STAT = 8
-        WHERE ORDERNUMBER = #{orderNumber}
+        WHERE ORDER_NUMBER = #{orderNumber}
         AND CUST_NUMBER = #{custNumber}
     </update>
 
@@ -146,7 +146,7 @@
         UPDATE "Order"
         SET
         STAT = 5
-        WHERE ORDERNUMBER = #{orderNumber}
+        WHERE ORDER_NUMBER = #{orderNumber}
         AND CUST_NUMBER = #{custNumber}
         AND STAT IN (1, 2)
     </update>
@@ -183,9 +183,9 @@
         SELECT
             a.STAT
         FROM "Order" a
-        JOIN ORDERDETAIL b ON a.ORDERNUMBER = b.ORDERNUMBER
+        JOIN ORDERDETAIL b ON a.ORDER_NUMBER = b.ORDER_NUMBER
         JOIN PRODUCT c ON b.PROD_NUMBER = c.PROD_NUMBER
-        WHERE a.ORDERNUMBER = #{orderNumber}
+        WHERE a.ORDER_NUMBER = #{orderNumber}
         AND c.PROD_NUMBER = #{prodNo}
         AND a.CUST_NUMBER = #{custNumber}
     </select>
@@ -229,7 +229,7 @@
         "exchange" = #{exchange},
         "exchange_reason" = #{exchange_reason}
         WHERE CUST_NUMBER = #{cust_number}
-        AND ORDERNUMBER = #{orderNumber}
+        AND ORDER_NUMBER = #{orderNumber}
     </update>
 
     <update id="orderExchange">
@@ -239,7 +239,7 @@
         "exchange" = #{exchange},
         "exchange_reason" = #{exchange_reason}
         WHERE CUST_NUMBER = #{cust_number}
-        AND ORDERNUMBER = #{orderNumber}
+        AND ORDER_NUMBER = #{orderNumber}
     </update>
 
     <update id="updateEmail">

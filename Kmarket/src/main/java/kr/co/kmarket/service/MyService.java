@@ -40,8 +40,8 @@ public class MyService {
         return myMapper.countNotConfirmedOrders(custNumber);
     }
 
-    public OrderDTO getOrderDetailByCustomer(int custNumber, int orderNumber) {
-        return myMapper.selectOrderDetailByCustomer(custNumber, orderNumber);
+    public OrderDTO getOrderDetailByCustomer(int custNumber, String order_number) {
+        return myMapper.selectOrderDetailByCustomer(custNumber, order_number);
     }
 
     public MemberDTO getSellerByManufacture(String manufacture) {
@@ -52,7 +52,7 @@ public class MyService {
         myMapper.insertQna(dto);
     }
 
-    public int updateOrderConfirmation(int orderNumber, int custNumber) {
+    public int updateOrderConfirmation(String orderNumber, int custNumber) {
 
         // 1. 현재 주문 정보(stat 포함)를 DB에서 조회
         OrderDTO order = myMapper.selectOrderStat1(orderNumber, custNumber);
@@ -67,7 +67,7 @@ public class MyService {
         return myMapper.updateOrderConfirmation(orderNumber, custNumber);
     }
 
-    public int updateOrderCancel(int orderNumber, int custNumber) {
+    public int updateOrderCancel(String orderNumber, int custNumber) {
         return myMapper.updateOrderCancel(orderNumber, custNumber);
     }
 
@@ -75,7 +75,7 @@ public class MyService {
     public void registerReview(ProductReviewDTO reviewDTO, List<MultipartFile> images) {
 
         Integer stat = myMapper.selectOrderStat(
-                reviewDTO.getOrderNumber(),
+                reviewDTO.getOrder_number(),
                 reviewDTO.getProd_number(),
                 reviewDTO.getCust_number()
         );
@@ -83,7 +83,7 @@ public class MyService {
         // STAT이 8이 아니거나, 주문 상품이 조회되지 않은 경우
         if (stat == null || stat != PURCHASE_CONFIRMED_CODE) { // 💡 상수 사용
             log.warn("리뷰 작성 실패: 주문 {} 상품 {} 상태가 구매 확정({})이 아님. 현재 상태: {}",
-                    reviewDTO.getOrderNumber(), reviewDTO.getProd_number(), PURCHASE_CONFIRMED_CODE, stat);
+                    reviewDTO.getOrder_number(), reviewDTO.getProd_number(), PURCHASE_CONFIRMED_CODE, stat);
             // IllegalStateException을 던져 Controller로 오류 전달
             throw new IllegalStateException("구매 확정된 상품에 대해서만 리뷰를 작성할 수 있습니다.");
         }
@@ -150,7 +150,7 @@ public class MyService {
 
     public int orderReturn(OrderDTO orderDTO) {
         OrderDTO stat = myMapper.selectOrderStat1(
-                orderDTO.getOrderNumber(),
+                orderDTO.getOrder_number(),
                 orderDTO.getCust_number()
         );
 
@@ -163,7 +163,7 @@ public class MyService {
 
     public int orderExchange(OrderDTO orderDTO) {
         OrderDTO stat = myMapper.selectOrderStat1(
-                orderDTO.getOrderNumber(),
+                orderDTO.getOrder_number(),
                 orderDTO.getCust_number()
         );
 

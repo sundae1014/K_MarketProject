@@ -21,5 +21,5 @@ public interface CartMapper {
     int deleteAllCart(int cust_number);
 
     // 수량 변경
-    int updateQuantity(CartDTO dto);
+    int updateQuantity(CartDTO cartDTO);
 }
