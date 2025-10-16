@@ -225,21 +225,96 @@
     <update id="orderReturn">
         UPDATE "Order"
         SET
-        STAT = 9,
+        STAT = 6,
         "exchange" = #{exchange},
         "exchange_reason" = #{exchange_reason}
-        WHERE CUST_NUMBER = #{custNumber}
+        WHERE CUST_NUMBER = #{cust_number}
         AND ORDERNUMBER = #{orderNumber}
     </update>
 
     <update id="orderExchange">
         UPDATE "Order"
         SET
-        STAT = 10,
+        STAT = 7,
         "exchange" = #{exchange},
         "exchange_reason" = #{exchange_reason}
-        WHERE CUST_NUMBER = #{custNumber}
+        WHERE CUST_NUMBER = #{cust_number}
         AND ORDERNUMBER = #{orderNumber}
     </update>
 
+    <update id="updateEmail">
+        UPDATE
+        MEMBER
+        SET
+        EMAIL = #{email},
+        UPDATED_AT = sysdate
+        WHERE CUST_NUMBER = #{custNumber}
+    </update>
+
+    <update id="updateHp">
+        UPDATE
+        MEMBER
+        SET
+        HP = #{hp},
+        UPDATED_AT = sysdate
+        WHERE CUST_NUMBER = #{custNumber}
+    </update>
+
+    <update id="updateAddr">
+        UPDATE
+        MEMBER
+        SET
+        ZIP = #{zip},
+        ADDR1 = #{addr1},
+        ADDR2 = #{addr2},
+        UPDATED_AT = sysdate
+        WHERE CUST_NUMBER = #{cust_number}
+    </update>
+
+    <select id="selectUserOptions" resultType="kr.co.kmarket.dto.MemberDTO">
+        SELECT
+        ADDR1 ,
+        ADDR2 ,
+        EMAIL ,
+        HP ,
+        UPDATED_AT
+        FROM MEMBER
+        WHERE CUST_NUMBER = #{custNumber}
+    </select>
+
+    <select id="selectUserInfo" resultType="kr.co.kmarket.dto.MemberDTO">
+        SELECT
+        CUSTID ,
+        NAME ,
+        HP ,
+        EMAIL ,
+        ZIP ,
+        ADDR1 ,
+        ADDR2 ,
+        BIRTH
+        FROM MEMBER
+        WHERE CUST_NUMBER = #{custNumber}
+    </select>
+
+    <select id="selectQnaCountByUserId" resultType="int">
+        SELECT COUNT(ID) FROM QNA WHERE USER_ID = #{user_id}
+    </select>
+
+    <select id="selectQnaListPage" resultType="kr.co.kmarket.dto.QnaDTO">
+        SELECT
+            ID,
+            TYPE1,
+            TITLE,
+            REG_DATE,
+            USER_ID
+        FROM (
+            SELECT
+            ID, TYPE1, TITLE, REG_DATE, STATUS, USER_ID,
+            ROW_NUMBER() OVER (ORDER BY ID DESC) AS rn
+            FROM QNA
+            WHERE USER_ID = #{user_id}
+        ) a
+        WHERE a.rn BETWEEN #{start}+1 AND #{start}+#{limit}
+        ORDER BY a.rn ASC
+    </select>
 </mapper>

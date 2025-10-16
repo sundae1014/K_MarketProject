@@ -23,6 +23,13 @@
         AND TYPE2 = #{type2}
     </select>
 
+    <select id="findType1" resultType="kr.co.kmarket.dto.FaqDTO">
+        SELECT *
+        FROM FAQ
+        WHERE TYPE1 = #{type1}
+        ORDER BY ID
+    </select>
+
     <select id="findTypeAll" resultType="kr.co.kmarket.dto.FaqDTO">
         SELECT *
         FROM FAQ

@@ -65,4 +65,12 @@
         FROM POLICY
         ORDER BY POLICY_TYPE, POLICY_NO
     </select>
+
+    <select id="login" resultType="kr.co.kmarket.dto.MemberDTO">
+        SELECT *
+        FROM MEMBER
+        WHERE CUSTID = #{custid}
+        AND PW = #{pw}
+    </select>
+
 </mapper>

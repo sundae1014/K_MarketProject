@@ -367,3 +367,60 @@ ul, ol, li{
     color: #ccc; /* 연한 회색 */
     font-size: 16px;
 }
+
+/* ===== 페이지네이션 css ===== */
+.pagination{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    margin-top: 50px;
+    gap:24px;
+}
+
+.pagination > .prev,
+.pagination > .pagenumber,
+.pagination > .last{
+    display:flex;
+    align-items:center;
+    gap:4px;
+}
+
+
+.pagination .pagenumber a{
+    display:inline-flex;
+    justify-content:center;
+    align-items:center;
+    width:32px;
+    height:29px;
+    color:#666;
+    text-decoration:none;
+    box-sizing:border-box;
+    line-height:1;
+    font-weight: 350;
+    font-size: 15px;
+}
+
+
+.pagination .pagenumber a.active{
+    color:#436CFF;
+}
+
+.pagination .prev a,
+.pagination .last a{
+    display:inline-flex;
+    justify-content:center;
+    align-items:center;
+    width:32px;
+    height:32px;
+}
+.pagination a.paging img{
+    display:block;
+    max-width:18px;
+    max-height:18px;
+}
+
+.disabled {
+    opacity: 0;
+    pointer-events: none;   /* 클릭 금지 */
+    cursor: default;
+}

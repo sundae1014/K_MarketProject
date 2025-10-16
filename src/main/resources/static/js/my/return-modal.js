@@ -1,5 +1,3 @@
-// /js/my/return.js (최종 수정 버전)
-
 document.addEventListener('DOMContentLoaded', function() {
 
     const returnModal = document.getElementById('returnModal');
@@ -36,6 +34,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 statusText = '주문취소';
                 statusClass = 'status-order-cancelled';
                 break;
+            case 6:
+                statusText = '반품요청';
+                statusClass = 'status-return-request';
+                break;
             case 7:
                 statusText = '교환요청';
                 statusClass = 'status-exchange-request';
@@ -43,10 +45,6 @@ document.addEventListener('DOMContentLoaded', function() {
             case 8:
                 statusText = '구매확정';
                 statusClass = 'status-purchase-confirmed';
-                break;
-            case 9:
-                statusText = '반품요청'; // 🚨 STAT=9
-                statusClass = 'status-return-request';
                 break;
             default:
                 statusText = '알 수 없음';
@@ -56,7 +54,6 @@ document.addEventListener('DOMContentLoaded', function() {
         return { text: statusText, class: statusClass };
     }
 
-    // 🚨 getStatusText, updateOrderStatusDisplay 함수는 이제 사용하지 않습니다.
 
     /* =======================================================
      * 1. 모달 열릴 때 (show.bs.modal) 주문 상세 정보 Fetch 및 표시
@@ -90,7 +87,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         statElement.classList.add(statusInfo.class);
 
 
-                        // ... (나머지 바인딩 로직 유지) ...
                         document.getElementById('return-modal-date').textContent = data.dateString || '';
                         document.getElementById('return-modal-orderNumber').textContent = data.orderNumber;
                         document.getElementById('return-modal-manufacture').textContent = data.manufacture || '';
@@ -132,6 +128,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 jsonData[key] = value;
             }
         });
+
+        // console.log("전송할 JSON 데이터:", JSON.stringify(jsonData));
 
         if (!jsonData.orderNumber) {
             alert('주문 정보가 누락되었습니다.');

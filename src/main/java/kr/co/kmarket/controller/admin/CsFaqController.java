@@ -1,7 +1,6 @@
 package kr.co.kmarket.controller.admin;
 
 import kr.co.kmarket.dto.FaqDTO;
-import kr.co.kmarket.dto.PageRequestDTO;
 import kr.co.kmarket.service.FaqService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -79,6 +78,7 @@ public class CsFaqController {
             default -> throw new IllegalStateException("Unexpected value: " + type1);
         };
 
+        log.info("typeName={}, typeName2={}", typeName, typeName2);
         List<FaqDTO> faqList = faqService.selectTypeAll(typeName, typeName2);
         model.addAttribute("dtoList", faqList);
 

@@ -123,7 +123,7 @@ h1, h2, h3, h4, h5, h6, p {
     justify-content: flex-end;  /* 오른쪽 정렬 */
     gap: 16px;
     font-size: 13px;
-    font-weight: bold;
+    font-weight: 500;
     color: var(--gray-700);
 }
 
