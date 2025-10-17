@@ -11,7 +11,7 @@ html, body {
     display: flex;
     min-height: 80vh;
     margin: 0 auto;
-    max-width: 1200px;
+    max-width: 1400px;
 }
 
 /* 첫 번째 tr 전체 위쪽에 선 추가 */

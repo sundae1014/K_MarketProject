@@ -23,7 +23,7 @@ spring:
       enabled: true
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     properties:
@@ -105,4 +105,4 @@ spring:
 
 file:
   upload:
-    path: C:/Kmarket/uploads/
+    path: /var/lib/kmarket/uploads

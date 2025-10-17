@@ -43,8 +43,8 @@
                     <td class="second-td">
                         <div class="prod-info">
                             <p><a href="#" class="order-detail-link"
-                                  th:text="'주문번호 : ' + ${order.orderNumber}"
-                                  th:attr="data-order-number=${order.orderNumber}"
+                                  th:text="'주문번호 : ' + ${order.order_number}"
+                                  th:attr="data-order-number=${order.order_number}"
                                   data-bs-toggle="modal" data-bs-target="#orderModal"></a>
                             </p>
                             <p><a href="#" class="seller-detail-link" th:data-manufacture="${order.manufacture}">
@@ -73,14 +73,14 @@
                                 <button class="btn btn-primary"
                                         data-bs-toggle="modal"
                                         data-bs-target="#confirmModal"
-                                        th:data-order-number="${order.orderNumber}">
+                                        th:data-order-number="${order.order_number}">
                                     구매확정
                                 </button>
                             </th:block>
 
                             <th:block th:if="${order.stat == 1 or order.stat == 2}">
                                 <button class="btn btn-danger order-cancel-btn"
-                                        th:data-order-number="${order.orderNumber}">
+                                        th:data-order-number="${order.order_number}">
                                     주문취소
                                 </button>
                             </th:block>
@@ -91,7 +91,7 @@
                                             data-bs-toggle="modal"
                                             data-bs-target="#reviewModal"
 
-                                            th:data-order-number="${order.orderNumber}"
+                                            th:data-order-number="${order.order_number}"
                                             th:data-prod-no="${order.prod_number}"
                                             th:data-prod-name="${order.prod_name}">
                                         상품평쓰기
@@ -99,7 +99,7 @@
                                     <button class="btn btn-light btn-return"
                                             data-bs-toggle="modal"
                                             data-bs-target="#returnModal"
-                                            th:data-order-number="${order.orderNumber}"
+                                            th:data-order-number="${order.order_number}"
                                             th:data-prod-no="${order.prod_number}"
                                             th:data-prod-name="${order.prod_name}"
                                             th:data-piece="${order.piece}"
@@ -114,7 +114,7 @@
                                     <button class="btn btn-light btn-exchange"
                                             data-bs-toggle="modal"
                                             data-bs-target="#exchangeModal"
-                                            th:data-order-number="${order.orderNumber}"
+                                            th:data-order-number="${order.order_number}"
                                             th:data-prod-no="${order.prod_number}"
                                             th:data-prod-name="${order.prod_name}"
                                             th:data-piece="${order.piece}"
