@@ -7,7 +7,7 @@
 
     <!-- resultMap 정의 -->
     <resultMap id="OrderResultMap" type="kr.co.kmarket.dto.OrderDTO">
-        <result property="orderNumber" column="ORDER_NUMBER"/>
+        <result property="order_number" column="ORDER_NUMBER"/>
         <result property="oDate" column="O_DATE"/>
         <result property="stat" column="STAT"/>
         <result property="piece" column="PIECE"/>
