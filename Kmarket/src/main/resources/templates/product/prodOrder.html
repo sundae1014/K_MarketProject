@@ -90,15 +90,15 @@
                             <div class="buyer-info">
                                 <div class="form-row">
                                     <label for="buyerName">이름</label>
-                                    <input type="text" id="buyerName" placeholder="이름 입력">
+                                    <input type="text" id="buyerName" th:value="${buyer.name}" readonly>
                                 </div>
                                 <div class="form-row">
                                     <label for="buyerPhone">연락처</label>
-                                    <input type="text" id="buyerPhone" placeholder="연락처 입력">
+                                    <input type="text" id="buyerPhone" th:value="${buyer.hp}" readonly>
                                 </div>
                                 <div class="form-row">
                                     <label for="buyerAddress">주소지</label>
-                                    <input type="text" id="buyerAddress" placeholder="주소 입력">
+                                    <input type="text" id="buyerAddress" th:value="${buyer.addr1}" readonly>
                                 </div>
                             </div>
                         </div>
@@ -156,17 +156,37 @@
                                 <h3>상품 정보</h3>
                             </div>
                             <div class="product-info">
-                                <img th:src="@{/images/main/Hit-product_1.png}" alt="상품" class="product-thumb">
+                                <img th:src="@{${product.img_1}}" alt="상품" class="product-thumb">
                                 <div class="product-detail">
-                                    <p class="product-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
-                                    <p class="product-option">1세트</p>
+                                    <p class="product-name" th:text="${product.prod_name}"></p>
+                                    <p class="product-option" th:text="${product.opt_name}"></p>
                                     <div class="product-price">
-                                        <span class="discount">49%</span>
-                                        <strong class="sale" id="basePrice">35,590</strong>원
-                                        <del class="regular">69,900원</del>
+                                        <span class="discount" th:text="${product.discount + '%'}"></span>
+                                        <strong class="sale" id="basePrice"
+                                                th:text="${#numbers.formatInteger(product.saleprice,3,'COMMA')}"></strong>원
+                                        <del class="regular"
+                                             th:text="${#numbers.formatInteger(product.price,3,'COMMA')} + '원'"></del>
                                         <span class="badge">무료배송</span>
                                     </div>
                                 </div>
+                            </div>
+
+                            <!-- 쿠폰 -->
+                            <div class="coupon-list" th:each="coupon : ${coupons}">
+                                <label>
+                                    <input type="checkbox" th:data-discount="${coupon.benefit}"
+                                           th:value="${coupon.coupon_name}">
+                                    <span th:text="${coupon.coupon_name}"></span>
+                                    <span class="coupon-cond"
+                                          th:text="'(~' + ${#dates.format(coupon.expire_date, 'MM/dd')} + ')'"></span>
+                                </label>
+                            </div>
+
+                            <!-- 포인트 -->
+                            <div class="point-box">
+                                <p>현재 포인트: <strong id="currentPoint" th:text="${#numbers.formatInteger(userPoint,3,'COMMA')}"></strong>점</p>
+                                <input type="number" id="usePoint" placeholder="사용할 포인트 입력">
+                                <button type="button" onclick="applyPoint()">사용하기</button>
                             </div>
 
                             <!-- 쿠폰/포인트 -->

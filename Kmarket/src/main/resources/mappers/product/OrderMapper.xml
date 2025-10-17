@@ -4,6 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="kr.co.kmarket.mapper.OrderMapper">
+
     <insert id="insertOrder" parameterType="kr.co.kmarket.dto.OrderDTO">
         INSERT INTO ORDER_TBL (
         ORDERNUMBER, CUST_NUMBER, O_DATE, STAT, NAME, HP, ADDR, ADDR2, PAYMENT
@@ -13,4 +14,57 @@
         #{name}, #{hp}, #{addr}, #{addr2}, #{payment}
         )
     </insert>
+
+    <select id="selectCartList" resultType="kr.co.kmarket.dto.CartDTO">
+        SELECT *
+        FROM CART
+        WHERE CART_NUMBER IN
+        <foreach item="num" collection="cart_numbers" open="(" separator="," close=")">
+            #{num}
+        </foreach>
+    </select>
+
+    <!-- 상품 상세 (상품 + 옵션) -->
+    <select id="selectProductDetail" parameterType="int" resultType="kr.co.kmarket.dto.ProductDTO">
+        SELECT
+            p.PROD_NUMBER,
+            p.PROD_NAME,
+            p.DISCOUNT,
+            p.PRICE,
+            p.SALEPRICE,
+            o.OPT_NAME,
+            o.OPT_PRICE,
+            p.IMG_1
+        FROM PRODUCT p
+                 LEFT JOIN PRODUCT_OPTION o ON p.PROD_NUMBER = o.PROD_NUMBER
+        WHERE p.PROD_NUMBER = #{prod_number}
+    </select>
+
+    <!-- 회원이 보유한 쿠폰 목록 -->
+    <select id="selectAvailableCoupons" parameterType="int" resultType="kr.co.kmarket.dto.CouponDTO">
+        SELECT
+            c.COUPON_NAME,
+            c.COUPON_TYPE,
+            c.BENEFIT,
+            c.USE_PERIOD,
+            c.ISSUE_DATE
+        FROM COUPON c
+        WHERE c.COUPON_TYPE = 1
+          AND c.STATUS = '미사용'
+    </select>
+
+    <!-- 회원 보유 포인트 -->
+    <select id="selectUserPoint" parameterType="int" resultType="int">
+        SELECT NVL(SUM(POINT_AMOUNT), 0) AS TOTAL_POINT
+        FROM POINT
+        WHERE CUST_NUMBER = #{cust_number}
+          AND (EXPIRE_DATE IS NULL OR EXPIRE_DATE > SYSDATE)
+    </select>
+
+    <select id="selectOptionsByProduct" parameterType="int" resultType="kr.co.kmarket.dto.ProductOptionDTO">
+        SELECT OPTION_ID, PROD_NUMBER, OPT_NAME, OPT_PRICE
+        FROM PRODUCT_OPTION
+        WHERE PROD_NUMBER = #{prod_number}
+    </select>
+
 </mapper>
