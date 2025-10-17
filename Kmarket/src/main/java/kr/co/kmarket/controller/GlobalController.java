@@ -47,12 +47,6 @@ public class GlobalController {
         return counterService.getYesterdayVisits();
     }
 
-
-    @ModelAttribute("recentVersion")
-    public String recentVersion(Model model) {
-        return basicService.getRecentVersion();
-    }
-
     @ModelAttribute("basicData")
     public BasicDTO basicData(Model model) {
         return basicService.getBasic();
