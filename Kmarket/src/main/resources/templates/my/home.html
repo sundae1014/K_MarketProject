@@ -49,7 +49,8 @@
                             </p>
                             <p><a href="#" class="seller-detail-link" th:data-manufacture="${order.manufacture}">
                                 <span th:text="${order.manufacture}">[상호명]</span> </a></p>
-                            <p><a th:href="@{/product/view(prod_number=${order.prod_number})}" th:text="${order.prod_name}"></a></p>
+                            <p><a th:href="@{/product/view(prod_number=${order.prod_number})}"
+                                  th:text="${order.prod_name}"></a></p>
                             <p th:text="'수량 : ' + ${order.piece} + '개'"></p>
                             <h4 th:text="${order.priceString}"></h4>
                         </div>
@@ -95,7 +96,8 @@
                                             th:data-prod-no="${order.prod_number}"
                                             th:data-prod-name="${order.prod_name}">
                                         상품평쓰기
-                                    </button><br>
+                                    </button>
+                                    <br>
                                     <button class="btn btn-light btn-return"
                                             data-bs-toggle="modal"
                                             data-bs-target="#returnModal"
@@ -110,7 +112,8 @@
                                             th:data-sale-price-string="${order.salePriceString}"
                                             th:data-discount-string="${order.discountString}">
                                         반품신청
-                                    </button><br>
+                                    </button>
+                                    <br>
                                     <button class="btn btn-light btn-exchange"
                                             data-bs-toggle="modal"
                                             data-bs-target="#exchangeModal"
@@ -125,7 +128,8 @@
                                             th:data-sale-price-string="${order.salePriceString}"
                                             th:data-discount-string="${order.discountString}">
                                         교환신청
-                                    </button><br>
+                                    </button>
+                                    <br>
                                 </div>
                             </th:block>
 
@@ -183,7 +187,9 @@
                     <td th:text="${review.review_no}"></td>
                     <td th:text="${review.prod_number} +'/'+ ${review.prod_name}"></td>
                     <td>
-                        <span th:text="${#strings.substring(review.content, 0, 20)} + (${review.content.length() > 20 ? '...' : ''})"></span>
+                        <span th:text="${#strings.length(review.content) > 20 ?
+                             #strings.substring(review.content, 0, 20) + '...' :
+                             review.content}"></span>
                     </td>
                     <td class="rating-stars">
                         <span class="active-star"
@@ -256,7 +262,7 @@
 
                 <div class="setting-item">
                     <div class="setting-header">
-                        <span class="setting-title" >Email 설정</span>
+                        <span class="setting-title">Email 설정</span>
                         <a th:href="@{/my/option}" class="edit-link">변경</a>
                     </div>
                     <div class="setting-content">
