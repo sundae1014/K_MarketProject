@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Builder
 public class NoticeDTO {
     private int id;
-    private String type1;
+    private String notice_type;
     private String title;
     private String content;
     private int views;

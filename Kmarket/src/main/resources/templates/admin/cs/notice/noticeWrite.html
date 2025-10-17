@@ -411,12 +411,11 @@ html, body {
               </tr>
               </tbody>
           </table>
+          <div class="bottom-bar">
+              <button type="button" class="btn2" th:onclick="|location.href='@{/admin/cs/notice/list}'|">취소하기</button>
+              <button type="submit" class="btn">등록하기</button>
+          </div>
       </form>
-
-    <div class="bottom-bar">
-      <button class="btn2" th:onclick="|location.href='@{/admin/cs/notice/list}'|">취소하기</button>
-      <button class="btn">등록하기</button>
-    </div>
   </div>
 </div>
 <footer>

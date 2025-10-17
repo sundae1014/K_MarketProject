@@ -20,7 +20,6 @@ public class QnaService {
 
     public PageResponseDTO selectAll(PageRequestDTO pageRequestDTO) {
         List<QnaDTO> dtoList = qnaMapper.findAll(pageRequestDTO);
-
         int total = qnaMapper.selectCount(pageRequestDTO);
 
         return PageResponseDTO.<QnaDTO>builder()
