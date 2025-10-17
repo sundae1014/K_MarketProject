@@ -30,14 +30,98 @@
                                 <th>평점</th>
                                 <th>작성일</th>
                             </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>상품번호/상품명</td>
-                                <td>배송이 빨라요</td>
-                                <td></td>
-                                <td>2022-12-10</td>
+                            <tr th:each="review : ${reviews}">
+                                <td th:text="${review.review_no}"></td>
+                                <td th:text="${review.prod_name}"></td>
+                                <td>
+                                    <span th:text="${#strings.substring(review.content, 0, 20)} + (${review.content.length() > 20 ? '...' : ''})"></span>
+                                </td>
+                                <td class="rating-stars">
+                                    <span class="active-star"
+                                          th:each="i : ${#numbers.sequence(1, review.rating)}"
+                                          th:text="'★'">
+                                    </span>
+
+                                    <th:block th:with="emptyStars = 5 - ${review.rating}">
+                                        <span class="inactive-star"
+                                              th:if="${emptyStars > 0}"
+                                              th:each="i : ${#numbers.sequence(1, emptyStars)}"
+                                              th:text="'☆'">
+                                        </span>
+                                    </th:block>
+                                </td>
+                                <td th:text="${#temporals.format(review.r_date, 'yy-MM-dd')}"></td>
                             </tr>
                         </table>
+                    </div>
+                    <div class="pagination">
+                        <div class="prev">
+                            <!-- 검색 있을 때 -->
+                            <a th:if="${searchType != null and keyword != null and keyword != ''}"
+                               th:href="@{/my/review/search(searchType=${searchType}, keyword=${keyword}, pg=1)}"
+                               th:classappend="${ReviewPage.pg == 1} ? ' disabled' : ''">
+                                <img th:src="@{/images/company/btn-first-page.png}">
+                            </a>
+                            <a th:if="${searchType != null and keyword != null and keyword != ''}"
+                               th:href="@{/my/review/search(searchType=${searchType}, keyword=${keyword}, pg=${ReviewPage.pg - 1})}"
+                               th:classappend="${ReviewPage.pg == 1} ? ' disabled' : ''">
+                                <img th:src="@{/images/company/btn-prev-page.png}">
+                            </a>
+
+                            <!-- 검색 없을 때 -->
+                            <a th:unless="${searchType != null and keyword != null and keyword != ''}"
+                               th:href="@{/my/review(pg=1)}"
+                               th:classappend="${ReviewPage.pg == 1} ? ' disabled' : ''">
+                                <img th:src="@{/images/company/btn-first-page.png}">
+                            </a>
+                            <a th:unless="${searchType != null and keyword != null and keyword != ''}"
+                               th:href="@{/my/review(pg=${ReviewPage.pg - 1})}"
+                               th:classappend="${ReviewPage.pg == 1} ? ' disabled' : ''">
+                                <img th:src="@{/images/company/btn-prev-page.png}">
+                            </a>
+                        </div>
+
+                        <div class="pagenumber">
+                            <!-- 검색 있을 때 -->
+                            <a th:each="i : ${#numbers.sequence(ReviewPage.start, ReviewPage.end)}"
+                               th:if="${searchType != null and keyword != null and keyword != ''}"
+                               th:href="@{/my/review/search(searchType=${searchType}, keyword=${keyword}, pg=${i})}"
+                               th:text="${i}"
+                               th:classappend="${i == ReviewPage.pg} ? ' active' : ''"></a>
+
+                            <!-- 검색 없을 때 -->
+                            <a th:each="i : ${#numbers.sequence(ReviewPage.start, ReviewPage.end)}"
+                               th:unless="${searchType != null and keyword != null and keyword != ''}"
+                               th:href="@{/my/review(pg=${i})}"
+                               th:text="${i}"
+                               th:classappend="${i == ReviewPage.pg} ? ' active' : ''"></a>
+                        </div>
+
+                        <div class="last">
+                            <!-- 검색 있을 때 -->
+                            <a th:if="${searchType != null and keyword != null and keyword != ''}"
+                               th:href="@{/my/review/search(searchType=${searchType}, keyword=${keyword}, pg=${ReviewPage.pg + 1})}"
+                               th:classappend="${ReviewPage.pg == ReviewPage.end} ? ' disabled' : ''">
+                                <img th:src="@{/images/company/btn-next-page.png}">
+                            </a>
+                            <a th:if="${searchType != null and keyword != null and keyword != ''}"
+                               th:href="@{/my/review/search(searchType=${searchType}, keyword=${keyword}, pg=${ReviewPage.end})}"
+                               th:classappend="${ReviewPage.pg == ReviewPage.end} ? ' disabled' : ''">
+                                <img th:src="@{/images/company/btn-last-page.png}">
+                            </a>
+
+                            <!-- 검색 없을 때 -->
+                            <a th:unless="${searchType != null and keyword != null and keyword != ''}"
+                               th:href="@{/my/review(pg=${ReviewPage.pg + 1})}"
+                               th:classappend="${ReviewPage.pg == ReviewPage.end} ? ' disabled' : ''">
+                                <img th:src="@{/images/company/btn-next-page.png}">
+                            </a>
+                            <a th:unless="${searchType != null and keyword != null and keyword != ''}"
+                               th:href="@{/my/review(pg=${ReviewPage.end})}"
+                               th:classappend="${ReviewPage.pg == ReviewPage.end} ? ' disabled' : ''">
+                                <img th:src="@{/images/company/btn-last-page.png}">
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
