@@ -12,17 +12,6 @@ document.addEventListener("DOMContentLoaded", () => {
     let couponDiscount = 0;
     let usedPoint = 0;
 
-    // 구매자 정보 더미 데이터 (추후 서버 세션 값으로 대체)
-    const buyer = {
-        name: "정순권",
-        phone: "010-1234-5678",
-        address: "부산광역시 해운대구 센텀중앙로"
-    };
-
-    document.getElementById("buyerName").value = buyer.name;
-    document.getElementById("buyerPhone").value = buyer.phone;
-    document.getElementById("buyerAddress").value = buyer.address;
-
     // 최종 결제 정보
     function updateTotal() {
         const summaryBox = document.querySelector(".order-summary ul");
