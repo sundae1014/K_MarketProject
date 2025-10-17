@@ -159,7 +159,7 @@
                     <div id="site_version">
                         <div class="line_row_last">
                             <div class="version_title">사이트 버전</div>
-                            <span style="margin-left: 10px;" th:text="${recentVersion}"></span>
+                            <span style="margin-left: 10px;" th:inline="text">[[${appInfo.appVersion}]]</span>
                         </div>
                     </div>   
                 </div>
