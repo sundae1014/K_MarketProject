@@ -31,7 +31,7 @@ public class MyRestController {
     private final DecimalFormat priceFormatter = new DecimalFormat("#,###");
 
     @GetMapping("/orderDetail")
-    public OrderDTO getOrderDetail(@RequestParam("orderNumber") int orderNumber,
+    public OrderDTO getOrderDetail(@RequestParam("orderNumber") String orderNumber,
                                    HttpSession session) throws UnsupportedEncodingException {
 
         Integer custNumber = (Integer) session.getAttribute("cust_number");
@@ -132,7 +132,7 @@ public class MyRestController {
     }
 
     @PostMapping("/confirmPurchase")
-    public Map<String, Object> confirmPurchase(@RequestParam("orderNumber") int orderNumber,
+    public Map<String, Object> confirmPurchase(@RequestParam("orderNumber") String orderNumber,
                                                HttpSession session) {
 
         Map<String, Object> resultMap = new HashMap<>();
@@ -172,7 +172,7 @@ public class MyRestController {
     }
 
     @PostMapping("/cancelOrder")
-    public Map<String, Object> cancelOrder(@RequestParam("orderNumber") int orderNumber,
+    public Map<String, Object> cancelOrder(@RequestParam("orderNumber") String orderNumber,
                                            HttpSession session) {
 
         Map<String, Object> resultMap = new HashMap<>();
@@ -208,7 +208,7 @@ public class MyRestController {
 
     @PostMapping("/registerReview")
     public Map<String, Object> registerReview(
-            @RequestParam("orderNumber") int orderNumber,
+            @RequestParam("orderNumber") String orderNumber,
             @RequestParam("prodNo") int prodNo,
             @RequestParam("rating") int rating,
             @RequestParam("reviewContent") String reviewContent,
@@ -227,7 +227,7 @@ public class MyRestController {
 
         try {
             ProductReviewDTO reviewDTO = ProductReviewDTO.builder()
-                    .orderNumber(orderNumber)
+                    .order_number(orderNumber)
                     .prod_number(prodNo)
                     .cust_number(cust_number)
                     .rating(rating)
@@ -283,7 +283,7 @@ public class MyRestController {
                 resultMap.put("message", "반품 요청에 실패했습니다.");
             }
         } catch (Exception e) {
-            log.error("반품 요청 중 시스템 오류 발생 - Order: {}", orderDTO.getOrderNumber(), e);
+            log.error("반품 요청 중 시스템 오류 발생 - Order: {}", orderDTO.getOrder_number(), e);
             resultMap.put("success", false);
             resultMap.put("message", "시스템 오류가 발생했습니다.");
         }
@@ -316,7 +316,7 @@ public class MyRestController {
                 resultMap.put("message", "교환 요청에 실패했습니다.");
             }
         } catch (Exception e) {
-            log.error("교환 요청 중 시스템 오류 발생 - Order: {}", orderDTO.getOrderNumber(), e);
+            log.error("교환 요청 중 시스템 오류 발생 - Order: {}", orderDTO.getOrder_number(), e);
             resultMap.put("success", false);
             resultMap.put("message", "시스템 오류가 발생했습니다.");
         }

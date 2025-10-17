@@ -185,4 +185,8 @@
             </if>
         </where>
     </select>
+
+    <select id="selectCouponImage" resultType="String">
+        SELECT IMAGE_PATH FROM COUPON WHERE CATEGORY_CODE = #{cateCode}
+    </select>
 </mapper>

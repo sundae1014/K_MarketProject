@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -21,12 +22,12 @@ public class CartController {
     // 장바구니 페이지
     @GetMapping("/cart")
     public String viewCart(HttpSession session, Model model) {
-        MemberDTO member = (MemberDTO) session.getAttribute("member");
-        if (member == null) {
+        MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
+        if (memberDTO == null) {
             return "redirect:/member/login";
         }
 
-        List<CartDTO> cartList = cartService.getCartList(member.getCust_number());
+        List<CartDTO> cartList = cartService.getCartList(memberDTO.getCust_number());
         model.addAttribute("cartList", cartList);
         return "product/prodCart";
     }
@@ -34,12 +35,23 @@ public class CartController {
     // 장바구니 추가
     @PostMapping("/cart/add")
     @ResponseBody
-    public String addCart(@RequestBody CartDTO dto, HttpSession session) {
-        MemberDTO member = (MemberDTO) session.getAttribute("member");
-        if (member == null) return "loginRequired";
-        dto.setCust_number(member.getCust_number());
-        cartService.addCart(dto);
+    public String addCart(@RequestBody CartDTO cartDTO, HttpSession session) {
+        MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
+        cartDTO.setCust_number(memberDTO.getCust_number());
+        cartService.insertCart(cartDTO);
         return "success";
+    }
+
+    @GetMapping("/cart/list")
+    @ResponseBody
+    public List<CartDTO> getCartList(HttpSession session) {
+        MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
+        if (memberDTO == null) {
+            // 로그인 안 된 경우에는 비어있는 배열 반환
+            return Collections.emptyList();
+        }
+
+        return cartService.getCartList(memberDTO.getCust_number());
     }
 
     // 선택 상품 삭제
@@ -48,5 +60,11 @@ public class CartController {
     public String deleteCart(@PathVariable int cart_number) {
         cartService.deleteCart(cart_number);
         return "deleted";
+    }
+
+    @PatchMapping("/cart/updateQty")
+    @ResponseBody
+    public void updateQuantity(@RequestBody CartDTO cartDTO) {
+        cartService.updateQuantity(cartDTO);
     }
 }
