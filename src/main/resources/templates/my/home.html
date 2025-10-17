@@ -230,7 +230,9 @@
                     <td th:text="${qna.type1}"></td>
                     <td th:text="${qna.title}"></td>
                     <td th:text="${qna.reg_date}"></td>
-                    <td th:text="${qna.status}"></td>
+                    <td th:text="${qna.status == 'waiting'} ? '검토중' : (${qna.status == 'complete'} ? '답변완료' : ${qna.status})"
+                        th:classappend="${qna.status == 'complete'} ? 'status-complete' : ''">
+                    </td>
                 </tr>
             </table>
         </div>
