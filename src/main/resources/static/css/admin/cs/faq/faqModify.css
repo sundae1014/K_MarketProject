@@ -7,7 +7,7 @@ body {
     display: flex;
     min-height: 80vh;
     margin: 0 auto;
-    max-width: 1200px;
+    max-width: 1400px;
 }
 /*///////////////헤더 푸터 삽입 시 공백 제거///////////////////*/
 html, body {
@@ -203,14 +203,14 @@ html, body {
 .breadcrumb span { color: #555; }
 
 table { width: 100%; border-collapse: collapse; font-size: 14px; margin-bottom: 20px; }
-th { width: 120px; text-align: left; vertical-align: top; padding: 10px 5px; }
-td { padding: 5px; }
+th { width: 120px; text-align: left; padding: 20px 5px; }
+td { padding: 5px 5px 1px 5px; }
 
 /* 입력 박스 */
 .input-box {
     width: 100%;
     outline: none;
-    padding: 6px 10px;
+    padding: 14px 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
     background-color: #fff;
@@ -220,7 +220,7 @@ td { padding: 5px; }
 
 select {
     width: 100%;
-    padding: 6px 10px;
+    padding: 14px 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
@@ -251,6 +251,8 @@ table tbody tr:first-child th,
 table tbody tr:first-child td {
     border-top: 2px solid #000; /* 선 굵기와 색상 조절 가능 */
 }
+.tr_line {border-bottom: 1px solid #ccc;}
+
 /* 버튼 영역 오른쪽 정렬 */
 .bottom-bar {
     display: flex;
