@@ -68,4 +68,18 @@ public interface MyMapper {
     public List<QnaDTO> selectQnaListPage(@Param("user_id") String user_id,
                                           @Param("start") int start,
                                           @Param("limit") int limit);
+
+    public int selectReviewCountByCustNumber(int custNumber);
+
+    public List<ProductReviewDTO> selectReviewsListPage(@Param("custNumber") int custNumber,
+                                                        @Param("start") int start,
+                                                        @Param("limit") int limit);
+
+    public int selectOrderCountByCustNumber(int custNumber);
+
+    public List<OrderDTO> selectOrdersListPage(@Param("custNumber") int custNumber,
+                                               @Param("start") int start,
+                                               @Param("limit") int limit);
+
+    public int selectWaitingQna(int custNumber);
 }

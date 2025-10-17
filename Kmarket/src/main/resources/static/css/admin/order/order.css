@@ -14,8 +14,17 @@ body {
     min-height: 100vh;
 }
 
+.board {
+    width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: stretch;
+    gap: 30px;
+}
+
 main {
-    flex: 1;
+    display: flex;
+    align-items: stretch;
 }
 
 a:hover{
@@ -166,4 +175,3 @@ a:hover{
 .pagenation .last {
     background-image: url('../../../images/admin/order/btn-last-page.png');
 }
-
