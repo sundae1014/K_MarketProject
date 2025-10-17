@@ -7,7 +7,7 @@ body {
     display: flex;
     min-height: 80vh;
     margin: 0 auto;
-    max-width: 1200px;
+    max-width: 1400px;
 }
 
 /*///////////////헤더 푸터 삽입 시 공백 제거///////////////////*/
