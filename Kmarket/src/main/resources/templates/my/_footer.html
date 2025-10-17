@@ -3,10 +3,10 @@
     <div class="footer-bar">
         <div class="footer-links container">
             <ul>
-                <li><a href="#">회사소개</a></li>
-                <li><a href="#">서비스이용약관</a></li>
-                <li><a href="#">개인정보처리방침</a></li>
-                <li><a href="#">전자금융거래약관</a></li>
+                <li><a th:href="@{/company/index}">회사소개</a></li>
+                <li><a th:href="@{/policy/buyer}">서비스이용약관</a></li>
+                <li><a th:href="@{/policy/privacy}">개인정보처리방침</a></li>
+                <li><a th:href="@{/policy/finance}">전자금융거래약관</a></li>
             </ul>
         </div>
     </div>
@@ -18,26 +18,31 @@
         </div>
 
         <div class="footer-col">
-            <p><strong>(주)큐팡 | 대표: 김철학</strong></p>
-            <p>부산광역시 해운대구 달맞이길 30 시그니엘 부산</p>
-            <p>사업자등록번호: 202-50-70702</p>
-            <p>통신판매업 신고번호: 제2025-부산광역시-0707호</p>
+            <p th:inline="text"><strong>[[${basicData.trade_name}]] | 대표: [[${basicData.ceo}]]</strong></p>
+            <p th:inline="text">[[${basicData.addr1}]][[${basicData.addr2}]]</p>
+            <p th:inline="text">사업자등록번호: [[${basicData.business_num}]]</p>
+            <p th:inline="text">통신판매업 신고번호: [[${basicData.communication_num}]]</p>
             <p>본 작업물은 웹개발 프로젝트 포트폴리오용 입니다</p>
         </div>
 
         <div class="footer-col">
-            <p class="footer-ce"><strong>365고객센터</strong> | 전자금융거래분쟁처리담당</p>
-            <p class="footer-ph">1577-0912 (유료)</p>
+            <p class="footer-ce" th:inline="text"><strong>365고객센터</strong> | 전자금융거래분쟁처리담당</p>
+            <p class="footer-ph" th:inline="text">[[${basicData.transaction}]] (유료)</p>
             <p>개인정보보호책임자: 정순권</p>
-            <p>Fax: 051-123-4567 | Email: cup25@cupang.com</p>
+            <p th:inline="text">문의: [[${basicData.hp}]] | [[${basicData.work_time}]]</p>
+            <p th:inline="text">Fax: 051-123-4567 | Email: [[${basicData.email}]]</p>
+
         </div>
     </div>
 
     <div class="footer-sub">
-        <p class="sub-title">호스팅서비스 사업자: (주)큐팡</p>
+        <p class="sub-title" th:inline="text">호스팅서비스 사업자: [[${basicData.trade_name}]]</p>
         <p class="sub-text">㈜큐팡은 CUPANG.COM 실시간 항공권, 실시간 렌터카 서비스의 통신판매중개자로서 거래 당사자가 아니며,
             입점 판매사가 등록한 상품 정보 및 거래에 대해 책임을 지지 않습니다.<br>
             ㈜큐팡 사이트의 상품/판매자/쇼핑정보, 컨텐츠, UI 등에 대한 무단 복제, 전송, 배포, 스크래핑 등의 행위는
-            저작권법, 콘텐츠사업 진흥법 등에 의하여 엄격히 금지됩니다.</p>
+            저작권법, 콘텐츠사업 진흥법 등에 의하여 엄격히 금지됩니다.
+        </p>
+        <p class="sub-text" th:inline="text">[[${basicData.copyright}]]</p>
+        <span style="color: #9F9F9F;font-size: 15px;">[[${appInfo.appName}]] ver.[[${appInfo.appVersion}]]</span> <!-- 임시로 만든거 -->
     </div>
 </footer>

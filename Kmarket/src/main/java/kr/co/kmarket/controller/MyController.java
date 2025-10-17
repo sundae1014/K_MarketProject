@@ -33,7 +33,9 @@ public class MyController {
         Integer custNumber = (Integer) session.getAttribute("cust_number");
         if (custNumber != null) {
             int notConfirmedCount = myService.getNotConfirmedOrderCount(custNumber);
+            int waitingQna = myService.selectWaitingQna(custNumber);
             model.addAttribute("notConfirmedCount", notConfirmedCount);
+            model.addAttribute("waitingQna", waitingQna);
         }
     }
 
@@ -146,7 +148,47 @@ public class MyController {
     }
 
     @GetMapping("/order")
-    public String order(){
+    public String order(Model model, HttpSession session, @RequestParam(name = "pg", defaultValue = "1") int pg) {
+
+        Integer custNumber = (Integer) session.getAttribute("cust_number");
+
+        if (custNumber == null) {
+            // 세션에 cust_number가 없으면 로그인 페이지로 리다이렉트
+            return "redirect:/member/login";
+        }
+
+        // 1. 기본 설정 (페이지당 게시물 수, 페이지 블록 크기)
+        int limit = 10;
+        int block = 10;
+
+        // 2. 전체 게시물 수 및 페이지 계산
+        // Service 호출하여 전체 주문 상세 아이템(ROW) 개수 조회
+        int total = myService.selectOrderCountByCustNumber(custNumber);
+        int lastPage = (int) Math.ceil(total / (double) limit);
+        int start = (pg - 1) * limit; // MyBatis의 #{start} (OFFSET)
+
+        // 3. 페이징 블록 계산
+        int startPage = (pg - 1) / block * block + 1;
+        int endPage = startPage + block - 1;
+        if (endPage > lastPage) {
+            endPage = lastPage;
+        }
+
+        // 4. 주문 내역 목록 조회 (주문 상세 아이템 기준)
+        List<OrderDTO> orders = myService.selectOrdersListPage(custNumber, start, limit);
+
+        // 5. View로 전달할 페이지 정보 구성
+        Map<String, Object> OrderPage = new HashMap<>();
+        OrderPage.put("pg", pg);
+        OrderPage.put("start", startPage);
+        OrderPage.put("end", endPage);
+        OrderPage.put("last", lastPage);
+        OrderPage.put("total", total);
+
+        // 6. View로 데이터 전달
+        model.addAttribute("orders", orders); // 목록 데이터 (주문 상세 DTO 리스트)
+        model.addAttribute("OrderPage", OrderPage); // 페이지 정보
+
         return "my/order";
     }
 
@@ -201,7 +243,46 @@ public class MyController {
     }
 
     @GetMapping("/review")
-    public String review(){
+    public String review(Model model, HttpSession session, @RequestParam(name = "pg", defaultValue = "1") int pg) {
+
+        Integer custNumber = (Integer) session.getAttribute("cust_number");
+
+        if (custNumber == null) {
+            // 세션에 cust_number가 없으면 로그인 페이지로 리다이렉트
+            return "redirect:/member/login";
+        }
+
+        // 1. 기본 설정 (페이지당 게시물 수, 페이지 블록 크기)
+        int limit = 10;
+        int block = 10;
+
+        // 2. 전체 게시물 수 및 페이지 계산
+        int total = myService.selectReviewCountByCustNumber(custNumber); // Service 호출하여 전체 개수 조회
+        int lastPage = (int) Math.ceil(total / (double) limit);
+        int start = (pg - 1) * limit; // MyBatis의 #{start} (OFFSET)
+
+        // 3. 페이징 블록 계산
+        int startPage = (pg - 1) / block * block + 1;
+        int endPage = startPage + block - 1;
+        if (endPage > lastPage) {
+            endPage = lastPage;
+        }
+
+        // 4. 리뷰 목록 조회
+        List<ProductReviewDTO> reviews = myService.selectReviewsListPage(custNumber, start, limit); // Service 호출
+
+        // 5. View로 전달할 페이지 정보 구성
+        Map<String, Object> ReviewPage = new HashMap<>();
+        ReviewPage.put("pg", pg);
+        ReviewPage.put("start", startPage);
+        ReviewPage.put("end", endPage);
+        ReviewPage.put("last", lastPage);
+        ReviewPage.put("total", total);
+
+        // 6. View로 데이터 전달
+        model.addAttribute("reviews", reviews); // 목록 데이터
+        model.addAttribute("ReviewPage", ReviewPage); // 페이지 정보
+
         return "my/review";
     }
 

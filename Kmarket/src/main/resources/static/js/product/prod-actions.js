@@ -62,7 +62,7 @@ btnCart.addEventListener("click", async () => {
     }
 });
 
-/* 바로구매 기능 */
+/* 바로구매 타입별 반응 */
 btnBuy.addEventListener("click", () => {
     if (userType === "guest") {
         location.href = "/kmarket/member/login";
@@ -70,3 +70,21 @@ btnBuy.addEventListener("click", () => {
         location.href = "/kmarket/member/checkout";
     }
 });
+
+/* 바로구매 기능 */
+document.addEventListener("DOMContentLoaded", () => {
+    const buyBtn = document.querySelector(".btn.buy");
+
+    if (buyBtn) {
+        buyBtn.addEventListener("click", () => {
+            // 상품 정보 가져오기
+            const prodNumber = document.querySelector("#btnAddCart").dataset.prodNumber;
+            const quantityEl = document.querySelector(".prod-selected input[name='quantity']");
+            const quantity = quantityEl ? quantityEl.value : 1;
+
+            // 주문 페이지로 바로 이동 (GET 방식)
+            window.location.href = `/kmarket/order/form?prod_number=${prodNumber}&quantity=${quantity}`;
+        });
+    }
+});
+
