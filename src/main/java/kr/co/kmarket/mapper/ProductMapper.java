@@ -9,6 +9,15 @@ import java.util.List;
 @Mapper
 public interface ProductMapper {
 
+    // 상품번호로 상품 정보 가져오기 (주문용)
+    ProductDTO selectProductById(int prod_number);
+
+    // 상품 상세 조회
+    ProductDTO selectProductDetail(int prod_number);
+
+    // 상품 옵션 조회
+    List<ProductOptionDTO> selectOptionsByProduct(int prod_number);
+
     // 키워드 검색
     List<ProductDTO> selectProductsByKeyword(String keyword);
 

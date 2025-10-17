@@ -7,13 +7,19 @@ import kr.co.kmarket.service.admin.BasicService;
 import kr.co.kmarket.service.admin.VersionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.HashMap;
@@ -28,16 +34,64 @@ public class ConfigurationController {
     private final PolicyService policyService;
     private final VersionService versionService;
     private final BasicService basicService;
-    private final GlobalController globalController;
+
+    @Value("${file.upload.path}")
+    private String uploadPath;
 
     @GetMapping("/basic")
     public String basic(Model model) {
-        String recentVersion = basicService.getRecentVersion();
-        model.addAttribute("recentVersion", recentVersion);
-
         return "admin/configuration/admin_basicSetting";
     }
 
+    @PostMapping("/basic/update")
+    public String basic(BasicDTO basicDTO) throws IOException {
+
+        if (basicDTO.getHeader_logoFile1() != null && !basicDTO.getHeader_logoFile1().isEmpty()) {
+            String originalName = saveFileOriginalName(basicDTO.getHeader_logoFile1(), uploadPath);
+            basicDTO.setHeader_logo_main(originalName);
+        }
+        if (basicDTO.getHeader_logoFile2() != null && !basicDTO.getHeader_logoFile2().isEmpty()) {
+            String originalName = saveFileOriginalName(basicDTO.getHeader_logoFile2(), uploadPath);
+            basicDTO.setHeader_logo_intro(originalName);
+        }
+        if (basicDTO.getHeader_logoFile3() != null && !basicDTO.getHeader_logoFile3().isEmpty()) {
+            String originalName = saveFileOriginalName(basicDTO.getHeader_logoFile3(), uploadPath);
+            basicDTO.setHeader_logo_admin(originalName);
+        }
+
+        if (basicDTO.getFooter_logoFile1() != null && !basicDTO.getFooter_logoFile1().isEmpty()) {
+            String originalName = saveFileOriginalName(basicDTO.getFooter_logoFile1(), uploadPath);
+            basicDTO.setFooter_logo_main(originalName);
+        }
+        if (basicDTO.getFooter_logoFile2() != null && !basicDTO.getFooter_logoFile2().isEmpty()) {
+            String originalName = saveFileOriginalName(basicDTO.getFooter_logoFile2(), uploadPath);
+            basicDTO.setFooter_logo_intro(originalName);
+        }
+        if (basicDTO.getFooter_logoFile3() != null && !basicDTO.getFooter_logoFile3().isEmpty()) {
+            String originalName = saveFileOriginalName(basicDTO.getFooter_logoFile3(), uploadPath);
+            basicDTO.setFooter_logo_admin(originalName);
+        }
+
+        if (basicDTO.getFavicon_File() != null && !basicDTO.getFavicon_File().isEmpty()) {
+            String originalName = saveFileOriginalName(basicDTO.getFavicon_File(), uploadPath);
+            basicDTO.setFavicon(originalName);
+        }
+
+        basicService.modifyBasic(basicDTO);
+        return "redirect:/admin/config/basic";
+    }
+
+    private String saveFileOriginalName(MultipartFile file, String uploadDir) throws IOException {
+        String originalFilename = file.getOriginalFilename();
+
+        Path uploadPath = Paths.get(uploadDir);
+        if (!Files.exists(uploadPath)) {
+            Files.createDirectories(uploadPath);
+        }
+
+        file.transferTo(uploadPath.resolve(originalFilename));
+        return originalFilename;
+    }
 
 
     @GetMapping("/banner")

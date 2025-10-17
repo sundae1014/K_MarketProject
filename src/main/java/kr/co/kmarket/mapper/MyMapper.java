@@ -18,7 +18,7 @@ public interface MyMapper {
     public int countNotConfirmedOrders(@Param("custNumber") int custNumber);
 
     public OrderDTO selectOrderDetailByCustomer(@Param("custNumber") int custNumber,
-                                                @Param("orderNumber") int orderNumber);
+                                                @Param("orderNumber") String orderNumber);
 
     public MemberDTO selectSellerByManufacture(@Param("manufacture") String manufacture);
 
@@ -27,19 +27,19 @@ public interface MyMapper {
     public int selectMaxQnaId();
 
     // 주문 상태(stat)를 조회
-    public OrderDTO selectOrderStat1(@Param("orderNumber") int orderNumber,
+    public OrderDTO selectOrderStat1(@Param("orderNumber") String orderNumber,
                                     @Param("custNumber") int custNumber);
 
     // 구매 확정 상태를 업데이트
-    public int updateOrderConfirmation(@Param("orderNumber") int orderNumber,
+    public int updateOrderConfirmation(@Param("orderNumber") String orderNumber,
                                        @Param("custNumber") int custNumber);
 
-    public int updateOrderCancel(@Param("orderNumber") int orderNumber,
+    public int updateOrderCancel(@Param("orderNumber") String orderNumber,
                                  @Param("custNumber") int custNumber);
 
     public int insertReview(ProductReviewDTO reviewDTO);
 
-    public Integer selectOrderStat(@Param("orderNumber") int orderNumber,
+    public Integer selectOrderStat(@Param("orderNumber") String orderNumber,
                                    @Param("prodNo") int prodNo,
                                    @Param("custNumber") int custNumber);
 
@@ -68,4 +68,18 @@ public interface MyMapper {
     public List<QnaDTO> selectQnaListPage(@Param("user_id") String user_id,
                                           @Param("start") int start,
                                           @Param("limit") int limit);
+
+    public int selectReviewCountByCustNumber(int custNumber);
+
+    public List<ProductReviewDTO> selectReviewsListPage(@Param("custNumber") int custNumber,
+                                                        @Param("start") int start,
+                                                        @Param("limit") int limit);
+
+    public int selectOrderCountByCustNumber(int custNumber);
+
+    public List<OrderDTO> selectOrdersListPage(@Param("custNumber") int custNumber,
+                                               @Param("start") int start,
+                                               @Param("limit") int limit);
+
+    public int selectWaitingQna(int custNumber);
 }

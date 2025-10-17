@@ -3,6 +3,7 @@ package kr.co.kmarket.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import kr.co.kmarket.dto.BasicDTO;
 import kr.co.kmarket.dto.MemberDTO;
 import kr.co.kmarket.security.MyUserDetails;
 import kr.co.kmarket.service.MemberService;
@@ -46,15 +47,8 @@ public class GlobalController {
         return counterService.getYesterdayVisits();
     }
 
-
-    @ModelAttribute
-    public void basicData(Model model){
-        model.addAttribute("recentVersion", basicService.getRecentVersion());
+    @ModelAttribute("basicData")
+    public BasicDTO basicData(Model model) {
+        return basicService.getBasic();
     }
-
-    @ModelAttribute
-    public void TitleData(Model model){
-        model.addAttribute("recentVersion", basicService.getRecentVersion());
-    }
-
 }
