@@ -34,7 +34,9 @@
                                 <td th:text="${review.review_no}"></td>
                                 <td th:text="${review.prod_name}"></td>
                                 <td>
-                                    <span th:text="${#strings.substring(review.content, 0, 20)} + (${review.content.length() > 20 ? '...' : ''})"></span>
+                                    <span th:text="${#strings.length(review.content) > 20 ?
+                                         #strings.substring(review.content, 0, 20) + '...' :
+                                         review.content}"></span>
                                 </td>
                                 <td class="rating-stars">
                                     <span class="active-star"
