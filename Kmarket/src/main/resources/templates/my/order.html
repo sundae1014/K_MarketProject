@@ -14,7 +14,7 @@
             </div>
             <div class="main-content">
                 <div class="banner-ad">
-                    <img src="#" alt="광고사진">
+                    <img th:src="@{/images/my/banner_ad.jpg}" alt="광고사진">
                 </div>
                 <div class="order">
                     <div class="content-top">
@@ -30,36 +30,103 @@
                             <th>상태</th>
                             <th>확인/신청</th>
                         </tr>
-                        <tr>
-                            <td>2022-12-13</td>
+                        <tr th:each="order : ${orders}">
+                            <td th:text="${order.dateString}"></td>
                             <td>
                                 <div class="prod-img">
-                                    <img th:src="@{/images/my/banner_ad.jpg}" alt="광고사진">
+                                    <img th:src="@{${order.encodedImg1}}" alt="상품 이미지"/>
                                 </div>
                             </td>
                             <td class="second-td">
                                 <div class="prod-info">
-                                    <p>주문번호 : 1012211341</p>
-                                    <p>(주)  상호명</p>
-                                    <p>상품명</p>
-                                    <p>수량 : 1개</p>
-                                    <h4>34,000원</h4>
+                                    <p><a href="#" class="order-detail-link"
+                                          th:text="'주문번호 : ' + ${order.order_number}"
+                                          th:attr="data-order-number=${order.order_number}"
+                                          data-bs-toggle="modal" data-bs-target="#orderModal"></a>
+                                    </p>
+                                    <p><a href="#" class="seller-detail-link" th:data-manufacture="${order.manufacture}">
+                                        <span th:text="${order.manufacture}">[상호명]</span> </a></p>
+                                    <p><a th:href="@{/product/view(prod_number=${order.prod_number})}" th:text="${order.prod_name}"></a></p>
+                                    <p th:text="'수량 : ' + ${order.piece} + '개'"></p>
+                                    <h4 th:text="${order.priceString}"></h4>
                                 </div>
                             </td>
-                            <td>배송완료</td>
-                            <td>
-                                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmModal">
-                                    구매확정
-                                </button><br>
-                                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#reviewModal">
-                                    상품평쓰기
-                                </button><br>
-                                <button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#returnModal">
-                                    반품신청
-                                </button><br>
-                                <button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#exchangeModal">
-                                    교환신청
-                                </button><br>
+                            <td th:switch="${order.stat}">
+                                <span th:case="0" class="status-payment-pending">결제대기</span>
+                                <span th:case="1" class="status-payment-complete">결제완료</span>
+                                <span th:case="2" class="status-preparing-shipment">배송준비</span>
+                                <span th:case="3" class="status-shipping">배송중</span>
+                                <span th:case="4" class="status-delivered">배송완료</span>
+                                <span th:case="5" class="status-order-cancelled">주문취소</span>
+                                <span th:case="6" class="status-return-request">반품요청</span>
+                                <span th:case="7" class="status-exchange-request">교환요청</span>
+                                <span th:case="8" class="status-purchase-confirmed">구매확정</span>
+                                <span th:case="*">알 수 없음</span>
+                            </td>
+                            <td class="status-cell">
+                                <div class="status-actions">
+
+                                    <th:block th:if="${order.stat == 4}">
+                                        <button class="btn btn-primary"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#confirmModal"
+                                                th:data-order-number="${order.order_number}">
+                                            구매확정
+                                        </button>
+                                    </th:block>
+
+                                    <th:block th:if="${order.stat == 1 or order.stat == 2}">
+                                        <button class="btn btn-danger order-cancel-btn"
+                                                th:data-order-number="${order.order_number}">
+                                            주문취소
+                                        </button>
+                                    </th:block>
+
+                                    <th:block th:if="${order.stat != 5}">
+                                        <div class="gap-2">
+                                            <button class="btn btn-primary"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#reviewModal"
+
+                                                    th:data-order-number="${order.order_number}"
+                                                    th:data-prod-no="${order.prod_number}"
+                                                    th:data-prod-name="${order.prod_name}">
+                                                상품평쓰기
+                                            </button><br>
+                                            <button class="btn btn-light btn-return"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#returnModal"
+                                                    th:data-order-number="${order.order_number}"
+                                                    th:data-prod-no="${order.prod_number}"
+                                                    th:data-prod-name="${order.prod_name}"
+                                                    th:data-piece="${order.piece}"
+                                                    th:data-date-string="${order.dateString}"
+                                                    th:data-encoded-img1="${order.encodedImg1}"
+                                                    th:data-price-string="${order.priceString}"
+                                                    th:data-manufacture="${order.manufacture}"
+                                                    th:data-sale-price-string="${order.salePriceString}"
+                                                    th:data-discount-string="${order.discountString}">
+                                                반품신청
+                                            </button><br>
+                                            <button class="btn btn-light btn-exchange"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#exchangeModal"
+                                                    th:data-order-number="${order.order_number}"
+                                                    th:data-prod-no="${order.prod_number}"
+                                                    th:data-prod-name="${order.prod_name}"
+                                                    th:data-piece="${order.piece}"
+                                                    th:data-date-string="${order.dateString}"
+                                                    th:data-encoded-img1="${order.encodedImg1}"
+                                                    th:data-price-string="${order.priceString}"
+                                                    th:data-manufacture="${order.manufacture}"
+                                                    th:data-sale-price-string="${order.salePriceString}"
+                                                    th:data-discount-string="${order.discountString}">
+                                                교환신청
+                                            </button><br>
+                                        </div>
+                                    </th:block>
+
+                                </div>
                             </td>
                         </tr>
                     </table>

@@ -1,10 +1,8 @@
 package kr.co.kmarket.controller;
 
-import kr.co.kmarket.dto.FaqDTO;
-import kr.co.kmarket.dto.PageRequestDTO;
-import kr.co.kmarket.dto.PageResponseDTO;
-import kr.co.kmarket.dto.QnaDTO;
+import kr.co.kmarket.dto.*;
 import kr.co.kmarket.service.FaqService;
+import kr.co.kmarket.service.NoticeService;
 import kr.co.kmarket.service.QnaService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +24,7 @@ import java.util.List;
 @RequestMapping("/cs")
 @Controller
 public class CsController {
+    private final NoticeService noticeService;
     private final FaqService faqService;
     private final QnaService qnaService;
 
@@ -35,10 +34,49 @@ public class CsController {
 
     /* 고객센터 공지사항 */
     @GetMapping("/notice/list")
-    public String noticeList(){return "cs/cs_noticeList";}
+    public String noticeList(Model model, PageRequestDTO pageRequestDTO){
+        String typeName = "전체";
+        PageResponseDTO pageResponseDTO = noticeService.selectAll(pageRequestDTO);
+        log.info("일반 공지사항 리스트: {}", pageResponseDTO);
+        model.addAttribute("pageResponseDTO", pageResponseDTO);
+        model.addAttribute("typeName", typeName);
+
+        return "cs/cs_noticeList";
+    }
+
+    @GetMapping("/notice/list/{nType}")
+    public String noticeList(@PathVariable("nType") String nType, PageRequestDTO pageRequestDTO, Model model) {
+        log.info("nType: {}", nType);
+        String typeName = switch(nType){
+            case "csService" -> "고객서비스";
+            case "safeTrade" -> "안전거래";
+            case "dangerProduct" -> "위해상품";
+            case "event" -> "이벤트 당첨";
+
+            default -> throw new IllegalStateException("Unexpected value: " + nType);
+        };
+        log.info("typeName={}", typeName);
+        PageResponseDTO pageResponseDTO = noticeService.selectTypeAll(typeName, pageRequestDTO);
+        model.addAttribute("pageResponseDTO", pageResponseDTO);
+        model.addAttribute("typeName", typeName);
+
+        return "cs/cs_noticeList";
+    }
 
     @GetMapping("/notice/view")
-    public String noticeView(){return "cs/cs_noticeView";}
+    public String noticeView(int id, String notice_type, Model model) {
+        log.info("id: {}, notice_type: {}", id,notice_type);
+        NoticeDTO noticeDTO = noticeService.getNotice(id);
+
+        log.info("noticeDTO: {}", noticeDTO);
+        model.addAttribute("noticeDTO", noticeDTO);
+        model.addAttribute("nType", notice_type);
+
+        noticeDTO.setViews(noticeDTO.getViews() + 1); //조회수 증가
+        noticeService.updateViews(noticeDTO);
+
+        return "cs/cs_noticeView";
+    }
 
     /* 고객센터 자주묻는 질문 */
     @GetMapping("/faq/list")

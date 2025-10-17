@@ -97,9 +97,6 @@ public class MyService {
         myMapper.insertReview(reviewDTO);
     }
 
-    /**
-     * 첨부 파일 저장 및 DTO에 파일명 설정 (최대 3개)
-     */
     private void processAndSetFileNames(ProductReviewDTO reviewDTO, List<MultipartFile> images) {
 
         String path = fileUploadPath + "/review/";
@@ -201,5 +198,25 @@ public class MyService {
     public List<QnaDTO> selectQnaListPage(String user_id, int start, int limit) {
         // start는 offset, limit은 size 역할을 합니다.
         return myMapper.selectQnaListPage(user_id, start, limit);
+    }
+
+    public List<ProductReviewDTO> selectReviewsListPage(int custNumber, int start, int limit) {
+        return myMapper.selectReviewsListPage(custNumber, start, limit);
+    }
+
+    public int selectReviewCountByCustNumber(int custNumber) {
+        return myMapper.selectReviewCountByCustNumber(custNumber);
+    }
+
+    public int selectOrderCountByCustNumber(int custNumber) {
+        return myMapper.selectOrderCountByCustNumber(custNumber);
+    }
+
+    public List<OrderDTO> selectOrdersListPage(int custNumber, int start, int limit) {
+        return myMapper.selectOrdersListPage(custNumber, start, limit);
+    }
+
+    public int selectWaitingQna(int custNumber) {
+        return myMapper.selectWaitingQna(custNumber);
     }
 }
