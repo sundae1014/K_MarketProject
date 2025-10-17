@@ -20,6 +20,7 @@ body {
     display: flex;
     align-items: stretch;
     gap: 30px;
+    min-height: 100vh;
 }
 
 main {
@@ -29,12 +30,6 @@ main {
 
 a:hover{
     cursor: pointer;
-}
-
-.content-wraper {
-    width: 100%;
-    margin: 0 auto;
-    padding: 0 15px;
 }
 
 .content-title {
