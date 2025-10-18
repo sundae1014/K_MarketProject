@@ -10,6 +10,13 @@
         WHERE ID = #{id}
     </select>
 
+    <select id="findQnaAll" resultType="kr.co.kmarket.dto.QnaDTO">
+        SELECT *
+        FROM QNA
+        ORDER BY ID DESC
+        FETCH FIRST 5 ROWS ONLY
+    </select>
+
     <select id="findAll" resultType="kr.co.kmarket.dto.QnaDTO">
         SELECT *
         FROM QNA
