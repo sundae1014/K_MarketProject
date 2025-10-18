@@ -1,6 +1,7 @@
 package kr.co.kmarket.controller.admin;
 
 import kr.co.kmarket.dto.ChartData;
+import kr.co.kmarket.dto.NoticeDTO;
 import kr.co.kmarket.dto.QnaDTO;
 import kr.co.kmarket.service.admin.TotalService;
 import lombok.RequiredArgsConstructor;
@@ -129,6 +130,9 @@ public class AdminMainController {
         // 고객문의 게시판
         List<QnaDTO> cusTableInfo = totalService.getQnaInfo();
         model.addAttribute("cusTableInfo", cusTableInfo);
+
+        List<NoticeDTO> noticeTableInfo = totalService.getNoticeInfo();
+        model.addAttribute("noticeTableInfo", noticeTableInfo);
 
         return "admin/admin";
     }

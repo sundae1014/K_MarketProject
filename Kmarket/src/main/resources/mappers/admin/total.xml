@@ -88,4 +88,11 @@
         FETCH FIRST 5 ROWS ONLY
     </select>
 
+    <select id="selectNotice" resultType="kr.co.kmarket.dto.NoticeDTO">
+        SELECT id, title, reg_date
+        FROM notice
+        ORDER BY reg_date DESC
+        FETCH FIRST 5 ROWS ONLY
+    </select>
+
 </mapper>
