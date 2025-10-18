@@ -10,7 +10,7 @@ import java.util.List;
 @Mapper
 public interface QnaMapper {
     public QnaDTO findById(@Param("id") int id);
-
+    public List<QnaDTO> findQnaAll();
     public List<QnaDTO> findAll(@Param("pageRequestDTO") PageRequestDTO pageRequestDTO);
     public int selectCount(@Param("pageRequestDTO")  PageRequestDTO pageRequestDTO);
 

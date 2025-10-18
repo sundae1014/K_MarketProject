@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>고객센터 메인</title>
+    <link rel="icon" type="image/png" th:href="@{/images/member/favicon.png}">
+    <title>[[${basicData.title}]]-[[${basicData.sub_title}]]::고객센터 메인 [[${appInfo.appVersion}]]</title>
     <link rel="stylesheet" th:href="@{/css/cs/cs_main.css}">
 
     <!-- 유저별 권한 기능 -->
@@ -95,11 +96,7 @@
                 </div>
                 <div class="notice_text" style="margin-top:10px">
                     <ul>
-                        <li>[안내] 해외 결제 사칭 문자주의 <span class="notice_date">22.10.31</span></li>
-                        <li>[안내] 해외 결제 사칭 문자주의 <span class="notice_date">22.10.31</span></li>
-                        <li>[안내] 해외 결제 사칭 문자주의 <span class="notice_date">22.10.31</span></li>
-                        <li>[안내] 해외 결제 사칭 문자주의 <span class="notice_date">22.10.31</span></li>
-                        <li>[안내] 해외 결제 사칭 문자주의 <span class="notice_date">22.10.31</span></li>
+                        <li th:each="notice : ${noticeList}"><a th:href="@{/cs/notice/view(id=${notice.id})}">[[${notice.title}]] <span th:text="${#temporals.format(notice.reg_date, 'yy.MM.dd')}" class="notice_date"></span></a></li>
                     </ul>
                 </div>     
             </div>
@@ -112,35 +109,35 @@
 
                 <div id="qna_menu">
                     <div class="qna_menu_btn">
-                        <a href="#">
+                        <a th:href="@{/cs/faq/list/member}">
                             <img th:src="@{/images/cs/user.png}" alt="회원" ><span>회원</span>
                         </a>
                          
                     </div>
                     <div class="qna_menu_btn">
-                        <a href="#">
+                        <a th:href="@{/cs/faq/list/benefit}">
                             <img th:src="@{/images/cs/coupon.png}" alt="쿠폰 / 혜택 / 이벤트"><span>쿠폰 / 혜택 / 이벤트</span>
                         </a>
                          
                     </div>
                     <div class="qna_menu_btn">
-                        <a href="#">
+                        <a th:href="@{/cs/faq/list/orderAndPay}">
                             <img th:src="@{/images/cs/receipt.png}" alt="주문 / 결제" ><span>주문 / 결제</span>
                         </a>
                          
                     </div>
                     <div class="qna_menu_btn">
-                        <a href="#">
+                        <a th:href="@{/cs/faq/list/deliver}">
                             <img th:src="@{/images/cs/shipped.png}" alt="배송"><span>배송</span>
                         </a>  
                     </div>
                     <div class="qna_menu_btn">
-                        <a href="#">
+                        <a th:href="@{/cs/faq/list/cancelAndReturnAndExchange}">
                             <img th:src="@{/images/cs/return-box.png}" alt="취소 / 반품 / 환불"><span>취소 / 반품 / 환불</span>
                         </a>
                     </div>
                     <div class="qna_menu_btn">
-                        <a href="#">
+                        <a th:href="@{/cs/faq/list/Safetrade}">
                             <img th:src="@{/images/cs/lock.png}" alt="안전결제"><span>안전결제</span>
                         </a>  
                     </div>
@@ -154,35 +151,13 @@
                 </div>
                 <div class="inquires_text">
                     <ul>
-                        <li>[회원] 개인 회원과 법인회원에 차이가 있나요?
-                            <span class="inquires_text_span">
-                                <span style="margin-right:5px;">chh**</span>
-                                <span style="color:#A6A6A6;margin-left:5px;">22.10.31</span>
-                            </span>
-                        </li>
-                        <li>[쿠폰 / 혜택 / 이벤트] 스마일 포인트는 어디에 사용하나요?
-                            <span class="inquires_text_span">
-                                <span style="margin-right:5px;">chh**</span>
-                                <span style="color:#A6A6A6;margin-left:5px;">22.10.31</span>
-                            </span>
-                        </li>
-                        <li>[배송] 주문한 상품은 언제 배송되나요?
-                            <span class="inquires_text_span">
-                                <span style="margin-right:5px;">chh**</span>
-                                <span style="color:#A6A6A6;margin-left:5px;">22.10.31</span>
-                            </span>
-                        </li>
-                        <li>[주문 / 결제] 신용카드결제 중 오류가 난 경우 어떻게 하나요?
-                            <span class="inquires_text_span">
-                                <span style="margin-right:5px;">chh**</span>
-                                <span style="color:#A6A6A6;margin-left:5px;">22.10.31</span>
-                            </span>
-                        </li>
-                        <li>[취소 / 반품 / 교환] 주문을 취소하고 싶어요.
-                            <span class="inquires_text_span">
-                                <span style="margin-right:5px;">chh**</span>
-                                <span style="color:#A6A6A6;margin-left:5px;">22.10.31</span>
-                            </span>
+                        <li th:each="qna : ${qnaList}">
+                            <a th:href="@{/cs/qna/view(id=${qna.id})}">[[${qna.title}]]
+                                <span class="inquires_text_span">
+                                    <span th:text="${#strings.substring(qna.user_id, 0, 3) + #strings.repeat('*', #strings.length(qna.user_id) - 3)}" style="margin-right:5px;"></span>
+                                    <span th:text="${#temporals.format(qna.reg_date, 'yy.MM.dd')}" style="color:#A6A6A6;margin-left:10px;"></span>
+                                </span>
+                        </a>
                         </li>
                     </ul>
                     <a th:href="@{/cs/qna/write}" id="inquires_write">문의글 작성 &nbsp; > </a>

@@ -10,6 +10,13 @@
         WHERE ID = #{id}
     </select>
 
+    <select id="findNoticeAll" resultType="kr.co.kmarket.dto.NoticeDTO">
+        SELECT *
+        FROM NOTICE
+        ORDER BY ID DESC
+        FETCH FIRST 5 ROWS ONLY
+    </select>
+
     <select id="findAll" resultType="kr.co.kmarket.dto.NoticeDTO">
         SELECT *
         FROM NOTICE

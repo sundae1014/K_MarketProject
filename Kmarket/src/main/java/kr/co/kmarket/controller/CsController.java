@@ -30,7 +30,14 @@ public class CsController {
 
     /* 고객센터 메인 */
     @GetMapping("/index")
-    public String index(){return "cs/cs_main";}
+    public String index(Model model){
+        List<NoticeDTO> noticeList = noticeService.selectNoticeAll();
+        List<QnaDTO> qnaList = qnaService.selectQnaAll();
+        log.info("qnalist = {}",  qnaList);
+        model.addAttribute("noticeList", noticeList);
+        model.addAttribute("qnaList", qnaList);
+        return "cs/cs_main";
+    }
 
     /* 고객센터 공지사항 */
     @GetMapping("/notice/list")
