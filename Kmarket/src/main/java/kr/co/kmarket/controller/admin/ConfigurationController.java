@@ -1,9 +1,13 @@
 package kr.co.kmarket.controller.admin;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.co.kmarket.controller.GlobalController;
 import kr.co.kmarket.dto.*;
+import kr.co.kmarket.mapper.admin.CategoryMapper;
 import kr.co.kmarket.service.PolicyService;
 import kr.co.kmarket.service.admin.BasicService;
+import kr.co.kmarket.service.admin.CategoryService;
 import kr.co.kmarket.service.admin.VersionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -22,9 +27,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -34,6 +38,8 @@ public class ConfigurationController {
     private final PolicyService policyService;
     private final VersionService versionService;
     private final BasicService basicService;
+    private final CategoryService categoryService;
+    private final CategoryMapper categoryMapper;
 
     @Value("${file.upload.path}")
     private String uploadPath;
@@ -123,7 +129,33 @@ public class ConfigurationController {
     }
 
     @GetMapping("/category")
-    public String category() {return "admin/configuration/admin_category";}
+    public String category(Model model) {
+        List<CategoryDTO> categories = categoryService.getAllCategories();
+
+        Map<String, List<CategoryDTO>> grouped = categories.stream()
+                .filter(c->c.getUp_cate_cd() != null)
+                .collect(Collectors.groupingBy(CategoryDTO::getUp_cate_cd));
+
+        List<CategoryDTO> topCategories = categories.stream()
+                .filter(c->c.getUp_cate_cd()==null)
+                .collect(Collectors.toList());
+
+        model.addAttribute("topCategories", topCategories);
+        model.addAttribute("grouped", grouped);
+
+        return "admin/configuration/admin_category";
+    }
+
+    @PostMapping("/category/update")
+    public String saveCate(
+            @ModelAttribute CategoryDTO categoryDTO,
+            @RequestParam(value="deletedCateCd", required=false) String deletedCateCd,
+            @RequestParam(value="orderData", required=false) String orderDataJson) throws JsonProcessingException {
+
+        categoryService.updateCategories(categoryDTO, deletedCateCd, orderDataJson);
+
+        return "redirect:/admin/config/category";
+    }
 
     @GetMapping("/version")
     public String version(Model  model, PageRequestDTO pageRequestDTO) {
@@ -145,6 +177,7 @@ public class ConfigurationController {
 
         return ResponseEntity.ok(versionDTO);
     }
+
 
     @PostMapping("/version")
     @ResponseBody
