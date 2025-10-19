@@ -29,8 +29,8 @@
     <script th:src="@{/js/product/best.js}" defer></script>
     <!-- TOP 버튼(맨 위로) 기능 -->
     <script th:src="@{/js/product/top-btn.js}" defer></script>
-    <!-- 장바구니 구현 기능 -->
-    <script th:src="@{/js/product/cart.js}" defer></script>
+<!--    &lt;!&ndash; 장바구니 구현 기능 &ndash;&gt;-->
+<!--    <script th:src="@{/js/product/cart.js}" defer></script>-->
     <!-- 카카오(구 다음) 우편번호 서비스 API -->
     <script th:src="@{//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js}"></script>
     <script th:src="@{/js/product/postcode.js}"></script>
@@ -159,35 +159,31 @@
                                 <img th:src="@{${product.img_1}}" alt="상품" class="product-thumb">
                                 <div class="product-detail">
                                     <p class="product-name" th:text="${product.prod_name}"></p>
-                                    <p class="product-option" th:text="${product.opt_name}"></p>
+                                    <p class="product-option"
+                                       th:each="opt : ${options}"
+                                       th:text="${opt.opt_name + ' (' + #numbers.formatInteger(opt.opt_price,3,'COMMA') + '원)'}"></p>
                                     <div class="product-price">
-                                        <span class="discount" th:text="${product.discount + '%'}"></span>
+                                        <!-- ✅ 수량 표시 -->
+                                        <span class="prod-qty" th:text="${quantity + '개, '}"></span>
+
+                                        <!-- ✅ 옵션명 표시 -->
+                                        <span class="option-text"
+                                              th:each="opt : ${options}"
+                                              th:text="${opt.opt_name + '(' + #numbers.formatInteger(product.salePrice,3,'COMMA') + '원)'}"></span>
+
+                                        <!-- ✅ 할인율 제거, 합산금액 계산 -->
                                         <strong class="sale" id="basePrice"
-                                                th:text="${#numbers.formatInteger(product.saleprice,3,'COMMA')}"></strong>원
+                                                th:text="${#numbers.formatInteger(product.salePrice * quantity, 3, 'COMMA')}"></strong>원
                                         <del class="regular"
-                                             th:text="${#numbers.formatInteger(product.price,3,'COMMA')} + '원'"></del>
+                                             th:text="${#numbers.formatInteger(product.price * quantity, 3, 'COMMA')} + '원'"></del>
+
                                         <span class="badge">무료배송</span>
                                     </div>
+
                                 </div>
                             </div>
 
-                            <!-- 쿠폰 -->
-                            <div class="coupon-list" th:each="coupon : ${coupons}">
-                                <label>
-                                    <input type="checkbox" th:data-discount="${coupon.benefit}"
-                                           th:value="${coupon.coupon_name}">
-                                    <span th:text="${coupon.coupon_name}"></span>
-                                    <span class="coupon-cond"
-                                          th:text="'(~' + ${#dates.format(coupon.expire_date, 'MM/dd')} + ')'"></span>
-                                </label>
-                            </div>
-
-                            <!-- 포인트 -->
-                            <div class="point-box">
-                                <p>현재 포인트: <strong id="currentPoint" th:text="${#numbers.formatInteger(userPoint,3,'COMMA')}"></strong>점</p>
-                                <input type="number" id="usePoint" placeholder="사용할 포인트 입력">
-                                <button type="button" onclick="applyPoint()">사용하기</button>
-                            </div>
+                            <input type="hidden" id="quantity" th:value="${quantity}">
 
                             <!-- 쿠폰/포인트 -->
                             <div class="coupon-point-box">
@@ -195,16 +191,25 @@
 
                                 <!-- 쿠폰 영역 -->
                                 <div class="coupon-list">
-                                    <label>
-                                        <input type="checkbox" id="coupon-check" data-discount="0.15">
-                                        귀여운 소비 15% 할인 쿠폰
-                                        <span class="coupon-cond">(100원 이상 구매 시, ~11/30)</span>
-                                    </label>
+                                    <th:block th:if="${#lists.isEmpty(coupons)}">
+                                        <p>사용 가능한 쿠폰이 없습니다.</p>
+                                    </th:block>
+
+                                    <th:block th:each="coupon : ${coupons}">
+                                        <label>
+                                            <input type="checkbox"
+                                                   name="coupon"
+                                                   th:data-discount="${coupon.benefit}"
+                                                   th:value="${coupon.couponNo}">
+                                            <span th:text="${coupon.couponName}"></span>
+                                            <span class="coupon-cond" th:text="'(~' + ${coupon.usePeriod} + ')'"></span>
+                                        </label>
+                                    </th:block>
                                 </div>
 
                                 <!-- 포인트 영역 -->
                                 <div class="point-box">
-                                    <p>현재 포인트: <strong id="currentPoint">7,200</strong>점</p>
+                                    <p>현재 포인트: <strong id="currentPoint" th:text="${#numbers.formatInteger(userPoint,3,'COMMA')}"></strong>점</p>
                                     <input type="number" id="usePoint" placeholder="사용할 포인트 입력">
                                     <button type="button" onclick="applyPoint()">사용하기</button>
                                 </div>

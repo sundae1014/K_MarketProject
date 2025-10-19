@@ -28,11 +28,11 @@ public class UserOrderController {
             @RequestParam(required = false, defaultValue = "1") Integer quantity,
             Model model) {
 
-        MemberDTO member = (MemberDTO) session.getAttribute("member");
-        if (member == null) return "redirect:/member/login";
+        MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
+        if (memberDTO == null) return "redirect:/member/login";
 
         // 구매자 정보
-        model.addAttribute("buyer", member);
+        model.addAttribute("buyer", memberDTO);
 
         // 상품 정보 (PRODUCT + OPTION + COUPON + POINT)
         ProductDTO product = orderService.selectProductDetail(prod_number);
@@ -43,12 +43,12 @@ public class UserOrderController {
         List<ProductOptionDTO> options = orderService.selectOptionsByProduct(prod_number);
         model.addAttribute("options", options);
 
-        // 쿠폰 정보 (회원 전용)
-        List<CouponDTO> coupons = orderService.selectAvailableCoupons(member.getCust_number());
+        // 사용 가능한 쿠폰 조회
+        List<CouponDTO> coupons = orderService.selectAvailableCoupons(memberDTO.getCust_number());
         model.addAttribute("coupons", coupons);
 
         // 포인트 정보
-        int userPoint = orderService.selectUserPoint(member.getCust_number());
+        int userPoint = orderService.selectUserPoint(memberDTO.getCust_number());
         model.addAttribute("userPoint", userPoint);
 
         return "product/prodOrder";
@@ -56,9 +56,30 @@ public class UserOrderController {
 
     // 주문 처리 (결제 완료 버튼 누른 후)
     @PostMapping("/complete")
-    public String orderComplete(OrderDTO orderDTO, Model model) {
-        orderService.insertOrder(orderDTO);
-        model.addAttribute("order", orderDTO);
+    public String completeOrder(@RequestParam int cust_number,
+                                @RequestParam int usePoint,
+                                @RequestParam int totalPrice) {
+
+        // 1️⃣ 주문 정보 세팅
+        OrderDTO orderDTO = new OrderDTO();
+        orderDTO.setCust_number(cust_number);
+        orderDTO.setOrder_number(null); // 시퀀스 <selectKey>로 채워짐
+        orderDTO.setPayment(1); // 예: 1=신용카드, 실제 데이터에 맞게 조정
+        orderDTO.setPrice(totalPrice);
+
+        // 2️⃣ 주문 생성 → Mapper의 <selectKey>로 order_number 자동 생성됨
+        String order_number = orderService.insertOrder(orderDTO);
+
+        // 3️⃣ 포인트 사용 (차감)
+        if (usePoint > 0) {
+            orderService.usePoint(cust_number, order_number, usePoint);
+        }
+
+        // 4️⃣ 포인트 적립 (1%)
+        int earn = (int)(totalPrice * 0.01);
+        orderService.earnPoint(cust_number, order_number, earn);
+
+        // 5️⃣ 완료 페이지로 이동
         return "product/prodComplete";
     }
 }

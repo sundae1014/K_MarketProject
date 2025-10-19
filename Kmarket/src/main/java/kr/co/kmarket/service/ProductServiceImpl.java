@@ -58,8 +58,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductOptionDTO> selectProductOptions(int prod_number) {
-        return mapper.selectProductOptions(prod_number);
+    public List<ProductOptionDTO> selectOptionsByProduct(int prod_number) {
+        return mapper.selectOptionsByProduct(prod_number);
     }
 
     @Override

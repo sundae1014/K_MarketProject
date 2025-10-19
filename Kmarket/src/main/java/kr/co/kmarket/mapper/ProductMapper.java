@@ -9,23 +9,17 @@ import java.util.List;
 @Mapper
 public interface ProductMapper {
 
-    // 상품번호로 상품 정보 가져오기 (주문용)
+    // 상품 기본정보
     ProductDTO selectProductById(int prod_number);
-
-    // 상품 상세 조회
     ProductDTO selectProductDetail(int prod_number);
 
-    // 상품 옵션 조회
+    // 상품 옵션
     List<ProductOptionDTO> selectOptionsByProduct(int prod_number);
 
-    // 키워드 검색
-    List<ProductDTO> selectProductsByKeyword(String keyword);
-
-    // 키워드 + 카테고리 검색
-    List<ProductDTO> selectProductsByCategory(@Param("keyword") String keyword,  @Param("cate_cd") int cate_cd);
-
-    // SearchDTO 기반 검색
+    // 검색 (키워드, 키워드+카테고리)
     List<ProductDTO> selectProducts(SearchDTO searchDTO);
+    List<ProductDTO> selectProductsByKeyword(String keyword);
+    List<ProductDTO> selectProductsByCategory(@Param("keyword") String keyword,  @Param("cate_cd") int cate_cd);
 
     // 총 상품 개수 조회
     int countProducts(SearchDTO searchDTO);
@@ -35,9 +29,6 @@ public interface ProductMapper {
 
     // 상품 리뷰 조회
     List<ProductReviewDTO> selectProductReviews(int prodNo);
-
-    // 상품 옵션 조회
-    List<ProductOptionDTO> selectProductOptions(int prod_number);
 
     // 평균 리뷰 점수
     double selectAvgRating(int prod_number);
