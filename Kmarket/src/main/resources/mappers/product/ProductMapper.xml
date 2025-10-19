@@ -169,9 +169,8 @@
         </if>
     </select>
 
-    <!-- 상품번호로 옵션 리스트 조회 -->
-    <select id="selectProductOptions"
-            parameterType="int"
+    <!-- 상품 옵션 조회 -->
+    <select id="selectOptionsByProduct" parameterType="int"
             resultType="kr.co.kmarket.dto.ProductOptionDTO">
         SELECT
             OPTION_ID,

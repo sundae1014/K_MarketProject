@@ -46,7 +46,7 @@ function renderSelections() {
           <div class="item-bottom">
             <div class="qty">
               <button onclick="changeQty(${idx}, -1)">-</button>
-              <input type="text" value="${item.qty}" readonly>
+              <input type="text" name="quantity" value="${item.qty}" readonly>
               <button onclick="changeQty(${idx}, 1)">+</button>
             </div>
             <strong class="qty-price">${(item.price * item.qty).toLocaleString()}원</strong>
