@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>상점목록</title>
+    <!-- 파비콘(웹사이트 아이콘)
+         제목-부제목::해당 페이지 이름 버전 -->
+    <link rel="icon" type="image/png" th:href="@{/images/member/favicon.png}">
+    <title>[[${basicData.title}]]-[[${basicData.sub_title}]]::관리자 상점목록 [[${appInfo.appVersion}]]</title>
     <link rel="stylesheet" th:href="@{/css/admin/main/header_footer.css}">
     <link rel="stylesheet" th:href="@{/css/admin/shop/admin_shopList.css}">
     <script>
@@ -377,31 +380,32 @@
             <div class="footer-content">
                 <img th:src="@{/images/admin/main/cupangMS_logo(color).png}" alt="로고">
                 <div class="about-company">
-                    <h2>(주)큐팡</h2>
-                    <h2>대표이사 이름(db)</h2>
+                    <h2 th:inline="text">[[${basicData.trade_name}]]</h2>
+                    <h2 th:inline="text">대표이사 [[${basicData.ceo}]]</h2>
                     <h2>|</h2>
                     <h2>사업자등록번호</h2>
-                    <h2>123-132-1231232(db)</h2>
+                    <h2 th:inline="text">[[${basicData.business_num}]]</h2>
                     <h2>|</h2>
                     <h2>통신판매업신고</h2>
-                    <h2>2023-부산 해운대구-1232(db)</h2>
+                    <h2 th:inline="text">[[${basicData.communication_num}]]</h2>
                     <h2>|</h2>
-                    <h2>부산광역시 부산진구 중앙동(db)</h2>
-                    <h2>(삼성동, green빌딩) 7층(db)</h2>
+                    <h2 th:inline="text">[[${basicData.addr1}]]</h2>
+                    <h2 th:inline="text">[[${basicData.addr2}]]</h2>
                 </div>
                 <div class="about-company">
                     <h2>고객센터</h2>
                     <h2>|</h2>
-                    <h2>02-1234-1231</h2>
-                    <h2>평일 09:00 ~ 18:00(db)</h2>
+                    <h2 th:inline="text">[[${basicData.hp}]]</h2>
+                    <h2 th:inline="text">[[${basicData.work_time}]]</h2>
 
                     <h2>이메일</h2>
-                    <h2>abc@cupang(db)</h2>
+                    <h2 th:inline="text">[[${basicData.email}]]</h2>
 
                     <h2>전자금융거래 분쟁담당</h2>
-                    <h2>12321-12321(db)</h2>
+                    <h2 th:inline="text">[[${basicData.transaction}]]</h2>
                 </div>
-                <h2>Copyright@cupang.All.rights.reserved (db)</h2>
+                <h2 th:inline="text">[[${basicData.copyright}]]</h2>
+                <h2 th:inline="text">ver.[[${appInfo.appVersion}]]</h2>
             </div>
         </div>
     </footer>

@@ -4,6 +4,7 @@ import kr.co.kmarket.dto.MemberDTO;
 import kr.co.kmarket.dto.PageRequestDTO;
 import kr.co.kmarket.dto.PageResponseDTO;
 import kr.co.kmarket.service.MemberService;
+import kr.co.kmarket.service.admin.SalesService;
 import kr.co.kmarket.service.admin.ShopService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +23,7 @@ import java.util.Map;
 public class ShopController {
     private final ShopService shopService;
     private final MemberService memberService;
+    private final SalesService salesService;
 
     @GetMapping("/list")
     public String list(Model model, PageRequestDTO pageRequestDTO) {
@@ -72,6 +74,22 @@ public class ShopController {
         return "";
     }
 
+
     @GetMapping("/sales")
-    public String sales() {return "admin/shop/admin_salesStatus";}
+    public String sales(Model model, PageRequestDTO pageRequestDTO) {
+        PageResponseDTO pageResponseDTO = salesService.selectAll(pageRequestDTO);
+        log.info("매출현황 값 = {}", pageResponseDTO);
+        model.addAttribute("pageResponseDTO", pageResponseDTO);
+
+        return "admin/shop/admin_salesStatus";
+    }
+
+    @GetMapping("/sales/{type}")
+    public String sales(@PathVariable("type") String type, PageRequestDTO pageRequestDTO, Model model) {
+        PageResponseDTO pageResponseDTO = salesService.selectTypeAll(type, pageRequestDTO);
+        log.info("일별,주별,달별 값 = {}", pageResponseDTO);
+        model.addAttribute("pageResponseDTO", pageResponseDTO);
+
+        return "admin/shop/admin_salesStatus";
+    }
 }
