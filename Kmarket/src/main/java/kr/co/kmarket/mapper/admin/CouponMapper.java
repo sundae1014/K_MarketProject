@@ -8,23 +8,17 @@ import java.util.List;
 
 @Mapper
 public interface CouponMapper {
+
+    // ✅ 쿠폰 등록
     int insertCoupon(CouponDTO couponDTO);
-    List<CouponDTO> selectCoupons();
 
-    //검색 기능
-    List<CouponDTO> selectSearchCoupons(@Param("type") String type,
-                                        @Param("keyword") String keyword);
-
-    //페이지네이션
+    // ✅ 목록 + 검색 + 페이징
     List<CouponDTO> selectCouponsPage(@Param("type") String type,
                                       @Param("keyword") String keyword,
                                       @Param("offset") int offset,
                                       @Param("size") int size);
 
+    // ✅ 전체 개수 + 검색 카운트
     int countCoupons(@Param("type") String type,
                      @Param("keyword") String keyword);
-
-
 }
-
-
