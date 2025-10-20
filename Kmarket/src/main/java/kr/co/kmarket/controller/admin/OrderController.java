@@ -97,6 +97,33 @@ public class OrderController {
         return response;
     }
 
+    @GetMapping("/detail-info")
+    @ResponseBody
+    public OrderDTO getOrderDetailInfo(@RequestParam("orderNumber") String orderNumber) {
+        OrderDTO orderInfo = orderService.selectOrderInfoByOrderNumber(orderNumber);
+        return orderInfo;
+    }
+
+    @PostMapping("/delivery-input")
+    @ResponseBody
+    public Map<String, Object> deliveryInput(@RequestBody Map<String, String> payload) {
+        // JS에서 보낸 폼 데이터 추출
+        String orderNumber = payload.get("orderNumber");
+        String deliveryCompany = payload.get("deliveryCompany");
+        String trackingNumber = payload.get("trackingNumber");
+
+        int result = orderService.updateDelivery(orderNumber, deliveryCompany, trackingNumber);
+
+        Map<String, Object> response = new HashMap<>();
+        if (result > 0) {
+            response.put("success", true);
+        } else {
+            response.put("success", false);
+            response.put("message", "등록 중 오류가 발생했거나, 주문번호를 찾을 수 없습니다.");
+        }
+        return response;
+    }
+
     @GetMapping("/delivery")
     public String delivery(){
         return "admin/order/delivery";
