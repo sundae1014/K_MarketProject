@@ -24,13 +24,17 @@
     <!-- 상품 리스트 내부 검색 + 정렬 기능 -->
     <script th:src="@{/js/product/search.js}" defer></script>
     <!-- 전체 카테고리 구현 기능 -->
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        const CATEGORY_DATA = /*[[${categories}]]*/ {};
+        console.log(CATEGORY_DATA);
+        /*]]>*/
+    </script>
     <script th:src="@{/js/product/category.js}" defer></script>
     <!-- 베스트상품 온앤오프 & 스크롤 기능 -->
     <script th:src="@{/js/product/best.js}" defer></script>
     <!-- TOP 버튼(맨 위로) 기능 -->
     <script th:src="@{/js/product/top-btn.js}" defer></script>
-<!--    &lt;!&ndash; 장바구니 구현 기능 &ndash;&gt;-->
-<!--    <script th:src="@{/js/product/cart.js}" defer></script>-->
     <!-- 카카오(구 다음) 우편번호 서비스 API -->
     <script th:src="@{//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js}"></script>
     <script th:src="@{/js/product/postcode.js}"></script>
@@ -154,30 +158,52 @@
                         <div class="order-section product-box">
                             <div class="section-header">
                                 <h3>상품 정보</h3>
-
                             </div>
+
                             <!-- ✅ 장바구니에서 넘어온 경우 -->
                             <div th:if="${orderItems != null}">
                                 <div th:each="item : ${orderItems}" class="product-info">
                                     <img th:src="@{${item.img_1}}" alt="상품" class="product-thumb">
+
                                     <div class="product-detail">
                                         <p class="product-name" th:text="${item.prod_name}"></p>
+
+                                        <!-- 수량, 옵션, 개당 할인가 표시 -->
                                         <p class="product-option"
-                                           th:text="${item.quantity + '개, ' + (item.opt_name != null ? item.opt_name : '')}"></p>
+                                           th:text="${item.quantity + '개, ' +
+                                           (item.opt_name != null ? item.opt_name : 'free') +
+                                           ' (' + #numbers.formatInteger(
+                                                (item.price * (1 - (item.discount / 100))),
+                                                3, 'COMMA') + '원)'}"></p>
+
+                                        <!-- ✅ 할인율 / 할인가(총액) / 정상가(총액) -->
                                         <div class="product-price">
+                                            <span class="discount" th:text="${item.discount + '%'}"></span>
                                             <strong class="sale"
-                                                th:text="${#numbers.formatInteger(
-                                                    (item.price + (item.opt_price != null ? item.opt_price : 0))
-                                                    * (1 - (item.discount / 100)) * item.quantity,
-                                                    3, 'COMMA')}"></strong>원
+                                                    th:text="${#numbers.formatInteger(
+                                                        (item.opt_price != null ?
+                                                            (item.opt_price * item.quantity) :
+                                                            (item.price * (1 - (item.discount / 100)) * item.quantity)),
+                                                        3, 'COMMA')}"></strong>원
                                             <del class="regular"
-                                                th:text="${#numbers.formatInteger(
-                                                (item.price + (item.opt_price != null ? item.opt_price : 0))
-                                                * item.quantity, 3, 'COMMA')} + '원'"></del>
+                                                    th:text="${#numbers.formatInteger(
+                                                        (item.opt_price != null ?
+                                                            (item.price * item.quantity) :
+                                                            (item.price * item.quantity)),
+                                                        3, 'COMMA')} + '원'"></del>
+                                        </div>
+
+                                        <!-- ✅ 적립 포인트 (총액 기준) -->
+                                        <div class="product-point">
+                                            <p th:text="'최대 ' + ${#numbers.formatInteger(
+                                                ((item.price + (item.opt_price != null ? item.opt_price : 0))
+                                                * (1 - (item.discount / 100)) * item.quantity * 0.01),
+                                                3, 'COMMA')} + '점 적립'"></p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+
 
                             <!-- ✅ 단일 상품 바로구매 -->
                             <div th:if="${product != null}" class="product-info">
