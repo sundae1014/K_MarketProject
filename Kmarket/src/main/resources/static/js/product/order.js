@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const currentPointEl = document.getElementById("currentPoint");
     const usePointEl = document.getElementById("usePoint");
 
-    // ✅ 단일 상품 주문
+    // 단일 상품 주문
     if (basePriceEl) {
         const orig = parseInt(basePriceEl.dataset.original?.replace(/[^0-9]/g, "")) || 0;
         const sale = parseInt(basePriceEl.textContent.replace(/[^0-9]/g, "")) || 0;
@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
         basePrice = sale;
     }
 
-    // ✅ 장바구니 주문
+    // 장바구니 주문
     else if (orderItems.length > 0) {
         orderItems.forEach(el => {
             const orig = parseInt(el.querySelector(".regular")?.textContent.replace(/[^0-9]/g, "")) || 0;
@@ -39,31 +39,38 @@ document.addEventListener("DOMContentLoaded", () => {
     finalPrice = basePrice;
     let userPoint = parseInt(currentPointEl?.textContent.replace(/,/g, "")) || 0;
 
-    // ✅ 최종 결제 정보 갱신
+    // 최종 결제 정보 갱신
     function updateTotal() {
         const summaryBox = document.querySelector(".order-summary ul");
-        const quantity = orderItems.length > 0 ? orderItems.length : 1;
+        let totalQuantity = 0;
+        orderItems.forEach(el => {
+            const qty = parseInt(el.querySelector(".product-option")?.textContent.match(/(\d+)개/)?.[1]) || 1;
+            totalQuantity += qty;
+        });
+        const totalPoint = getTotalPoint(); // ✅ 장바구니와 동일하게 계산
 
         summaryBox.innerHTML = `
-            <li><span>상품수</span><span><strong>${quantity}</strong></span></li>
-            <li><span>상품금액(정상가)</span><span><strong>${originalPrice.toLocaleString()}</strong>원</span></li>
-            <li><span>할인금액</span><span><strong>-${discountPrice.toLocaleString()}</strong>원</span></li>
-            <li><span>할인적용금액(할인가)</span><span><strong>${basePrice.toLocaleString()}</strong>원</span></li>
-            <li><span>쿠폰할인</span><span><strong>-${couponDiscount.toLocaleString()}</strong>원</span></li>
-            <li><span>포인트사용</span><span><strong>-${usedPoint.toLocaleString()}</strong>원</span></li>
-            <li><span>배송비</span><span><strong>+0</strong>원</span></li>
-            <li><span>적립 포인트</span><span><strong>${Math.floor(finalPrice * 0.01).toLocaleString()}</strong>원</span></li>
-        `;
+        <li><span>상품수</span><span><strong>${totalQuantity}</strong></span></li>
+        <li><span>상품금액</span><span><strong>${originalPrice.toLocaleString()}</strong>원</span></li>
+        <li><span>할인금액</span><span><strong>-${discountPrice.toLocaleString()}</strong>원</span></li>
+        <li><span>쿠폰할인</span><span><strong>-${couponDiscount.toLocaleString()}</strong>원</span></li>
+        <li><span>포인트사용</span><span><strong>-${usedPoint.toLocaleString()}</strong>원</span></li>
+        <li><span>배송비</span><span><strong>+0</strong>원</span></li>
+        <li><span>적립 포인트</span><span><strong>${totalPoint.toLocaleString()}</strong>원</span></li>
+    `;
 
         orderTotalEl.textContent = finalPrice.toLocaleString();
         currentPointEl.textContent = userPoint.toLocaleString();
     }
 
     // =========================
-    // ✅ 포인트 사용 기능
-    // =========================
+// 포인트 사용 기능
+// =========================
     window.applyPoint = function () {
         const inputVal = parseInt(usePointEl.value) || 0;
+
+        // 항상 최신 보유 포인트 읽기 (서버 or 화면 기준)
+        userPoint = parseInt(currentPointEl.textContent.replace(/,/g, "")) || userPoint;
 
         // 입력 검증
         if (inputVal < 5000) {
@@ -82,34 +89,55 @@ document.addEventListener("DOMContentLoaded", () => {
             usedPoint = inputVal;
         }
 
-        // ✅ 차감 후 표시 업데이트
+        // 남은 포인트 계산
         const remaining = userPoint - usedPoint;
+
+        // ✅ 전역 userPoint도 갱신 (이게 핵심!!)
+        userPoint = remaining;
+
+        // ✅ UI 반영
         currentPointEl.textContent = remaining.toLocaleString();
 
-        // 입력 시 강조 효과
-        usePointEl.animate(
+        // ✅ 시각 피드백
+        currentPointEl.animate(
             [
-                { backgroundColor: "#fff" },
-                { backgroundColor: "#e8f0fe" },
-                { backgroundColor: "#fff" },
+                { color: "#000" },
+                { color: "#336AFD" },
+                { color: "#000" },
             ],
             { duration: 600, easing: "ease-in-out" }
         );
 
+        // ✅ 결제 요약 업데이트
         calcFinalPrice();
     };
 
     // =========================
-    // ✅ 최종 금액 계산
+// ✅ 적립 포인트 계산 (상품별 기준)
+// =========================
+    function getTotalPoint() {
+        let total = 0;
+        document.querySelectorAll(".product-info").forEach(el => {
+            const sale = parseInt(el.querySelector(".sale")?.textContent.replace(/[^0-9]/g, "")) || 0;
+            const qty  = parseInt(el.querySelector(".product-option")?.textContent.match(/(\d+)개/)?.[1]) || 1;
+            total += Math.floor((sale / qty) * 0.01 * qty); // 상품별 할인가 × 수량 × 1%
+        });
+        return total;
+    }
+
+
+    // =========================
+    // 최종 금액 계산
     // =========================
     function calcFinalPrice() {
         finalPrice = basePrice - couponDiscount - usedPoint;
         if (finalPrice < 0) finalPrice = 0;
         updateTotal();
+        updateProductPoints(); // ✅ 추가 (포인트/쿠폰 적용 후 자동 갱신)
     }
-
+    5000
     // =========================
-    // ✅ 결제 확인 버튼
+    // 결제 확인 버튼
     // =========================
     const payBtn = document.querySelector(".btn-order");
     payBtn.addEventListener("click", () => {
@@ -122,7 +150,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // =========================
-    // ✅ 쿠폰 선택 시 할인 적용
+    // 쿠폰 선택 시 할인 적용
     // =========================
     document.querySelectorAll("input[name='coupon']").forEach((chk) => {
         chk.addEventListener("change", (e) => {
@@ -149,9 +177,10 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // =========================
-    // ✅ 초기 세팅
+    // 초기 세팅
     // =========================
     updateTotal();
+    updateProductPoints();
 });
 
 /* =========================
@@ -176,3 +205,33 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 });
+
+// 개당 단가 동기화 (장바구니 포맷 기준)
+function syncUnitOptionPrice() {
+    document.querySelectorAll(".product-info").forEach(el => {
+        const qty = parseInt(el.querySelector(".product-option")?.dataset.qty) || 1;
+        const sale = parseInt(el.querySelector(".sale")?.textContent.replace(/[^0-9]/g, "")) || 0;
+        const unit = Math.floor(sale / qty);
+        const formatted = unit.toLocaleString();
+
+        const optEl = el.querySelector(".product-option");
+        if (optEl && !optEl.textContent.includes("(")) {
+            optEl.textContent += ` (${formatted}원)`;
+        }
+    });
+}
+
+document.addEventListener("DOMContentLoaded", syncUnitOptionPrice);
+
+// ✅ 상품 정보 내 최대 적립 포인트 갱신
+function updateProductPoints() {
+    document.querySelectorAll(".product-info").forEach(el => {
+        const sale = parseInt(el.querySelector(".sale")?.textContent.replace(/[^0-9]/g, "")) || 0;
+        const qty  = parseInt(el.querySelector(".product-option")?.textContent.match(/(\d+)개/)?.[1]) || 1;
+        const point = Math.floor((sale / qty) * 0.01 * qty);
+        const pointEl = el.querySelector(".product-point p");
+        if (pointEl) pointEl.textContent = `최대 ${point.toLocaleString()}점 적립`;
+    });
+}
+
+
