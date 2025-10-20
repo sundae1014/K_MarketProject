@@ -30,6 +30,10 @@ public class BannerService {
         return mapper.selectBannersByLocation(location);
     }
 
+    public List<BannerDTO> getBannersByLocationStatus(String location) {
+        return mapper.selectBannersByLocationStatus(location);
+    }
+
     public void updateBannerStatus(int banner_no, int banner_status) {
         mapper.updateBannerStatus(banner_no, banner_status);
     }

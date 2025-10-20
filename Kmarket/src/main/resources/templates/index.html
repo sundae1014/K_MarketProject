@@ -22,6 +22,12 @@
     <!-- 상품 리스트 내부 검색 + 정렬 기능 -->
     <script th:src="@{/js/main/search.js}" defer></script>
     <!-- 전체 카테고리 구현 기능 -->
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        const CATEGORY_DATA = /*[[${categories}]]*/ {};
+        console.log(CATEGORY_DATA);
+        /*]]>*/
+    </script>
     <script th:src="@{/js/main/category.js}" defer></script>
     <!-- 헤더 바로가기 기능 -->
     <script th:src="@{/js/main/header-actions.js}" defer></script>
@@ -51,6 +57,7 @@
                 <li><a href="event5.html"><img th:src="@{/images/main/메인배너img_6.png}" alt="이벤트 5"></a></li>
             </ul>
         </section>
+
 
         <!-- 베스트 + 상품 콘텐츠 묶음 -->
         <section class="best-and-products container">

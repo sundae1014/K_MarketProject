@@ -33,9 +33,9 @@ public class AdminMainController {
         // 바
         List<String> last5Days = DateUtils.getLastNDates(5, "MM-dd");
         // 주문상태 임시(번호 몇번인지 모름)
-        List<ChartData> orderList = totalService.getSalesByStatus(1);
-        List<ChartData> paymentList = totalService.getSalesByStatus(2);
-        List<ChartData> cancelList  = totalService.getSalesByStatus(3);
+        List<ChartData> orderList = totalService.getSalesByStatus(0);
+        List<ChartData> paymentList = totalService.getSalesByStatus(1);
+        List<ChartData> cancelList  = totalService.getSalesByStatus(5);
         //주문 없는 날짜
         orderList = fillMissingDates(orderList, last5Days);
         paymentList = fillMissingDates(paymentList, last5Days);
@@ -113,11 +113,11 @@ public class AdminMainController {
         model.addAttribute("post", postMap);
 
         // 주문상태 임시(번호 몇번인지 모름)
-        int cancel = totalService.getStatus(1);
-        int bringBack = totalService.getStatus(2);
-        int exchange =  totalService.getStatus(3);
-        int readyDelivery = totalService.getStatus(4);
-        int waitDepost = totalService.getStatus(5);
+        int cancel = totalService.getStatus(5);
+        int bringBack = totalService.getStatus(6);
+        int exchange =  totalService.getStatus(7);
+        int readyDelivery = totalService.getStatus(2);
+        int waitDepost = totalService.getStatus(0);
 
         Map<String, Integer> statusMap = new HashMap<>();
         statusMap.put("cancel", cancel);

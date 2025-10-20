@@ -30,5 +30,14 @@ public class BannerDTO {
 
     private MultipartFile imgFile;
 
+    public String getWidth() {
+        if (banner_size == null || !banner_size.contains("x")) return "auto";
+        return banner_size.split("x")[0] + "px";
+    }
+
+    public String getHeight() {
+        if (banner_size == null || !banner_size.contains("x")) return "auto";
+        return banner_size.split("x")[1] + "px";
+    }
 
 }
