@@ -24,6 +24,21 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public void insertOrderDetail(OrderDTO orderDTO) {
+        orderMapper.insertOrderDetail(orderDTO);
+    }
+
+    @Override
+    public OrderDTO selectOrderByNumber(String order_number) {
+        return orderMapper.selectOrderByNumber(order_number);
+    }
+
+    @Override
+    public List<OrderDTO> selectOrderDetails(String order_number) {
+        return orderMapper.selectOrderDetails(order_number);
+    }
+
+    @Override
     public ProductDTO selectProductById(int prod_number) {
         return mapper.selectProductById(prod_number);
     }

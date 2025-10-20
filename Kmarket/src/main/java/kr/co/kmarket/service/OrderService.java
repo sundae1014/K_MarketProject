@@ -8,6 +8,9 @@ public interface OrderService {
 
     // 주문 테이블
     String insertOrder(OrderDTO orderDTO);
+    void insertOrderDetail(OrderDTO orderDTO);
+    OrderDTO selectOrderByNumber(String order_number);
+    List<OrderDTO> selectOrderDetails(String order_number);
 
     // 상품 조회
     ProductDTO selectProductById(int prod_number);

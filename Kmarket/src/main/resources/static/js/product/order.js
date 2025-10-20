@@ -145,7 +145,11 @@ document.addEventListener("DOMContentLoaded", () => {
         const confirmed = confirm(`총 결제 금액은 ${totalAmount}원 입니다.\n결제하시겠습니까?`);
 
         if (confirmed) {
-            window.location.href = "/kmarket/product/complete";
+            // ✅ 수정 후
+            const orderNumber = document.querySelector("input[name='order_number']")?.value
+                || new URLSearchParams(location.search).get("order_number")
+                || "";
+            window.location.href = "/kmarket/order/complete?order_number=" + orderNumber;
         }
     });
 
