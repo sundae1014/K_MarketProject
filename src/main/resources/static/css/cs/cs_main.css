@@ -50,7 +50,7 @@ html, body { /* 기본 세팅 */
 .notice_text ul li, .inquires_text ul li {
     margin: 7px 0;
 }
-.inquires_text ul li {
+.inquires_text ul li a {
     display: flex;
     justify-content: space-between;
     align-items: center;

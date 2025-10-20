@@ -17,7 +17,7 @@ public class QnaService {
     private final QnaMapper qnaMapper;
 
     public QnaDTO getQna(int id) {return qnaMapper.findById(id);}
-
+    public List<QnaDTO> selectQnaAll() {return qnaMapper.findQnaAll();}
     public PageResponseDTO selectAll(PageRequestDTO pageRequestDTO) {
         List<QnaDTO> dtoList = qnaMapper.findAll(pageRequestDTO);
         int total = qnaMapper.selectCount(pageRequestDTO);

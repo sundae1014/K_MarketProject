@@ -232,6 +232,12 @@
     border: 1px solid var(--border);
 }
 
+.product-option {
+    font-size: 13px;
+    color: var(--gray-600);
+    margin-bottom: 3px;
+}
+
 /* 전체 선택 */
 .cart-select-all {
     display: flex;

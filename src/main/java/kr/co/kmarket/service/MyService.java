@@ -1,10 +1,7 @@
 package kr.co.kmarket.service;
 
 import jakarta.transaction.Transactional;
-import kr.co.kmarket.dto.MemberDTO;
-import kr.co.kmarket.dto.OrderDTO;
-import kr.co.kmarket.dto.ProductReviewDTO;
-import kr.co.kmarket.dto.QnaDTO;
+import kr.co.kmarket.dto.*;
 import kr.co.kmarket.mapper.MyMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -40,8 +37,8 @@ public class MyService {
         return myMapper.countNotConfirmedOrders(custNumber);
     }
 
-    public OrderDTO getOrderDetailByCustomer(int custNumber, String order_number) {
-        return myMapper.selectOrderDetailByCustomer(custNumber, order_number);
+    public OrderDTO getOrderDetailByCustomer(int custNumber, String orderNumber) {
+        return myMapper.selectOrderDetailByCustomer(custNumber, orderNumber);
     }
 
     public MemberDTO getSellerByManufacture(String manufacture) {
@@ -218,5 +215,33 @@ public class MyService {
 
     public int selectWaitingQna(int custNumber) {
         return myMapper.selectWaitingQna(custNumber);
+    }
+
+    public List<CouponDTO> selectCouponsListPage(int cust_number, int start, int limit) {
+        return myMapper.selectCouponsListPage(cust_number, start, limit);
+    }
+
+    public int selectCouponCountByCustNumber(int cust_number) {
+        return myMapper.selectCouponCountByCustNumber(cust_number);
+    }
+
+    public int selectPointCountByCustNumber(int custNumber) {
+        return myMapper.selectPointCountByCustNumber(custNumber);
+    }
+
+    public List<PointDTO> selectPointsListPage(int custNumber, int start, int limit) {
+        return myMapper.selectPointsListPage(custNumber, start, limit);
+    }
+
+    public List<PointDTO> selectPoints(int custNumber){
+        return myMapper.selectPoints(custNumber);
+    }
+
+    public int selectAllPoints(int custNumber) {
+        return myMapper.selectAllPoints(custNumber);
+    }
+
+    public int selectCountCoupon() {
+        return myMapper.selectCountCoupon();
     }
 }

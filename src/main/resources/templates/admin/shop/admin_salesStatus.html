@@ -3,11 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>매출현황</title>
+    <link rel="icon" type="image/png" th:href="@{/images/member/favicon.png}">
+    <title>[[${basicData.title}]]-[[${basicData.sub_title}]]::관리자 매출현황 [[${appInfo.appVersion}]]</title>
     <link rel="stylesheet" th:href="@{/css/admin/main/header_footer.css}">
     <link rel="stylesheet" th:href="@{/css/admin/shop/admin_salesStatus.css}">
     <script>
         document.addEventListener("DOMContentLoaded", function() {
+            const select = document.getElementById("search-select");
+
+            select.addEventListener("change", function() {
+                const type = this.value;
+                window.location.href = `/kmarket/admin/shop/sales/${type}`;
+            });
         });
     </script>
     <script th:src="@{/js/admin/cs/recruit/sidebarAction.js}" defer></script>
@@ -133,12 +140,12 @@
 
                 <form style="margin: 20px 0";>
                     <select id="search-select">
-                        <option value="daily">일별</option>
-                        <option value="weekly">주간</option>
-                        <option value="month">한달</option>
+                        <option value="daily" th:selected="${type == 'daily'}">일별</option>
+                        <option value="weekly" th:selected="${type == 'weekly'}">주간</option>
+                        <option value="month" th:selected="${type == 'month'}">한달</option>
                     </select>
-
                 </form>
+
                 <div class="table-container">
                     <div>
                         <table>
@@ -157,65 +164,17 @@
                                 </tr>                         
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>5</td>
-                                    <td>(주)다나와</td>
-                                    <td>112-12-12345</td>
-                                    <td>103</td>
-                                    <td>90</td>
-                                    <td>56</td>
-                                    <td>52</td>
-                                    <td>50</td>
-                                    <td>12,870,600</td>
-                                    <td>10,870,600</td>
-                                </tr>
-                                <tr>
-                                    <td>4</td>
-                                    <td>(주)멋남</td>
-                                    <td>112-12-12344</td>
-                                    <td>26</td>
-                                    <td>24</td>
-                                    <td>12</td>
-                                    <td>6</td>
-                                    <td>6</td>
-                                    <td>5,683,200</td>
-                                    <td>5,230,000</td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>(주)컴퓨존</td>
-                                    <td>112-12-12343</td>
-                                    <td>36</td>
-                                    <td>27</td>
-                                    <td>20</td>
-                                    <td>16</td>
-                                    <td>14</td>
-                                    <td>18,720,000</td>
-                                    <td>16,720,000</td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>누리푸드</td>
-                                    <td>112-12-12342</td>
-                                    <td>56</td>
-                                    <td>52</td>
-                                    <td>37</td>
-                                    <td>30</td>
-                                    <td>28</td>
-                                    <td>7,581,400</td>
-                                    <td>7,080,800</td>
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>굿바디스포츠</td>
-                                    <td>112-12-12341</td>
-                                    <td>79</td>
-                                    <td>70</td>
-                                    <td>58</td>
-                                    <td>43</td>
-                                    <td>40</td>
-                                    <td>4,820,700</td>
-                                    <td>4,620,700</td>
+                                <tr th:each="sales, stat:${pageResponseDTO.dtoList}">
+                                    <td th:text="${sales['ID']}"></td>
+                                    <td th:text="${sales['MANUFACTURE']}"></td>
+                                    <td></td> <!-- 임시 -->
+                                    <td th:text="${sales['TOTAL']}"></td>
+                                    <td th:text="${sales['결제완료']}"></td>
+                                    <td th:text="${sales['배송중']}"></td>
+                                    <td th:text="${sales['배송완료']}">52</td>
+                                    <td th:text="${sales['구매확정']}"></td>
+                                    <td th:text="${#numbers.formatInteger(sales['주문합계'], 3, 'COMMA')}"></td>
+                                    <td th:text="${#numbers.formatInteger(sales['주문합계'], 3, 'COMMA')}"></td> <!-- 임시 -->
                                 </tr>
                             </tbody>                  
                         </table>
@@ -223,13 +182,24 @@
                 </div>
                 <div class="bottom-section">
                     <ul class="pagenation">
-                        <li><a href="#"><span class="first"></span></a></li>
-                        <li><a href="#"><span class="prev"></span></a></li>
-                        <li><a href="#" class="active2">1</a></li>
-                        <li><a href="#" class="pageNum">2</a></li>
-                        <li><a href="#" class="pageNum">3</a></li>
-                        <li><a href="#"><span class="next"></span></a></li>
-                        <li><a href="#"><span class="last"></span></a></li>
+                        <li>
+                            <a th:if="${pageResponseDTO.prev}"
+                               th:href="@{/admin/shop/sales(pg=${pageResponseDTO.start - 1})}">
+                                <span class="prev"></span>
+                            </a>
+                        </li>
+                        <th:block th:if="${pageResponseDTO.total > 0}" th:each="num:${#numbers.sequence(pageResponseDTO.start, pageResponseDTO.end)}">
+                            <li>
+                                <a th:href="@{/admin/shop/sales (pg=${num})}"
+                                   th:class="${num == pageResponseDTO.pg ? 'active2' : 'pageNum'}">[[${num}]]</a>
+                            </li>
+                        </th:block>
+                        <li>
+                            <a th:if="${pageResponseDTO.next}"
+                               th:href="@{/admin/shop/sales(pg=${pageResponseDTO.end + 1})}">
+                                <span class="next"></span>
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -240,31 +210,32 @@
             <div class="footer-content">
                 <img th:src="@{/images/admin/main/cupangMS_logo(color).png}" alt="로고">
                 <div class="about-company">
-                    <h2>(주)큐팡</h2>
-                    <h2>대표이사 이름(db)</h2>
+                    <h2 th:inline="text">[[${basicData.trade_name}]]</h2>
+                    <h2 th:inline="text">대표이사 [[${basicData.ceo}]]</h2>
                     <h2>|</h2>
                     <h2>사업자등록번호</h2>
-                    <h2>123-132-1231232(db)</h2>
+                    <h2 th:inline="text">[[${basicData.business_num}]]</h2>
                     <h2>|</h2>
                     <h2>통신판매업신고</h2>
-                    <h2>2023-부산 해운대구-1232(db)</h2>
+                    <h2 th:inline="text">[[${basicData.communication_num}]]</h2>
                     <h2>|</h2>
-                    <h2>부산광역시 부산진구 중앙동(db)</h2>
-                    <h2>(삼성동, green빌딩) 7층(db)</h2>
+                    <h2 th:inline="text">[[${basicData.addr1}]]</h2>
+                    <h2 th:inline="text">[[${basicData.addr2}]]</h2>
                 </div>
                 <div class="about-company">
                     <h2>고객센터</h2>
                     <h2>|</h2>
-                    <h2>02-1234-1231</h2>
-                    <h2>평일 09:00 ~ 18:00(db)</h2>
+                    <h2 th:inline="text">[[${basicData.hp}]]</h2>
+                    <h2 th:inline="text">[[${basicData.work_time}]]</h2>
 
                     <h2>이메일</h2>
-                    <h2>abc@cupang(db)</h2>
+                    <h2 th:inline="text">[[${basicData.email}]]</h2>
 
                     <h2>전자금융거래 분쟁담당</h2>
-                    <h2>12321-12321(db)</h2>
+                    <h2 th:inline="text">[[${basicData.transaction}]]</h2>
                 </div>
-                <h2>Copyright@cupang.All.rights.reserved (db)</h2>
+                <h2 th:inline="text">[[${basicData.copyright}]]</h2>
+                <h2 th:inline="text">ver.[[${appInfo.appVersion}]]</h2>
             </div>
         </div>
     </footer>

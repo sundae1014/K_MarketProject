@@ -3,10 +3,10 @@ function execDaumPostcode() {
     new daum.Postcode({
         oncomplete: function(data) {
             // 선택한 주소 데이터 세팅
-            document.getElementById("postcode").value = data.zonecode; // 우편번호
-            document.getElementById("address").value = data.roadAddress; // 도로명 주소
+            document.getElementById("zip").value = data.zonecode; // 우편번호
+            document.getElementById("addr").value = data.roadAddress; // 도로명 주소
             // 상세주소는 사용자가 직접 입력
-            document.getElementById("detailAddress").focus();
+            document.getElementById("addr2").focus();
         }
     }).open();
 }

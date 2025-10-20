@@ -105,4 +105,4 @@ spring:
 
 file:
   upload:
-    path: /var/lib/kmarket/uploads
+    path: C:/Kmarket/uploads/

@@ -29,8 +29,8 @@
     <script th:src="@{/js/product/best.js}" defer></script>
     <!-- TOP 버튼(맨 위로) 기능 -->
     <script th:src="@{/js/product/top-btn.js}" defer></script>
-    <!-- 장바구니 구현 기능 -->
-    <script th:src="@{/js/product/cart.js}" defer></script>
+<!--    &lt;!&ndash; 장바구니 구현 기능 &ndash;&gt;-->
+<!--    <script th:src="@{/js/product/cart.js}" defer></script>-->
     <!-- 카카오(구 다음) 우편번호 서비스 API -->
     <script th:src="@{//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js}"></script>
     <script th:src="@{/js/product/postcode.js}"></script>
@@ -111,34 +111,34 @@
 
                             <div class="delivery-info">
                                 <div class="form-row">
-                                    <label for="receiver">받는 사람</label>
-                                    <input type="text" id="receiver" placeholder="이름 입력">
+                                    <label for="name">받는 사람</label>
+                                    <input type="text" id="name" placeholder="이름 입력">
                                 </div>
                                 <div class="form-row">
-                                    <label for="phone">연락처</label>
-                                    <input type="text" id="phone" placeholder="연락처 입력">
+                                    <label for="hp">연락처</label>
+                                    <input type="text" id="hp" placeholder="연락처 입력">
                                 </div>
                                 <div class="form-row">
-                                    <label for="postcode">우편번호</label>
-                                    <input type="text" id="postcode" placeholder="우편번호" readonly>
+                                    <label for="zip">우편번호</label>
+                                    <input type="text" id="zip" placeholder="우편번호" readonly>
                                     <button type="button" onclick="execDaumPostcode()">검색</button>
                                 </div>
                                 <div class="form-row">
-                                    <label for="address">주소</label>
-                                    <input type="text" id="address" placeholder="기본 주소" readonly>
+                                    <label for="addr">주소</label>
+                                    <input type="text" id="addr" placeholder="기본 주소" readonly>
                                 </div>
                                 <div class="form-row">
-                                    <label for="detailAddress">상세주소</label>
-                                    <input type="text" id="detailAddress" placeholder="상세 주소">
+                                    <label for="addr2">상세주소</label>
+                                    <input type="text" id="addr2" placeholder="상세 주소">
                                 </div>
                                 <div class="form-row">
-                                    <label for="memo">배송 메모</label>
+                                    <label for="req">배송 메모</label>
                                     <div class="memo-wrap">
-                                        <select id="memo">
-                                            <option>배송 메모를 선택해주세요</option>
-                                            <option>부재 시 경비실에 맡겨주세요</option>
-                                            <option>문 앞에 놓아주세요</option>
-                                            <option>배송 전 연락 부탁드립니다</option>
+                                        <select id="req">
+                                            <option value="">배송 메모를 선택해주세요</option>
+                                            <option value="부재 시 경비실에 맡겨주세요">부재 시 경비실에 맡겨주세요</option>
+                                            <option value="문 앞에 놓아주세요">문 앞에 놓아주세요</option>
+                                            <option value="배송 전 연락주세요">배송 전 연락주세요</option>
                                         </select>
                                         <svg class="chevron-down" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                              viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -154,40 +154,50 @@
                         <div class="order-section product-box">
                             <div class="section-header">
                                 <h3>상품 정보</h3>
+
                             </div>
-                            <div class="product-info">
+                            <!-- ✅ 장바구니에서 넘어온 경우 -->
+                            <div th:if="${orderItems != null}">
+                                <div th:each="item : ${orderItems}" class="product-info">
+                                    <img th:src="@{${item.img_1}}" alt="상품" class="product-thumb">
+                                    <div class="product-detail">
+                                        <p class="product-name" th:text="${item.prod_name}"></p>
+                                        <p class="product-option"
+                                           th:text="${item.quantity + '개, ' + (item.opt_name != null ? item.opt_name : '')}"></p>
+                                        <div class="product-price">
+                                            <strong class="sale"
+                                                th:text="${#numbers.formatInteger(
+                                                    (item.price + (item.opt_price != null ? item.opt_price : 0))
+                                                    * (1 - (item.discount / 100)) * item.quantity,
+                                                    3, 'COMMA')}"></strong>원
+                                            <del class="regular"
+                                                th:text="${#numbers.formatInteger(
+                                                (item.price + (item.opt_price != null ? item.opt_price : 0))
+                                                * item.quantity, 3, 'COMMA')} + '원'"></del>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ✅ 단일 상품 바로구매 -->
+                            <div th:if="${product != null}" class="product-info">
                                 <img th:src="@{${product.img_1}}" alt="상품" class="product-thumb">
                                 <div class="product-detail">
                                     <p class="product-name" th:text="${product.prod_name}"></p>
-                                    <p class="product-option" th:text="${product.opt_name}"></p>
+                                    <p class="product-option"
+                                       th:each="opt : ${options}"
+                                       th:text="${quantity + '개, ' + opt.opt_name + ' (' + #numbers.formatInteger(opt.opt_price,3,'COMMA') + '원)'}"></p>
                                     <div class="product-price">
-                                        <span class="discount" th:text="${product.discount + '%'}"></span>
                                         <strong class="sale" id="basePrice"
-                                                th:text="${#numbers.formatInteger(product.saleprice,3,'COMMA')}"></strong>원
+                                            th:text="${#numbers.formatInteger(product.salePrice * quantity, 3, 'COMMA')}"></strong>원
                                         <del class="regular"
-                                             th:text="${#numbers.formatInteger(product.price,3,'COMMA')} + '원'"></del>
+                                            th:text="${#numbers.formatInteger(product.price * quantity, 3, 'COMMA')} + '원'"></del>
                                         <span class="badge">무료배송</span>
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- 쿠폰 -->
-                            <div class="coupon-list" th:each="coupon : ${coupons}">
-                                <label>
-                                    <input type="checkbox" th:data-discount="${coupon.benefit}"
-                                           th:value="${coupon.coupon_name}">
-                                    <span th:text="${coupon.coupon_name}"></span>
-                                    <span class="coupon-cond"
-                                          th:text="'(~' + ${#dates.format(coupon.expire_date, 'MM/dd')} + ')'"></span>
-                                </label>
-                            </div>
-
-                            <!-- 포인트 -->
-                            <div class="point-box">
-                                <p>현재 포인트: <strong id="currentPoint" th:text="${#numbers.formatInteger(userPoint,3,'COMMA')}"></strong>점</p>
-                                <input type="number" id="usePoint" placeholder="사용할 포인트 입력">
-                                <button type="button" onclick="applyPoint()">사용하기</button>
-                            </div>
+                            <input type="hidden" id="quantity" th:value="${quantity}">
 
                             <!-- 쿠폰/포인트 -->
                             <div class="coupon-point-box">
@@ -195,16 +205,25 @@
 
                                 <!-- 쿠폰 영역 -->
                                 <div class="coupon-list">
-                                    <label>
-                                        <input type="checkbox" id="coupon-check" data-discount="0.15">
-                                        귀여운 소비 15% 할인 쿠폰
-                                        <span class="coupon-cond">(100원 이상 구매 시, ~11/30)</span>
-                                    </label>
+                                    <th:block th:if="${#lists.isEmpty(coupons)}">
+                                        <p>사용 가능한 쿠폰이 없습니다.</p>
+                                    </th:block>
+
+                                    <th:block th:each="coupon : ${coupons}">
+                                        <label>
+                                            <input type="checkbox"
+                                                   name="coupon"
+                                                   th:data-discount="${coupon.benefit}"
+                                                   th:value="${coupon.couponNo}">
+                                            <span th:text="${coupon.couponName}"></span>
+                                            <span class="coupon-cond" th:text="'(~' + ${coupon.usePeriod} + ')'"></span>
+                                        </label>
+                                    </th:block>
                                 </div>
 
                                 <!-- 포인트 영역 -->
                                 <div class="point-box">
-                                    <p>현재 포인트: <strong id="currentPoint">7,200</strong>점</p>
+                                    <p>현재 포인트: <strong id="currentPoint" th:text="${#numbers.formatInteger(userPoint,3,'COMMA')}"></strong>점</p>
                                     <input type="number" id="usePoint" placeholder="사용할 포인트 입력">
                                     <button type="button" onclick="applyPoint()">사용하기</button>
                                 </div>
@@ -218,7 +237,7 @@
                             </div>
 
                             <div class="payment-methods">
-                                <button class="pay-btn active">신용카드</button>
+                                <button class="pay-btn">신용카드</button>
                                 <button class="pay-btn">체크카드</button>
                                 <button class="pay-btn">계좌이체</button>
                                 <button class="pay-btn">무통장입금</button>
