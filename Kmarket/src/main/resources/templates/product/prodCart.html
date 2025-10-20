@@ -23,6 +23,12 @@
     <!-- 상품 리스트 내부 검색 + 정렬 기능 -->
     <script th:src="@{/js/product/search.js}" defer></script>
     <!-- 전체 카테고리 구현 기능 -->
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        const CATEGORY_DATA = /*[[${categories}]]*/ {};
+        console.log(CATEGORY_DATA);
+        /*]]>*/
+    </script>
     <script th:src="@{/js/product/category.js}" defer></script>
     <!-- 베스트상품 온앤오프 & 스크롤 기능 -->
     <script th:src="@{/js/product/best.js}" defer></script>
