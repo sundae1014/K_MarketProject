@@ -89,7 +89,9 @@ td {
 .status_btn {
     background-color: white;
     border:none;
+    color: black;
     cursor: pointer;
+    text-decoration: none;
 }
 
 .bottom-section {
@@ -141,17 +143,12 @@ td {
     width: 10px;
     height: 10px;
 }
-.pagenation .first {
-    background-image: url('/Kmarket/images/admin/member/btn-first-page.png');
-}
+
 .pagenation .prev {
-    background-image: url('/Kmarket/images/admin/member/btn-prev-page.png');
+    background-image: url('/kmarket/images/admin/member/btn-prev-page.png');
 }
 .pagenation .next {
-    background-image: url('/Kmarket/images/admin/member/btn-next-page.png');
-}
-.pagenation .last {
-    background-image: url('/Kmarket/images/admin/member/btn-last-page.png');
+    background-image: url('/kmarket/images/admin/member/btn-next-page.png');
 }
 
 .btn_box {
