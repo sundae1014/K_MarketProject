@@ -38,15 +38,16 @@
                         data.forEach((banner, index) => {
                             const tr = document.createElement("tr");
 
+
                             tr.innerHTML = `
                             <td><input type="checkbox" value="${banner.banner_no}"></td>
                             <td>${index + 1}</td>
-                            <td><img src="/kmarket/uploads/${banner.img}" alt="${banner.banner_name}" style="width:80px;height:80px;"></td>
+                            <td><img src="/kmarket/uploads/banner/${banner.img}" alt="${banner.banner_name}" style="width:80px;height:80px;"></td>
                             <td style="text-align: left;">
                                 <span>${banner.banner_name}</span><br>
                                 <span>크기: ${banner.banner_size}</span><br>
                                 <span>배경색: ${banner.background_color}</span><br>
-                                <a href="${banner.link}" class="banner_a">배너링크</a>
+                                <a href="${banner.link}" class="banner_a">${banner.link}</a>
                             </td>
                             <td>${banner.location}</td>
                             <td>${banner.start_date}</td>
@@ -54,17 +55,28 @@
                             <td>${banner.start_time}</td>
                             <td>${banner.end_time}</td>
                             <td>
-                                <button class="status_btn" data-status="1">[활성]</button><br>
+                                <button class="status_btn" data-status="1" >[활성]</button><br>
                                 <button class="status_btn" data-status="0">[비활성]</button>
                             </td>
                         `;
+                            const activeBtn = tr.querySelector('button[data-status="1"]');
+                            const inactiveBtn = tr.querySelector('button[data-status="0"]');
+
+                            if(banner.banner_status === 1){
+                                activeBtn.style.color = "red";
+                                inactiveBtn.style.color = "gray";
+                            } else {
+                                activeBtn.style.color = "gray";
+                                inactiveBtn.style.color = "green";
+                            }
+
                             bannerList.appendChild(tr);
                         });
                     })
-            .catch(err => {
-                        console.error("배너 불러오기 오류:", err);
-                        alert("배너 데이터를 불러오는 중 문제가 발생했습니다.");
-                    });
+                    .catch(err => {
+                                console.error("배너 불러오기 오류:", err);
+                                alert("배너 데이터를 불러오는 중 문제가 발생했습니다.");
+                            });
             }
 
             // 초기 배너 로딩
@@ -138,7 +150,7 @@
                                     alert("배너 등록 성공!");
                                     location.reload();
                                 } else {
-                                    alert("등록 실패!");
+                                    alert("등록 실패! 다른 파일을 올려주세요!");
                                 }
                             })
                             .catch(err => console.error("배너 등록 오류:", err));
@@ -200,16 +212,17 @@
                         .then(data => {
                             if(data.success) {
                                 alert("상태가 변경되었습니다.");
-                                const currentLocation = document.querySelector("#banner_box .banner_select.active").textContent.trim();
-                                let location = "";
-                                switch(currentLocation){
-                                    case "메인 상단 배너": location = "main1"; break;
-                                    case "메인 슬라이더 배너": location = "main2"; break;
-                                    case "상품 상세 보기 배너": location = "product1"; break;
-                                    case "회원 로그인 배너": location = "member1"; break;
-                                    case "마이페이지 배너": location = "my"; break;
+
+                                const activeBtn = row.querySelector('button[data-status="1"]');
+                                const inactiveBtn = row.querySelector('button[data-status="0"]');
+                                if(banner_status === 1){
+                                    activeBtn.style.color = "red";
+                                    inactiveBtn.style.color = "gray";
+                                } else {
+                                    activeBtn.style.color = "gray";
+                                    inactiveBtn.style.color = "green";
                                 }
-                                loadBanners(location);
+
                             } else {
                                 alert("상태 변경 실패!");
                             }
@@ -373,30 +386,7 @@
                                 </tr>                         
                             </thead>
                             <tbody id="banner_list">
-                            <tr th:each="banner, iterStat : ${bannerList}">
-                                <td><input type="checkbox" th:value="${banner.banner_no}"></td>
-                                <td th:text="${iterStat.index + 1}">1</td>
-                                <td>
-                                    <img th:src="@{|/uploads/${banner.img}|}"
-                                         th:alt="${banner.banner_name}"
-                                         style="width:80px;height:80px;">
-                                </td>
-                                <td style="text-align: left;">
-                                    <span th:text="${banner.banner_name}">배너명</span><br>
-                                    <span th:text="'크기: ' + ${banner.banner_size}">크기: 1200 x 80</span><br>
-                                    <span th:text="'배경색: ' + ${banner.background_color}">배경색: #ffff00</span><br>
-                                    <a th:href="${banner.link}" class="banner_a">배너링크</a>
-                                </td>
-                                <td th:text="${banner.location}">MAIN1</td>
-                                <td th:text="${banner.start_date}">2023/01/01</td>
-                                <td th:text="${banner.end_date}">2023/01/07</td>
-                                <td th:text="${banner.start_time}">13:00</td>
-                                <td th:text="${banner.end_time}">15:00</td>
-                                <td>
-                                    <button class="status_btn" data-status="1">[활성]</button><br>
-                                    <button class="status_btn" data-status="0">[비활성]</button>
-                                </td>
-                            </tr>
+
                             </tbody>
                         </table>
                     </div>          
@@ -479,33 +469,36 @@
             <div class="footer-content">
                 <img th:src="@{/images/admin/main/cupangMS_logo(color).png}" alt="로고">
                 <div class="about-company">
-                    <h2>(주)큐팡</h2>
-                    <h2>대표이사 이름(db)</h2>
+                    <h2 th:inline="text">[[${basicData.trade_name}]]</h2>
+                    <h2 th:inline="text">대표이사 [[${basicData.ceo}]]</h2>
                     <h2>|</h2>
                     <h2>사업자등록번호</h2>
-                    <h2>123-132-1231232(db)</h2>
+                    <h2 th:inline="text">[[${basicData.business_num}]]</h2>
                     <h2>|</h2>
                     <h2>통신판매업신고</h2>
-                    <h2>2023-부산 해운대구-1232(db)</h2>
+                    <h2 th:inline="text">[[${basicData.communication_num}]]</h2>
                     <h2>|</h2>
-                    <h2>부산광역시 부산진구 중앙동(db)</h2>
-                    <h2>(삼성동, green빌딩) 7층(db)</h2>
+                    <h2 th:inline="text">[[${basicData.addr1}]]</h2>
+                    <h2 th:inline="text">[[${basicData.addr2}]]</h2>
                 </div>
                 <div class="about-company">
                     <h2>고객센터</h2>
                     <h2>|</h2>
-                    <h2>02-1234-1231</h2>
-                    <h2>평일 09:00 ~ 18:00(db)</h2>
+                    <h2 th:inline="text">[[${basicData.hp}]]</h2>
+                    <h2 th:inline="text">[[${basicData.work_time}]]</h2>
 
                     <h2>이메일</h2>
-                    <h2>abc@cupang(db)</h2>
+                    <h2 th:inline="text">[[${basicData.email}]]</h2>
 
                     <h2>전자금융거래 분쟁담당</h2>
-                    <h2>12321-12321(db)</h2>
+                    <h2 th:inline="text">[[${basicData.transaction}]]</h2>
                 </div>
-                <h2>Copyright@cupang.All.rights.reserved (db)</h2>
+                <h2 th:inline="text">[[${basicData.copyright}]]</h2>
+                <h2 th:inline="text">ver.[[${appInfo.appVersion}]]</h2>
             </div>
+
         </div>
+
     </footer>
 </body>
 </html>
