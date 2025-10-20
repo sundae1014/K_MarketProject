@@ -22,7 +22,7 @@ async function fetchCartData() {
 // 유틸 함수
 // =========================
 const formatPrice = num => num.toLocaleString() + "원";
-const getPoint = price => Math.floor(price * 0.01);
+const getPoint = (price, quantity = 1) => Math.floor((price * quantity) * 0.01);
 
 // 기본가(정상가): product.price 사용 (옵션가 포함 시 price + opt 추가금)
 const getUnitBase = item => {
@@ -180,7 +180,7 @@ function updateSummary() {
         totalCount += item.quantity;
         totalRegular += regular;
         totalDiscountAmt += discountAmt;
-        totalPoint += getPoint(sale);
+        totalPoint += getPoint(getUnitSale(item), item.quantity);
     });
 
     const final = totalRegular - totalDiscountAmt; // ✅ 정상가 - 할인금액
@@ -220,3 +220,57 @@ document.addEventListener("click", e => {
 // 초기 실행
 // =========================
 document.addEventListener("DOMContentLoaded", fetchCartData);
+
+// =========================
+// 수량 변경 기능 (+ / - 버튼)
+// =========================
+document.addEventListener("click", async (e) => {
+    if (e.target.classList.contains("plus") || e.target.classList.contains("minus")) {
+        const id = e.target.dataset.id;
+        const input = document.querySelector(`input[data-id="${id}"]`);
+        let qty = parseInt(input.value);
+
+        if (e.target.classList.contains("plus")) qty++;
+        if (e.target.classList.contains("minus")) qty = Math.max(1, qty - 1);
+
+        input.value = qty;
+
+        // ✅ cartData 내부 수량도 갱신
+        const item = cartData.find(i => i.cart_number == id);
+        if (item) item.quantity = qty;
+
+        // ✅ 서버에도 반영 (선택사항: DB 실시간 반영)
+        await fetch(`/kmarket/product/cart/updateQty`, {
+            method: "PATCH", // ✅ 컨트롤러에 맞춰 PATCH로 변경
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ cart_number: id, quantity: qty })
+        });
+
+        // ✅ 화면 갱신
+        renderCart();
+    }
+});
+
+// =========================
+// 직접 입력 시(텍스트박스) 수량 변경
+// =========================
+document.addEventListener("change", async (e) => {
+    if (e.target.matches("input[data-id]")) {
+        const id = e.target.dataset.id;
+        let qty = parseInt(e.target.value);
+        if (isNaN(qty) || qty < 1) qty = 1;
+        e.target.value = qty;
+
+        const item = cartData.find(i => i.cart_number == id);
+        if (item) item.quantity = qty;
+
+        await fetch(`/kmarket/product/cart/update`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ cart_number: id, quantity: qty })
+        });
+
+        renderCart();
+    }
+});
+
