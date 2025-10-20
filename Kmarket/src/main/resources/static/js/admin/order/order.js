@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function (){
         }
 
         // =========================================================
-        // 1. 주문 상세 모달 처리 (`#orderModal`)
+        // 1. 주문 상세 모달 처리 (`#orderModal`) - (기존 로직 유지)
         // =========================================================
 
         const orderModal = $('#orderModal');
@@ -145,9 +145,88 @@ document.addEventListener('DOMContentLoaded', function (){
             });
         });
 
-        // 2. 배송 모달 처리 (`#addressModal`) - 참고용
-        $('#addressModal').on('show.bs.modal', function (event) {
-            console.log("배송하기 모달 열림 (주문 상태 변경/송장 입력)");
+        // =========================================================
+        // 2. 배송 모달 처리 (`#addressModal`) - (데이터 전송 로직 수정)
+        // =========================================================
+
+        $(document).on('click', '.delivery-input-btn', function(event) {
+            // 버튼에서 data-* 속성을 직접 가져와서 모달 필드를 채웁니다.
+            const orderNumber = $(this).data('order-number');
+            const recipName = $(this).data('order-name');
+            const recipZip = $(this).data('order-zip');
+            const recipAddr1 = $(this).data('order-addr');
+            const recipAddr2 = $(this).data('order-addr2');
+            const deliveryReq = $(this).data('order-req'); // 기타/요청사항 필드에 사용
+
+            if (orderNumber) {
+                // 1. 모달 헤더 및 Hidden Input에 주문번호 설정
+                $('#deliveryOrderNumberDisplay').text(orderNumber);
+                $('#deliveryOrderNumberInput').val(orderNumber);
+
+                // 2. 배송지 정보 필드에 값을 설정합니다. (readonly 필드)
+                // list.html의 data-* 속성과 address-modal.html의 ID 매칭
+                $('#recipNameInput').val(recipName || '');
+                $('#zipInput').val(recipZip || '');
+                $('#addr1Input').val(recipAddr1 || '');
+                $('#addr2Input').val(recipAddr2 || '');
+
+                // 3. 기타 필드에 배송 요청사항을 설정합니다.
+                $('#text-area').val(deliveryReq || '');
+
+                // 4. 운송장 및 택배사 정보는 입력받는 필드이므로 초기화합니다.
+                $('select[name="deliveryCompany"]').val('');
+                $('input[name="trackingNumber"]').val('');
+
+            } else {
+                alert('주문번호 정보가 누락되었습니다. 페이지를 새로고침해주세요.');
+            }
+        });
+
+
+        // 2-2. 배송 입력 폼 제출 (AJAX 처리) - (기존 로직 유지)
+        $('#deliveryInputForm').on('submit', function(e) {
+            e.preventDefault(); // 폼 기본 제출 방지
+
+            const form = $(this);
+            const postData = {};
+            $.each(form.serializeArray(), function(_, field) {
+                // 운송장 입력 시 주소 정보는 readonly이므로, 택배/송장 정보만 주로 사용됩니다.
+                // 모든 폼 데이터를 전송합니다.
+                postData[field.name] = field.value;
+            });
+
+            // 유효성 검사
+            if (!postData.deliveryCompany || postData.deliveryCompany === '') {
+                alert('택배사를 선택해 주세요.');
+                return;
+            }
+            if (!postData.trackingNumber || postData.trackingNumber.trim() === '') {
+                alert('운송장 번호를 입력해 주세요.');
+                return;
+            }
+
+            if (confirm(`주문번호 ${postData.orderNumber}에 운송장 정보를 등록하고 상태를 '배송중'으로 변경하시겠습니까?`)) {
+                $.ajax({
+                    // 🚨 서버의 API 엔드포인트 URL
+                    url: CONTEXT_PATH + '/admin/order/delivery-input',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(postData),
+                    success: function(response) {
+                        if (response.success) {
+                            alert(`주문 ${postData.orderNumber}이(가) 배송중으로 변경되었습니다.`);
+                            $('#addressModal').modal('hide');
+                            location.reload();
+                        } else {
+                            alert(`배송 정보 등록 실패: ${response.message || '서버 오류'}`);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("배송 정보 등록 오류:", error);
+                        alert('시스템 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.');
+                    }
+                });
+            }
         });
     });
 });

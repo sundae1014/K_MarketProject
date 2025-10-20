@@ -154,7 +154,8 @@
                             <span th:case="*">N/A</span> </td>
                         <td th:text="${#dates.format(order.ODate, 'yyyy-MM-dd HH:mm:ss')}"></td>
                         <td>
-                            <button class="btn btn-white" data-bs-toggle="modal" data-bs-target="#addressModal"
+                            <button class="btn btn-white delivery-input-btn"
+                                    data-bs-toggle="modal" data-bs-target="#addressModal"
                                     th:data-order-number="${order.order_number}"
                                     th:data-order-name="${order.name}"
                                     th:data-order-zip="${order.zip}"
