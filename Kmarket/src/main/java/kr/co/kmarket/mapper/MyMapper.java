@@ -1,9 +1,6 @@
 package kr.co.kmarket.mapper;
 
-import kr.co.kmarket.dto.MemberDTO;
-import kr.co.kmarket.dto.OrderDTO;
-import kr.co.kmarket.dto.ProductReviewDTO;
-import kr.co.kmarket.dto.QnaDTO;
+import kr.co.kmarket.dto.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -82,4 +79,21 @@ public interface MyMapper {
                                                @Param("limit") int limit);
 
     public int selectWaitingQna(int custNumber);
+
+    public int selectCouponCountByCustNumber(int custNumber);
+    public List<CouponDTO> selectCouponsListPage(@Param("custNumber") int custNumber,
+                                                 @Param("start") int start,
+                                                 @Param("limit") int limit);
+
+    public int selectPointCountByCustNumber(int custNumber);
+
+    public List<PointDTO> selectPointsListPage(@Param("custNumber") int custNumber,
+                                               @Param("start") int start,
+                                               @Param("limit") int limit);
+
+    public List<PointDTO> selectPoints(@Param("custNumber")  int custNumber);
+
+    public int selectAllPoints(@Param("custNumber")  int custNumber);
+
+    public int selectCountCoupon();
 }
