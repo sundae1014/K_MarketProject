@@ -44,6 +44,12 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public List<CartDTO> selectCartItemsByNumbers(String[] cart_number) {
+        return orderMapper.selectCartItemsByNumbers(cart_number);
+    }
+
+
+    @Override
     public List<CouponDTO> selectAvailableCoupons(int cust_number) {
         return orderMapper.selectAvailableCoupons(cust_number);
     }

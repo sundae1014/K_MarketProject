@@ -11,15 +11,17 @@
             c.CART_NUMBER,
             c.CUST_NUMBER,
             c.PROD_NUMBER,
+            c.QUANTITY AS quantity,
             p.PROD_NAME AS prod_name,
             p.PRICE,
             p.DISCOUNT,
-            c.QUANTITY AS quantity,
-            p.IMG_1
+            p.IMG_1,
+            o.OPT_NAME AS opt_name,
+            o.OPT_PRICE AS opt_price
         FROM CART c
-                 JOIN PRODUCT p ON c.PROD_NUMBER = p.PROD_NUMBER
-        WHERE c.CUST_NUMBER = #{_parameter}
-        ORDER BY c.CART_NUMBER DESC
+        JOIN PRODUCT p ON c.PROD_NUMBER = p.PROD_NUMBER
+        LEFT JOIN PRODUCT_OPTION o ON c.PROD_NUMBER = o.PROD_NUMBER
+        WHERE c.CUST_NUMBER = #{cust_number}
     </select>
 
     <!-- 장바구니 추가 -->
