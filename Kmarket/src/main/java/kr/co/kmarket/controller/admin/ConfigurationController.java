@@ -136,7 +136,7 @@ public class ConfigurationController {
         }
 
         if(dto.getBanner_order() == null) dto.setBanner_order(0);
-        if(dto.getBanner_status() == null) dto.setBanner_status(1);
+        if(dto.getBanner_status() == null) dto.setBanner_status(0);
 
         bannerService.insertBanner(dto);
 
