@@ -134,7 +134,7 @@ public class UserProductController {
         model.addAttribute("couponImage", couponImage);
 
         // 나머지 원래 코드 유지
-        List<ProductOptionDTO> options = productService.selectProductOptions(prod_number);
+        List<ProductOptionDTO> options = productService.selectOptionsByProduct(prod_number);
         model.addAttribute("product", product);
         model.addAttribute("notice", notice);
         model.addAttribute("options", options);

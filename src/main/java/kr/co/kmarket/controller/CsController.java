@@ -1,9 +1,6 @@
 package kr.co.kmarket.controller;
 
-import kr.co.kmarket.dto.FaqDTO;
-import kr.co.kmarket.dto.PageRequestDTO;
-import kr.co.kmarket.dto.PageResponseDTO;
-import kr.co.kmarket.dto.QnaDTO;
+import kr.co.kmarket.dto.*;
 import kr.co.kmarket.service.FaqService;
 import kr.co.kmarket.service.NoticeService;
 import kr.co.kmarket.service.QnaService;
@@ -33,7 +30,14 @@ public class CsController {
 
     /* 고객센터 메인 */
     @GetMapping("/index")
-    public String index(){return "cs/cs_main";}
+    public String index(Model model){
+        List<NoticeDTO> noticeList = noticeService.selectNoticeAll();
+        List<QnaDTO> qnaList = qnaService.selectQnaAll();
+        log.info("qnalist = {}",  qnaList);
+        model.addAttribute("noticeList", noticeList);
+        model.addAttribute("qnaList", qnaList);
+        return "cs/cs_main";
+    }
 
     /* 고객센터 공지사항 */
     @GetMapping("/notice/list")
@@ -67,7 +71,19 @@ public class CsController {
     }
 
     @GetMapping("/notice/view")
-    public String noticeView(){return "cs/cs_noticeView";}
+    public String noticeView(int id, String notice_type, Model model) {
+        log.info("id: {}, notice_type: {}", id,notice_type);
+        NoticeDTO noticeDTO = noticeService.getNotice(id);
+
+        log.info("noticeDTO: {}", noticeDTO);
+        model.addAttribute("noticeDTO", noticeDTO);
+        model.addAttribute("nType", notice_type);
+
+        noticeDTO.setViews(noticeDTO.getViews() + 1); //조회수 증가
+        noticeService.updateViews(noticeDTO);
+
+        return "cs/cs_noticeView";
+    }
 
     /* 고객센터 자주묻는 질문 */
     @GetMapping("/faq/list")

@@ -3,109 +3,204 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>카테고리</title>
+    <link rel="icon" type="image/png" th:href="@{/images/member/favicon.png}">
+    <title>[[${basicData.title}]]-[[${basicData.sub_title}]]::관리자 환경설정 [[${appInfo.appVersion}]]</title>
     <link rel="stylesheet" th:href="@{/css/admin/main/header_footer.css}">
     <link rel="stylesheet" th:href="@{/css/admin/configuration/category.css}">
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            const menuHeaders = document.querySelectorAll(".menu-header");
 
-            //카테고리 토글
-            menuHeaders.forEach(menu => {
-                menu.addEventListener("click", function() {
-                    const submenu = this.nextElementSibling; 
-                    const arrow = this.querySelector(".arrow");
+            // 기존 이벤트 바인딩 코드 ...
 
-                    submenu.classList.toggle("open");   
-                    arrow.classList.toggle("open");     
+            // ----------------------
+            // 1차 카테고리 드래그
+            // ----------------------
+            const firstCategoryContainer = document.querySelector(".category_option_input");
+            const sortableFirst = new Sortable(firstCategoryContainer, {
+                animation: 150,
+                handle: ".menu-header", // 드래그 가능한 영역
+                ghostClass: "sortable-ghost",
+                filter: ".first_add", // 1차 추가 버튼은 드래그 불가
+                onEnd: function(evt) {
+                    updateOrderData();
+                }
+            });
+
+            // ----------------------
+            // 2차 카테고리 드래그
+            // ----------------------
+            const allSubmenus = document.querySelectorAll(".submenu");
+            allSubmenus.forEach(submenu => {
+                new Sortable(submenu, {
+                    animation: 150,
+                    handle: ".submenu-item",
+                    ghostClass: "sortable-ghost",
+                    filter: ".second_add",
+                    onEnd: function(evt) {
+                        updateOrderData();
+                    }
                 });
             });
 
-            //1차 카테고리 추가
-            const first_category = document.querySelector(".first_add");
-            first_category.addEventListener("click", function() {
-                const container = document.querySelector(".category_option_input");
-                const addItem = first_category.closest(".menu-item");
+            // ----------------------
+            // 순서 데이터 생성
+            // ----------------------
+            function updateOrderData() {
+                const orderData = [];
+                const topMenus = document.querySelectorAll(".menu-item");
+                topMenus.forEach((menu, index) => {
+                    const cate_cd = menu.getAttribute("data-cate-cd");
+                    if(!cate_cd) return;
+                    orderData.push({ cate_cd: cate_cd, cate_order: index + 1 });
 
-                const name = prompt("1차 카테고리 이름을 입력해주세요:");
-                if (!name) return;
+                    // 2차 카테고리
+                    const subs = menu.querySelectorAll(".submenu-item");
+                    subs.forEach((sub, subIndex) => {
+                        const sub_cd = sub.getAttribute("data-cate-cd");
+                        if(!sub_cd) return;
+                        orderData.push({ cate_cd: sub_cd, cate_order: subIndex + 1 });
+                    });
+                });
 
-                const newMenu = document.createElement("div");
-                newMenu.className = "menu-item";
-                newMenu.innerHTML = `
-                    <div class="menu-header">
-                        <div class="menu-header-left">
-                            <span class="arrow open">▶</span>
-                            <span class="menu-title">${name}</span>
-                        </div>
-                        <button class="delete-btn">삭제</button>
-                    </div>
-                    <div class="submenu">
-                        <div class="add-item second_add">
-                            <div class="add-btn">+</div>
-                            <span>2 차카테고리추가</span>
-                        </div>
-                    </div>
-                `;
-                container.insertBefore(newMenu, addItem);
+                document.getElementById("orderData").value = JSON.stringify(orderData);
+            }
 
-                // 토글 이벤트 다시 바인딩
-                const header = newMenu.querySelector(".menu-header");
-                header.addEventListener("click", function() {
+        });
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const menuHeaders = document.querySelectorAll(".menu-header");
+
+            // ----------------------
+            // 카테고리 토글
+            // ----------------------
+            function bindToggleEvent(header) {
+                header.addEventListener("click", function(e) {
+                    // 삭제 버튼 클릭 시 토글 막기
+                    if(e.target.classList.contains("delete-btn")) return;
+
                     const submenu = this.nextElementSibling;
                     const arrow = this.querySelector(".arrow");
 
-                    submenu.classList.toggle("open");
-                    arrow.classList.toggle("open");
+                    if(submenu) submenu.classList.toggle("open");
+                    if(arrow) arrow.classList.toggle("open");
                 });
+            }
 
-                // 삭제 이벤트 바인딩
-                bindDeleteEvents(newMenu);
-                bindSecondCategoryAdd(newMenu);
-            });
+            menuHeaders.forEach(bindToggleEvent);
 
-            // 2차 카테고리 추가 함수
+            // ----------------------
+            // 삭제 이벤트 바인딩
+            // ----------------------
+            let deletedCateCdList = [];
+
+            function bindDeleteEvents(element) {
+                const deleteBtns = element.querySelectorAll(".delete-btn");
+                deleteBtns.forEach(btn => {
+                    btn.onclick = function(event) {
+                        event.stopPropagation();
+
+                        // 삭제 확인 메시지
+                        if (!confirm("정말로 삭제하시겠습니까?")) {
+                            return; // 취소 시 삭제하지 않음
+                        }
+
+                        const parent = btn.closest(".submenu-item") || btn.closest(".menu-item");
+                        if (parent) {
+                            const cateCd = parent.getAttribute("data-cate-cd");
+                            if (cateCd) deletedCateCdList.push(cateCd);
+                            parent.remove();
+                        }
+
+                        document.getElementById("deletedCateCd").value = deletedCateCdList.join(",");
+                    };
+                });
+            }
+            bindDeleteEvents(document);
+
+            // ----------------------
+            // 2차 카테고리 추가
+            // ----------------------
+            function bindSecondCategoryAdd(menuItem) {
+                const secondAddBtns = menuItem.querySelectorAll(".second_add");
+                secondAddBtns.forEach(btn => {
+                    btn.onclick = secondCategoryHandler;
+                });
+            }
+
             function secondCategoryHandler(event) {
-                event.stopPropagation(); // 1차 토글 이벤트 방지
-                const submenu = this.closest(".submenu");
-                const name = prompt("2차 카테고리 이름을 입력해주세요:");
-                if (!name) return;
+                event.stopPropagation(); // 토글 막기
 
+                const parentMenu = this.closest(".menu-item");
+                const parentCateCd = parentMenu.getAttribute("data-cate-cd");
+
+                if(!parentCateCd) {
+                    alert("먼저 1차 카테고리를 서버에 저장해야 2차 카테고리를 추가할 수 있습니다.");
+                    return;
+                }
+
+                const name = prompt("2차 카테고리 이름을 입력해주세요:");
+                if(!name) return;
+
+                const submenu = this.closest(".submenu");
                 const newSubItem = document.createElement("div");
                 newSubItem.className = "submenu-item";
                 newSubItem.innerHTML = `
                     ${name}&nbsp;&nbsp;
-                    <button class="delete-btn">삭제</button>
+                    <input type="hidden" name="cate_name" value="${name}">
+                    <input type="hidden" name="up_cate_cd" value="${parentCateCd}">
+                    <button type="button" class="delete-btn">삭제</button>
                 `;
 
                 submenu.insertBefore(newSubItem, this);
                 bindDeleteEvents(newSubItem);
             }
 
-            // 삭제 이벤트 바인딩 함수
-            function bindDeleteEvents(element) {
-                const deleteBtns = element.querySelectorAll(".delete-btn");
-                deleteBtns.forEach(btn => {
-                    btn.onclick = function(event) {
-                        event.stopPropagation(); // 토글 이벤트 막기
-                        const parent = btn.closest(".submenu-item") || btn.closest(".menu-item");
-                        if (parent) parent.remove();
-                    };
-                });
-            }
+            // ----------------------
+            // 1차 카테고리 추가
+            // ----------------------
+            const firstAddBtn = document.querySelector(".first_add");
+            firstAddBtn.addEventListener("click", function() {
+                const container = document.querySelector(".category_option_input");
+                const addItem = firstAddBtn.closest(".menu-item");
 
-            // 2차 카테고리 추가 버튼 바인딩
-            function bindSecondCategoryAdd(element) {
-                element.querySelectorAll(".second_add").forEach(btn => {
-                    btn.onclick = secondCategoryHandler;
-                });
-            }
+                const name = prompt("1차 카테고리 이름을 입력해주세요:");
+                if(!name) return;
 
-            // 초기 바인딩
-            bindDeleteEvents(document);
-            bindSecondCategoryAdd(document);
+                const newMenu = document.createElement("div");
+                newMenu.className = "menu-item";
+                newMenu.setAttribute("data-cate-cd", ""); // 서버 저장 후 채우기
+                newMenu.innerHTML = `
+            <div class="menu-header">
+                <div class="menu-header-left">
+                    <span class="arrow open">▶</span>
+                    <span class="menu-title">${name}</span>
+                    <input type="hidden" name="cate_name" value="${name}">
+                </div>
+                <button type="button" class="delete-btn">삭제</button>
+            </div>
+            <div class="submenu">
+                <div class="add-item second_add">
+                    <div class="add-btn">+</div>
+                    <span>2차 카테고리추가</span>
+                </div>
+            </div>
+        `;
+                container.insertBefore(newMenu, addItem);
+
+                // 이벤트 재바인딩
+                const header = newMenu.querySelector(".menu-header");
+                bindToggleEvent(header);
+                bindDeleteEvents(newMenu);
+                bindSecondCategoryAdd(newMenu);
+            });
+
+            // 초기 2차 카테고리 버튼 바인딩
+            const allMenuItems = document.querySelectorAll(".menu-item");
+            allMenuItems.forEach(bindSecondCategoryAdd);
+
         });
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
     <script th:src="@{/js/admin/cs/recruit/sidebarAction.js}" defer></script>
     <link rel="stylesheet" th:href="@{/css/admin/main/sidebar.css}">
 </head>
@@ -223,11 +318,13 @@
                     <div>
                         <span>HOME</span> &nbsp;&gt;&nbsp;
                         <span>환경설정</span> &nbsp;&gt;&nbsp;
-                        <span style="font-weight: bold;">카테고리</span> 
+                        <span style="font-weight: bold;">카테고리</span>
                     </div>
                 </div>
 
-                <form action="#" method="post">
+                <form th:action="@{/admin/config/category/update}" method="post">
+                    <input type="hidden" id="deletedCateCd" name="deletedCateCd">
+                    <input type="hidden" id="orderData" name="orderData">
                     <div id="category_box">
                         <div style="margin-top: 10px;">
                             <h4>카테고리 관리</h4>
@@ -235,119 +332,27 @@
                         </div>
 
                         <div class="category_option_input">
-                            <div class="menu-item">
+                            <div th:each="top : ${topCategories}" class="menu-item" th:attr="data-cate-cd=${top.cate_cd}">
                                 <div class="menu-header">
                                     <div class="menu-header-left">
                                         <span class="arrow open">▶</span>
-                                        <span class="menu-title">여성패션</span>
+                                        <span class="menu-title" th:text="${top.cate_name}"></span>
                                     </div>
-                                    <button class="delete-btn">삭제</button>
+                                    <button type="button" class="delete-btn">삭제</button>
                                 </div>
 
                                 <div class="submenu">
-                                    <div class="submenu-item">
-                                        브랜드의류&nbsp;&nbsp;
-                                        <button class="delete-btn">삭제</button>
+                                    <div th:each="sub : ${grouped[top.cate_cd]}" class="submenu-item" th:attr="data-cate-cd=${sub.cate_cd}">
+                                        <span th:text="${sub.cate_name}"></span>
+                                        <button type="button" class="delete-btn">삭제</button>
                                     </div>
-                                    <div class="submenu-item">
-                                        브랜드가방&nbsp;&nbsp;
-                                        <button class="delete-btn">삭제</button>
-                                    </div>
-                                    <div class="submenu-item">
-                                        브랜드신발&nbsp;&nbsp;
-                                        <button class="delete-btn">삭제</button>
-                                    </div>
-                                    <div class="submenu-item">
-                                        브랜드잡화&nbsp;&nbsp;
-                                        <button class="delete-btn">삭제</button>
-                                    </div>
+
                                     <div class="add-item second_add">
                                         <div class="add-btn">+</div>
-                                        <span>2 차카테고리추가</span>
+                                        <span>2차 카테고리추가</span>
                                     </div>
                                 </div>
                             </div>
-
-                            <div class="menu-item">
-                                <div class="menu-header">
-                                    <div class="menu-header-left">
-                                        <span class="arrow">▶</span>
-                                        <span class="menu-title">남성패션</span>
-                                    </div>
-                                    <button class="delete-btn">삭제</button>
-                                </div>
-                                <div class="submenu">
-                                    <div class="add-item second_add">
-                                        <div class="add-btn">+</div>
-                                        <span>2 차카테고리추가</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="menu-item">
-                                <div class="menu-header">
-                                    <div class="menu-header-left">
-                                        <span class="arrow">▶</span>
-                                        <span class="menu-title">식품</span>
-                                    </div>
-                                    <button class="delete-btn" onclick="deleteItem(event)">삭제</button>
-                                </div>
-                                <div class="submenu">
-                                    <div class="add-item second_add">
-                                        <div class="add-btn">+</div>
-                                        <span>2 차카테고리추가</span>
-                                    </div>  
-                                </div>
-                            </div>
-
-                            <div class="menu-item">
-                                <div class="menu-header">
-                                    <div class="menu-header-left">
-                                        <span class="arrow">▶</span>
-                                        <span class="menu-title">생활 / 건강</span>
-                                    </div>
-                                    <button class="delete-btn">삭제</button>
-                                </div>
-                                <div class="submenu">
-                                    <div class="add-item second_add">
-                                        <div class="add-btn">+</div>
-                                        <span>2 차카테고리추가</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="menu-item">
-                                <div class="menu-header">
-                                    <div class="menu-header-left">
-                                        <span class="arrow">▶</span>
-                                        <span class="menu-title">유아동</span>
-                                    </div>
-                                    <button class="delete-btn">삭제</button>
-                                </div>
-                                <div class="submenu">
-                                    <div class="add-item second_add">
-                                        <div class="add-btn">+</div>
-                                        <span>2 차카테고리추가</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="menu-item">
-                                <div class="menu-header">
-                                    <div class="menu-header-left">
-                                        <span class="arrow">▶</span>
-                                        <span class="menu-title">가전</span>
-                                    </div>
-                                    <button class="delete-btn">삭제</button>
-                                </div>
-                                <div class="submenu">
-                                    <div class="add-item second_add">
-                                        <div class="add-btn">+</div>
-                                        <span>2 차카테고리추가</span>
-                                    </div>
-                                </div>
-                            </div>
-
                             <div class="menu-item">
                                 <div class="add-item first_add" style="padding-left: 20px; cursor: pointer;">
                                     <div class="add-btn">+</div>
@@ -356,7 +361,6 @@
                             </div>
                         </div>
                     </div>
-
                     <p class="bottom_p">카테고리 메뉴 순서를 변경할 때 드래그 앤 드롭으로 1차, 2차 카테고리 메뉴 이동 후 수정하기를 클릭합니다.</p>
 
                     <div style="display: flex; justify-content: flex-end;">
@@ -371,33 +375,36 @@
             <div class="footer-content">
                 <img th:src="@{/images/admin/main/cupangMS_logo(color).png}" alt="로고">
                 <div class="about-company">
-                    <h2>(주)큐팡</h2>
-                    <h2>대표이사 이름(db)</h2>
+                    <h2 th:inline="text">[[${basicData.trade_name}]]</h2>
+                    <h2 th:inline="text">대표이사 [[${basicData.ceo}]]</h2>
                     <h2>|</h2>
                     <h2>사업자등록번호</h2>
-                    <h2>123-132-1231232(db)</h2>
+                    <h2 th:inline="text">[[${basicData.business_num}]]</h2>
                     <h2>|</h2>
                     <h2>통신판매업신고</h2>
-                    <h2>2023-부산 해운대구-1232(db)</h2>
+                    <h2 th:inline="text">[[${basicData.communication_num}]]</h2>
                     <h2>|</h2>
-                    <h2>부산광역시 부산진구 중앙동(db)</h2>
-                    <h2>(삼성동, green빌딩) 7층(db)</h2>
+                    <h2 th:inline="text">[[${basicData.addr1}]]</h2>
+                    <h2 th:inline="text">[[${basicData.addr2}]]</h2>
                 </div>
                 <div class="about-company">
                     <h2>고객센터</h2>
                     <h2>|</h2>
-                    <h2>02-1234-1231</h2>
-                    <h2>평일 09:00 ~ 18:00(db)</h2>
+                    <h2 th:inline="text">[[${basicData.hp}]]</h2>
+                    <h2 th:inline="text">[[${basicData.work_time}]]</h2>
 
                     <h2>이메일</h2>
-                    <h2>abc@cupang(db)</h2>
+                    <h2 th:inline="text">[[${basicData.email}]]</h2>
 
                     <h2>전자금융거래 분쟁담당</h2>
-                    <h2>12321-12321(db)</h2>
+                    <h2 th:inline="text">[[${basicData.transaction}]]</h2>
                 </div>
-                <h2>Copyright@cupang.All.rights.reserved (db)</h2>
+                <h2 th:inline="text">[[${basicData.copyright}]]</h2>
+                <h2 th:inline="text">ver.[[${appInfo.appVersion}]]</h2>
             </div>
+
         </div>
+
     </footer>
 </body>
 </html>

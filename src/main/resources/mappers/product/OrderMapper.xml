@@ -5,16 +5,22 @@
 
 <mapper namespace="kr.co.kmarket.mapper.OrderMapper">
 
+    <!-- 주문 등록 -->
     <insert id="insertOrder" parameterType="kr.co.kmarket.dto.OrderDTO">
+        <selectKey keyProperty="order_number" resultType="string" order="BEFORE">
+            SELECT 'ORD' || LPAD(ORDER_SEQ.NEXTVAL, 8, '0') FROM DUAL
+        </selectKey>
+
         INSERT INTO ORDER_TBL (
-        ORDERNUMBER, CUST_NUMBER, O_DATE, STAT, NAME, HP, ADDR, ADDR2, PAYMENT
-        )
-        VALUES (
-        ORDER_SEQ.NEXTVAL, #{cust_number}, SYSDATE, 1,
+        ORDER_NUMBER, CUST_NUMBER, O_DATE, STAT, NAME, HP, ADDR, ADDR2, PAYMENT
+        ) VALUES (
+        #{order_number}, #{cust_number}, SYSDATE, 1,
         #{name}, #{hp}, #{addr}, #{addr2}, #{payment}
         )
     </insert>
 
+
+    <!-- 장바구니 목록 -->
     <select id="selectCartList" resultType="kr.co.kmarket.dto.CartDTO">
         SELECT *
         FROM CART
@@ -24,47 +30,66 @@
         </foreach>
     </select>
 
-    <!-- 상품 상세 (상품 + 옵션) -->
-    <select id="selectProductDetail" parameterType="int" resultType="kr.co.kmarket.dto.ProductDTO">
-        SELECT
-            p.PROD_NUMBER,
-            p.PROD_NAME,
-            p.DISCOUNT,
-            p.PRICE,
-            p.SALEPRICE,
-            o.OPT_NAME,
-            o.OPT_PRICE,
-            p.IMG_1
-        FROM PRODUCT p
-                 LEFT JOIN PRODUCT_OPTION o ON p.PROD_NUMBER = o.PROD_NUMBER
-        WHERE p.PROD_NUMBER = #{prod_number}
-    </select>
-
-    <!-- 회원이 보유한 쿠폰 목록 -->
+    <!-- 사용 가능한 쿠폰 -->
     <select id="selectAvailableCoupons" parameterType="int" resultType="kr.co.kmarket.dto.CouponDTO">
         SELECT
-            c.COUPON_NAME,
-            c.COUPON_TYPE,
-            c.BENEFIT,
-            c.USE_PERIOD,
-            c.ISSUE_DATE
+            c.COUPON_NO    AS couponNo,
+            c.COUPON_NAME  AS couponName,
+            c.BENEFIT      AS benefit,
+            c.USE_PERIOD   AS usePeriod,
+            c.ISSUE_DATE   AS issueDate,
+            c.STATUS       AS status
         FROM COUPON c
-        WHERE c.COUPON_TYPE = 1
+        WHERE c.CUST_NUMBER = #{cust_number}
           AND c.STATUS = '미사용'
+          AND c.USE_PERIOD >= SYSDATE
+        ORDER BY c.ISSUE_DATE DESC
     </select>
 
-    <!-- 회원 보유 포인트 -->
+    <!-- 회원 포인트 -->
     <select id="selectUserPoint" parameterType="int" resultType="int">
-        SELECT NVL(SUM(POINT_AMOUNT), 0) AS TOTAL_POINT
+        SELECT NVL(SUM(POINT_AMOUNT), 0)
         FROM POINT
         WHERE CUST_NUMBER = #{cust_number}
           AND (EXPIRE_DATE IS NULL OR EXPIRE_DATE > SYSDATE)
     </select>
 
-    <select id="selectOptionsByProduct" parameterType="int" resultType="kr.co.kmarket.dto.ProductOptionDTO">
-        SELECT OPTION_ID, PROD_NUMBER, OPT_NAME, OPT_PRICE
-        FROM PRODUCT_OPTION
-        WHERE PROD_NUMBER = #{prod_number}
+    <!-- 포인트 내역 등록 -->
+    <insert id="insertPoint" parameterType="kr.co.kmarket.dto.PointDTO">
+        INSERT INTO POINT (
+            POINT_ID, CUST_NUMBER, ORDER_NUMBER, POINT_TYPE,
+            POINT_AMOUNT, DESCRIPTION, CREATED_AT
+        )
+        VALUES (
+                   POINT_SEQ.NEXTVAL,
+                   #{cust_number},
+                   #{order_number},
+                   #{point_type},
+                   #{point_amount},
+                   #{description},
+                   SYSDATE
+               )
+    </insert>
+
+    <select id="selectCartItemsByNumbers" resultType="kr.co.kmarket.dto.CartDTO">
+        SELECT
+        c.CART_NUMBER,
+        c.CUST_NUMBER,
+        c.PROD_NUMBER,
+        c.QUANTITY,
+        p.PROD_NAME,
+        p.PRICE,
+        p.DISCOUNT,
+        p.IMG_1,
+        o.OPT_NAME,
+        o.OPT_PRICE
+        FROM CART c
+        JOIN PRODUCT p ON c.PROD_NUMBER = p.PROD_NUMBER
+        LEFT JOIN PRODUCT_OPTION o ON p.PROD_NUMBER = o.PROD_NUMBER
+        WHERE c.CART_NUMBER IN
+        <foreach collection="array" item="num" open="(" separator="," close=")">
+            #{num}
+        </foreach>
     </select>
 
 </mapper>

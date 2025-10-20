@@ -10,6 +10,7 @@ import java.util.List;
 @Mapper
 public interface NoticeMapper {
     public NoticeDTO findById(@Param("id") int id);
+    public List<NoticeDTO> findNoticeAll();
     public List<NoticeDTO> findAll(@Param("pageRequestDTO") PageRequestDTO pageRequestDTO);
     public int selectCount(@Param("pageRequestDTO")  PageRequestDTO pageRequestDTO);
 

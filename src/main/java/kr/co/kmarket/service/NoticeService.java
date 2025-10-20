@@ -17,6 +17,7 @@ public class NoticeService {
     private final NoticeMapper noticeMapper;
 
     public NoticeDTO getNotice(int id) {return noticeMapper.findById(id);}
+    public List<NoticeDTO> selectNoticeAll() {return noticeMapper.findNoticeAll();}
     public PageResponseDTO selectAll(PageRequestDTO pageRequestDTO) {
         List<NoticeDTO> dtoList = noticeMapper.findAll(pageRequestDTO);
         int total = noticeMapper.selectCount(pageRequestDTO);

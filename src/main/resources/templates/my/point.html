@@ -35,17 +35,93 @@
                                     <th>비고</th>
                                     <th>유효기간</th>
                                 </tr>
-                                <tr>
-                                    <td>2022-12-13</td>
-                                    <td>적립</td>
-                                    <td>2022121001</td>
-                                    <td>340</td>
-                                    <td>상품 구매확정</td>
-                                    <td>2024-12-10</td>
+                                <tr th:each="point : ${points}">
+                                    <td th:text="${#temporals.format(point.created_at, 'yyyy-MM-dd')}"></td>
+                                    <td th:switch="${point.point_type}">
+                                        <span th:case="1">적립</span>
+                                        <span th:case="2">사용</span>
+                                        <span th:case="3">취소</span>
+                                        <span th:case="*">N/A</span> </td>
+                                    <td th:text="${point.order_number}"></td>
+                                    <td th:text="${point.point_amount}"></td>
+                                    <td th:text="${point.description}"></td>
+                                    <td th:text="${#temporals.format(point.expiry_date, 'yyyy-MM-dd')}"></td>
                                 </tr>
                             </table>
                         </div>
                     </div>
+
+                    <div class="pagination">
+                        <div class="prev">
+                            <!-- 검색 있을 때 -->
+                            <a th:if="${searchType != null and keyword != null and keyword != ''}"
+                               th:href="@{/my/point/search(searchType=${searchType}, keyword=${keyword}, pg=1)}"
+                               th:classappend="${PointPage.pg == 1} ? ' disabled' : ''">
+                                <img th:src="@{/images/company/btn-first-page.png}">
+                            </a>
+                            <a th:if="${searchType != null and keyword != null and keyword != ''}"
+                               th:href="@{/my/point/search(searchType=${searchType}, keyword=${keyword}, pg=${PointPage.pg - 1})}"
+                               th:classappend="${PointPage.pg == 1} ? ' disabled' : ''">
+                                <img th:src="@{/images/company/btn-prev-page.png}">
+                            </a>
+
+                            <!-- 검색 없을 때 -->
+                            <a th:unless="${searchType != null and keyword != null and keyword != ''}"
+                               th:href="@{/my/point(pg=1)}"
+                               th:classappend="${PointPage.pg == 1} ? ' disabled' : ''">
+                                <img th:src="@{/images/company/btn-first-page.png}">
+                            </a>
+                            <a th:unless="${searchType != null and keyword != null and keyword != ''}"
+                               th:href="@{/my/point(pg=${PointPage.pg - 1})}"
+                               th:classappend="${PointPage.pg == 1} ? ' disabled' : ''">
+                                <img th:src="@{/images/company/btn-prev-page.png}">
+                            </a>
+                        </div>
+
+                        <div class="pagenumber">
+                            <!-- 검색 있을 때 -->
+                            <a th:each="i : ${#numbers.sequence(PointPage.start, PointPage.end)}"
+                               th:if="${searchType != null and keyword != null and keyword != ''}"
+                               th:href="@{/my/point/search(searchType=${searchType}, keyword=${keyword}, pg=${i})}"
+                               th:text="${i}"
+                               th:classappend="${i == PointPage.pg} ? ' active' : ''"></a>
+
+                            <!-- 검색 없을 때 -->
+                            <a th:each="i : ${#numbers.sequence(PointPage.start, PointPage.end)}"
+                               th:unless="${searchType != null and keyword != null and keyword != ''}"
+                               th:href="@{/my/point(pg=${i})}"
+                               th:text="${i}"
+                               th:classappend="${i == PointPage.pg} ? ' active' : ''"></a>
+                        </div>
+
+                        <div class="last">
+                            <!-- 검색 있을 때 -->
+                            <a th:if="${searchType != null and keyword != null and keyword != ''}"
+                               th:href="@{/my/point/search(searchType=${searchType}, keyword=${keyword}, pg=${PointPage.pg + 1})}"
+                               th:classappend="${PointPage.pg == PointPage.end} ? ' disabled' : ''">
+                                <img th:src="@{/images/company/btn-next-page.png}">
+                            </a>
+                            <a th:if="${searchType != null and keyword != null and keyword != ''}"
+                               th:href="@{/my/point/search(searchType=${searchType}, keyword=${keyword}, pg=${PointPage.end})}"
+                               th:classappend="${PointPage.pg == PointPage.end} ? ' disabled' : ''">
+                                <img th:src="@{/images/company/btn-last-page.png}">
+                            </a>
+
+                            <!-- 검색 없을 때 -->
+                            <a th:unless="${searchType != null and keyword != null and keyword != ''}"
+                               th:href="@{/my/point(pg=${PointPage.pg + 1})}"
+                               th:classappend="${PointPage.pg == PointPage.end} ? ' disabled' : ''">
+                                <img th:src="@{/images/company/btn-next-page.png}">
+                            </a>
+                            <a th:unless="${searchType != null and keyword != null and keyword != ''}"
+                               th:href="@{/my/point(pg=${PointPage.end})}"
+                               th:classappend="${PointPage.pg == PointPage.end} ? ' disabled' : ''">
+                                <img th:src="@{/images/company/btn-last-page.png}">
+                            </a>
+                        </div>
+                    </div>
+                    
+                    
                 </div>
             </div>
         </div>

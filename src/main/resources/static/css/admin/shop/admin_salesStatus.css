@@ -112,15 +112,9 @@ td {
     width: 10px;
     height: 10px;
 }
-.pagenation .first {
-    background-image: url('/Kmarket/images/admin/shop/btn-first-page.png');
-}
 .pagenation .prev {
-    background-image: url('/Kmarket/images/admin/shop/btn-prev-page.png');
+    background-image: url('/kmarket/images/admin/shop/btn-prev-page.png');
 }
 .pagenation .next {
-    background-image: url('/Kmarket/images/admin/shop/btn-next-page.png');
-}
-.pagenation .last {
-    background-image: url('/Kmarket/images/admin/shop/btn-last-page.png');
+    background-image: url('/kmarket/images/admin/shop/btn-next-page.png');
 }

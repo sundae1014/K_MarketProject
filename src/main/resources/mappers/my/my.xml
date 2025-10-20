@@ -32,6 +32,26 @@
         <result property="addr2" column="ADDR2"/>
     </resultMap>
 
+    <resultMap id="CouponResultMap" type="kr.co.kmarket.dto.CouponDTO">
+        <id property="couponNo" column="COUPON_NO"/>      <result property="cust_number" column="CUST_NUMBER"/>  <result property="couponName" column="COUPON_NAME"/>  <result property="benefit" column="BENEFIT"/>
+        <result property="benefit2" column="benefit2"/>
+        <result property="issueDate" column="ISSUE_DATE"/>
+        <result property="status" column="STATUS"/>
+    </resultMap>
+
+    <resultMap id="PointResultMap" type="kr.co.kmarket.dto.PointDTO">
+        <id property="point_id" column="POINT_ID"/>
+        <result property="cust_number" column="CUST_NUMBER"/>
+        <result property="order_number" column="ORDER_NUMBER"/>
+        <result property="prod_number" column="PROD_NUMBER"/>
+        <result property="cart_number" column="CART_NUMBER"/>
+        <result property="point_type" column="POINT_TYPE"/>
+        <result property="point_amount" column="POINT_AMOUNT"/>
+        <result property="description" column="DESCRIPTION"/>
+        <result property="balance" column="BALANCE"/>
+        <result property="expiry_date" column="EXPIRE_DATE"/>  <result property="created_at" column="CREATED_AT"/>
+    </resultMap>
+
     <select id="selectRecentOrders" resultMap="OrderResultMap" parameterType="int">
         SELECT
         a.ORDER_NUMBER,
@@ -62,7 +82,7 @@
         AND STAT != 8
     </select>
 
-    <select id="selectOrderDetailByCustomer" resultMap="OrderResultMap" parameterType="int">
+    <select id="selectOrderDetailByCustomer" resultMap="OrderResultMap">
         SELECT
         a.ORDER_NUMBER,
         a.O_DATE,
@@ -397,6 +417,97 @@
         JOIN MEMBER b ON b.CUSTID = a.USER_ID
         WHERE b.CUST_NUMBER = #{custNumber}
         AND a.STATUS = 'waiting'
+    </select>
+
+    <select id="selectCouponCountByCustNumber" resultType="int">
+        SELECT COUNT(*) FROM COUPON
+        WHERE STATUS = '정상'
+    </select>
+
+    <select id="selectCouponsListPage" resultMap="CouponResultMap">
+        SELECT
+        COUPON_NO,
+        COUPON_NAME,
+        BENEFIT,
+        "benefit2",   ISSUE_DATE,
+        STATUS
+        FROM (
+        SELECT
+        COUPON_NO,
+        COUPON_NAME,
+        BENEFIT,
+        "benefit2",
+        ISSUE_DATE,
+        STATUS,
+        ROW_NUMBER() OVER (ORDER BY ISSUE_DATE DESC) AS rn
+        FROM COUPON
+        WHERE STATUS = '정상' )
+        WHERE rn BETWEEN #{start} + 1 AND #{start} + #{limit}
+        ORDER BY rn ASC
+    </select>
+
+    <select id="selectPointCountByCustNumber" resultType="int">
+        SELECT COUNT(*) FROM POINT
+        WHERE CUST_NUMBER = #{custNumber}
+    </select>
+
+    <select id="selectPointsListPage" resultMap="PointResultMap">
+        SELECT
+        POINT_ID,
+        CUST_NUMBER,
+        ORDER_NUMBER,
+        PROD_NUMBER,
+        CART_NUMBER,
+        POINT_TYPE,
+        POINT_AMOUNT,
+        DESCRIPTION,
+        BALANCE,
+        EXPIRE_DATE,  CREATED_AT
+        FROM (
+        SELECT
+        POINT_ID,
+        CUST_NUMBER,
+        ORDER_NUMBER,
+        PROD_NUMBER,
+        CART_NUMBER,
+        POINT_TYPE,
+        POINT_AMOUNT,
+        DESCRIPTION,
+        BALANCE,
+        EXPIRE_DATE,  CREATED_AT,
+        ROW_NUMBER() OVER (ORDER BY CREATED_AT DESC) AS rn
+        FROM POINT
+        WHERE CUST_NUMBER = #{custNumber}
+        )
+        WHERE rn BETWEEN #{start} + 1 AND #{start} + #{limit}
+        ORDER BY rn ASC
+    </select>
+
+    <select id="selectPoints" resultMap="PointResultMap">
+        SELECT
+        ORDER_NUMBER ,
+        POINT_TYPE ,
+        POINT_AMOUNT ,
+        DESCRIPTION ,
+        EXPIRE_DATE ,
+        CREATED_AT
+        FROM POINT WHERE CUST_NUMBER = #{custNumber}
+        ORDER BY CREATED_AT DESC
+        FETCH FIRST 5 ROWS ONLY
+    </select>
+
+    <select id="selectAllPoints" resultType="int">
+        SELECT
+            POINT
+        FROM MEMBER
+        WHERE CUST_NUMBER = #{custNumber}
+    </select>
+
+    <select id="selectCountCoupon" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM COUPON
+        WHERE STATUS = '정상'
     </select>
 
 </mapper>

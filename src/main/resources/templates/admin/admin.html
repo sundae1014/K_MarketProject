@@ -181,54 +181,18 @@
                     <div class="notice-board">
                         <h2>공지사항</h2>
                         <table class="notice-table">
-                            <tr>
+                            <tr th:each="noticeTableInfo : ${noticeTableInfo}">
                                 <td>
-                                    <a href="#">
-                                        [안내] 고객문의 불러오기 최신 5건
-                                    </a>
-                                </td>
-                                <td>
-                                    25.01.01
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a href="#">
-                                        [안내] 고객문의 불러오기 최신 5건
-                                    </a>
-                                </td>
-                                <td>
-                                    25.01.01
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                   <a href="#">
-                                        [안내] 고객문의 불러오기 최신 5건
-                                    </a>
-                                </td>
-                                <td>
-                                    25.01.01
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a href="#">
-                                        [안내] 고객문의 불러오기 최신 5건
-                                    </a>
-                                </td>
-                                <td>
-                                    25.01.01
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a href="#">
-                                        [안내] 고객문의 불러오기 최신 5건
-                                    </a>
-                                </td>
-                                <td>
-                                    25.01.01
+                                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                                        <div>
+                                            <a th:href="@{/admin/cs/notice/view(id=${noticeTableInfo.id})}">
+                                                [[${noticeTableInfo.title}]]
+                                            </a>
+                                        </div>
+                                        <div>
+                                            [[${#temporals.format(noticeTableInfo.reg_date, 'yyyy-MM-dd')}]]
+                                        </div>
+                                    </div>
                                 </td>
                             </tr>
                         </table>
