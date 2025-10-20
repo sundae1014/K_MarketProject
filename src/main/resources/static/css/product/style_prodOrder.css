@@ -287,12 +287,13 @@
 .product-option {
     font-size: 13px;
     color: var(--gray-600);
-    margin-bottom: 6px;
+    margin-bottom: 5px;
 }
 
 .product-price {
     display: flex;
     align-items: center;
+    margin-bottom: 7px;
     gap: 8px;
 }
 
@@ -300,6 +301,12 @@
 .product-price .sale { font-size: 16px; font-weight: 800; color: #000; }
 .product-price .regular { font-size: 13px; text-decoration: line-through; color: #999; }
 .product-price .badge { font-size: 13px; color: var(--blue); font-weight: 600; }
+
+.product-point p {
+    font-size: 13px;
+    line-height: 1;
+    text-decoration: underline;
+}
 
 /* 쿠폰/포인트 */
 .coupon-point-box h4 {

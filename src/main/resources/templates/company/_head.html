@@ -18,7 +18,7 @@
     <div class="header-layout">
         <div class="header-content">
             <a th:href="@{/company/index}">
-                <img th:src="@{/images/company/cupangIntro_logo(color).png}" alt="로고">
+                <img th:src="@{'/uploads/logo/' + ${basicData.header_logo_intro}}" alt="로고">
             </a>
 
             <div class="header-link">

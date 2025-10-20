@@ -23,16 +23,28 @@ async function fetchCartData() {
 // =========================
 const formatPrice = num => num.toLocaleString() + "원";
 const getPoint = price => Math.floor(price * 0.01);
-const getUnitBase = item => (item.price + (item.opt_price || 0));
-const getUnitSale = item => Math.floor(getUnitBase(item) * (1 - (item.discount || 0) / 100));
+
+// 기본가(정상가): product.price 사용 (옵션가 포함 시 price + opt 추가금)
+const getUnitBase = item => {
+    return item.price; // 상품 원가(정상가)
+};
+
+// 할인가: DB에서 이미 할인된 opt_price 내려오면 그대로 사용
+// opt_price가 없다면 정상가에 할인률 적용
+const getUnitSale = item => {
+    if (item.opt_price && item.opt_price > 0) {
+        return item.opt_price; // DB에서 내려온 할인가 그대로 사용
+    } else {
+        return Math.floor(item.price * (1 - (item.discount || 0) / 100));
+    }
+};
+
+// ✅ 합계 계산
 const getTotals = item => {
-    const unitBase = getUnitBase(item);
-    const unitSale = getUnitSale(item);
-    return {
-        regular: unitBase * item.quantity,
-        sale: unitSale * item.quantity,
-        discountAmt: (unitBase - unitSale) * item.quantity
-    };
+    const regular = getUnitBase(item) * item.quantity;      // 정상가 합계
+    const sale = getUnitSale(item) * item.quantity;          // 할인가 합계
+    const discountAmt = regular - sale;                      // 할인 총액
+    return { regular, sale, discountAmt };
 };
 
 // =========================
@@ -49,15 +61,14 @@ function renderCart() {
     }
 
     cartData.forEach(item => {
-        const optPrice = item.opt_price || 0;
-        const unitBase = item.price + optPrice;
-        const unitSale = Math.floor(unitBase * (1 - (item.discount || 0) / 100));
+        const unitBase = getUnitBase(item); // 정상가
+        const unitSale = getUnitSale(item); // 할인가
         const totalBase = unitBase * item.quantity;
         const totalSale = unitSale * item.quantity;
         const totalPoint = getPoint(unitSale) * item.quantity;
 
         const optionHtml = item.opt_name
-            ? `<p class="product-option">${item.quantity}개, ${item.opt_name} (${formatPrice(optPrice)})</p>`
+            ? `<p class="product-option">${item.quantity}개, ${item.opt_name} (${formatPrice(unitSale)})</p>`
             : `<p class="product-option">${item.quantity}개</p>`;
 
         const div = document.createElement("div");
@@ -132,7 +143,31 @@ function renderSelectAll() {
 }
 
 // =========================
-// 합계 계산
+// 개별 삭제 기능
+// =========================
+document.addEventListener("click", async (e) => {
+    if (e.target.classList.contains("btn-remove")) {
+        e.preventDefault(); // a 태그의 기본 동작(페이지 이동) 막기
+        const id = e.target.dataset.id;
+
+        if (!confirm("해당 상품을 장바구니에서 삭제하시겠습니까?")) return;
+
+        try {
+            const res = await fetch(`/kmarket/product/cart/${id}`, { method: "DELETE" });
+            if (!res.ok) throw new Error("삭제 실패");
+
+            // 로컬 데이터에서도 제거
+            cartData = cartData.filter(item => item.cart_number != id);
+            renderCart();
+        } catch (err) {
+            console.error(err);
+            alert("상품 삭제 중 오류가 발생했습니다.");
+        }
+    }
+});
+
+// =========================
+// 장바구니 합계 요약(cart-summary)
 // =========================
 function updateSummary() {
     const checked = [...document.querySelectorAll(".chk-item:checked")];
@@ -141,15 +176,14 @@ function updateSummary() {
     checked.forEach(chk => {
         const item = cartData.find(i => i.cart_number == chk.dataset.id);
         if (!item) return;
-        const { regular, discountAmt } = getTotals(item);
+        const { regular, discountAmt, sale } = getTotals(item);
         totalCount += item.quantity;
         totalRegular += regular;
         totalDiscountAmt += discountAmt;
-        totalPoint += getPoint(getUnitSale(item)) * item.quantity;
+        totalPoint += getPoint(sale);
     });
 
-    const final = totalRegular - totalDiscountAmt;
-
+    const final = totalRegular - totalDiscountAmt; // ✅ 정상가 - 할인금액
     const summary = document.querySelector(".cart-summary");
     summary.innerHTML = `
         <h3>전체 합계</h3>

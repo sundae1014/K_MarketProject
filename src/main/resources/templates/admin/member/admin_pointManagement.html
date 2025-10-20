@@ -137,15 +137,15 @@
                     </div>
                 </div>
 
-                <form style="margin: 20px 0;">
-                    <select id="search-select">
+                <form th:action="@{/admin/member/point/search}" method="get" style="margin: 20px 0;">
+                    <select id="search-select" name="searchType">
                         <option value="id">아이디</option>
                         <option value="name">이름</option>
                         <option value="email">이메일</option>
                         <option value="hp">휴대폰</option>
                     </select>
-                    <input type="text" id="search-input" placeholder="검색어 입력">
-                    <input type="button" class="search-btn" value="검색">
+                    <input type="text" name="keyword" id="search-input" placeholder="검색어 입력">
+                    <input type="submit" class="search-btn" value="검색">
                 </form>
                 <div class="table-container">
                     <div>
@@ -163,55 +163,15 @@
                                 </tr>                         
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td><input type="checkbox"></td>
-                                    <td>5</td>
-                                    <td>abc1234</td>
-                                    <td>정우성</td>
-                                    <td>1,000</td>
-                                    <td>15,000</td>
-                                    <td>구매확정 포인트 지급</td>
-                                    <td>0000-00-00 00:00:00</td>
-                                </tr>
-                                <tr>
-                                    <td><input type="checkbox"></td>
-                                    <td>4</td>
-                                    <td>abc1234</td>
-                                    <td>정우성</td>
-                                    <td>1,000</td>
-                                    <td>14,000</td>
-                                    <td>이벤트 참여</td>
-                                    <td>0000-00-00 00:00:00</td>
-                                </tr>
-                                <tr>
-                                    <td><input type="checkbox"></td>
-                                    <td>3</td>
-                                    <td>kang771</td>
-                                    <td>강동원</td>
-                                    <td>-17,000</td>
-                                    <td>100</td>
-                                    <td>주문 결제 내용</td>
-                                    <td>0000-00-00 00:00:00</td>
-                                </tr>
-                                <tr>
-                                    <td><input type="checkbox"></td>
-                                    <td>2</td>
-                                    <td>eqpac112</td>
-                                    <td>한예슬</td>
-                                    <td>1,000</td>
-                                    <td>3,500</td>
-                                    <td>상품 리뷰 작성</td>
-                                    <td>0000-00-00 00:00:00</td>
-                                </tr>
-                                <tr>
-                                    <td><input type="checkbox"></td>
-                                    <td>1</td>
-                                    <td>qeimn3</td>
-                                    <td>이정재</td>
-                                    <td>1,000</td>
-                                    <td>2,700</td>
-                                    <td>회원가입 축하</td>
-                                    <td>0000-00-00 00:00:00</td>
+                                <tr th:each="dto, stat:${pageResponseDTO.dtoList}">
+                                    <td><input type="checkbox" class="row-checkbox" th:value="${dto['ID']}" th:data-id="${dto['CUSTID']}"></td>
+                                    <td th:text="${dto['ID']}"></td>
+                                    <td th:text="${dto['CUSTID']}"></td>
+                                    <td th:text="${dto['NAME']}"></td>
+                                    <td th:text="${dto['POINT_AMOUNT']}"></td>
+                                    <td th:text="${dto['BALANCE']}"></td>
+                                    <td th:text="${dto['DESCRIPTION']}"></td>
+                                    <td th:text="${#dates.format(dto['CREATED_AT'], 'yyyy-MM-dd HH:mm:ss')}"></td>
                                 </tr>
                             </tbody>                  
                         </table>
@@ -219,13 +179,23 @@
                 </div>
                 <div class="bottom-section" style="position: relative;">
                     <ul class="pagenation">
-                        <li><a href="#"><span class="first"></span></a></li>
-                        <li><a href="#"><span class="prev"></span></a></li>
-                        <li><a href="#" class="active2">1</a></li>
-                        <li><a href="#" class="pageNum">2</a></li>
-                        <li><a href="#" class="pageNum">3</a></li>
-                        <li><a href="#"><span class="next"></span></a></li>
-                        <li><a href="#"><span class="last"></span></a></li>
+                        <li>
+                            <a th:if="${pageResponseDTO.prev}"
+                               th:href="@{/admin/member/point(pg=${pageResponseDTO.start - 1})}">
+                            <span class="prev"></span>
+                            </a>
+                        </li>
+                        <th:block th:if="${pageResponseDTO.total > 0}" th:each="num:${#numbers.sequence(pageResponseDTO.start, pageResponseDTO.end)}">
+                            <li>
+                                <a th:href="@{/admin/member/point (pg=${num})}" th:class="${num == pageResponseDTO.pg ? 'active2' : 'pageNum'}">[[${num}]]</a>
+                            </li>
+                        </th:block>
+                        <li>
+                            <a th:if="${pageResponseDTO.next}"
+                                  th:href="@{/admin/member/point(pg=${pageResponseDTO.end + 1})}">
+                            <span class="next"></span>
+                            </a>
+                        </li>
                     </ul>
                     <div>
                         <button class="point_Btn select_delete">선택삭제</button>

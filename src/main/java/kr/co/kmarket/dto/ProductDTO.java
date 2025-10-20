@@ -34,7 +34,7 @@ public class ProductDTO {
     private String prod_nation;     // 원산지
     private int hit;                // 조회수
     private BigDecimal pro_score;   // 평점
-
+    private String business_number; //사업자등록번호
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime reg_date; // 등록일
 

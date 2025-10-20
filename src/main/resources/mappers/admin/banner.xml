@@ -4,6 +4,15 @@
 
 <mapper namespace="kr.co.kmarket.mapper.admin.BannerMapper">
 
+    <select id="selectBannersByLocationStatus" resultType="kr.co.kmarket.dto.BannerDTO">
+        SELECT * FROM banner
+        WHERE banner_status = 1
+        AND location = #{location}
+        AND (start_date IS NULL OR start_date &lt;= SYSDATE)
+        AND (end_date IS NULL OR end_date &gt;= SYSDATE)
+        ORDER BY banner_order
+    </select>
+
     <select id="selectBanners" resultType="kr.co.kmarket.dto.BannerDTO">
         SELECT * FROM banner ORDER BY banner_order
     </select>

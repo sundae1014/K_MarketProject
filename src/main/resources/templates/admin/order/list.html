@@ -80,7 +80,7 @@
             </div>
 
         </aside>
-        <div class="content-wraper">
+        <div class="content-section">
             <div class="content-title">
                 <div class="title-items">
                     <div class="item1">
@@ -94,10 +94,16 @@
             </div>
             <div class="search">
                 <div class="search-box">
-                    <form>
+                    <form method="GET" th:action="@{/admin/order/list}">
+
+                        <input type="hidden" name="searchType" value="orderNumber">
+
                         <input type="text" value="주문번호" readonly>
-                        <input type="text" name="" placeholder="검색어 입력">
-                        <input type="button" class="search-btn" value="검색">
+
+                        <input type="text" name="keyword" placeholder="검색어 입력"
+                               th:value="${OrderPage.keyword}">
+
+                        <input type="submit" class="search-btn" value="검색">
                     </form>
                 </div>
             </div>
@@ -114,17 +120,39 @@
                         <th>주문일</th>
                         <th>배송</th>
                     </tr>
-                    <tr>
-                        <td>
-                            <a data-bs-toggle="modal" data-bs-target="#orderModal">10121211341</a>
+                    <tr th:each="order : ${allOrders}">
+                        <td class="order-number">
+                            <a th:href="@{#}"
+                               data-bs-toggle="modal"
+                               data-bs-target="#orderModal"
+                               th:text="${order.order_number}"
+                               th:data-order-number="${order.order_number}">
+                            </a>
                         </td>
-                        <td>abc123</td>
-                        <td>김유신</td>
-                        <td>2</td>
-                        <td>102,900</td>
-                        <td>신용카드</td>
-                        <td>결제완료</td>
-                        <td>0000-00-00 00:00:00</td>
+                        <td th:text="${order.custId}">abc123</td>
+                        <td th:text="${order.name}">김유신</td>
+                        <td th:text="${order.piece}">2</td>
+                        <td th:text="${order.price}">102,900</td>
+                        <td th:switch="${order.payment}">
+                            <span th:case="1">신용카드</span>
+                            <span th:case="2">체크카드</span>
+                            <span th:case="3">계좌이체</span>
+                            <span th:case="4">무통장입금</span>
+                            <span th:case="5">휴대폰결제</span>
+                            <span th:case="6">카카오페이</span>
+                            <span th:case="*">N/A</span> </td>
+                        <td th:switch="${order.stat}">
+                            <span th:case="0">결제대기</span>
+                            <span th:case="1">결제완료</span>
+                            <span th:case="2">배송준비</span>
+                            <span th:case="3">배송중</span>
+                            <span th:case="4">배송완료</span>
+                            <span th:case="5">주문취소</span>
+                            <span th:case="6">반품요청</span>
+                            <span th:case="7">교환요청</span>
+                            <span th:case="8">구매확정</span>
+                            <span th:case="*">N/A</span> </td>
+                        <td th:text="${#dates.format(order.ODate, 'yyyy-MM-dd HH:mm:ss')}"></td>
                         <td>
                             <button class="btn btn-white" data-bs-toggle="modal" data-bs-target="#addressModal">
                                 배송하기
@@ -132,17 +160,38 @@
                         </td>
                     </tr>
                 </table>
-                <div class="bottom-section" style="position: relative;">
-                    <ul class="pagenation">
-                        <li><a href="#"><span class="first"></span></a></li>
-                        <li><a href="#"><span class="prev"></span></a></li>
-                        <li><a href="#" class="page1">1</a></li>
-                        <li><a href="#" class="page2">2</a></li>
-                        <li><a href="#" class="page3">3</a></li>
-                        <li><a href="#"><span class="next"></span></a></li>
-                        <li><a href="#"><span class="last"></span></a></li>
-                    </ul>
+
+                <div class="pagination">
+                    <div class="prev">
+                        <a th:href="@{/admin/order/list(pg=1, searchType=${OrderPage.searchType}, keyword=${OrderPage.keyword})}"
+                           th:classappend="${OrderPage.pg == 1} ? ' disabled' : ''">
+                            <img th:src="@{/images/company/btn-first-page.png}">
+                        </a>
+                        <a th:href="@{/admin/order/list(pg=${OrderPage.pg - 1}, searchType=${OrderPage.searchType}, keyword=${OrderPage.keyword})}"
+                           th:classappend="${OrderPage.pg == 1} ? ' disabled' : ''">
+                            <img th:src="@{/images/company/btn-prev-page.png}">
+                        </a>
+                    </div>
+
+                    <div class="pagenumber">
+                        <a th:each="i : ${#numbers.sequence(OrderPage.start, OrderPage.end)}"
+                           th:href="@{/admin/order/list(pg=${i}, searchType=${OrderPage.searchType}, keyword=${OrderPage.keyword})}"
+                           th:text="${i}"
+                           th:classappend="${i == OrderPage.pg} ? ' active' : ''"></a>
+                    </div>
+
+                    <div class="last">
+                        <a th:href="@{/admin/order/list(pg=${OrderPage.pg + 1}, searchType=${OrderPage.searchType}, keyword=${OrderPage.keyword})}"
+                           th:classappend="${OrderPage.pg == OrderPage.lastPage} ? ' disabled' : ''">
+                            <img th:src="@{/images/company/btn-next-page.png}">
+                        </a>
+                        <a th:href="@{/admin/order/list(pg=${OrderPage.lastPage}, searchType=${OrderPage.searchType}, keyword=${OrderPage.keyword})}"
+                           th:classappend="${OrderPage.pg == OrderPage.lastPage} ? ' disabled' : ''">
+                            <img th:src="@{/images/company/btn-last-page.png}">
+                        </a>
+                    </div>
                 </div>
+
             </div>
         </div>
     </div>

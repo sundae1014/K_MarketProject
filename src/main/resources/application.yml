@@ -9,6 +9,8 @@ server:
   port: 8080
   servlet:
     context-path: /kmarket
+  tomcat:
+    uri-encoding: UTF-8
 spring:
   application:
     name: Kmarket
@@ -105,4 +107,4 @@ spring:
 
 file:
   upload:
-    path: C:/Kmarket/uploads/
+    path: /var/lib/kmarket/uploads/
