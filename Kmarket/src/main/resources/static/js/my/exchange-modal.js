@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const exchangeModal = document.getElementById('exchangeModal');
     const exchangeForm = document.getElementById('exchangeForm');
-    const CONTEXT_PATH = '/kmarket';
+    const CONTEXT_PATH = '/kmarket'; // 형의 프로젝트 컨텍스트 경로에 맞게 수정해주세요.
 
     // 주문 상태 코드에 따라 텍스트와 클래스를 반환하는 함수
     function getStatusInfo(statCode) {
@@ -46,95 +46,108 @@ document.addEventListener('DOMContentLoaded', function() {
                 statusText = '구매확정';
                 statusClass = 'status-purchase-confirmed';
                 break;
-            default:
-                statusText = '알 수 없음';
-                statusClass = 'status-default';
+            case 9:
+                statusText = '취소완료';
+                statusClass = 'status-cancellation-complete';
                 break;
+            default:
+                statusText = '확인불가';
+                statusClass = 'status-unknown';
         }
+
         return { text: statusText, class: statusClass };
     }
 
+    // 통화 포맷 함수
+    const priceFormatter = new Intl.NumberFormat('ko-KR');
 
-    /* =======================================================
-     * 1. 모달 열릴 때 (show.bs.modal) 주문 상세 정보 Fetch 및 표시
-     * ======================================================= */
-    exchangeModal.addEventListener('show.bs.modal', function (event) {
-        const button = event.relatedTarget;
+    // =========================================================
+    // 모달이 열릴 때 이벤트 처리 (데이터 불러오기)
+    // =========================================================
+    exchangeModal.addEventListener('show.bs.modal', function(e) {
+        const button = e.relatedTarget; // 모달을 트리거한 버튼
         const orderNumber = button.getAttribute('data-order-number');
+        const piece = button.getAttribute('data-piece');
 
-        exchangeForm.reset();
-
-        if (orderNumber) {
-            document.getElementById('exchangeFormOrderNumber').value = orderNumber;
-
-            const url = `${CONTEXT_PATH}/my/orderDetail?orderNumber=${orderNumber}`;
-
-            fetch(url)
-                .then(response => {
-                    if (!response.ok) throw new Error(`서버 응답 오류: ${response.status}`);
-                    return response.json();
-                })
-                .then(data => {
-                    if (data && data.orderNumber) {
-                        const statElement = document.getElementById('exchange-modal-stat');
-                        const statusInfo = getStatusInfo(data.stat);
-
-                        // 🚨 상태 텍스트 및 클래스 업데이트
-                        statElement.textContent = statusInfo.text;
-                        // 기존 클래스 초기화 후 새로운 클래스 추가 (색상 적용)
-                        statElement.className = '';
-                        statElement.classList.add(statusInfo.class);
-
-
-                        document.getElementById('exchange-modal-date').textContent = data.dateString || '';
-                        document.getElementById('exchange-modal-orderNumber').textContent = data.orderNumber;
-                        document.getElementById('exchange-modal-manufacture').textContent = data.manufacture || '';
-                        document.getElementById('exchange-modal-prodName').textContent = data.prod_name || '상품명 없음';
-                        document.getElementById('exchange-modal-piece').textContent = data.piece ? `${data.piece}개` : '1개';
-                        document.getElementById('exchange-modal-realPrice').textContent = data.priceString || '0원';
-                        document.getElementById('exchange-modal-salePrice').textContent = data.salePriceString || '0원';
-                        document.getElementById('exchange-modal-discount').textContent = data.discountString || '0원';
-                        document.getElementById('exchange-modal-finalPrice').textContent = data.priceString || '0원';
-
-                        const imgElement = document.getElementById('exchange-modal-prod-img');
-                        const fullImgPath = data.encodedImg1 ? `${data.encodedImg1}` : '/images/default.png';
-                        imgElement.src = `${fullImgPath}`;
-                        imgElement.alt = data.prod_name;
-
-                    } else {
-                        alert('주문 정보를 찾을 수 없습니다.');
-                    }
-                })
-                .catch(error => {
-                    console.error('주문 상세 정보 Fetch Error:', error);
-                    alert('주문 정보를 불러오는 중 오류가 발생했습니다. (경로 및 API 확인)');
-                });
+        if (!orderNumber) {
+            alert('주문번호가 누락되었습니다.');
+            return;
         }
+
+        // 1. 서버에 주문 상세 정보 요청
+        fetch(`${CONTEXT_PATH}/my/orderDetail?orderNumber=${orderNumber}`)
+            .then(response => response.json())
+            .then(data => {
+                if (!data) {
+                    throw new Error('주문 상세 정보가 없습니다.');
+                }
+
+                // 2. HTML 요소에 데이터 바인딩
+
+                // Hidden Input에 주문 번호 설정 (폼 전송용)
+                document.getElementById('exchangeFormOrderNumber').value = orderNumber;
+
+                // 상품 정보 영역
+
+                // 🚨 [날짜 수정] Java에서 포맷팅한 값을 사용
+                document.getElementById('exchange-modal-date').textContent = data.dateString;
+
+                document.getElementById('exchange-modal-orderNumber').textContent = data.order_number;
+                document.getElementById('exchange-modal-manufacture').textContent = data.manufacture || '';
+                document.getElementById('exchange-modal-prodName').textContent = data.prod_name || '';
+                document.getElementById('exchange-modal-piece').textContent = `수량: ${data.piece || 0}개`;
+
+                // 가격 정보 영역 (결제금액)
+                // data.realPrice가 없으므로 price, discount, salePrice를 사용하여 계산
+                document.getElementById('exchange-modal-realPrice').textContent = priceFormatter.format(data.salePrice) + '원'; // 단일 상품 판매가
+                document.getElementById('exchange-modal-salePrice').textContent = priceFormatter.format(data.salePrice * data.piece) + '원'; // 총 판매가
+                document.getElementById('exchange-modal-discount').textContent = data.discountString || '0원';
+                document.getElementById('exchange-modal-finalPrice').textContent = data.priceString || '0원';
+
+                // 이미지 설정
+                const imgElement = document.getElementById('exchange-modal-prod-img');
+                // 🚨 [이미지 경로 수정] Java에서 만든 전체 경로를 그대로 사용
+                const fullImgPath = data.encodedImg1;
+
+                if (imgElement && fullImgPath) {
+                    imgElement.src = fullImgPath;
+                    imgElement.alt = data.prod_name;
+                }
+
+                // 주문 상태 설정
+                const statusInfo = getStatusInfo(data.stat);
+                document.getElementById('exchange-modal-stat').textContent = statusInfo.text;
+                document.getElementById('exchange-modal-stat').className = statusInfo.class; // 클래스도 설정
+
+            })
+            .catch(error => {
+                console.error('교환 모달 데이터 로드 중 에러 발생:', error);
+                alert('주문 상세 정보를 가져오는 데 실패했습니다.');
+            });
     });
 
-
-    /* =======================================================
-     * 3. 교환 폼 제출 이벤트 리스너 (AJAX POST /my/exchange)
-     * ======================================================= */
+    // =========================================================
+    // 교환 요청 폼 제출 처리
+    // =========================================================
     exchangeForm.addEventListener('submit', function(e) {
         e.preventDefault();
 
         const formData = new FormData(exchangeForm);
         const jsonData = {};
 
+        // 폼 데이터를 JSON으로 변환 (orderNumber, exchange, exchange_reason만 전송)
         formData.forEach((value, key) => {
             if (key === 'orderNumber' || key === 'exchange' || key === 'exchange_reason') {
                 jsonData[key] = value;
             }
         });
 
-        // console.log("전송할 JSON 데이터:", JSON.stringify(jsonData));
-
         if (!jsonData.orderNumber) {
             alert('주문 정보가 누락되었습니다.');
             return;
         }
 
+        // 폼 데이터를 서버의 RestController로 전송
         fetch(`${CONTEXT_PATH}/my/exchange`, {
             method: 'POST',
             headers: {
@@ -146,18 +159,27 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(data => {
                 if (data.success) {
                     alert(data.message);
+                    // 모달 닫기 및 페이지 새로고침
                     const modalInstance = bootstrap.Modal.getInstance(exchangeModal);
                     if (modalInstance) {
                         modalInstance.hide();
                     }
                     window.location.reload();
                 } else {
-                    alert(`반품 요청 실패: ${data.message}`);
+                    alert(`교환 요청 실패: ${data.message}`);
                 }
             })
             .catch(error => {
-                console.error('반품 요청 중 에러 발생:', error);
-                alert('반품 요청 중 시스템 오류가 발생했습니다.');
+                console.error('교환 요청 중 에러 발생:', error);
+                alert('교환 요청 중 시스템 오류가 발생했습니다.');
             });
     });
+
+    // 이미지 파일 핸들링 함수 (HTML onchange에서 사용)
+    window.handleFileUpload = function(event, type) {
+        const fileInput = event.target;
+        if (fileInput.files.length > 0) {
+            console.log(`선택된 파일: ${fileInput.files[0].name}`);
+        }
+    }
 });

@@ -13,6 +13,7 @@ public interface OrderMapper {
 
     // 장바구니
     List<CartDTO> selectCartList(List<Integer> cart_numbers);
+    List<CartDTO> selectCartItemsByNumbers(String[] cart_number);
 
     // 쿠폰 조회
     List<CouponDTO> selectAvailableCoupons(int cust_number);

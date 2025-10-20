@@ -71,4 +71,25 @@
                )
     </insert>
 
+    <select id="selectCartItemsByNumbers" resultType="kr.co.kmarket.dto.CartDTO">
+        SELECT
+        c.CART_NUMBER,
+        c.CUST_NUMBER,
+        c.PROD_NUMBER,
+        c.QUANTITY,
+        p.PROD_NAME,
+        p.PRICE,
+        p.DISCOUNT,
+        p.IMG_1,
+        o.OPT_NAME,
+        o.OPT_PRICE
+        FROM CART c
+        JOIN PRODUCT p ON c.PROD_NUMBER = p.PROD_NUMBER
+        LEFT JOIN PRODUCT_OPTION o ON p.PROD_NUMBER = o.PROD_NUMBER
+        WHERE c.CART_NUMBER IN
+        <foreach collection="array" item="num" open="(" separator="," close=")">
+            #{num}
+        </foreach>
+    </select>
+
 </mapper>

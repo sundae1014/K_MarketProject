@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         summaryBox.innerHTML = `
         <li><span>상품수</span><span><strong>${quantity}</strong></span></li>
-        <li><span>상품금액</span><span><strong>${(basePrice * quantity).toLocaleString()}</strong>원</span></li>
+        <li><span>상품금액</span><span><strong>${basePrice.toLocaleString()}</strong>원</span></li>
         <li><span>쿠폰할인</span><span><strong>-${couponDiscount.toLocaleString()}</strong>원</span></li>
         <li><span>포인트사용</span><span><strong>-${usedPoint.toLocaleString()}</strong>원</span></li>
         <li><span>배송비</span><span><strong>+0</strong>원</span></li>
@@ -54,8 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     function calcFinalPrice() {
-        const quantity = getQuantity();
-        finalPrice = basePrice * quantity - couponDiscount - usedPoint;
+        finalPrice = basePrice - couponDiscount - usedPoint; // ✅ 수정됨
         if (finalPrice < 0) finalPrice = 0;
         updateTotal();
     }
@@ -103,3 +102,31 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 });
+
+// =========================
+// ✅ 결제방법 선택 활성화 기능
+// =========================
+document.addEventListener("DOMContentLoaded", () => {
+    const payButtons = document.querySelectorAll(".pay-btn");
+
+    payButtons.forEach(btn => {
+        btn.addEventListener("click", () => {
+            // 모든 버튼에서 active 제거
+            payButtons.forEach(b => b.classList.remove("active"));
+
+            // 클릭된 버튼에 active 추가
+            btn.classList.add("active");
+
+            // ✅ 시각적 효과 (선택 시 살짝 확대 + 그림자)
+            btn.animate(
+                [
+                    { transform: "scale(1)", boxShadow: "none" },
+                    { transform: "scale(1.05)", boxShadow: "0 2px 8px rgba(51,106,253,0.3)" },
+                    { transform: "scale(1)", boxShadow: "none" }
+                ],
+                { duration: 300, easing: "ease-out" }
+            );
+        });
+    });
+});
+

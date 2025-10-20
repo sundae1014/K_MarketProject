@@ -23,7 +23,7 @@ public class PointDTO {
     private int point_amount;       // 포인트 변동 금액
     private String description;     // 포인트 발생 사유
     private int balance;            // 잔여 포인트
-    private Date expiry_date;       // 만료일
-    private Date created_at;        // 발생일
+    private LocalDateTime expiry_date;       // 만료일
+    private LocalDateTime created_at;        // 발생일
 
 }
