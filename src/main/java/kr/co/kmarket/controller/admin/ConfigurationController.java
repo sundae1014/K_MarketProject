@@ -56,33 +56,33 @@ public class ConfigurationController {
     public String basic(BasicDTO basicDTO) throws IOException {
 
         if (basicDTO.getHeader_logoFile1() != null && !basicDTO.getHeader_logoFile1().isEmpty()) {
-            String originalName = saveFileOriginalName(basicDTO.getHeader_logoFile1(), uploadPath);
+            String originalName = saveFileOriginalName(basicDTO.getHeader_logoFile1(), uploadPath, "logo");
             basicDTO.setHeader_logo_main(originalName);
         }
         if (basicDTO.getHeader_logoFile2() != null && !basicDTO.getHeader_logoFile2().isEmpty()) {
-            String originalName = saveFileOriginalName(basicDTO.getHeader_logoFile2(), uploadPath);
+            String originalName = saveFileOriginalName(basicDTO.getHeader_logoFile2(), uploadPath, "logo");
             basicDTO.setHeader_logo_intro(originalName);
         }
         if (basicDTO.getHeader_logoFile3() != null && !basicDTO.getHeader_logoFile3().isEmpty()) {
-            String originalName = saveFileOriginalName(basicDTO.getHeader_logoFile3(), uploadPath);
+            String originalName = saveFileOriginalName(basicDTO.getHeader_logoFile3(), uploadPath, "logo");
             basicDTO.setHeader_logo_admin(originalName);
         }
 
         if (basicDTO.getFooter_logoFile1() != null && !basicDTO.getFooter_logoFile1().isEmpty()) {
-            String originalName = saveFileOriginalName(basicDTO.getFooter_logoFile1(), uploadPath);
+            String originalName = saveFileOriginalName(basicDTO.getFooter_logoFile1(), uploadPath, "logo");
             basicDTO.setFooter_logo_main(originalName);
         }
         if (basicDTO.getFooter_logoFile2() != null && !basicDTO.getFooter_logoFile2().isEmpty()) {
-            String originalName = saveFileOriginalName(basicDTO.getFooter_logoFile2(), uploadPath);
+            String originalName = saveFileOriginalName(basicDTO.getFooter_logoFile2(), uploadPath, "logo");
             basicDTO.setFooter_logo_intro(originalName);
         }
         if (basicDTO.getFooter_logoFile3() != null && !basicDTO.getFooter_logoFile3().isEmpty()) {
-            String originalName = saveFileOriginalName(basicDTO.getFooter_logoFile3(), uploadPath);
+            String originalName = saveFileOriginalName(basicDTO.getFooter_logoFile3(), uploadPath, "logo");
             basicDTO.setFooter_logo_admin(originalName);
         }
 
         if (basicDTO.getFavicon_File() != null && !basicDTO.getFavicon_File().isEmpty()) {
-            String originalName = saveFileOriginalName(basicDTO.getFavicon_File(), uploadPath);
+            String originalName = saveFileOriginalName(basicDTO.getFavicon_File(), uploadPath, "logo");
             basicDTO.setFavicon(originalName);
         }
 
@@ -90,17 +90,18 @@ public class ConfigurationController {
         return "redirect:/admin/config/basic";
     }
 
-    private String saveFileOriginalName(MultipartFile file, String uploadDir) throws IOException {
+    private String saveFileOriginalName(MultipartFile file, String uploadDir, String subDir) throws IOException {
         String originalFilename = file.getOriginalFilename();
 
-        Path uploadPath = Paths.get(uploadDir);
-        if (!Files.exists(uploadPath)) {
-            Files.createDirectories(uploadPath);
+        Path path = Paths.get(uploadDir, subDir);
+        if (!Files.exists(path)) {
+            Files.createDirectories(path);
         }
 
-        file.transferTo(uploadPath.resolve(originalFilename));
+        file.transferTo(path.resolve(originalFilename));
         return originalFilename;
     }
+
 
 
     @GetMapping("/banner")
@@ -123,12 +124,17 @@ public class ConfigurationController {
     public Map<String, Object> banner(@ModelAttribute BannerDTO dto) throws IOException {
         MultipartFile file = dto.getImgFile();
         if (file != null && !file.isEmpty()) {
-            String fileName = file.getOriginalFilename(); // 원본 이름
-            File target = new File(uploadPath + fileName);
-            target.getParentFile().mkdirs();
-            file.transferTo(target);
+            String fileName = file.getOriginalFilename();
+
+            Path targetPath = Paths.get(uploadPath, "banner");
+            if (!Files.exists(targetPath)) {
+                Files.createDirectories(targetPath);
+            }
+
+            file.transferTo(targetPath.resolve(fileName));
             dto.setImg(fileName);
         }
+
         if(dto.getBanner_order() == null) dto.setBanner_order(0);
         if(dto.getBanner_status() == null) dto.setBanner_status(1);
 
@@ -138,6 +144,7 @@ public class ConfigurationController {
         result.put("success", true);
         return result;
     }
+
 
     @PostMapping("/banner/delete")
     @ResponseBody

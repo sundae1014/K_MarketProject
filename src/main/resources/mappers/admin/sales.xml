@@ -9,6 +9,7 @@
         SELECT
         ROW_NUMBER() OVER (ORDER BY p.MANUFACTURE) AS ID,
         p.MANUFACTURE,
+        p.BUSINESS_NUMBER,
         COUNT(*) AS TOTAL,
         COUNT(CASE WHEN o.STAT = 1 THEN 1 END) AS 결제완료,
         COUNT(CASE WHEN o.STAT = 3 THEN 1 END) AS 배송중,
@@ -19,7 +20,7 @@
         JOIN PRODUCT p ON p.PROD_NUMBER = od.PROD_NUMBER
         JOIN "ORDER" o ON od.ORDER_NUMBER = o.ORDER_NUMBER
         WHERE o.STAT IN (1, 3, 4, 8)
-        GROUP BY p.MANUFACTURE
+        GROUP BY p.MANUFACTURE, p.BUSINESS_NUMBER
         ORDER BY p.MANUFACTURE
         OFFSET #{pageRequestDTO.offset} ROWS
         FETCH NEXT #{pageRequestDTO.size} ROWS ONLY
@@ -36,6 +37,7 @@
         SELECT
         ROW_NUMBER() OVER (ORDER BY 기준날짜) AS ID,
         manufacture,
+        business_number,
         기준날짜,
         COUNT(*) AS TOTAL,
         COUNT(CASE WHEN stat = 1 THEN 1 END) AS 결제완료,
@@ -49,6 +51,7 @@
         od.PIECE AS piece,
         o.STAT AS stat,
         p.MANUFACTURE AS manufacture,
+        p.BUSINESS_NUMBER AS business_number,
         <choose>
             <when test="type == 'day'">
                 TO_CHAR(o.O_DATE, 'YYYY-MM-DD') AS 기준날짜
@@ -68,7 +71,7 @@
         JOIN "ORDER" o ON od.ORDER_NUMBER = o.ORDER_NUMBER
         WHERE o.STAT IN (1, 3, 4, 8)
         ) grouped
-        GROUP BY manufacture, 기준날짜
+        GROUP BY manufacture, business_number, 기준날짜
         ORDER BY 기준날짜
         OFFSET #{pageRequestDTO.offset} ROWS
         FETCH NEXT #{pageRequestDTO.size} ROWS ONLY

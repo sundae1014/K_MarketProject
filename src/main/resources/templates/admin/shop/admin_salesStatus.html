@@ -167,7 +167,7 @@
                                 <tr th:each="sales, stat:${pageResponseDTO.dtoList}">
                                     <td th:text="${sales['ID']}"></td>
                                     <td th:text="${sales['MANUFACTURE']}"></td>
-                                    <td></td> <!-- 임시 -->
+                                    <td th:text="${sales['BUSINESS_NUMBER']}"></td>
                                     <td th:text="${sales['TOTAL']}"></td>
                                     <td th:text="${sales['결제완료']}"></td>
                                     <td th:text="${sales['배송중']}"></td>

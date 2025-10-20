@@ -7,30 +7,6 @@
     <title>[[${basicData.title}]]-[[${basicData.sub_title}]]::관리자 환경설정 [[${appInfo.appVersion}]]</title>
     <link rel="stylesheet" th:href="@{/css/admin/main/header_footer.css}">
     <link rel="stylesheet" th:href="@{/css/admin/configuration/basicSetting.css}">
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            let optionCount = 3;
-
-            function addRow() {
-                optionCount++;
-
-                const option_box = document.querySelector(".option_box");
-                const newDiv = document.createElement("div");
-                newDiv.className = "line_row";
-                newDiv.innerHTML = `
-                    <div class="option_title">옵션${optionCount}</div>
-                    <input type="text" name="option${optionCount}" class="option_content">
-                    <div class="option_title" style="margin-left: 20px;">옵션${optionCount} 항목</div>
-                    <input type="text" name="option${optionCount}_detail" class="option_content">
-                `;
-                option_box.appendChild(newDiv);
-            }
-
-            document.querySelector(".option_pls").addEventListener("click", function() {
-                addRow();
-            });
-        });
-    </script>
     <script th:src="@{/js/admin/cs/recruit/sidebarAction.js}" defer></script>
     <link rel="stylesheet" th:href="@{/css/admin/main/sidebar.css}">
 </head>
