@@ -23,9 +23,12 @@ public class CartDTO {
     private double delivery_fee;
     private double total_order_amount;
     private int reward_points;
-    private String opt_name;
     private String is_selected;
     private String is_ordered;
+
+    // 옵션 조회
+    private String opt_name;
+    private int opt_price;
 
     // Product join용 (출력용)
     private String prod_name;
