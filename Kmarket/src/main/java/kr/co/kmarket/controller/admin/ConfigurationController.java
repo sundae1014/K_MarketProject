@@ -6,12 +6,14 @@ import kr.co.kmarket.controller.GlobalController;
 import kr.co.kmarket.dto.*;
 import kr.co.kmarket.mapper.admin.CategoryMapper;
 import kr.co.kmarket.service.PolicyService;
+import kr.co.kmarket.service.admin.BannerService;
 import kr.co.kmarket.service.admin.BasicService;
 import kr.co.kmarket.service.admin.CategoryService;
 import kr.co.kmarket.service.admin.VersionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -39,7 +42,7 @@ public class ConfigurationController {
     private final VersionService versionService;
     private final BasicService basicService;
     private final CategoryService categoryService;
-    private final CategoryMapper categoryMapper;
+    private final BannerService bannerService;
 
     @Value("${file.upload.path}")
     private String uploadPath;
@@ -101,8 +104,57 @@ public class ConfigurationController {
 
 
     @GetMapping("/banner")
-    public String banner() {return "admin/configuration/admin_banner";}
+    public String banner(Model model) {
+        List<BannerDTO> banners = bannerService.selectBanners();
+        model.addAttribute("bannerList", banners);
+        return "admin/configuration/admin_banner";
+    }
 
+    @GetMapping("/banner/list")
+    @ResponseBody
+    public ResponseEntity<List<BannerDTO>> getBannerList(@RequestParam String location) {
+            List<BannerDTO> banners = bannerService.getBannersByLocation(location);
+        log.info("location = {}, banners = {}", location, banners);
+            return ResponseEntity.ok(banners);
+    }
+
+    @PostMapping("/banner/register")
+    @ResponseBody
+    public Map<String, Object> banner(@ModelAttribute BannerDTO dto) throws IOException {
+        MultipartFile file = dto.getImgFile();
+        if (file != null && !file.isEmpty()) {
+            String fileName = file.getOriginalFilename(); // 원본 이름
+            File target = new File(uploadPath + fileName);
+            target.getParentFile().mkdirs();
+            file.transferTo(target);
+            dto.setImg(fileName);
+        }
+        if(dto.getBanner_order() == null) dto.setBanner_order(0);
+        if(dto.getBanner_status() == null) dto.setBanner_status(1);
+
+        bannerService.insertBanner(dto);
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("success", true);
+        return result;
+    }
+
+    @PostMapping("/banner/delete")
+    @ResponseBody
+    public ResponseEntity<?> banner(@RequestBody List<Integer> bannerNos) {
+        bannerService.deleteBanners(bannerNos);
+        return ResponseEntity.ok().build();
+    }
+
+
+    @PostMapping("/banner/status")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> updateBannerStatus(@RequestParam int banner_no,
+                                                                  @RequestParam int banner_status) {
+        bannerService.updateBannerStatus(banner_no, banner_status);
+        log.info("banner_no = {}, banner_status = {}", banner_no, banner_status);
+        return ResponseEntity.ok(Map.of("success", true));
+    }
     @GetMapping("/policy")
     public String policy(Model model) {
         List<PolicyDTO> buyerList = policyService.selectPolicyAll("buyer");
