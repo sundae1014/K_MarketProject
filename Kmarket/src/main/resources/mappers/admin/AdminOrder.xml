@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.kmarket.mapper.admin.AdminOrderMapper">
+
+    <resultMap id="OrderResultMap2" type="kr.co.kmarket.dto.OrderDTO">
+        <result property="order_number" column="ORDER_NUMBER"/>
+        <result property="oDate" column="O_DATE"/>
+        <result property="stat" column="STAT"/>
+        <result property="piece" column="PIECE"/>
+        <result property="price" column="PRICE"/>
+        <result property="img1" column="IMG_1"/>
+        <result property="manufacture" column="MANUFACTURE"/>
+        <result property="prod_name" column="PROD_NAME"/>
+        <result property="discount" column="DISCOUNT"/>
+        <result property="salePrice" column="SALEPRICE"/>
+        <result property="prod_number" column="PROD_NUMBER"/>
+    </resultMap>
+
+    <resultMap id="ProductDetailResultMap" type="kr.co.kmarket.dto.AdminOrderDetailDTO">
+        <id property="prod_number" column="PROD_NUMBER"/>
+        <result property="itemPiece" column="OD_PIECE"/>
+        <result property="price" column="OD_PRICE"/>
+        <result property="salePrice" column="OD_SALEPRICE"/>
+        <result property="discount" column="OD_DISCOUNT"/>
+        <result property="prod_name" column="PROD_NAME"/>
+        <result property="manufacture" column="MANUFACTURE"/>
+        <result property="img1" column="IMG_1"/>
+        <result property="delivery_fee" column="DELIVERY_FEE"/>
+    </resultMap>
+
+    <resultMap id="OrderDetailCombinedResultMap" type="kr.co.kmarket.dto.OrderDTO">
+        <id property="order_number" column="ORDER_NUMBER"/>
+        <result property="cust_number" column="CUST_NUMBER"/>
+        <result property="payment" column="PAYMENT"/>
+        <result property="stat" column="STAT"/>
+        <result property="price" column="TOTAL_FINAL_PRICE"/>
+        <result property="usePoint" column="USEPOINT"/>
+        <result property="oDate" column="O_DATE"/>
+        <result property="name" column="RECIP_NAME"/>
+        <result property="hp" column="RECIP_HP"/>
+        <result property="zip" column="RECIP_ZIP"/>
+        <result property="addr" column="RECIP_ADDR1"/>
+        <result property="addr2" column="RECIP_ADDR2"/>
+        <result property="req" column="REQ"/>
+        <result property="custId" column="CUSTID"/>
+        <result property="ordName" column="ORD_NAME"/>
+        <result property="ordHp" column="ORD_HP"/>
+        <collection property="details" ofType="kr.co.kmarket.dto.AdminOrderDetailDTO" resultMap="ProductDetailResultMap" />
+    </resultMap>
+
+    <select id="selectAllOrdersListPage" resultMap="OrderResultMap2">
+        SELECT
+        ORDER_NUMBER,
+        O_DATE,
+        STAT,
+        PAYMENT,
+        PIECE,
+        PRICE,
+        CUSTID,
+        NAME
+        FROM (
+        SELECT
+        a.ORDER_NUMBER,
+        a.O_DATE,
+        a.STAT,
+        a.PAYMENT,
+        b.PIECE,
+        b.PRICE,
+        c.CUSTID,
+        c.NAME,
+        ROW_NUMBER() OVER (ORDER BY a.O_DATE DESC) AS rn
+        FROM "ORDER" a
+        JOIN ORDERDETAIL b ON a.ORDER_NUMBER = b.ORDER_NUMBER
+        JOIN "MEMBER" c ON a.CUST_NUMBER = c.CUST_NUMBER
+
+        <if test="searchType != null and keyword != null and keyword != ''">
+            WHERE
+            <choose>
+                <when test="searchType == 'orderNumber'">
+                    a.ORDER_NUMBER LIKE '%' || #{keyword} || '%'
+                </when>
+            </choose>
+        </if>
+        )
+        WHERE rn BETWEEN #{start} + 1 AND #{start} + #{limit}
+        ORDER BY rn ASC
+    </select>
+
+    <select id="selectAllOrderCount" resultType="int">
+        SELECT COUNT(a.ORDER_NUMBER)
+        FROM "ORDER" a
+        JOIN ORDERDETAIL b ON a.ORDER_NUMBER = b.ORDER_NUMBER
+
+        <if test="searchType != null and keyword != null and keyword != ''">
+            WHERE
+            <choose>
+                <when test="searchType == 'orderNumber'">
+                    a.ORDER_NUMBER LIKE '%' || #{keyword} || '%'
+                </when>
+            </choose>
+        </if>
+    </select>
+
+    <select id="selectOrderDetailCombined" resultMap="OrderDetailCombinedResultMap">
+        SELECT
+        T1.CUST_NUMBER,
+        T1.ORDER_NUMBER,
+        T1.PAYMENT,
+        T1.STAT,
+        T2.PRICE AS TOTAL_FINAL_PRICE,
+        T1.O_DATE,
+        T1.NAME AS RECIP_NAME,
+        T1.HP AS RECIP_HP,
+        T1.ZIP AS RECIP_ZIP,
+        T1.ADDR AS RECIP_ADDR1,
+        T1.ADDR2 AS RECIP_ADDR2,
+        T1.REQ,
+        T3.CUSTID,
+        T3.NAME AS ORD_NAME,
+        T3.HP AS ORD_HP,
+        T2.PROD_NUMBER,
+        T2.PIECE AS OD_PIECE,
+        T4.PRICE AS OD_PRICE,
+        T4.SALEPRICE AS OD_SALEPRICE, T4.DISCOUNT AS OD_DISCOUNT,
+        T4.PROD_NAME,
+        T4.MANUFACTURE,
+        T4.IMG_1,
+        T4.DELIVERY_FEE
+        FROM "ORDER" T1
+        JOIN ORDERDETAIL T2 ON T1.ORDER_NUMBER = T2.ORDER_NUMBER
+        JOIN MEMBER T3 ON T1.CUST_NUMBER = T3.CUST_NUMBER
+        JOIN PRODUCT T4 ON T2.PROD_NUMBER = T4.PROD_NUMBER
+        WHERE T1.ORDER_NUMBER = #{order_number}
+    </select>
+
+</mapper>

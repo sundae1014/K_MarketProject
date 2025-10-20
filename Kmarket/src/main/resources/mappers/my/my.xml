@@ -510,4 +510,5 @@
         WHERE STATUS = '정상'
     </select>
 
+
 </mapper>
