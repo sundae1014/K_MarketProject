@@ -10,7 +10,14 @@ async function fetchCartData() {
     try {
         const res = await fetch("/kmarket/product/cart/list");
         if (!res.ok) throw new Error("서버 응답 오류");
-        cartData = await res.json();
+
+        const data = await res.json();
+        cartData = data.map(item => ({
+            ...item,
+            quantity: Number(item.quantity ?? 1) // ✅ 문자열→숫자 변환 & null 방지
+        }));
+
+        console.log("cartData after fetch:", cartData);
         renderCart();
     } catch (e) {
         console.error(e);
@@ -22,7 +29,7 @@ async function fetchCartData() {
 // 유틸 함수
 // =========================
 const formatPrice = num => num.toLocaleString() + "원";
-const getPoint = (price, quantity = 1) => Math.floor((price * quantity) * 0.01);
+const getPoint = (unitPrice, quantity = 1) => Math.floor(unitPrice * 0.01 * quantity);
 
 // 기본가(정상가): product.price 사용 (옵션가 포함 시 price + opt 추가금)
 const getUnitBase = item => {
@@ -61,6 +68,8 @@ function renderCart() {
     }
 
     cartData.forEach(item => {
+        console.log('quantity type:', typeof item.quantity, item.quantity);
+
         const unitBase = getUnitBase(item); // 정상가
         const unitSale = getUnitSale(item); // 할인가
         const totalBase = unitBase * item.quantity;
@@ -99,7 +108,6 @@ function renderCart() {
     });
 
     renderSelectAll();
-    updateSummary(); // ✅ 단 한 번만 호출
 }
 
 // =========================
@@ -140,6 +148,8 @@ function renderSelectAll() {
         cartData = cartData.filter(i => !selected.includes(String(i.cart_number)));
         renderCart();
     });
+
+    updateSummary();
 }
 
 // =========================
@@ -228,28 +238,50 @@ document.addEventListener("click", async (e) => {
     if (e.target.classList.contains("plus") || e.target.classList.contains("minus")) {
         const id = e.target.dataset.id;
         const input = document.querySelector(`input[data-id="${id}"]`);
-        let qty = parseInt(input.value);
+        let qty = parseInt(input.value) || 1;
 
         if (e.target.classList.contains("plus")) qty++;
-        if (e.target.classList.contains("minus")) qty = Math.max(1, qty - 1);
+        if (e.target.classList.contains("minus") && qty > 1) qty--;
 
+        // ✅ 즉시 화면 반영
         input.value = qty;
 
-        // ✅ cartData 내부 수량도 갱신
         const item = cartData.find(i => i.cart_number == id);
         if (item) item.quantity = qty;
 
-        // ✅ 서버에도 반영 (선택사항: DB 실시간 반영)
-        await fetch(`/kmarket/product/cart/updateQty`, {
-            method: "PATCH", // ✅ 컨트롤러에 맞춰 PATCH로 변경
+        updateItemDisplay(id, qty);
+        updateSummary();
+
+        // ✅ 비동기 서버 PATCH (화면 갱신 안 건드림)
+        fetch("/kmarket/product/cart/updateQty", {
+            method: "PATCH",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ cart_number: id, quantity: qty })
-        });
-
-        // ✅ 화면 갱신
-        renderCart();
+        }).catch(err => console.error("수량 변경 오류:", err));
     }
 });
+
+// =========================
+// 개별 상품 화면 갱신
+// =========================
+function updateItemDisplay(cartId, qty) {
+    const item = cartData.find(i => i.cart_number == cartId);
+    if (!item) return;
+
+    item.quantity = qty;
+
+    const unitSale = getUnitSale(item);
+    const totalSale = unitSale * qty;
+    const totalBase = getUnitBase(item) * qty;
+    const totalPoint = getPoint(unitSale, qty);
+
+    const container = document.querySelector(`.chk-item[data-id="${cartId}"]`).closest(".cart-item");
+    container.querySelector(".sale").textContent = formatPrice(totalSale);
+    container.querySelector(".regular").textContent = formatPrice(totalBase);
+    container.querySelector(".cart-point p").textContent = `최대 ${formatPrice(totalPoint)} 적립`;
+    container.querySelector(".product-option").textContent = `${qty}개${item.opt_name ? ', ' + item.opt_name + ` (${formatPrice(unitSale)})` : ''}`;
+    container.querySelector(`input[data-id="${cartId}"]`).value = qty; // ✅ input 즉시 반영
+}
 
 // =========================
 // 직접 입력 시(텍스트박스) 수량 변경
@@ -264,13 +296,16 @@ document.addEventListener("change", async (e) => {
         const item = cartData.find(i => i.cart_number == id);
         if (item) item.quantity = qty;
 
-        await fetch(`/kmarket/product/cart/update`, {
-            method: "POST",
+        await fetch(`/kmarket/product/cart/updateQty`, {
+            method: "PATCH",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ cart_number: id, quantity: qty })
         });
 
-        renderCart();
+        // 리로드 대신 화면만 갱신
+        updateItemDisplay(id, qty);
+        updateSummary();
+
     }
 });
 
