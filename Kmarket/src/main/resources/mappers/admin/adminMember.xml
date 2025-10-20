@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.kmarket.mapper.admin.AdminMemberMapper">
+    <sql id="searchWhere">
+        <trim prefix="" prefixOverrides="AND |OR ">
+            <if test="pageRequestDTO.searchType != null and pageRequestDTO.keyword != ''">
+                <choose>
+                    <when test="pageRequestDTO.searchType == 'id'">
+                        AND m.CUSTID LIKE '%' || #{pageRequestDTO.keyword} || '%'
+                    </when>
+                    <when test="pageRequestDTO.searchType == 'name'">
+                        AND m.NAME LIKE '%' || #{pageRequestDTO.keyword} || '%'
+                    </when>
+                    <when test="pageRequestDTO.searchType == 'email'">
+                        AND m.EMAIL LIKE '%' || #{pageRequestDTO.keyword} || '%'
+                    </when>
+                    <when test="pageRequestDTO.searchType == 'hp'">
+                        AND m.hp LIKE '%' || #{pageRequestDTO.keyword} || '%'
+                    </when>
+                </choose>
+            </if>
+        </trim>
+    </sql>
+
+    <select id="findById" resultType="kr.co.kmarket.dto.AdminMemberDTO">
+        SELECT
+        m.CUSTID,
+        m.NAME,
+        m.GENDER,
+        m.RATING,
+        m.OPERATION,
+        m.EMAIL,
+        m.HP,
+        m.ZIP,
+        m.ADDR1,
+        m.ADDR2,
+        m."Date"
+        FROM MEMBER m
+        JOIN POINT p ON m.CUST_NUMBER=p.CUST_NUMBER
+        WHERE CUSTID = #{custId}
+    </select>
+
+    <select id="findAll" resultType="map">
+        SELECT ROW_NUMBER() OVER (ORDER BY m.CUST_NUMBER) AS ID,
+        m.CUSTID,
+        m.NAME,
+        m.GENDER,
+        m.RATING,
+        p.BALANCE,
+        m.EMAIL,
+        m.HP,
+        m."Date",
+        m.OPERATION
+        FROM MEMBER m
+        JOIN POINT p ON m.CUST_NUMBER=p.CUST_NUMBER
+        OFFSET #{pageRequestDTO.offset} ROWS
+        FETCH NEXT #{pageRequestDTO.size} ROWS ONLY
+    </select>
+    <select id="selectCount" resultType="int">
+        SELECT COUNT(DISTINCT m.CUSTID)
+        FROM MEMBER m
+        JOIN POINT p ON m.CUST_NUMBER=p.CUST_NUMBER
+    </select>
+
+    <select id="searchAll" resultType="map">
+        SELECT ROW_NUMBER() OVER (ORDER BY m.CUST_NUMBER) AS ID,
+        m.CUSTID,
+        m.NAME,
+        m.GENDER,
+        m.RATING,
+        p.BALANCE,
+        m.EMAIL,
+        m.HP,
+        m."Date",
+        m.OPERATION
+        FROM MEMBER m
+        JOIN POINT p ON m.CUST_NUMBER=p.CUST_NUMBER
+        <where>
+            AUTH = 1
+            <if test="pageRequestDTO.searchType != null and pageRequestDTO.keyword != ''">
+                AND <include refid="searchWhere"/>
+            </if>
+        </where>
+        OFFSET #{pageRequestDTO.offset} ROWS
+        FETCH NEXT #{pageRequestDTO.size} ROWS ONLY
+    </select>
+    <select id="searchCountTotal" resultType="int">
+        SELECT COUNT(DISTINCT m.CUSTID)
+        FROM MEMBER m
+        JOIN POINT p ON m.CUST_NUMBER=p.CUST_NUMBER
+        <where>
+            AUTH = 1
+            <if test="pageRequestDTO.searchType != null and pageRequestDTO.keyword != ''">
+                AND <include refid="searchWhere"/>
+            </if>
+        </where>
+    </select>
+
+    <update id="update">
+        UPDATE MEMBER
+        SET OPERATION = #{operation}
+        WHERE CUSTID = #{custId}
+    </update>
+    <update id="update2">
+        UPDATE MEMBER
+        SET RATING = #{rating}
+        WHERE CUSTID = #{custId}
+    </update>
+
+    <update id="update3">
+        UPDATE MEMBER
+        SET NAME = #{name},
+        GENDER = #{gender},
+        EMAIL = #{email},
+        HP = #{hp},
+        ZIP = #{zip},
+        ADDR1 = #{addr1},
+        ADDR2 = #{addr2},
+        UPDATED_AT = SYSDATE
+        WHERE CUSTID = #{custId}
+    </update>
+</mapper>

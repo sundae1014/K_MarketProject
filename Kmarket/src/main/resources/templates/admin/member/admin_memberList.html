@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> <!--삭제기능 추가 -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -17,13 +17,86 @@
 
             const status_box = document.querySelectorAll(".status");
             status_box.forEach(status => {
-                if (status.textContent === "정상") {
+                if (status.textContent === "run") {
                     status.style.color = "#00B050";
-                } else if (status.textContent === "중지") {
+                    status.textContent = "정상"
+                } else if (status.textContent === "stop") {
                     status.style.color = "red";
-                } else if (status.textContent === "휴면" || status.textContent === "탈퇴") {
+                    status.textContent = "중지"
+                } else if (status.textContent === "ready") {
                     status.style.color = "#808080";
+                    status.textContent = "휴면"
+                } else if (status.textContent === "withdrawal") {
+                    status.style.color = "#808080";
+                    status.textContent = "탈퇴"
                 }
+            });
+
+            //선택 수정 기능
+            const modifyBtn = document.querySelector(".select_modify");
+            modifyBtn.addEventListener("click", async function() {
+                const selected = document.querySelectorAll("tbody .row-checkbox:checked");
+                const updates = Array.from(selected).map(cb => {
+                    const row = cb.closest("tr");
+                    const custId = cb.dataset.id;
+                    const ratingValue = row.querySelector(".rating").value;
+
+                    return { custId: custId, rating: ratingValue };
+                });
+
+                try {
+                    const response = await fetch("/kmarket/admin/member/list/rating", {
+                        method: "PATCH",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(updates)
+                    });
+
+                    if(response.ok) {
+                        alert("선택 수정 완료!");
+                        location.reload();
+                    } else {
+                        alert("선택 수정 실패!");
+                    }
+                } catch(err) {
+                    console.error(err);
+                    alert("오류 발생!");
+                }
+            });
+
+            //상태 버튼
+            document.querySelectorAll(".operation-btn").forEach(btn => {
+                btn.addEventListener("click", async function() {
+                    const custId = this.dataset.id;
+                    let current = this.dataset.operation;
+                    let next;
+
+                    if (current === "ready") next = "run";
+                    else if (current === "run") next = "stop";
+                    else if (current === "stop") next = "run";
+
+                    try {
+                        const response = await fetch(`/kmarket/admin/member/list`, {
+                            method: "PATCH",
+                            headers: {
+                                "Content-Type" : "application/json"
+                            },
+                            body: JSON.stringify({
+                                custId: custId,
+                                operation: next
+                            })
+                        });
+                        if(response.ok) {
+                            this.dataset.operation = next;
+                            this.textContent = (next === "run") ? "[중지]" : "[재개]";
+                            location.reload();
+                        } else {
+                            alert("상태 변경 실패");
+                        }
+                    } catch(err) {
+                        console.error(err);
+                        alert("오류 발생");
+                    }
+                });
             });
 
             /*모달 파트*/
@@ -33,11 +106,53 @@
             const form = document.getElementById("memberForm");
 
             openBtn_box.forEach(openBtn => {
-                openBtn.addEventListener("click", () => {
-                    modal.style.display = "block";
+                openBtn.addEventListener("click", async () => {
+                    const custId = openBtn.dataset.id;
+                    console.log("수정 버튼 클릭: ", custId);
+
+                    try {
+                        const response = await fetch(`/kmarket/admin/member/list/${custId}`);
+                        if (!response.ok) throw new Error("회원 정보를 불러올 수 없습니다.");
+
+                        const data = await response.json();
+                        console.log("회원 정보:", data);
+
+                        form.querySelector("[name='custId']").value = data.custId;
+                        form.querySelector("[name='name']").value = data.name;
+                        form.querySelector(`[name='gender'][value='${data.gender === 1 ? 'M' : 'F'}']`).checked = true;
+                        form.querySelector("[name='rating']").value = data.rating;
+
+                        if(data.operation === "run") {
+                            document.getElementById("operationDisplay").style.color = "#00B050";
+                            document.getElementById("operationDisplay").textContent = "정상";
+                        } else if(data.operation === "stop") {
+                            document.getElementById("operationDisplay").style.color = "red";
+                            document.getElementById("operationDisplay").textContent = "중지";
+                        } else if(data.operation === "ready") {
+                            document.getElementById("operationDisplay").style.color = "#808080";
+                            document.getElementById("operationDisplay").textContent = "휴면";
+                        } else if(data.operation === "withdrawal") {
+                            document.getElementById("operationDisplay").style.color = "#808080";
+                            document.getElementById("operationDisplay").textContent = "탈퇴";
+                        }
+
+                        form.querySelector("[name='email']").value = data.email;
+                        form.querySelector("[name='hp']").value = data.hp;
+                        form.querySelector("[name='zip']").value = data.zip;
+                        form.querySelector("[name='addr1']").value = data.addr1;
+                        form.querySelector("[name='addr2']").value = data.addr2;
+
+                        form.querySelector("[name='date']").textContent = data.date;
+                        form.querySelector("[name='updated_at']").textContent = data.updated_at;
+
+                        modal.style.display = "block";
+                    } catch (err) {
+                        console.error(err);
+                        alert("회원 정보를 불러오는 중 오류가 발생했습니다.");
+                    }
                 });
             });
-            
+
 
             closeBtn.addEventListener("click", () => modal.style.display = "none");
             window.addEventListener("click", (e) => {
@@ -48,33 +163,10 @@
                 modalContent.addEventListener("click", (e) => {
                     e.stopPropagation(); // 클릭 이벤트가 부모로 전달되지 않도록 막음
             });
-
-            form.addEventListener("submit", (e) => {
-                e.preventDefault();
-
-                const data = {
-                id: form.id.value,
-                passwd: form.passwd.value,
-                trade_name: form.trade_name.value,
-                ceo: form.ceo.value,
-                business_num: form.business_num.value,
-                communication_num: form.communication_num.value,
-                hp: form.hp.value,
-                fax: form.fax.value,
-                address1: form.address1.value,
-                address2: form.address2.value,
-                address3: form.address3.value
-                };
-
-                console.log("폼 데이터: ", data);
-
-                alert("상점이 등록되었습니다!");
-
-                form.reset();
-                modal.style.display = "none";
-            });
         });
     </script>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script th:src="@{/js/member/postcode.js}" defer></script>
     <script th:src="@{/js/admin/cs/recruit/sidebarAction.js}" defer></script>
     <link rel="stylesheet" th:href="@{/css/admin/main/sidebar.css}">
 </head>
@@ -192,19 +284,19 @@
                     <div>
                         <span>HOME</span> &nbsp;&gt;&nbsp;
                         <span>회원관리</span> &nbsp;&gt;&nbsp;
-                        <span style="font-weight: bold;">회원목록</span> 
+                        <span style="font-weight: bold;">회원목록</span>
                     </div>
                 </div>
 
-                <form style="margin: 20px 0;">
-                    <select id="search-select">
+                <form th:action="@{/admin/member/list/search}" method="get" style="margin: 20px 0;">
+                    <select id="search-select" name="searchType">
                         <option value="id">아이디</option>
                         <option value="name">이름</option>
                         <option value="email">이메일</option>
                         <option value="hp">휴대폰</option>
                     </select>
-                    <input type="text" id="search-input" placeholder="검색어 입력">
-                    <input type="button" class="search-btn" value="검색">
+                    <input type="text" name="keyword" id="search-input" placeholder="검색어 입력">
+                    <input type="submit" class="search-btn" value="검색">
                 </form>
                 <div class="table-container">
                     <div>
@@ -223,147 +315,63 @@
                                     <th>가입일</th>
                                     <th>상태</th>
                                     <th>관리</th>
-                                </tr>                         
+                                </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td><input type="checkbox"></td>
-                                    <td>5</td>
-                                    <td>xxx...</td>
-                                    <td>정우성</td>
-                                    <td>M</td>
+                                <tr th:each="dto, stat:${pageResponseDTO.dtoList}">
+                                    <td><input type="checkbox" class="row-checkbox" th:value="${dto['ID']}" th:data-id="${dto['CUSTID']}"></td>
+                                    <td th:text="${dto['ID']}"></td>
+                                    <td th:text="${#strings.substring(dto['CUSTID'], 0, 3) + #strings.repeat('*', #strings.length(dto['CUSTID']) - 3)}"></td>
+                                    <td th:text="${dto['NAME']}"></td>
+                                    <td th:text="${dto['GENDER'] == 1 ? 'M' : 'F'}"></td>
                                     <td>
-                                        <select name="grade" class="grade">
-                                            <option value="vvip">VVIP</option>
-                                            <option value="vip">VIP</option>
-                                            <option value="gold">GOLD</option>
-                                            <option value="silver">SILVER</option>
-                                            <option value="family">FAMILY</option>
+                                        <select name="rating" class="grade rating">
+                                            <option value="vvip" th:selected="${dto['RATING'] == 'vvip'}">VVIP</option>
+                                            <option value="vip" th:selected="${dto['RATING'] == 'vip'}">VIP</option>
+                                            <option value="gold" th:selected="${dto['RATING'] == 'gold'}">GOLD</option>
+                                            <option value="silver" th:selected="${dto['RATING'] == 'silver'}">SILVER</option>
+                                            <option value="family" th:selected="${dto['RATING'] == 'family'}">FAMILY</option>
                                         </select>
                                     </td>
-                                    <td>15,000</td>
-                                    <td>xxxxx@...</td>
-                                    <td>010...</td>
-                                    <td>0000-00-00 00:00:00</td>
-                                    <td class="status">정상</td>
+                                    <td th:text="${dto['BALANCE']}"></td>
+                                    <td th:text="${#strings.substring(dto['EMAIL'], 0, #strings.indexOf(dto['EMAIL'], '@') + 1) + '...'}"></td>
+                                    <td th:text="${#strings.substring(dto['HP'], 0 ,3) + '...'}"></td>
+                                    <td th:text="${#dates.format(dto['Date'], 'yyyy-MM-dd HH:mm:ss')}"></td>
+                                    <td class="status" th:text="${dto['OPERATION']}"></td>
                                     <td>
-                                        <input type="submit" value="[ 수정 ]" class="status_btn member_modify"><br>
-                                        <input type="submit" value="[ 중지 ]" class="status_btn">
+                                        <input type="button" class="status_btn member_modify" th:data-id="${dto['CUSTID']}"  th:value="'[ 수정 ]'"><br>
+                                        <input type="button" class="status_btn operation-btn"
+                                           th:data-id="${dto['CUSTID']}"
+                                           th:data-operation="${dto['OPERATION']}"
+                                           th:value="${dto['OPERATION'] == 'ready' ? '[ 재개 ]'
+                                                      : (dto['OPERATION'] == 'run' ? '[ 중지 ]'
+                                                      : (dto['OPERATION'] == 'stop' ? '[ 재개 ]'
+                                                      : '[비활성]'))}">
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td><input type="checkbox"></td>
-                                    <td>4</td>
-                                    <td>xxx...</td>
-                                    <td>이정재</td>
-                                    <td>M</td>
-                                    <td>
-                                        <select name="grade" class="grade">
-                                            <option value="vvip">VVIP</option>
-                                            <option value="vip" selected>VIP</option>
-                                            <option value="gold">GOLD</option>
-                                            <option value="silver">SILVER</option>
-                                            <option value="family">FAMILY</option>
-                                        </select>
-                                    </td>
-                                    <td>2,700</td>
-                                    <td>xxxxx@...</td>
-                                    <td>010...</td>
-                                    <td>0000-00-00 00:00:00</td>
-                                    <td class="status">정상</td>
-                                    <td>
-                                        <input type="submit" value="[ 수정 ]" class="status_btn member_modify"><br>
-                                        <input type="submit" value="[ 중지 ]" class="status_btn">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><input type="checkbox"></td>
-                                    <td>3</td>
-                                    <td>xxx...</td>
-                                    <td>이나영</td>
-                                    <td>F</td>
-                                    <td>
-                                        <select name="grade" class="grade">
-                                            <option value="vvip">VVIP</option>
-                                            <option value="vip">VIP</option>
-                                            <option value="gold" selected>GOLD</option>
-                                            <option value="silver">SILVER</option>
-                                            <option value="family">FAMILY</option>
-                                        </select>
-                                    </td>
-                                    <td>1,200</td>
-                                    <td>xxxxx@...</td>
-                                    <td>010...</td>
-                                    <td>0000-00-00 00:00:00</td>
-                                    <td class="status">중지</td>
-                                    <td>
-                                        <input type="submit" value="[ 수정 ]" class="status_btn member_modify"><br>
-                                        <input type="submit" value="[ 재개 ]" class="status_btn">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><input type="checkbox"></td>
-                                    <td>2</td>
-                                    <td>xxx...</td>
-                                    <td>한예슬</td>
-                                    <td>F</td>
-                                    <td>
-                                        <select name="grade" class="grade">
-                                            <option value="vvip">VVIP</option>
-                                            <option value="vip">VIP</option>
-                                            <option value="gold">GOLD</option>
-                                            <option value="silver" selected>SILVER</option>
-                                            <option value="family">FAMILY</option>
-                                        </select>
-                                    </td>
-                                    <td>3,500</td>
-                                    <td>xxxxx@...</td>
-                                    <td>010...</td>
-                                    <td>0000-00-00 00:00:00</td>
-                                    <td class="status">휴면</td>
-                                    <td>
-                                        <input type="submit" value="[ 수정 ]" class="status_btn member_modify"><br>
-                                        <input type="submit" value="[ 재개 ]" class="status_btn">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><input type="checkbox"></td>
-                                    <td>1</td>
-                                    <td>xxx...</td>
-                                    <td>강동원</td>
-                                    <td>M</td>
-                                    <td>
-                                        <select name="grade" class="grade">
-                                            <option value="vvip">VVIP</option>
-                                            <option value="vip">VIP</option>
-                                            <option value="gold">GOLD</option>
-                                            <option value="silver">SILVER</option>
-                                            <option value="family" selected>FAMILY</option>
-                                        </select>
-                                    </td>
-                                    <td>100</td>
-                                    <td>xxxxx@...</td>
-                                    <td>010...</td>
-                                    <td>0000-00-00 00:00:00</td>
-                                    <td class="status">탈퇴</td>
-                                    <td>
-                                        <input type="submit" value="[ 수정 ]" class="status_btn member_modify"><br>
-                                        <input type="submit" value="[ 비활성 ]" class="status_btn">
-                                    </td>
-                                </tr>
-                            </tbody>                  
+                            </tbody>
                         </table>
-                    </div>          
+                    </div>
                 </div>
                 <div class="bottom-section" style="position: relative;">
                     <ul class="pagenation">
-                        <li><a href="#"><span class="first"></span></a></li>
-                        <li><a href="#"><span class="prev"></span></a></li>
-                        <li><a href="#" class="active2">1</a></li>
-                        <li><a href="#" class="pageNum">2</a></li>
-                        <li><a href="#" class="pageNum">3</a></li>
-                        <li><a href="#"><span class="next"></span></a></li>
-                        <li><a href="#"><span class="last"></span></a></li>
+                        <li>
+                            <a th:if="${pageResponseDTO.prev}"
+                               th:href="@{/admin/member/list(pg=${pageResponseDTO.start - 1})}" class="arrow">
+                            <span class="prev"></span>
+                            </a>
+                        </li>
+                        <th:block th:if="${pageResponseDTO.total > 0}" th:each="num:${#numbers.sequence(pageResponseDTO.start, pageResponseDTO.end)}">
+                            <li>
+                                <a th:href="@{/admin/member/list (pg=${num})}" th:class="${num == pageResponseDTO.pg ? 'active2' : 'pageNum'}">[[${num}]]</a>
+                            </li>
+                        </th:block>
+                        <li>
+                            <a th:if="${pageResponseDTO.next}"
+                               th:href="@{/admin/member/list(pg=${pageResponseDTO.end + 1})}" class="arrow">
+                                <span class="next"></span>
+                            </a>
+                            </a></li>
                     </ul>
                     <div class="btn_box">
                         <button class="shopList_Btn select_modify">선택수정</button>
@@ -380,62 +388,62 @@
                     <span class="close">&times;</span>
                 </div>
 
-                <form action="#" method="post" id="memberForm">
+                <form th:action="@{/admin/member/list/modify}" method="post" id="memberForm">
                     <div class="form-body">
                         <div class="form-row">
                             <div class="form-label">아이디</div>
-                            <input type="text" name="id" class="form-input" readonly value="abc1234" style="color:#808080;">
+                            <input type="text" name="custId" class="form-input" readonly style="color:#808080;">
                         </div>
                         <div class="form-row">
                             <div class="form-label">이름</div>
-                            <input type="text" name="name" class="form-input" value="홍길동">
+                            <input type="text" name="name" class="form-input">
                         </div>
                         <div class="form-row">
                             <div class="form-label">성별</div>
                             <div class="radio_box">
-                                <label><input type="radio" name="gender" value="M" checked>남</label>
+                                <label><input type="radio" name="gender" value="M">남</label>
                                 <label><input type="radio" name="gender" value="F">여</label>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-label">등급</div>
-                            <input type="text" name="grade" class="form-input" readonly value="FAMILY">
+                            <input type="text" name="rating" class="form-input" readonly style="color:#808080;">
                             <span style="font-size:14px;margin-left: 10px;">등급 수정은 회원 목록에서 선택수정 가능</span>
                         </div>
                         <div class="form-row">
                             <div class="form-label">상태</div>
-                            <span style="margin-left: 10px;color:#00B050;">정상</span>
+                            <span name="operation" id="operationDisplay" style="margin-left: 10px;color:#00B050;"></span>
                         </div>
                         <div class="form-row">
                             <div class="form-label">EMAIL</div>
-                            <input type="text" name="email" class="form-input" value="abc1234@gmail.com">
+                            <input type="text" name="email" class="form-input">
                         </div>
                         <div class="form-row">
                             <div class="form-label">휴대폰</div>
-                            <input type="text" name="hp" class="form-input" value="010-1234-1001">
+                            <input type="text" name="hp" class="form-input">
                         </div>
                         <div class="form-row">
                             <div class="form-label">우편번호</div>
-                            <input type="text" name="address1" class="form-input" value="12345">
-                            <button class="addr_btn" style="color:#77933C;cursor: pointer;">검색</button>
+                            <input type="text" name="zip" id="zip" class="form-input">
+                            <button type="button" class="addr_btn" style="color:#77933C;cursor: pointer;" onclick="postcode()">검색</button>
                         </div>
                         <div class="form-row">
                             <div class="form-label">기본주소</div>
-                            <input type="text" name="address2" class="form-address" value="부산광역시 부산 진구 부전동 123" style="width: 335px;"><br>
+                            <input type="text" name="addr1" id="addr1" class="form-address" style="width: 335px;"><br>
                         </div>
                         <div class="form-row">
                             <div class="form-label">상세주소</div>
                             <div>
-                                <input type="text" name="address3" class="form-address" value="oo 빌딩 3층 301호" style="width: 335px;"><br>
-                            </div>                  
+                                <input type="text" name="addr2" id="addr2" class="form-address" style="width: 335px;"><br>
+                            </div>
                         </div>
                         <div class="form-row">
                             <div class="form-label">가입일</div>
-                            <span style="margin-left: 10px;">0000-00-00 00:00:00</span>
+                            <span name="date" style="margin-left: 10px;"></span>
                         </div>
                         <div class="form-row">
                             <div class="form-label">최근 로그인 날짜</div>
-                            <span style="margin-left: 10px;">0000-00-00 00:00:00</span>
+                            <span name="updated_at" style="margin-left: 10px;"></span>
                         </div>
                         <div class="form-row">
                             <div class="form-label other_title">기타</div>
