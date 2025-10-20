@@ -48,9 +48,16 @@
                 </form>
 
                 <div class="right">
-                    <a href="https://www.mysmilepay.com/">
-                        <img th:src="@{/images/member/member_login_banner.jpg}" alt="광고이미지" class="ad-img">
-                    </a>
+                    <div class="login-banner">
+                        <th:block th:each="banner : ${loginBanners}">
+                            <a th:href="${banner.link}">
+                                <img th:src="@{'/uploads/banner/' + ${banner.img}}"
+                                     th:alt="${banner.banner_name}"
+                                     class="ad-img"
+                                     th:style="'width:' + ${banner.width} + '; height:' + ${banner.height} + '; background-color:' + ${banner.background_color}"/>
+                            </a>
+                        </th:block>
+                    </div>
                 </div>
                 
               

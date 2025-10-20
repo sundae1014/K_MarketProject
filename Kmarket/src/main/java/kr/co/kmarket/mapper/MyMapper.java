@@ -96,4 +96,6 @@ public interface MyMapper {
     public int selectAllPoints(@Param("custNumber")  int custNumber);
 
     public int selectCountCoupon();
+
+
 }

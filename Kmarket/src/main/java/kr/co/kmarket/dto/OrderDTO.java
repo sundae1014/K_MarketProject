@@ -4,6 +4,7 @@ package kr.co.kmarket.dto;
 import lombok.*;
 
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -50,4 +51,8 @@ public class OrderDTO {
     private int salePrice;
     private String salePriceString;   // ⬅️ [추가] 판매가 포맷 문자열
 
+    private String custId;
+    private String ordName;         // 주문자 이름 (MEMBER.NAME)
+    private String ordHp;           // 주문자 연락처 (MEMBER.HP)
+    private List<AdminOrderDetailDTO> details;
 }

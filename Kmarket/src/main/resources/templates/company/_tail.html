@@ -10,7 +10,7 @@
 <footer>
     <div class="footer-layout">
         <div class="footer-content">
-            <img th:src="@{/images/company/cupangIntro_logo(color).png}" alt="로고">
+            <img th:src="@{'/uploads/logo/' + ${basicData.footer_logo_intro}}" alt="로고">
             <div class="about-link">
                 <p>큐팡 회사소개</p>
                 <a th:href="@{index}">HOME</a>
