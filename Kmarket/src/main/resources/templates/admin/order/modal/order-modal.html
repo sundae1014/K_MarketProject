@@ -11,10 +11,11 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="orderModalLabel">주문상세</h5>
-                    <p class="modal-sm-title">10121211341</p>
+                    <p class="modal-sm-title" id="modalOrderNumber">로딩 중...</p>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="닫기"></button>
                 </div>
                 <div class="modal-body">
+
                     <div class="order-info">
                         <div class="table-name">
                             <h4>상품정보</h4>
@@ -31,39 +32,33 @@
                                 <th>배송비</th>
                                 <th>결제금액</th>
                             </tr>
-                            <tr>
-                                <td><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1mhr6nEByB_Ogeul8De_kghNipSNo_psQ2w&s" alt="상품사진"></td>
-                                <td>120120021</td>
-                                <td>OOO</td>
-                                <td>(주)상호명</td>
-                                <td>24,000</td>
-                                <td>-1,200</td>
-                                <td>3</td>
-                                <td>0</td>
-                                <td>68,400</td>
-                            </tr>
+                            <tbody id="modalProductList">
+                            <tr><td colspan="9" class="text-center">상품 정보 로딩 중...</td></tr>
+                            </tbody>
                         </table>
                     </div>
+
                     <div class="total-info">
                         <table class="total-table">
                             <tr>
-                                <th>총 상품금액</th>
-                                <td>107,000 원</td>
+                                <th>총 상품금액 (원가 합)</th>
+                                <td id="modalTotalOriginalPrice">0 원</td>
                             </tr>
                             <tr>
                                 <th>총 할인금액</th>
-                                <td>-7,100 원</td>
+                                <td id="modalTotalDiscountAmount">0 원</td>
                             </tr>
                             <tr>
                                 <th>배송비</th>
-                                <td>3,000 원</td>
+                                <td id="modalTotalDeliveryFee">0 원</td>
                             </tr>
                             <tr>
                                 <th>총 결제금액</th>
-                                <td class="totalPayment">102,900 원</td>
+                                <td class="totalPayment" id="modalFinalPrice">0 원</td>
                             </tr>
                         </table>
                     </div>
+
                     <div class="pay-info">
                         <div class="table-name">
                             <h4>결제정보</h4>
@@ -71,26 +66,27 @@
                         <table class="pay-table">
                             <tr>
                                 <th>주문번호</th>
-                                <td>10121211341</td>
+                                <td id="payOrderNumber">N/A</td>
                             </tr>
                             <tr>
                                 <th>결제방법</th>
-                                <td>신용카드 / 1234 **** **** 4432</td>
+                                <td id="payPaymentMethod">N/A</td>
                             </tr>
                             <tr>
                                 <th>주문자 / 연락처</th>
-                                <td>김유신 / 010-1234-1234</td>
+                                <td><span id="payOrdName">N/A</span> / <span id="payOrdHp">N/A</span></td>
                             </tr>
                             <tr>
                                 <th>결제상태</th>
                                 <td class="pay-status">
-                                    <span class="pay-stat">결제완료</span>
+                                    <span class="pay-stat" id="payOrderStatus">N/A</span>
                                     <span class="pay-title">총 결제금액</span>
-                                    <span class="pay-value">102,900원</span>
+                                    <span class="pay-value" id="payFinalPriceFooter">0원</span>
                                 </td>
                             </tr>
                         </table>
                     </div>
+
                     <div class="deli-info">
                         <div class="table-name">
                             <h4>배송정보</h4>
@@ -98,15 +94,15 @@
                         <table class="deli-table">
                             <tr>
                                 <th>수취인</th>
-                                <td>김유신</td>
+                                <td id="deliRecipName">N/A</td>
                             </tr>
                             <tr>
                                 <th>연락처</th>
-                                <td>010-1234-1234</td>
+                                <td id="deliRecipHp">N/A</td>
                             </tr>
                             <tr>
                                 <th>배송지 주소</th>
-                                <td>부산 부산진구 123-11 10층</td>
+                                <td><span id="deliRecipAddr1">N/A</span> <span id="deliRecipAddr2"></span></td>
                             </tr>
                         </table>
                     </div>
