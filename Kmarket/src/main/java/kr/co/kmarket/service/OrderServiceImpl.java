@@ -1,6 +1,7 @@
 package kr.co.kmarket.service;
 
 import kr.co.kmarket.dto.*;
+import kr.co.kmarket.mapper.MyCouponMapper;
 import kr.co.kmarket.mapper.OrderMapper;
 import kr.co.kmarket.mapper.ProductMapper;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,7 @@ public class  OrderServiceImpl implements OrderService {
 
     private final OrderMapper orderMapper;
     private final ProductMapper mapper;
+    private final MyCouponMapper myCouponMapper;
 
     @Override
     public String insertOrder(OrderDTO orderDTO) {
@@ -64,6 +66,10 @@ public class  OrderServiceImpl implements OrderService {
         return orderMapper.selectCartItemsByNumbers(cart_number);
     }
 
+    @Override
+    public void useCoupon(int couponNo, int custNumber) {
+        myCouponMapper.updateCouponStatus(couponNo, custNumber);
+    }
 
     @Override
     public List<CouponDTO> selectAvailableCoupons(int cust_number) {

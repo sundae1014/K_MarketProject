@@ -21,7 +21,7 @@ public class UserOrderController {
 
     private final OrderService orderService;
 
-    // 주문서 작성 페이지
+    // ✅ 주문서 작성 페이지
     @GetMapping("/form")
     public String orderForm(HttpSession session,
                             @RequestParam(required = false) Integer prod_number,
@@ -32,18 +32,17 @@ public class UserOrderController {
         MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
         if (memberDTO == null) return "redirect:/member/login";
 
-        // 구매자 정보
+        // ✅ 구매자 정보
         model.addAttribute("buyer", memberDTO);
 
         List<CartDTO> orderItems = new ArrayList<>();
 
-        // Case 1: 장바구니 주문
+        // ✅ Case 1: 장바구니 주문
         if (cartNumbers != null && !cartNumbers.isEmpty()) {
             String[] numbers = cartNumbers.split(",");
             orderItems = orderService.selectCartItemsByNumbers(numbers);
         }
-
-        // Case 2: 바로구매 주문
+        // ✅ Case 2: 바로구매 주문
         else if (prod_number != null) {
             ProductDTO p = orderService.selectProductDetail(prod_number);
 
@@ -67,13 +66,31 @@ public class UserOrderController {
             orderItems.add(temp);
         }
 
+        // ✅ 총 상품 금액 계산 (basePrice)
+        int basePrice = 0;
+        for (CartDTO item : orderItems) {
+            int salePrice = item.getPrice(); // 기본가격
+
+            // 할인 적용
+            if (item.getDiscount() > 0) {
+                salePrice = (int) (salePrice * (1 - (item.getDiscount() / 100.0)));
+            }
+
+            // 옵션 가격 추가
+            salePrice += item.getOpt_price();
+
+            basePrice += salePrice * item.getQuantity();
+        }
+
         // ✅ 공통 데이터
         model.addAttribute("orderItems", orderItems);
         model.addAttribute("userPoint", orderService.selectUserPoint(memberDTO.getCust_number()));
         model.addAttribute("coupons", orderService.selectAvailableCoupons(memberDTO.getCust_number()));
+        model.addAttribute("basePrice", basePrice); // ✅ 추가됨 (NaN 해결 핵심)
 
         return "product/prodOrder";
     }
+
 
     @Autowired
     public UserOrderController(OrderService orderService) {
@@ -118,25 +135,29 @@ public class UserOrderController {
             orderDTO.setSalePrice(salePrice);
         }
 
-        // 1️⃣ 주문 메인 저장
+        // 1. 주문 저장
         String order_number = orderService.insertOrder(orderDTO);
+
         orderDTO.setOrder_number(order_number);
 
         // 2️⃣ 주문 상세 저장
         orderService.insertOrderDetail(orderDTO);
 
+
         // 3️⃣ 포인트 처리
         Integer used = orderDTO.getUsePoint();
         if (used != null && used > 0) {
             orderService.usePoint(orderDTO.getCust_number(), order_number, used);
+
         }
         int earn = (int) (orderDTO.getPrice() * 0.01);
         orderService.earnPoint(orderDTO.getCust_number(), order_number, earn);
 
-        // 4️⃣ 완료 페이지 이동
+
         return "redirect:/order/complete?order_number=" + order_number;
     }
 
+    // ✅ 주문 완료 페이지
     @GetMapping("/complete")
     public String showComplete(@RequestParam("order_number") String order_number, Model model) {
 
@@ -159,4 +180,6 @@ public class UserOrderController {
         return "product/prodComplete";
     }
 
+
 }
+

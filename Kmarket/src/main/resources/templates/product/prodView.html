@@ -148,10 +148,11 @@
                         <dl>
                             <dt>할인 쿠폰</dt>
                             <dd>
+                                <!-- ✅ 쿠폰 이미지 클릭 시 발급 처리 -->
                                 <a th:if="${couponImage != null}"
                                    href="javascript:void(0);"
-                                   th:attr="data-categoryname=${category1Name}"
-                                   onclick="showToast(this.dataset.categoryname + ' 쿠폰 받기 완료!')">
+                                   class="coupon-issue-btn"
+                                   th:data-couponno="${couponNo}">
                                     <img th:src="@{${couponImage}}" alt="할인 쿠폰" class="coupon-img">
                                 </a>
 
@@ -386,6 +387,35 @@
             </button>
         </div>
 
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                document.querySelectorAll(".coupon-issue-btn").forEach(btn => {
+                    btn.addEventListener("click", function () {
+                        const couponNo = this.dataset.couponno;
+
+                        fetch("/kmarket/user/coupon/issued", {
+                            method: "POST",
+                            headers: {"Content-Type": "application/x-www-form-urlencoded"},
+                            body: new URLSearchParams({couponNo: couponNo})
+                        })
+                            .then(res => res.json())
+                            .then(data => {
+                                if (data.status === "loginRequired") {
+                                    alert("로그인이 필요합니다.");
+                                    location.href = "/user/login";
+                                } else if (data.status === "duplicate") {
+                                    alert("이미 발급받은 쿠폰입니다.");
+                                } else if (data.status === "success") {
+                                    alert("쿠폰이 발급되었습니다!");
+                                } else {
+                                    alert("오류가 발생했습니다.");
+                                }
+                            })
+                            .catch(err => console.error(err));
+                    });
+                });
+            });
+        </script>
         <!-- 푸터 -->
         <div th:replace="~{_footer :: footerFragment}"></div>
     </main>

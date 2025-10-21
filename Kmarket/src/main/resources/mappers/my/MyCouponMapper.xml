@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.kmarket.mapper.my.MyCouponMapper">
+
+    <resultMap id="myCouponMap" type="kr.co.kmarket.dto.CouponDTO">
+        <result column="COUPON_NAME" property="couponName"/>
+        <result column="BENEFIT" property="benefit"/>
+        <result column="USE_PERIOD" property="usePeriod"/>
+        <result column="ISSUE_DATE" property="issueDate"/>
+        <result column="EXPIRE_DATE" property="expireDate"/>
+    </resultMap>
+
+    <select id="countCouponsByUser" parameterType="int" resultType="int">
+        SELECT COUNT(*)
+        FROM COUPON_HISTORY
+        WHERE CUST_NUMBER = #{custNumber}
+    </select>
+
+    <select id="selectCouponsByUser" parameterType="int" resultMap="myCouponMap">
+        SELECT c.COUPON_NAME,
+               c.BENEFIT,
+               c.USE_PERIOD,
+               ch.ISSUE_DATE,
+               ch.EXPIRE_DATE
+        FROM COUPON_HISTORY ch
+                 JOIN COUPON c ON ch.COUPON_NO = c.COUPON_NO
+        WHERE ch.CUST_NUMBER = #{custNumber}
+        ORDER BY ch.HISTORY_NO DESC
+    </select>
+    <update id="updateCouponStatus">
+        UPDATE coupon_history
+        SET status = '사용', use_date = SYSDATE
+        WHERE coupon_no = #{couponNo}
+          AND cust_number = #{custNumber}
+          AND status = '미사용'
+    </update>
+
+</mapper>

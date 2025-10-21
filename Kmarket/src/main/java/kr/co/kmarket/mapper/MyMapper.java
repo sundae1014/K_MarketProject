@@ -93,7 +93,7 @@ public interface MyMapper {
 
     public List<PointDTO> selectPoints(@Param("custNumber")  int custNumber);
 
-    public int selectAllPoints(@Param("custNumber")  int custNumber);
+    public Integer selectAllPoints(@Param("custNumber")  int custNumber);
 
     public int selectCountCoupon();
 

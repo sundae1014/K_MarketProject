@@ -14,6 +14,29 @@
             allSelect.addEventListener("change", function() {
                 checkboxes.forEach(cb => cb.checked = allSelect.checked);
             });
+
+            //삭제 기능
+            const deleteBtn = document.querySelector(".select_delete");
+            deleteBtn.addEventListener("click", async () => {
+                const selected = document.querySelectorAll("tbody .row-checkbox:checked");
+                const idList = Array.from(selected).map(cb => cb.value);
+                console.log("삭제 id리스트: ", idList);
+
+                const response = await fetch("/kmarket/admin/product/list", {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(idList)
+                });
+
+                if(response.ok) {
+                    alert("삭제 완료!");
+                    location.reload();
+                } else {
+                    alert("삭제 실패!");
+                }
+            });
         });
     </script>
     <script th:src="@{/js/admin/cs/recruit/sidebarAction.js}" defer></script>
@@ -137,14 +160,14 @@
                     </div>
                 </div>
 
-                <form style="margin: 20px 0;">
-                    <select id="search-select">
-                        <option value="product_name">상품명</option>
-                        <option value="product_num">상품번호</option>
-                        <option value="seller">판매자</option>
+                <form th:action="@{/admin/product/list/search}" method="get" style="margin: 20px 0;">
+                    <select id="search-select" name="searchType">
+                        <option value="prod_name">상품명</option>
+                        <option value="prod_number">상품번호</option>
+                        <option value="manufacture">판매자</option>
                     </select>
-                    <input type="text" id="search-input" placeholder="검색어 입력">
-                    <input type="button" class="search-btn" value="검색">
+                    <input type="text" name="keyword" id="search-input" placeholder="검색어 입력">
+                    <input type="submit" class="search-btn" value="검색">
                 </form>
                 <div class="table-container">
                     <div>
@@ -165,20 +188,20 @@
                                 </tr>                         
                             </thead>
                             <tbody>
-                                <tr th:each="product, stat:${pageResponseDTO.dtoList}">
-                                    <td><input type="checkbox" class="row-checkbox" th:value="${product.prod_number}"></td>
-                                    <td><img th:src="@{/images/admin/product/cola.jpg}" alt="콜라" style="width:80px;height: 80px;"></td>
-                                    <td th:text="${product.prod_number}"></td>
-                                    <td th:text="${product.prod_name}" style="width:300px;"></td>
-                                    <td th:text="${product.price}"></td>
-                                    <td th:text="${product.discount}"></td>
-                                    <td>320</td>
-                                    <td>1,000</td>
-                                    <td th:text="${product.manufacture}"></td>
-                                    <td th:text="${product.hit}"></td>
+                                <tr th:each="dto, stat:${pageResponseDTO.dtoList}">
+                                    <td><input type="checkbox" class="row-checkbox" th:value="${dto['PROD_NUMBER']}"></td>
+                                    <td><img th:src="@{${dto['IMG_1']}}" style="width:80px;height: 80px;"></td>
+                                    <td th:text="${dto['PROD_NUMBER']}"></td>
+                                    <td th:text="${dto['PROD_NAME']}" style="width:300px;"></td>
+                                    <td th:text="${dto['PRICE']}"></td>
+                                    <td th:text="${dto['DISCOUNT']}"></td>
+                                    <td th:text="${dto['POINT_AMOUNT']}"></td>
+                                    <td th:text="${dto['STOCK']}"></td>
+                                    <td th:text="${dto['MANUFACTURE']}"></td>
+                                    <td th:text="${dto['HIT']}"></td>
                                     <td>
-                                        <button class="status_btn">[삭제]</button><br>
-                                        <button class="status_btn">[수정]</button>
+                                        <button type="button" class="status_btn" th:onclick="|location.href='@{/admin/product/list/delete(prod_number=${dto['PROD_NUMBER']})}'|">[삭제]</button><br>
+                                        <button type="button" class="status_btn">[수정]</button>
                                     </td>
                                 </tr>
                             </tbody>                  

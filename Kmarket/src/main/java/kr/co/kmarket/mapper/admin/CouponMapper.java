@@ -4,22 +4,43 @@ import kr.co.kmarket.dto.CouponDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Date;
 import java.util.List;
 
 @Mapper
 public interface CouponMapper {
 
-    // ✅ 쿠폰 등록
     int insertCoupon(CouponDTO couponDTO);
 
-    // ✅ 목록 + 검색 + 페이징
-    List<CouponDTO> selectCouponsPage(@Param("type") String type,
-                                      @Param("keyword") String keyword,
-                                      @Param("offset") int offset,
-                                      @Param("size") int size);
+    List<CouponDTO> selectCouponsByPage(@Param("offset") int offset,
+                                        @Param("size") int size);
 
-    // ✅ 전체 개수 + 검색 카운트
-    int countCoupons(@Param("type") String type,
-                     @Param("keyword") String keyword);
+    int countCoupons();
 
+    List<CouponDTO> searchCouponsByPage(@Param("type") String type,
+                                        @Param("keyword") String keyword,
+                                        @Param("offset") int offset,
+                                        @Param("size") int size);
+
+    int countSearchCoupons(@Param("type") String type,
+                           @Param("keyword") String keyword);
+
+    List<CouponDTO> selectCoupons();
+
+    int countIssuedCoupon(@Param("couponNo") int couponNo, @Param("custNumber") int custNumber);
+
+    int insertCouponHistory(@Param("couponNo") int couponNo, @Param("custNumber") int custNumber);
+
+    int updateCouponIssueCount(@Param("couponNo") int couponNo);
+
+    CouponDTO selectCouponByNo(int couponNo);
+
+    void insertCouponHistoryWithExpire(@Param("couponNo") int couponNo,
+                                       @Param("custNumber") int custNumber,
+                                       @Param("issueDate") Date issueDate,
+                                       @Param("expireDate") Date expireDate);
+
+    int stopCoupon(int couponNo);
+    List<CouponDTO> selectIssuedCoupons();
+    List<CouponDTO> selectAvailableCoupons(int custNumber);
 }

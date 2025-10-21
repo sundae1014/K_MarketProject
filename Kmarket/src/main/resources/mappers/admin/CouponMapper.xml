@@ -13,47 +13,59 @@
         <result column="USE_PERIOD" property="usePeriod"/>
         <result column="ISSUER" property="issuer"/>
         <result column="ISSUE_DATE" property="issueDate"/>
-        <result column="USE_COUNT" property="useCount"/>
         <result column="STATUS" property="status"/>
         <result column="MANAGE" property="manage"/>
         <result column="SAYOUNG" property="sayoung"/>
         <result column="BARGUP" property="bargup"/>
+        <result column="COUPON_ISSUE" property="couponIssue"/>
+        <result column="HISTORY_NO" property="historyNo"/>
+        <result column="CUST_NUMBER" property="custNumber"/>
+        <result column="USE_DATE" property="useDate"/>
     </resultMap>
 
     <!-- ✅ 쿠폰 등록 -->
     <insert id="insertCoupon" parameterType="kr.co.kmarket.dto.CouponDTO">
         INSERT INTO COUPON (
             COUPON_NO, COUPON_TYPE, COUPON_NAME, BENEFIT,
-            USE_PERIOD, ISSUER, ISSUE_DATE, USE_COUNT,
-            STATUS, MANAGE, SAYOUNG, BARGUP
-        ) VALUES (
-                     COUPON_SEQ.NEXTVAL,
-                     #{couponType}, #{couponName}, #{benefit},
-                     #{usePeriod}, #{issuer}, #{issueDate}, #{useCount},
-                     #{status}, #{manage}, #{sayoung}, #{bargup}
-                 )
+            USE_PERIOD, ISSUER, ISSUE_DATE,
+            STATUS, MANAGE, SAYOUNG, BARGUP, COUPON_ISSUE
+        )
+        VALUES (
+                   COUPON_SEQ.NEXTVAL,
+                   #{couponType,jdbcType=INTEGER},
+                   #{couponName,jdbcType=VARCHAR},
+                   #{benefit,jdbcType=VARCHAR},
+                   #{usePeriod,jdbcType=VARCHAR},
+                   #{issuer,jdbcType=VARCHAR},
+                   #{issueDate,jdbcType=DATE},
+                   #{status,jdbcType=VARCHAR},
+                   #{manage,jdbcType=VARCHAR},
+                   #{sayoung,jdbcType=INTEGER},
+                   #{bargup,jdbcType=INTEGER},
+                   0
+               )
     </insert>
 
-    <!-- ✅ 페이징 적용된 쿠폰 목록 조회 -->
+    <!-- ✅ 전체 목록 (페이징) -->
     <select id="selectCouponsByPage" resultMap="couponMap">
         SELECT * FROM (
-                          SELECT ROWNUM AS rnum, c.* FROM (
+                          SELECT ROWNUM AS rnum, C.* FROM (
                                                               SELECT * FROM COUPON ORDER BY COUPON_NO DESC
-                                                          ) c
+                                                          ) C
                           WHERE ROWNUM &lt;= #{offset} + #{size}
                       )
         WHERE rnum &gt; #{offset}
     </select>
 
-    <!-- ✅ 전체 쿠폰 개수 조회 -->
+    <!-- ✅ 전체 개수 -->
     <select id="countCoupons" resultType="int">
         SELECT COUNT(*) FROM COUPON
     </select>
 
-    <!-- ✅ 검색 + 페이지네이션 쿠폰 목록 -->
+    <!-- ✅ 검색 + 페이징 -->
     <select id="searchCouponsByPage" resultMap="couponMap">
         SELECT * FROM (
-        SELECT ROWNUM AS rnum, c.* FROM (
+        SELECT ROWNUM AS rnum, C.* FROM (
         SELECT * FROM COUPON
         <where>
             <if test="type == 'couponNo'">
@@ -67,13 +79,50 @@
             </if>
         </where>
         ORDER BY COUPON_NO DESC
-        ) c
+        ) C
         WHERE ROWNUM &lt;= #{offset} + #{size}
         )
         WHERE rnum &gt; #{offset}
     </select>
 
-    <!-- ✅ 검색된 전체 개수 구하기 -->
+    <!-- ✅ 단일 쿠폰 조회 -->
+    <select id="selectCouponByNo" parameterType="int" resultMap="couponMap">
+        SELECT * FROM COUPON WHERE COUPON_NO = #{couponNo}
+    </select>
+
+    <!-- ✅ 이미 발급한 쿠폰인지 확인 -->
+    <select id="countIssuedCoupon" resultType="int">
+        SELECT COUNT(*) FROM COUPON_HISTORY
+        WHERE COUPON_NO = #{couponNo} AND CUST_NUMBER = #{custNumber}
+    </select>
+
+    <!-- ✅ 쿠폰 발급 -->
+    <insert id="insertCouponHistoryWithExpire">
+        INSERT INTO COUPON_HISTORY (
+            HISTORY_NO, COUPON_NO, CUST_NUMBER, ISSUE_DATE, EXPIRE_DATE
+        ) VALUES (
+                     COUPON_HISTORY_SEQ.NEXTVAL, #{couponNo}, #{custNumber}, #{issueDate}, #{expireDate}
+                 )
+    </insert>
+
+    <!-- ✅ 발급 개수 증가 -->
+    <update id="updateCouponIssueCount">
+        UPDATE COUPON
+        SET COUPON_ISSUE = COUPON_ISSUE + 1
+        WHERE COUPON_NO = #{couponNo}
+    </update>
+
+    <update id="stopCoupon">
+        UPDATE COUPON
+        SET STATUS = '종료'
+        WHERE COUPON_NO = #{couponNo}
+    </update>
+    <update id="updateCouponStatusToUsed">
+        UPDATE COUPON
+        SET STATUS = '사용'
+        WHERE COUPON_NO = #{couponNo}
+    </update>
+    <!-- ✅ 검색된 전체 개수 조회 (검색 페이징용) -->
     <select id="countSearchCoupons" resultType="int">
         SELECT COUNT(*) FROM COUPON
         <where>
@@ -88,9 +137,39 @@
             </if>
         </where>
     </select>
-
-    <select id="selectCouponImage" resultType="String">
-        SELECT IMAGE_PATH FROM COUPON WHERE CATEGORY_CODE = #{cateCode}
+    <!-- ✅ 쿠폰 발급 현황 조회 -->
+    <select id="selectIssuedCoupons" resultMap="couponMap">
+        SELECT
+            H.HISTORY_NO      AS HISTORY_NO,
+            H.CUST_NUMBER     AS CUST_NUMBER,     -- ✅ 추가
+            H.COUPON_NO       AS COUPON_NO,
+            C.COUPON_TYPE     AS COUPON_TYPE,
+            C.COUPON_NAME     AS COUPON_NAME,
+            M.NAME            AS ISSUER,          -- ✅ 고객 이름을 임시로 issuer에 출력
+            C.STATUS          AS STATUS,
+            H.ISSUE_DATE      AS ISSUE_DATE,
+            H.USE_DATE        AS USE_DATE
+        FROM COUPON_HISTORY H
+                 JOIN COUPON C ON H.COUPON_NO = C.COUPON_NO
+                 JOIN MEMBER M ON H.CUST_NUMBER = M.CUST_NUMBER
+        ORDER BY H.HISTORY_NO DESC
+    </select>
+    <select id="selectAvailableCoupons" resultMap="couponMap">
+        SELECT
+            H.HISTORY_NO,
+            C.COUPON_NO,
+            C.COUPON_TYPE,
+            C.COUPON_NAME,
+            H.ISSUE_DATE,
+            H.USE_DATE,
+            H.CUST_NUMBER,
+            C.BENEFIT,
+            C.USE_PERIOD
+        FROM COUPON_HISTORY H
+                 JOIN COUPON C ON H.COUPON_NO = C.COUPON_NO
+        WHERE H.CUST_NUMBER = #{custNumber}
+          AND H.USE_DATE IS NULL
+        ORDER BY H.HISTORY_NO DESC
     </select>
 
 </mapper>

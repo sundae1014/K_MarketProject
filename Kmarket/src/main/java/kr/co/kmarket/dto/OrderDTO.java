@@ -66,4 +66,6 @@ public class OrderDTO {
     private String pointType;
     private Date pointDate;
 
+    private int couponNo;
+    private int couponDiscount; // 쿠폰 할인 금액
 }

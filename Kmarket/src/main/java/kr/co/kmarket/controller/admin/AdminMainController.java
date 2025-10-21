@@ -41,8 +41,17 @@ public class AdminMainController {
         paymentList = fillMissingDates(paymentList, last5Days);
         cancelList = fillMissingDates(cancelList, last5Days);
 
+        List<Integer> totalOrderValues = new ArrayList<>();
+        for (int i = 0; i < last5Days.size(); i++) {
+            int total = orderList.get(i).getValue()
+                    + paymentList.get(i).getValue()
+                    + cancelList.get(i).getValue();
+            totalOrderValues.add(total);
+        }
+
+
         model.addAttribute("labels", last5Days);
-        model.addAttribute("orderData", orderList.stream().map(ChartData::getValue).collect(Collectors.toList()));
+        model.addAttribute("orderData", totalOrderValues);
         model.addAttribute("paymentData", paymentList.stream().map(ChartData::getValue).collect(Collectors.toList()));
         model.addAttribute("cancelData", cancelList.stream().map(ChartData::getValue).collect(Collectors.toList()));
 

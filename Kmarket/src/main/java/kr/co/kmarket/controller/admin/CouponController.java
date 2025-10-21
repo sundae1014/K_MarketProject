@@ -1,5 +1,6 @@
 package kr.co.kmarket.controller.admin;
 
+import jakarta.servlet.http.HttpSession;
 import kr.co.kmarket.dto.CouponDTO;
 import kr.co.kmarket.service.admin.CouponService;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/admin/coupon")
@@ -62,7 +65,35 @@ public class CouponController {
 
     // ✅ 쿠폰 발급 현황 페이지 이동
     @GetMapping("/issued")
-    public String issued() {
+    public String issued(Model model) {
+        model.addAttribute("issuedCoupons", service.getIssuedCoupons());
         return "admin/coupon/couponStat";
     }
+
+    @PostMapping("/issue")
+    @ResponseBody
+    public Map<String, Object> issueCoupon(@RequestParam("couponno") int couponNo,
+                                           HttpSession session) {
+
+        Map<String, Object> result = new HashMap<>();
+
+        // ✅ 로그인 확인
+        Integer custNumber = (Integer) session.getAttribute("user");
+        if (custNumber == null) {
+            result.put("status", "loginRequired");
+            return result;
+        }
+
+        // ✅ 서비스 호출
+        int issued = service.issueCoupon(couponNo, custNumber);
+
+        if (issued == 1) {
+            result.put("status", "success"); // 발급 성공
+        } else {
+            result.put("status", "duplicate"); // 이미 발급됨
+        }
+        return result;
+    }
+
+
 }

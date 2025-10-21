@@ -32,5 +32,9 @@ public interface AdminOrderMapper {
 
     public int selectDeliveryOrderCount();
 
+    public OrderDTO selectDeliveryOrderDetail(
+            @Param("orderNumber") String orderNumber,
+            @Param("trackingNumber") Integer trackingNumber
+    );
 
 }

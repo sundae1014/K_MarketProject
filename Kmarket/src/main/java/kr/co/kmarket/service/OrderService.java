@@ -1,6 +1,8 @@
 package kr.co.kmarket.service;
 
 import kr.co.kmarket.dto.*;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -31,5 +33,7 @@ public interface OrderService {
     void earnPoint(int cust_number, String order_number, int earnPoint);
 
     OrderDTO selectOrderComplete(String orderNumber);
+
+    void useCoupon(int couponNo, int custNumber);
 
 }
