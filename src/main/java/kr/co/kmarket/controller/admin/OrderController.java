@@ -63,7 +63,7 @@ public class OrderController {
         model.addAttribute("allOrders", allOrders);
         model.addAttribute("OrderPage", OrderPage);
 
-        return "admin/order/list";
+        return "/admin/order/list";
     }
 
     @GetMapping("/detail/{order_number}")
@@ -155,7 +155,7 @@ public class OrderController {
         model.addAttribute("deliveryOrders", deliveryOrders);
         model.addAttribute("DeliveryPage", DeliveryPage);
 
-        return "admin/order/delivery";
+        return "/admin/order/delivery";
     }
 
     @GetMapping("/delivery-detail/{orderNumber}")

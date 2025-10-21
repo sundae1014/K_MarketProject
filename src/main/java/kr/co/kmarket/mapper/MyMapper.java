@@ -97,5 +97,9 @@ public interface MyMapper {
 
     public int selectCountCoupon();
 
+    public int updateMemberInfo(MemberDTO memberDTO);
 
+    public int deleteMember(@Param("custNumber") int custNumber);
+
+    public String selectMemberPass(@Param("custNumber") int custNumber);
 }
