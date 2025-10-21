@@ -1,5 +1,6 @@
-// admin/order.js (수정)
-document.addEventListener('DOMContentLoaded', function (){
+// admin/order.js (최종 수정 버전)
+
+document.addEventListener('DOMContentLoaded', function () {
     $(document).ready(function() {
 
         const CONTEXT_PATH = '/kmarket';
@@ -30,169 +31,114 @@ document.addEventListener('DOMContentLoaded', function (){
         }
 
         // =========================================================
-        // 1. 주문 상세 모달 처리 (`#orderModal`) - (기존 로직 유지)
+        // 1. 주문 상세 모달 (list.html: #orderModal) 처리 로직 추가
         // =========================================================
+        $('.order-detail-link').on('click', function(event) {
+            event.preventDefault();
 
-        const orderModal = $('#orderModal');
+            var orderNumber = $(this).data('order-number');
+            const modalTitle = $('#orderModal .modal-sm-title'); // 주문번호 표시 헤더
+            const modalProductList = $('#modalProductList');     // 상품 목록 tbody
 
-        orderModal.on('show.bs.modal', function (event) {
+            // order-modal.html의 결제/배송 정보 ID
+            const payOrderStatus = $('#payOrderStatus');
+            const payFinalPriceFooter = $('#payFinalPriceFooter');
+            const deliRecipName = $('#deliRecipName');
+            const deliRecipHp = $('#deliRecipHp');
+            const deliRecipAddr1 = $('#deliRecipAddr1');
+            const deliRecipAddr2 = $('#deliRecipAddr2');
+            const payMethod = $('#payMethod'); // 결제수단 표시 ID가 있다고 가정
 
-            var button = $(event.relatedTarget);
-            // 주문 목록에서 '주문번호' 링크의 data-order-number 속성 사용
-            var orderNumber = button.data('order-number');
-
-            var modalOrderNumberTitle = $('#modalOrderNumber');
-
-            // 데이터 로딩 시작 시, 초기화 및 로딩 메시지 설정
-            modalOrderNumberTitle.text(orderNumber + ' 로딩 중...');
-            $('#modalProductList').html('<tr><td colspan="9" class="text-center"><i class="fas fa-spinner fa-spin"></i> 상품 정보 로딩 중...</td></tr>');
-
-            if (!orderNumber) {
-                modalOrderNumberTitle.text('N/A');
-                $('#modalProductList').html('<tr><td colspan="9" class="text-center alert alert-danger">주문번호 정보가 누락되었습니다.</td></tr>');
-                return;
-            }
+            modalTitle.text('주문번호: ' + orderNumber + ' 로딩 중...');
+            modalProductList.html('<tr><td colspan="9" class="text-center"><i class="fas fa-spinner fa-spin"></i> 상품 정보 로딩 중...</td></tr>');
 
             $.ajax({
-                url: CONTEXT_PATH + '/admin/order/detail/' + orderNumber,
+                url: CONTEXT_PATH + '/admin/order/delivery-detail/' + orderNumber,
                 type: 'GET',
                 dataType: 'json',
                 success: function(response) {
-
                     if (response.success && response.order) {
-                        const order = response.order;       // ⭐️ OrderDTO (부모 DTO)
-                        const details = order.details || [];// ⭐️ OrderDTO 내부의 List<AdminOrderDetailDTO> (자식 리스트)
+                        const order = response.order;
+                        const products = order.details || []; // OrderDTO에 List<AdminOrderDetailDTO> details가 있다고 가정
 
-                        let totalOriginalPrice = 0;
-                        let totalDiscountAmount = 0;
-                        let totalDeliveryFee = 0;
+                        // 모달 상세 정보 채우기
+                        modalTitle.text('주문번호: ' + order.order_number);
+                        payOrderStatus.text(getAdminStatusText(order.stat));
+                        payFinalPriceFooter.text(priceFormatter.format(order.price) + '원');
+                        deliRecipName.text(order.name);
+                        deliRecipHp.text(order.hp);
+                        deliRecipAddr1.text('(' + order.zip + ') ' + order.addr);
+                        deliRecipAddr2.text(order.addr2);
+                        // payMethod.text(getPaymentText(order.payment));
 
-                        // 상품 목록 HTML 생성 및 총액 계산
+                        // 상품 목록 테이블 생성
                         let productHtml = '';
-                        if (details.length > 0) {
-                            details.forEach(detail => {
-                                // ⭐️ AdminOrderDetailDTO의 필드명 사용: itemPiece, price, salePrice
-                                const itemTotalPrice = detail.salePrice * detail.itemPiece;
-                                const itemOriginalPrice = detail.price * detail.itemPiece;
-                                const itemDiscountAmount = itemOriginalPrice - itemTotalPrice;
-
-                                totalOriginalPrice += itemOriginalPrice;
-                                totalDiscountAmount += itemDiscountAmount;
-                                totalDeliveryFee += detail.delivery_fee || 0;
+                        if (products.length > 0) {
+                            products.forEach(p => {
+                                // OrderDTO 또는 AdminOrderDetailDTO 필드 사용
+                                const finalPrice = (p.salePrice * p.itemPiece);
+                                const imgPath = p.img1;
+                                const deliveryFee = p.deliveryFee || 0;
 
                                 productHtml += `
-                                <tr>
-                                    <td>
-                                        <img src="${CONTEXT_PATH}${detail.img1}" alt="상품사진">
-                                    </td>
-                                    <td>${detail.prod_number || 'N/A'}</td>
-                                    <td>${detail.prod_name || 'N/A'}</td>
-                                    <td>${detail.manufacture || 'N/A'}</td>
-                                    <td>${priceFormatter.format(detail.price || 0)}</td>
-                                    <td>${detail.discount || 0}</td>
-                                    <td>${detail.itemPiece || 0}</td>
-                                    <td>${priceFormatter.format(detail.delivery_fee || 0)}</td>
-                                    <td>${priceFormatter.format(itemTotalPrice || 0)}</td>
-                                </tr>
-                            `;
+                                    <tr>
+                                        <td><img src="${CONTEXT_PATH}${imgPath.startsWith('/') ? imgPath : '/' + imgPath}" alt="상품사진" style="width: 50px;"></td>
+                                        <td>${p.prod_number}</td>
+                                        <td>${p.prod_name}</td>
+                                        <td>${p.manufacture}</td>
+                                        <td>${priceFormatter.format(p.price)} 원</td>
+                                        <td>${p.discount}%</td>
+                                        <td>${p.itemPiece} 건</td>
+                                        <td>${priceFormatter.format(deliveryFee)} 원</td>
+                                        <td>${priceFormatter.format(finalPrice)} 원</td>
+                                    </tr>
+                                `;
                             });
                         } else {
-                            productHtml += `<tr><td colspan="9" class="text-center">주문된 상품이 없습니다.</td></tr>`;
+                            productHtml = `<tr><td colspan="9" class="text-center">주문 상품 정보가 없습니다.</td></tr>`;
                         }
-
-                        // =================================================================
-                        // ⭐️ HTML ID에 데이터 채우기 ⭐️
-                        // =================================================================
-
-                        // 1. 모달 헤더
-                        modalOrderNumberTitle.text(order.order_number || 'N/A');
-
-                        // 2. 상품 목록 테이블
-                        $('#modalProductList').html(productHtml);
-
-                        // 3. 총액 정보 영역 (OrderDTO.price는 최종 결제 금액)
-                        $('#modalTotalOriginalPrice').text(priceFormatter.format(totalOriginalPrice) + ' 원');
-                        $('#modalTotalDiscountAmount').text(priceFormatter.format(totalDiscountAmount) + ' 원');
-                        $('#modalTotalDeliveryFee').text(priceFormatter.format(totalDeliveryFee) + ' 원');
-                        $('#modalFinalPrice').text(priceFormatter.format(order.price || 0) + ' 원');
-
-                        // 4. 결제정보 영역
-                        $('#payOrderNumber').text(order.order_number || 'N/A'); // 주문번호도 다시 채움
-                        $('#payPaymentMethod').text(getPaymentText(order.payment));
-                        $('#payOrdName').text(order.ordName || 'N/A');      // ⭐️ OrderDTO.ordName 사용
-                        $('#payOrdHp').text(order.ordHp || 'N/A');          // ⭐️ OrderDTO.ordHp 사용
-                        $('#payOrderStatus').text(getAdminStatusText(order.stat));
-                        $('#payFinalPriceFooter').text(priceFormatter.format(order.price || 0) + '원');
-
-                        // 5. 배송정보 영역 (수취인 정보는 OrderDTO의 name, hp, zip, addr1, addr2 사용)
-                        $('#deliRecipName').text(order.name || 'N/A');
-                        $('#deliRecipHp').text(order.hp || 'N/A');
-                        $('#deliRecipZip').text(order.zip || 'N/A');
-                        $('#deliRecipAddr1').text(order.addr || 'N/A');
-                        $('#deliRecipAddr2').text(order.addr2 || '');
-                        $('#deliReq').text(order.req || '없음');
+                        modalProductList.html(productHtml);
 
                     } else {
-                        modalOrderNumberTitle.text('N/A');
-                        $('#modalProductList').html('<tr><td colspan="9" class="text-center alert alert-warning">주문 상세 정보를 불러오는데 실패했습니다. (데이터 없음)</td></tr>');
+                        modalProductList.html('<tr><td colspan="9" class="text-center">주문 상세 정보를 불러오는데 실패했습니다. (데이터 없음)</td></tr>');
                     }
                 },
                 error: function(xhr, status, error) {
-                    modalOrderNumberTitle.text('N/A');
                     console.error("주문 상세 정보 로드 실패:", error);
-                    $('#modalProductList').html('<tr><td colspan="9" class="text-center alert alert-danger">시스템 오류가 발생했습니다.</td></tr>');
+                    modalProductList.html('<tr><td colspan="9" class="text-center">시스템 오류가 발생했습니다. (API 호출 실패)</td></tr>');
+                    modalTitle.text('주문번호: ' + orderNumber + ' (오류)');
                 }
             });
         });
 
         // =========================================================
-        // 2. 배송 모달 처리 (`#addressModal`) - (데이터 전송 로직 수정)
+        // 2. 배송 등록 모달 (addressModal) 처리 로직
         // =========================================================
 
-        $(document).on('click', '.delivery-input-btn', function(event) {
-            // 버튼에서 data-* 속성을 직접 가져와서 모달 필드를 채웁니다.
-            const orderNumber = $(this).data('order-number');
-            const recipName = $(this).data('order-name');
-            const recipZip = $(this).data('order-zip');
-            const recipAddr1 = $(this).data('order-addr');
-            const recipAddr2 = $(this).data('order-addr2');
-            const deliveryReq = $(this).data('order-req'); // 기타/요청사항 필드에 사용
+        /**
+         * 배송 정보 입력 버튼 클릭 시 모달 데이터 채우기 (list.html의 "배송입력" 버튼)
+         */
+        $('.delivery-input-btn').on('click', function() {
+            var orderNumber = $(this).data('order-number');
+            var recipName = $(this).data('recip-name');
+            var recipHp = $(this).data('recip-hp');
 
-            if (orderNumber) {
-                // 1. 모달 헤더 및 Hidden Input에 주문번호 설정
-                $('#deliveryOrderNumberDisplay').text(orderNumber);
-                $('#deliveryOrderNumberInput').val(orderNumber);
-
-                // 2. 배송지 정보 필드에 값을 설정합니다. (readonly 필드)
-                // list.html의 data-* 속성과 address-modal.html의 ID 매칭
-                $('#recipNameInput').val(recipName || '');
-                $('#zipInput').val(recipZip || '');
-                $('#addr1Input').val(recipAddr1 || '');
-                $('#addr2Input').val(recipAddr2 || '');
-
-                // 3. 기타 필드에 배송 요청사항을 설정합니다.
-                $('#text-area').val(deliveryReq || '');
-
-                // 4. 운송장 및 택배사 정보는 입력받는 필드이므로 초기화합니다.
-                $('select[name="deliveryCompany"]').val('');
-                $('input[name="trackingNumber"]').val('');
-
-            } else {
-                alert('주문번호 정보가 누락되었습니다. 페이지를 새로고침해주세요.');
-            }
+            // 모달의 주문번호 필드에 값 채우기
+            $('#deliveryOrderNumberDisplay').text(orderNumber);
+            $('#deliveryOrderNumberInput').val(orderNumber);
+            // 모달의 수령인 필드에 값 채우기 (list.html에서 data 속성으로 전달받은 값)
+            $('#recipNameInput').val(recipName);
         });
 
-
-        // 2-2. 배송 입력 폼 제출 (AJAX 처리) - (기존 로직 유지)
+        /**
+         * 배송 정보 등록 폼 제출 처리 (address-modal.html의 #deliveryInputForm)
+         */
         $('#deliveryInputForm').on('submit', function(e) {
-            e.preventDefault(); // 폼 기본 제출 방지
+            e.preventDefault();
 
-            const form = $(this);
-            const postData = {};
-            $.each(form.serializeArray(), function(_, field) {
-                // 운송장 입력 시 주소 정보는 readonly이므로, 택배/송장 정보만 주로 사용됩니다.
-                // 모든 폼 데이터를 전송합니다.
-                postData[field.name] = field.value;
+            var postData = {};
+            $(this).serializeArray().forEach(function(item) {
+                postData[item.name] = item.value;
             });
 
             // 유효성 검사
@@ -205,9 +151,12 @@ document.addEventListener('DOMContentLoaded', function (){
                 return;
             }
 
+            // stat을 '배송중' (3)으로 변경
+            postData['stat'] = 3;
+
             if (confirm(`주문번호 ${postData.orderNumber}에 운송장 정보를 등록하고 상태를 '배송중'으로 변경하시겠습니까?`)) {
                 $.ajax({
-                    // 🚨 서버의 API 엔드포인트 URL
+                    // 서버의 API 엔드포인트 URL
                     url: CONTEXT_PATH + '/admin/order/delivery-input',
                     type: 'POST',
                     contentType: 'application/json',

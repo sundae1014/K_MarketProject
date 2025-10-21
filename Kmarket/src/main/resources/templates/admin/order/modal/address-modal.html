@@ -21,37 +21,37 @@
                                 <tr>
                                     <th>주문번호</th>
                                     <td>
-                                        <input type="number" name="orderNumber" id="deliveryOrderNumberInput" value="" readonly>
+                                        <input type="text" name="orderNumber" id="deliveryOrderNumberInput" value="" readonly class="middle-box">
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>수령인</th>
                                     <td>
-                                        <input type="text" name="recipName" id="recipNameInput" value="" readonly>
+                                        <input type="text" name="recipName" id="recipNameInput" value="" readonly class="long-box">
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>우편번호</th>
                                     <td>
-                                        <input type="number" name="zip" id="zipInput" value="" readonly>
+                                        <input type="text" name="zip" id="zipInput" value="" readonly class="short-box">
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>기본주소</th>
                                     <td>
-                                        <input type="text" name="addr1" id="addr1Input" value="" readonly>
+                                        <input type="text" name="addr1" id="addr1Input" value="" readonly class="long-box">
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>상세주소</th>
                                     <td>
-                                        <input type="text" name="addr2" id="addr2Input" value="" readonly>
+                                        <input type="text" name="addr2" id="addr2Input" value="" readonly class="long-box">
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>택배사</th>
                                     <td>
-                                        <select name="deliveryCompany">
+                                        <select name="deliveryCompany" class="select-box">
                                             <option value="">택배사선택</option>
                                             <option value="한진택배">한진택배</option>
                                             <option value="CJ대한통운">CJ 대한통운</option>
@@ -60,13 +60,14 @@
                                             <option value="우체국택배">우체국택배</option>
                                             <option value="대신택배">대신택배</option>
                                             <option value="천일택배">천일택배</option>
+                                            <option value="경동택배">경동택배</option>
                                         </select>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>운송장번호</th>
                                     <td>
-                                        <input type="number" name="trackingNumber" id="trackingNumberInput" placeholder="발급받은 택배사 송장 번호 입력">
+                                        <input type="number" name="trackingNumber" id="trackingNumberInput" placeholder="발급받은 택배사 송장 번호 입력" class="long-box" style="color: black">
                                     </td>
                                 </tr>
                                 <tr>

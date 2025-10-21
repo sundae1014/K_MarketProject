@@ -80,6 +80,7 @@
             </div>
 
         </aside>
+
         <div class="content-section">
             <div class="content-title">
                 <div class="title-items">
@@ -129,10 +130,10 @@
                                th:data-order-number="${order.order_number}">
                             </a>
                         </td>
-                        <td th:text="${order.custId}">abc123</td>
-                        <td th:text="${order.name}">김유신</td>
-                        <td th:text="${order.piece}">2</td>
-                        <td th:text="${order.price}">102,900</td>
+                        <td th:text="${order.custId}"></td>
+                        <td th:text="${order.ordName}"></td>
+                        <td th:text="${order.piece}"></td>
+                        <td th:text="${order.price}"></td>
                         <td th:switch="${order.payment}">
                             <span th:case="1">신용카드</span>
                             <span th:case="2">체크카드</span>
@@ -142,20 +143,21 @@
                             <span th:case="6">카카오페이</span>
                             <span th:case="*">N/A</span> </td>
                         <td th:switch="${order.stat}">
-                            <span th:case="0">결제대기</span>
-                            <span th:case="1">결제완료</span>
-                            <span th:case="2">배송준비</span>
-                            <span th:case="3">배송중</span>
-                            <span th:case="4">배송완료</span>
-                            <span th:case="5">주문취소</span>
-                            <span th:case="6">반품요청</span>
-                            <span th:case="7">교환요청</span>
-                            <span th:case="8">구매확정</span>
-                            <span th:case="*">N/A</span> </td>
+                            <span th:case="0" class="status-payment-pending">결제대기</span>
+                            <span th:case="1" class="status-payment-complete">결제완료</span>
+                            <span th:case="2" class="status-preparing-shipment">배송준비</span>
+                            <span th:case="3" class="status-shipping">배송중</span>
+                            <span th:case="4" class="status-delivered">배송완료</span>
+                            <span th:case="5" class="status-order-cancelled">주문취소</span>
+                            <span th:case="6" class="status-return-request">반품요청</span>
+                            <span th:case="7" class="status-exchange-request">교환요청</span>
+                            <span th:case="8" class="status-purchase-confirmed">구매확정</span>
+                            <span th:case="*">알 수 없음</span>
+                        </td>
                         <td th:text="${#dates.format(order.ODate, 'yyyy-MM-dd HH:mm:ss')}"></td>
                         <td>
-                            <button class="btn btn-white delivery-input-btn"
-                                    data-bs-toggle="modal" data-bs-target="#addressModal"
+                            <button class="btn btn-white delivery-input-btn" data-bs-toggle="modal" data-bs-target="#addressModal"
+                                    th:if="${order.stat == 1}"
                                     th:data-order-number="${order.order_number}"
                                     th:data-order-name="${order.name}"
                                     th:data-order-zip="${order.zip}"
@@ -206,5 +208,3 @@
 <div th:insert="~{admin/order/modal/order-modal :: modal}"></div>
 <div th:insert="~{admin/order/modal/address-modal :: modal}"></div>
 <div th:replace="~{admin/order/_tail.html}"></div>
-</body>
-</html>

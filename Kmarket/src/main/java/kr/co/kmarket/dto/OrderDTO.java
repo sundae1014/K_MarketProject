@@ -55,6 +55,8 @@ public class OrderDTO {
     private String ordName;         // 주문자 이름 (MEMBER.NAME)
     private String ordHp;           // 주문자 연락처 (MEMBER.HP)
     private List<AdminOrderDetailDTO> details;
-    private String delivery_company;
-    private int tracking_number;
+    private String deliveryCompany;
+    private int trackingNumber;
+    private List<ProductDTO> products;
+
 }
