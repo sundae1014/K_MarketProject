@@ -8,39 +8,41 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Date;
-import java.util.List;
 
 @Controller
-@RequestMapping("admin/coupon")
+@RequestMapping("/admin/coupon")
 @RequiredArgsConstructor
 public class CouponController {
 
     private final CouponService service;
 
-    // ✅ 페이지네이션 + 전체 목록 통합
+    // ✅ 쿠폰 목록 + 검색 + 페이징
     @GetMapping("/list")
     public String list(@RequestParam(defaultValue = "1") int page,
                        @RequestParam(required = false) String type,
                        @RequestParam(required = false) String keyword,
                        Model model) {
 
-        int pageSize = 10; // 페이지당 10개
-        int totalCount = service.countCoupons(type, keyword);
-        int totalPages = (int) Math.ceil((double) totalCount / pageSize);
-        int offset = (page - 1) * pageSize;
+        int size = 10; // 페이지당 10개
 
-        List<CouponDTO> coupons = service.getCouponsPage(type, keyword, offset, pageSize);
+        if (keyword != null && !keyword.isEmpty()) {
+            // ✅ 검색 결과 조회
+            model.addAttribute("coupons", service.searchCoupons(type, keyword, page, size));
+            model.addAttribute("totalPages", service.getSearchTotalPages(type, keyword, size));
+        } else {
+            // ✅ 일반 목록 조회
+            model.addAttribute("coupons", service.getCouponsByPage(page, size));
+            model.addAttribute("totalPages", service.getTotalPages(size));
+        }
 
-        model.addAttribute("coupons", coupons);
         model.addAttribute("currentPage", page);
-        model.addAttribute("totalPages", totalPages);
-        model.addAttribute("paramType", type);
-        model.addAttribute("paramKeyword", keyword);
+        model.addAttribute("type", type);
+        model.addAttribute("keyword", keyword);
 
         return "admin/coupon/couponList";
     }
 
-    // ✅ 등록 기능
+    // ✅ 쿠폰 등록
     @PostMapping("/register")
     @ResponseBody
     public String register(@RequestBody CouponDTO coupon) {
@@ -58,17 +60,9 @@ public class CouponController {
         }
     }
 
-    // ✅ 검색 기능 (Ajax)
-    @GetMapping("/search")
-    @ResponseBody
-    public List<CouponDTO> searchCoupons(
-            @RequestParam String type,
-            @RequestParam String keyword) {
-        return service.searchCoupons(type, keyword);
-    }
-
+    // ✅ 쿠폰 발급 현황 페이지 이동
     @GetMapping("/issued")
-    public String issuedPage() {
+    public String issued() {
         return "admin/coupon/couponStat";
     }
 }

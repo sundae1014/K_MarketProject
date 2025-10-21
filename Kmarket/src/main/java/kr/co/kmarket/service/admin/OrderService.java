@@ -27,5 +27,13 @@ public class OrderService {
     public OrderDTO selectOrderDetail(String orderNumber) {
         return orderMapper.selectOrderDetailCombined(orderNumber);
     }
+
+    public int updateDelivery(String order_number, String deliveryCompany, String trackingNumber) {
+        return orderMapper.updateDeliveryInfo(order_number, deliveryCompany, trackingNumber);
+    }
+
+    public OrderDTO selectOrderInfoByOrderNumber(String order_number) {
+        return orderMapper.selectOrderInfoByOrderNumber(order_number);
+    }
 }
 

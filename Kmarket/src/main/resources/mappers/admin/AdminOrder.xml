@@ -136,4 +136,19 @@
         WHERE T1.ORDER_NUMBER = #{order_number}
     </select>
 
+    <select id="selectOrderInfoByOrderNumber" resultMap="OrderResultMap2">
+        SELECT
+        ORDER_NUMBER, NAME, HP, ZIP, ADDR, ADDR2,
+        DELIVERY_COMPANY, TRACKING_NUMBER, REQ
+        FROM "ORDER"
+        WHERE ORDER_NUMBER = #{order_number}
+    </select>
+
+    <update id="updateDeliveryInfo">
+        UPDATE "ORDER" SET
+        DELIVERY_COMPANY = #{deliveryCompany},
+        TRACKING_NUMBER = #{trackingNumber},
+        STAT = 2  WHERE ORDER_NUMBER = #{order_number}
+    </update>
+
 </mapper>
