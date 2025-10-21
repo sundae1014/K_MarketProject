@@ -398,15 +398,15 @@
     </div>
 
     <!-- 검색바 -->
-    <div class="search-bar">
-      <select>
-        <option value="couponNo">쿠폰번호</option>
-        <option value="couponName">쿠폰명</option>
-        <option value="issuer">발급자</option>
-      </select>
-      <input type="text" placeholder="검색어 입력">
-      <button>검색</button>
-    </div>
+        <form method="get" th:action="@{/admin/coupon/list}" class="search-bar">
+            <select name="type">
+                <option value="couponNo" th:selected="${type == 'couponNo'}">쿠폰번호</option>
+                <option value="couponName" th:selected="${type == 'couponName'}">쿠폰명</option>
+                <option value="issuer" th:selected="${type == 'issuer'}">발급자</option>
+            </select>
+            <input type="text" name="keyword" th:value="${keyword}" placeholder="검색어 입력">
+            <button type="submit">검색</button>
+        </form>
 
     <!-- 테이블 -->
     <table>
@@ -431,7 +431,7 @@
                 <a href="#" th:text="${coupon.couponNo}"
                    th:onclick="'openDetail(' + ${coupon.couponNo} + '); return false;'"></a>
             </td>
-            <td th:text="${coupon.couponTypename}"></td>
+            <td th:text="${coupon.couponType}"></td>
             <td th:text="${coupon.couponName}"></td>
             <td th:text="${coupon.benefit}"></td>
             <td th:text="${coupon.usePeriod}"></td>
@@ -448,18 +448,25 @@
     <!-- 하단 바 -->
     <div class="bottom-bar">
         <div class="pagination">
+            <!-- 이전 버튼 -->
             <a th:if="${currentPage > 1}"
-               th:href="@{/admin/coupon/list(page=${currentPage - 1}, type=${param.type}, keyword=${param.keyword})}">이전</a>
+               th:href="@{|/admin/coupon/list?page=${currentPage - 1}&type=${type}&keyword=${keyword}|}">
+                이전
+            </a>
 
+            <!-- 페이지 번호 -->
             <span th:each="i : ${#numbers.sequence(1, totalPages)}">
-      <a th:if="${i != currentPage}"
-         th:href="@{/admin/coupon/list(page=${i}, type=${param.type}, keyword=${param.keyword})}"
-         th:text="${i}"></a>
-      <strong th:if="${i == currentPage}" th:text="${i}" style="color:red"></strong>
-            </span>
+        <a th:if="${i != currentPage}"
+           th:href="@{|/admin/coupon/list?page=${i}&type=${type}&keyword=${keyword}|}"
+           th:text="${i}"></a>
+        <strong th:if="${i == currentPage}" th:text="${i}" style="color:red;"></strong>
+    </span>
 
+            <!-- 다음 버튼 -->
             <a th:if="${currentPage < totalPages}"
-               th:href="@{/admin/coupon/list(page=${currentPage + 1}, type=${param.type}, keyword=${param.keyword})}">다음</a>
+               th:href="@{|/admin/coupon/list?page=${currentPage + 1}&type=${type}&keyword=${keyword}|}">
+                다음
+            </a>
         </div>
       <div>
         <button class="btn" onclick="openRegister()">쿠폰등록</button>
@@ -540,27 +547,15 @@
                         <th>발급처</th><td><input type="text" id="newIssuer" placeholder="발급처 입력"></td>
                     </tr>
                     <tr>
-                        <th>쿠폰명</th>
-                        <td>
-                            <select id="newName">
-                                <option value="">쿠폰명 선택</option>
-                                <option value="10월 한달 감사쿠폰">10월 한달 감사쿠폰</option>
-                                <option value="회원가입 축하쿠폰">회원가입 축하쿠폰</option>
-                                <option value="배송비 무료 쿠폰">배송비 무료 쿠폰</option>
-                                <option value="특별감사 쿠폰">특별감사 쿠폰</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
                         <th>쿠폰종류</th>
                         <td>
                             <select id="newType">
                                 <option value="">쿠폰종류 선택</option>
-                                <option value="1">개별상품 할인</option>
-                                <option value="2">주문금액 할인</option>
-                                <option value="3">배송비 무료</option>
-                                <option value="4">회원등급 전용</option>
-                                <option value="5">첫구매 전용</option>
+                                <option value="개별상품 할인">개별상품 할인</option>
+                                <option value="주문금액 할인">주문금액 할인</option>
+                                <option value="배송비 무료">배송비 무료</option>
+                                <option value="회원등급 전용">회원등급 전용</option>
+                                <option value="첫구매 전용">첫구매 전용</option>
                             </select>
                         </td>
                     </tr>
@@ -629,11 +624,11 @@
 
         const data = {
             issuer: document.getElementById('newIssuer').value,
-            couponType: document.getElementById('newType').value,
+            coupon_type: document.getElementById('newType').value,
             benefit: selectedBenefit ? selectedBenefit.value : '',
-            usePeriod: (startDate && endDate) ? `${startDate.value} ~ ${endDate.value}` : '',
+            use_period: (startDate && endDate) ? `${startDate.value} ~ ${endDate.value}` : '',
             manage: document.getElementById('newNote').value,
-            couponName: document.getElementById('newName').value || '기본쿠폰'
+            coupon_name: '자동등록쿠폰'
         };
 
         fetch(`${contextPath}/admin/coupon/register`, {
@@ -653,52 +648,6 @@
             })
             .catch(err => console.error('오류:', err));
     }
-    document.addEventListener('DOMContentLoaded', () => {
-    document.querySelector('.search-bar button').addEventListener('click', () => {
-        const type = document.querySelector('.search-bar select').value;
-        const keyword = document.querySelector('.search-bar input').value.trim();
-
-        if (!keyword) {
-            alert('검색어를 입력해주세요.');
-            return;
-        }
-
-        fetch(`${contextPath}/admin/coupon/search?type=${type}&keyword=${keyword}`)
-            .then(res => res.json())
-            .then(data => {
-                const tbody = document.querySelector('table tbody');
-                tbody.innerHTML = ''; // 기존 목록 초기화
-
-                if (data.length === 0) {
-                    tbody.innerHTML = `<tr><td colspan="11">검색 결과가 없습니다.</td></tr>`;
-                    return;
-                }
-
-                data.forEach(coupon => {
-                    const row = `
-        <tr>
-            <td><a href="#" onclick="openDetail('${coupon.couponNo}'); return false;">${coupon.couponNo}</a></td>
-            <td>${coupon.couponTypename}</td>
-            <td>${coupon.couponName}</td>
-            <td>${coupon.benefit}</td>
-            <td>${coupon.usePeriod}</td>
-            <td>${coupon.issuer}</td>
-            <td>${coupon.useCount}</td>
-            <td>${coupon.useCount}</td>
-            <td>${coupon.status}</td>
-            <td>${coupon.issueDate}</td>
-            <td><a href="#" class="manage-btn" onclick="endCoupon(${coupon.couponNo})">종료</a></td>
-        </tr>
-    `;
-                    tbody.insertAdjacentHTML('beforeend', row);
-                });
-            })
-            .catch(err => {
-                console.error('검색 오류:', err);
-                alert('검색 중 오류가 발생했습니다.');
-            });
-    });
-    });
 </script>
 </body>
 </html>
