@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         const products = order.products || [];
 
                         // 배송 및 결제 정보 채우기
-                        modalOrderNumTitle.text('주문번호: ' + order.order_number);
+                        modalOrderNumTitle.text(order.order_number);
                         modalDeliOrderNumber.text(order.order_number);
 
                         // 수령인 정보 (OrderDTO의 name, hp 필드 사용)

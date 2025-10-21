@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', function () {
             modalProductList.html('<tr><td colspan="9" class="text-center"><i class="fas fa-spinner fa-spin"></i> 상품 정보 로딩 중...</td></tr>');
 
             $.ajax({
-                url: CONTEXT_PATH + '/admin/order/delivery-detail/' + orderNumber,
+                url: CONTEXT_PATH + '/admin/order/detail/' + orderNumber,
                 type: 'GET',
                 dataType: 'json',
                 success: function(response) {
@@ -111,12 +111,12 @@ document.addEventListener('DOMContentLoaded', function () {
                         payOrdHp.text(order.ordHp); // DTO 필드명 사용
 
                         payOrderStatus.text(getAdminStatusText(order.stat));
-                        payFinalPriceFooter.text(priceFormatter.format(order.price) + '원');
+                        payFinalPriceFooter.text(priceFormatter.format(finalPaymentPrice) + '원');
                         deliRecipName.text(order.name);
                         deliRecipHp.text(order.hp);
                         deliRecipAddr1.text('(' + order.zip + ') ' + order.addr);
                         deliRecipAddr2.text(order.addr2);
-                        payMethod.text(getPaymentText(order.payment)); // 주석 해제 (payMethod ID가 있다면)
+                        // payMethod.text(getPaymentText(order.payment)); // 주석 해제 (payMethod ID가 있다면)
 
                         // 상품 목록 테이블 생성
                         let productHtml = '';
