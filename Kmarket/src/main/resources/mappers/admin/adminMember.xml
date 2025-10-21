@@ -44,7 +44,10 @@
     </select>
 
     <select id="findAll" resultType="map">
-        SELECT ROW_NUMBER() OVER (ORDER BY m.CUST_NUMBER) AS ID,
+        SELECT *
+        FROM (
+        SELECT
+        ROW_NUMBER() OVER (PARTITION BY m.CUSTID ORDER BY m."Date" DESC) AS rn,
         m.CUSTID,
         m.NAME,
         m.GENDER,
@@ -55,7 +58,10 @@
         m."Date",
         m.OPERATION
         FROM MEMBER m
-        JOIN POINT p ON m.CUST_NUMBER=p.CUST_NUMBER
+        LEFT JOIN POINT p ON m.CUST_NUMBER = p.CUST_NUMBER
+        WHERE m.AUTH = 1
+        ) t
+        WHERE rn = 1
         OFFSET #{pageRequestDTO.offset} ROWS
         FETCH NEXT #{pageRequestDTO.size} ROWS ONLY
     </select>

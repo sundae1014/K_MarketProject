@@ -94,4 +94,5 @@ public class AdminMemberController {
 
         return "admin/member/admin_pointManagement";
     }
+
 }
