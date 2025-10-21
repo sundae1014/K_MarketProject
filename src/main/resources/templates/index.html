@@ -3,19 +3,20 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Cupang::홈 (5조)</title>
+    <link rel="icon" type="image/png" th:href="@{/images/member/favicon.png}">
+    <title>[[${basicData.title}]]-[[${basicData.sub_title}]]::홈 [[${appInfo.appVersion}]]</title>
     <link rel="stylesheet" th:href="@{/css/main/style_header.css}">
     <link rel="stylesheet" th:href="@{/css/main/style_footer.css}">
     <link rel="stylesheet" th:href="@{/css/main/style_index.css}">
 
     <!-- 유저별 권한 기능 -->
-    <script th:inline="javascript">
-        /*<![CDATA[*/
-        let userType = /*[[${session.member != null ? (session.member.auth == 9 ? 'admin' : 'user') : 'guest'}]]*/ "guest";
-        let userName = /*[[${session.member != null ? session.member.name : ''}]]*/ "";
-        /*]]>*/
-    </script>
-    <script th:src="@{/js/main/user-menu.js}" defer></script>
+<!--    <script th:inline="javascript">-->
+<!--        /*<![CDATA[*/-->
+<!--        let userType = /*[[${session.member != null ? (session.member.auth == 9 ? 'admin' : 'user') : 'guest'}]]*/ "guest";-->
+<!--        let userName = /*[[${session.member != null ? session.member.name : ''}]]*/ "";-->
+<!--        /*]]>*/-->
+<!--    </script>-->
+<!--    <script th:src="@{/js/main/user-menu.js}" defer></script>-->
 
     <!-- 헤더 상단 공용 검색 기능 -->
     <script th:src="@{/js/main/header-search.js}" defer></script>
@@ -50,11 +51,13 @@
         <!-- 슬라이드 배너 -->
         <section class="main-banner">
             <ul class="bxslider">
-                <li><a href="event1.html"><img th:src="@{/images/main/메인배너img_1.png}" alt="이벤트 1"></a></li>
-                <li><a href="event2.html"><img th:src="@{/images/main/메인배너img_2.png}" alt="이벤트 2"></a></li>
-                <li><a href="event3.html"><img th:src="@{/images/main/메인배너img_3.png}" alt="이벤트 3"></a></li>
-                <li><a href="event4.html"><img th:src="@{/images/main/메인배너img_5.png}" alt="이벤트 4"></a></li>
-                <li><a href="event5.html"><img th:src="@{/images/main/메인배너img_6.png}" alt="이벤트 5"></a></li>
+                <li th:each="banner : ${main2Banners}">
+                    <a th:href="${banner.link}">
+                        <img th:src="@{'/uploads/banner/' + ${banner.img}}"
+                             th:alt="${banner.banner_name}"
+                             th:style="'width:' + ${banner.width} + '; height:' + ${banner.height} + '; background-color:' + ${banner.background_color}"/>
+                    </a>
+                </li>
             </ul>
         </section>
 

@@ -76,7 +76,7 @@ th {
     text-align: center;
 }
 td {
-    padding:15px;
+    padding:10px;
     text-align: center;
     border-bottom: 1px solid #e9ecef;
 }
@@ -136,17 +136,11 @@ td {
     width: 10px;
     height: 10px;
 }
-.pagenation .first {
-    background-image: url('/Kmarket/images/admin/product/btn-first-page.png');
-}
 .pagenation .prev {
-    background-image: url('/Kmarket/images/admin/product/btn-prev-page.png');
+    background-image: url('/kmarket/images/admin/product/btn-prev-page.png');
 }
 .pagenation .next {
-    background-image: url('/Kmarket/images/admin/product/btn-next-page.png');
-}
-.pagenation .last {
-    background-image: url('/Kmarket/images/admin/product/btn-last-page.png');
+    background-image: url('/kmarket/images/admin/product/btn-next-page.png');
 }
 
 .btn_box {

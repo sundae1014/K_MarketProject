@@ -238,7 +238,8 @@ public class MyService {
     }
 
     public int selectAllPoints(int custNumber) {
-        return myMapper.selectAllPoints(custNumber);
+        Integer result = myMapper.selectAllPoints(custNumber);
+        return result != null ? result : 0; // null 안전 처리 ✅
     }
 
     public int selectCountCoupon() {

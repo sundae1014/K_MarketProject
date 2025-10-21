@@ -9,7 +9,10 @@ import java.util.List;
 public interface OrderMapper {
 
     // 주문 테이블
-    void insertOrder(OrderDTO orderDTO);
+    String insertOrder(OrderDTO orderDTO);
+    void insertOrderDetail(OrderDTO orderDTO);
+    OrderDTO selectOrderByNumber(String order_number);
+    List<OrderDTO> selectOrderDetails(String order_number);
 
     // 장바구니
     List<CartDTO> selectCartList(List<Integer> cart_numbers);

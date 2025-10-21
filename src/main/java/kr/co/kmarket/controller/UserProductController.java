@@ -168,6 +168,7 @@ public class UserProductController {
         String deliveryEstimate = String.format("모레(%s) %s 도착 예정", dayKorean, formattedDate);
         model.addAttribute("deliveryEstimate", deliveryEstimate);
 
+        model.addAttribute("couponNo", 24);
         return "product/prodView";
     }
 }
