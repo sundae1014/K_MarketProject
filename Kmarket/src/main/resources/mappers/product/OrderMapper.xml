@@ -24,7 +24,7 @@
     <!-- ===================== -->
     <insert id="insertOrderDetail" parameterType="kr.co.kmarket.dto.OrderDTO">
         INSERT INTO ORDERDETAIL (
-            ORDER_NUMBER, PROD_NUMBER, PRICE, QUANTITY
+            ORDER_NUMBER, PROD_NUMBER, PRICE, PIECE
         ) VALUES (
                      #{order_number}, #{prod_number}, #{salePrice}, #{piece}
                  )
@@ -56,11 +56,11 @@
             D.ORDER_NUMBER           AS order_number,
             D.PROD_NUMBER            AS prod_number,
             D.PRICE                  AS salePrice,
-            D.QUANTITY               AS piece,
+            D.PIECE                  AS piece,
             P.PROD_NAME              AS prod_name,
             P.IMG_1                  AS img1,
             P.MANUFACTURE            AS manufacture
-        FROM ORDER_DETAIL D
+        FROM ORDERDETAIL D
                  JOIN PRODUCT P ON D.PROD_NUMBER = P.PROD_NUMBER
         WHERE D.ORDER_NUMBER = #{order_number}
     </select>

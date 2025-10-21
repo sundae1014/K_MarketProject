@@ -75,6 +75,8 @@ public class UserOrderController {
     // 주문 처리 (결제 완료 버튼 누른 후)
     @PostMapping("/complete")
     public String completeOrder(@ModelAttribute OrderDTO orderDTO) {
+        System.out.println("✅ 주문 데이터 확인: " + orderDTO);
+
         // 1️⃣ 주문 메인 저장
         String order_number = orderService.insertOrder(orderDTO);
 
