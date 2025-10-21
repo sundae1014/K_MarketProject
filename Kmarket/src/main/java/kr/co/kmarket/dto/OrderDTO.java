@@ -60,12 +60,14 @@ public class OrderDTO {
     private Integer trackingNumber;
 
     private List<ProductDTO> products;
-    private Integer savePoint;
+    private Integer savePoint;      // 적립 포인트 합계
+    private Integer usedPoint;      // 사용 포인트 합계
+    private Integer pointType;      // 포인트 유형 (1: 적립, 2: 사용)
+    private Integer pointAmount;    // 포인트 금액
+    private String description;     // 포인트 발생 사유
 
-    private Integer pointAmount;
-    private String pointType;
     private Date pointDate;
 
     private int couponNo;
-    private int couponDiscount; // 쿠폰 할인 금액
+    private Integer couponDiscount; // 쿠폰 할인 금액
 }
