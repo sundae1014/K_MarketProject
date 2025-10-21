@@ -1,18 +1,21 @@
 package kr.co.kmarket.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import kr.co.kmarket.dto.*;
 import kr.co.kmarket.service.OrderService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+import java.beans.PropertyEditorSupport;
 import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-@RequiredArgsConstructor
 @RequestMapping("/order")
 public class UserOrderController {
 
@@ -88,42 +91,95 @@ public class UserOrderController {
         return "product/prodOrder";
     }
 
-    // ✅ 주문 처리 (결제 완료)
+
+    @Autowired
+    public UserOrderController(OrderService orderService) {
+        this.orderService = orderService;
+    }
+
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        binder.registerCustomEditor(Integer.class, "payment", new PropertyEditorSupport() {
+
+            @Override
+            public void setAsText(String text) {
+                int code = switch (text) {
+                    case "신용카드" -> 1;
+                    case "체크카드" -> 2;
+                    case "계좌이체" -> 3;
+                    case "무통장입금" -> 4;
+                    case "휴대폰결제" -> 5;
+                    case "카카오페이" -> 6;
+                    default -> 0;
+                };
+                setValue(code);
+            }
+        });
+    }
+
+    // 주문 처리 (결제 완료 버튼 누른 후)
     @PostMapping("/complete")
     public String completeOrder(@ModelAttribute OrderDTO orderDTO) {
+        System.out.println("주문 데이터 확인 (변환 후): " + orderDTO);
+
+        // 누락된 값들 기본 세팅
+        if (orderDTO.getDelivery() == null) orderDTO.setDelivery(0);
+        if (orderDTO.getDiscount() == null) orderDTO.setDiscount(0);
+        if (orderDTO.getPrice() == null) orderDTO.setPrice(0);
+        if (orderDTO.getUsePoint() == null) orderDTO.setUsePoint(0);
+        if (orderDTO.getPiece() == 0) orderDTO.setPiece(1);
+
+        // salePrice 계산 (할인 적용)
+        if (orderDTO.getSalePrice() == null || orderDTO.getSalePrice() == 0) {
+            int salePrice = orderDTO.getPrice() - orderDTO.getDiscount();
+            orderDTO.setSalePrice(salePrice);
+        }
 
         // 1. 주문 저장
         String order_number = orderService.insertOrder(orderDTO);
 
-        // 2. 주문 상세 저장
         orderDTO.setOrder_number(order_number);
+
+        // 2️⃣ 주문 상세 저장
         orderService.insertOrderDetail(orderDTO);
 
-        // 3. 쿠폰 사용 처리
-        if (orderDTO.getCouponNo() > 0) {
-            orderService.useCoupon(orderDTO.getCouponNo(), orderDTO.getCust_number());
-        }
 
-        // 4. 포인트 차감 및 적립
-        if (orderDTO.getUsePoint() > 0) {
-            orderService.usePoint(orderDTO.getCust_number(), order_number, orderDTO.getUsePoint());
+        // 3️⃣ 포인트 처리
+        Integer used = orderDTO.getUsePoint();
+        if (used != null && used > 0) {
+            orderService.usePoint(orderDTO.getCust_number(), order_number, used);
+
         }
         int earn = (int) (orderDTO.getPrice() * 0.01);
         orderService.earnPoint(orderDTO.getCust_number(), order_number, earn);
 
-        // 5. 주문 완료 페이지 이동
+
         return "redirect:/order/complete?order_number=" + order_number;
     }
 
     // ✅ 주문 완료 페이지
     @GetMapping("/complete")
     public String showComplete(@RequestParam("order_number") String order_number, Model model) {
-        OrderDTO order = orderService.selectOrderByNumber(order_number);
+
+        // ✅ 1. 주문 기본 정보 + 포인트 정보 포함해서 가져오기
+        OrderDTO orderDTO = orderService.selectOrderByNumber(order_number);
+
+        // ✅ 2. 주문 상세(상품 리스트)
         List<OrderDTO> details = orderService.selectOrderDetails(order_number);
 
-        model.addAttribute("order", order);
+        // ✅ 3. null-safe 기본값 세팅
+        if (orderDTO.getPrice() == null) orderDTO.setPrice(0);
+        if (orderDTO.getUsePoint() == null) orderDTO.setUsePoint(0);
+        if (orderDTO.getSalePrice() == null) orderDTO.setSalePrice(0);
+        if (orderDTO.getSavePoint() == null) orderDTO.setSavePoint(0);
+
+        // ✅ 4. 모델 등록
+        model.addAttribute("order", orderDTO);
         model.addAttribute("details", details);
 
         return "product/prodComplete";
     }
+
+
 }
+

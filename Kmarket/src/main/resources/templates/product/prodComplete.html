@@ -9,14 +9,14 @@
     <link rel="stylesheet" th:href="@{/css/product/style_prodList.css}">
     <link rel="stylesheet" th:href="@{/css/product/style_prodComplete.css}">
 
-    <!-- 유저별 권한 기능 -->
-    <script th:inline="javascript">
-        /*<![CDATA[*/
-        let userType = /*[[${session.member != null ? (session.member.auth == 9 ? 'admin' : 'user') : 'guest'}]]*/ "guest";
-        let userName = /*[[${session.member != null ? session.member.name : ''}]]*/ "";
-        /*]]>*/
-    </script>
-    <script th:src="@{/js/main/user-menu.js}" defer></script>
+<!--    &lt;!&ndash; 유저별 권한 기능 &ndash;&gt;-->
+<!--    <script th:inline="javascript">-->
+<!--        /*<![CDATA[*/-->
+<!--        let userType = /*[[${session.member != null ? (session.member.auth == 9 ? 'admin' : 'user') : 'guest'}]]*/ "guest";-->
+<!--        let userName = /*[[${session.member != null ? session.member.name : ''}]]*/ "";-->
+<!--        /*]]>*/-->
+<!--    </script>-->
+<!--    <script th:src="@{/js/main/user-menu.js}" defer></script>-->
 
     <!-- 헤더 상단 공용 검색 기능 -->
     <script th:src="@{/js/product/header-search.js}" defer></script>
@@ -113,9 +113,16 @@
                             <div class="section-header">
                                 <h3>포인트 혜택</h3>
                             </div>
-                            <p>
-                                총 적립 예정 포인트
-                                <strong th:text="${#numbers.formatInteger(order.price * 0.01, 3, 'COMMA')}"></strong>원
+                            <p>총 적립 예정 포인트
+                                <span th:text="${order.savePoint != null ? order.savePoint : 0}">0</span>원
+                            </p>
+                            <p>사용 포인트
+                                <span th:text="${order.usePoint != null ? order.usePoint : 0}">0</span>원
+                            </p>
+
+                            <p>포인트 내역:
+                                <span th:text="${order.pointType}"></span>
+                                <span th:text="${order.pointAmount}"></span>원
                             </p>
                         </div>
                     </div>
