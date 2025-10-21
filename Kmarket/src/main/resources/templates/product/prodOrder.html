@@ -87,7 +87,7 @@
                 </div>
 
                 <!-- 주문 내역 -->
-                <form th:action="@{/order/complete}" method="post" id="orderForm">
+                <form th:action="@{/order/complete}" method="post" id="orderForm"><input type="hidden" name="couponNo" id="couponNo">
                     <div class="order-grid">
                         <!-- 좌측: 주문 상세 -->
                         <div class="order-list">
@@ -211,20 +211,7 @@
 
                                     <!-- 쿠폰 영역 -->
                                     <div class="coupon-list">
-                                        <th:block th:if="${#lists.isEmpty(coupons)}">
-                                            <p>사용 가능한 쿠폰이 없습니다.</p>
-                                        </th:block>
-
-                                        <th:block th:each="coupon : ${coupons}">
-                                            <label>
-                                                <input type="checkbox"
-                                                       name="coupon"
-                                                       th:data-discount="${coupon.benefit}"
-                                                       th:value="${coupon.couponNo}">
-                                                <span th:text="${coupon.couponName}"></span>
-                                                <span class="coupon-cond" th:text="'(~' + ${coupon.usePeriod} + ')'"></span>
-                                            </label>
-                                        </th:block>
+                                        <td colspan="5" style="text-align:center;">등록된 쿠폰이 없습니다.</td>
                                     </div>
 
                                     <!-- 포인트 영역 -->
@@ -260,7 +247,10 @@
                             <ul>
                                 <li><span>상품수</span><span><strong th:text="${#lists.size(orderItems)}"></strong></span></li>
                                 <li><span>상품금액</span><span><strong th:text="${#numbers.formatInteger(basePrice,3,'COMMA')}"></strong>원</span></li>
-                                <li><span>할인금액</span><span><strong th:text="${#numbers.formatInteger(couponDiscount,3,'COMMA')}"></strong>원</span></li>
+                                <li>
+                                    <span>할인금액</span>
+                                    <span><strong id="discountAmount" th:text="${#numbers.formatInteger(couponDiscount,3,'COMMA')}"></strong>원</span>
+                                </li>
                                 <li><span>배송비</span><span><strong th:text="${#numbers.formatInteger(delivery,3,'COMMA')}"></strong>원</span></li>
                                 <li><span>적립 포인트</span><span><strong th:text="${#numbers.formatInteger(point,3,'COMMA')}"></strong>점</span></li>
                             </ul>
@@ -274,7 +264,8 @@
                             <input type="hidden" name="price" th:value="${finalPrice}">
                             <input type="hidden" name="usePoint" id="hiddenUsePoint" th:value="${usePoint}">
                             <input type="hidden" name="payment" id="payment" value="신용카드">
-
+                            <input type="hidden" name="couponNo" id="couponNo">
+                            <input type="hidden" name="couponDiscount" id="couponDiscount">
                             <!-- ✅ 배송지 입력값 연결 -->
                             <input type="hidden" name="receiver" id="hiddenReceiver">
                             <input type="hidden" name="addr1" id="hiddenAddr1">
@@ -302,5 +293,98 @@
         <!-- 푸터 -->
         <div th:replace="~{_footer :: footerFragment}"></div>
     </main>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+
+            const productPriceEl = document.querySelector(".order-summary li:nth-child(2) strong");
+            let basePrice = parseInt(productPriceEl.textContent.replace(/[^0-9]/g, "")) || 0;
+
+            if (isNaN(basePrice)) basePrice = 0;
+
+            let couponDiscount = 0;
+            let usedPoint = 0;
+            let delivery = 0; // 기본 배송비 0원 유지
+            let finalPrice = basePrice;
+
+            const couponSelect = document.getElementById("couponSelect");
+            const discountEl = document.getElementById("discountAmount");
+            const totalEl = document.querySelector(".order-total strong");
+
+            const couponNoInput = document.getElementById("couponNo");
+            const couponDiscountInput = document.getElementById("couponDiscount");
+            const priceInput = document.querySelector("input[name='price']");
+            const hiddenUsePoint = document.getElementById("hiddenUsePoint");
+
+            const currentPointEl = document.getElementById("currentPoint");
+            let userPoint = parseInt(currentPointEl?.textContent.replace(/,/g, "")) || 0;
+
+            updateFinalPrice();
+
+            if (couponSelect) {
+                couponSelect.addEventListener("change", function () {
+                    const opt = this.options[this.selectedIndex];
+                    if (!opt.value) {
+                        resetCoupon();
+                        return;
+                    }
+
+                    const type = parseInt(opt.dataset.type);
+                    const benefit = parseInt(opt.dataset.discount);
+
+                    applyCoupon(type, benefit);
+                    couponNoInput.value = opt.value;
+                });
+            }
+
+            function applyCoupon(type, benefit) {
+                if (type === 1) {
+                    couponDiscount = benefit;
+                } else if (type === 2) {
+                    couponDiscount = Math.floor(basePrice * (benefit / 100));
+                }
+                updateFinalPrice();
+            }
+
+            function resetCoupon() {
+                couponDiscount = 0;
+                couponNoInput.value = "";
+                couponDiscountInput.value = 0;
+                updateFinalPrice();
+            }
+
+            // ✅ 포인트 적용
+            window.applyPoint = function () {
+                const inputVal = parseInt(document.getElementById("usePoint").value) || 0;
+
+                if (inputVal < 5000) {
+                    alert("포인트는 5,000점 이상부터 사용 가능합니다.");
+                    return;
+                }
+                if (inputVal > userPoint) {
+                    alert("보유 포인트를 초과할 수 없습니다.");
+                    return;
+                }
+
+                usedPoint = inputVal;
+                hiddenUsePoint.value = usedPoint;
+                updateFinalPrice();
+            };
+
+            function updateFinalPrice() {
+                finalPrice = basePrice - couponDiscount - usedPoint + delivery;
+                if (finalPrice < 0) finalPrice = 0;
+
+                totalEl.textContent = finalPrice.toLocaleString();
+                discountEl.textContent = couponDiscount.toLocaleString();
+
+                couponDiscountInput.value = couponDiscount;
+                if (priceInput) priceInput.value = finalPrice;
+            }
+        });
+    </script>
+
+
+
+
 </body>
 </html>

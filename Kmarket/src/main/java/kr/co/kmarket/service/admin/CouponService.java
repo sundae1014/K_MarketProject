@@ -85,6 +85,8 @@ public class CouponService {
         return (int) Math.ceil((double) totalCount / size);
     }
 
+
+
     @Transactional
     public int issueCoupon(int couponNo, int custNumber) {
         // 1. 이미 발급받은 쿠폰인지 체크
@@ -126,6 +128,21 @@ public class CouponService {
         mapper.updateCouponIssueCount(couponNo);
 
         return 1;
+    }
+    public List<CouponDTO> getIssuedCoupons() {
+        List<CouponDTO> list = mapper.selectIssuedCoupons();
+        for (CouponDTO dto : list) {
+            dto.setCouponTypename(convertTypeToName(dto.getCouponType()));
+        }
+        return list;
+    }
+    public List<CouponDTO> getAvailableCoupons(int custNumber) {
+        List<CouponDTO> list = mapper.selectAvailableCoupons(custNumber);
+
+        // 쿠폰 타입명 변환 (프론트 출력용)
+        list.forEach(dto -> dto.setCouponTypename(convertTypeToName(dto.getCouponType())));
+
+        return list;
     }
 
 }

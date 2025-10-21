@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const exchangeModal = document.getElementById('exchangeModal');
     const exchangeForm = document.getElementById('exchangeForm');
-    const CONTEXT_PATH = '/kmarket'; // 형의 프로젝트 컨텍스트 경로에 맞게 수정해주세요.
+    const CONTEXT_PATH = '/kmarket';
 
     // 주문 상태 코드에 따라 텍스트와 클래스를 반환하는 함수
     function getStatusInfo(statCode) {
