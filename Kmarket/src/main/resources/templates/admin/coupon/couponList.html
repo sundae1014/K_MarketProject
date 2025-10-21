@@ -427,7 +427,10 @@
       </thead>
         <tbody>
         <tr th:each="coupon : ${coupons}">
-            <td colspan="5" style="text-align:center;">등록된 쿠폰이 없습니다.</td>
+            <td>
+                <a href="#" th:onclick="'openPopup(' + ${coupon.couponNo} + '); return false;'"
+                   th:text="${coupon.couponNo}"></a>
+            </td>
             <td th:text="${coupon.couponTypename}"></td>
             <td th:text="${coupon.couponName}"></td>
             <td th:text="${coupon.benefit}"></td>
@@ -599,18 +602,32 @@
 
     // 쿠폰 상세 팝업
     const issuers = { '1012121212':'(주)다있어', '201910101':'최고관리자' };
-    function openDetail(couponNo) {
-        document.getElementById('couponId').textContent = couponNo;
-        document.getElementById('modalCouponNo').textContent = couponNo;
-        document.getElementById('modalIssuer').textContent = issuers[couponNo] || '-';
-        document.getElementById('modalType').textContent = '개별상품 할인';
-        document.getElementById('modalName').textContent = '10월 한달 감사 쿠폰 이벤트';
-        document.getElementById('modalBenefit').textContent = '2,000원 할인';
-        document.getElementById('modalPeriod').textContent = '2025-09-17 ~ 2025-09-17';
-        document.getElementById('modalNote').textContent = '상품 중복 할인 쿠폰\n- 상품 1개 사용 가능\n- 다른 할인 쿠폰과 중복 가능\n사용처: '+(issuers[couponNo]||'-');
-        document.getElementById('detailPopup').style.display='flex';
+    function openPopup(couponNo) {
+        fetch(`/kmarket/admin/coupon/detail?couponNo=` + couponNo)
+            .then(res => res.json())
+            .then(data => {
+                // 서버에서 받아온 데이터를 팝업에 채우기
+                document.getElementById('couponId').textContent = data.couponNo;
+                document.getElementById('modalCouponNo').textContent = data.couponNo;
+                document.getElementById('modalIssuer').textContent = data.issuer || '-';
+                document.getElementById('modalType').textContent = data.couponTypename || '-';
+                document.getElementById('modalName').textContent = data.couponName || '-';
+                document.getElementById('modalBenefit').textContent = data.benefit || '-';
+                document.getElementById('modalPeriod').textContent = data.usePeriod || '-';
+                document.getElementById('modalNote').textContent = data.manage || '-';
+
+                // ✅ 수정된 부분
+                document.getElementById('detailPopup').style.display = 'flex';
+            })
+            .catch(err => {
+                console.error('쿠폰 상세 조회 오류:', err);
+                alert('쿠폰 정보를 불러오지 못했습니다.');
+            });
     }
-    function closeDetail(){ document.getElementById('detailPopup').style.display='none'; }
+
+    function closeDetail() {
+        document.getElementById('detailPopup').style.display = 'none';
+    }
 
     // 쿠폰 등록 팝업
     function openRegister(){ document.getElementById('registerPopup').style.display='flex'; }
@@ -653,9 +670,9 @@
         fetch(`/kmarket/admin/coupon/stop?couponNo=` + couponNo, {
             method: 'POST'
         })
-            .then(res => res.text())
+            .then(res => res.json())
             .then(result => {
-                if (result === "success") {
+                if (result.status === "success") {
                     alert("쿠폰 발급이 종료되었습니다.");
                     location.reload();
                 } else {

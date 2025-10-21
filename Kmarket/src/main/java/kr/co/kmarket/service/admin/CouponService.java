@@ -144,5 +144,25 @@ public class CouponService {
 
         return list;
     }
+    public int stopCoupon(int couponNo) {
+        return mapper.updateCouponStatusToStop(couponNo);
+    }
 
+    public CouponDTO getCouponDetail(int couponNo) {
+        CouponDTO dto = mapper.selectCouponByNo(couponNo);
+        if (dto != null) {
+            dto.setCouponTypename(convertTypeToName(dto.getCouponType())); // 타입명 변환
+        }
+        return dto;
+    }
+
+    public List<CouponDTO> getIssuedCouponsByPage(int page, int size) {
+        int offset = (page - 1) * size;
+        return mapper.selectIssuedCouponsByPage(offset, size);
+    }
+
+    public int getIssuedTotalPages(int size) {
+        int totalCount = mapper.countIssuedCoupons();
+        return (int) Math.ceil((double) totalCount / size);
+    }
 }
