@@ -436,7 +436,7 @@
             <td th:text="${coupon.benefit}"></td>
             <td th:text="${coupon.usePeriod}"></td>
             <td th:text="${coupon.issuer}"></td>
-            <td th:text="${coupon.useCount}"></td>
+            <td th:text="${coupon.couponIssue}"></td>
             <td th:text="${coupon.useCount}"></td>
             <td th:text="${coupon.status}"></td>
             <td th:text="${coupon.issueDate}"></td>
@@ -623,12 +623,12 @@
         const endDate = document.getElementById('endDate');
 
         const data = {
+            couponName: "자동등록쿠폰", // ✅ 수정
+            couponType: document.getElementById('newType').value, // ✅ 수정
             issuer: document.getElementById('newIssuer').value,
-            coupon_type: document.getElementById('newType').value,
             benefit: selectedBenefit ? selectedBenefit.value : '',
-            use_period: (startDate && endDate) ? `${startDate.value} ~ ${endDate.value}` : '',
-            manage: document.getElementById('newNote').value,
-            coupon_name: '자동등록쿠폰'
+            usePeriod: `${startDate.value} ~ ${endDate.value}`, // ✅ 수정
+            manage: document.getElementById('newNote').value
         };
 
         fetch(`${contextPath}/admin/coupon/register`, {
