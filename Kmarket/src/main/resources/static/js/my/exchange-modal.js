@@ -99,7 +99,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 // 가격 정보 영역 (결제금액)
                 // data.realPrice가 없으므로 price, discount, salePrice를 사용하여 계산
-                document.getElementById('exchange-modal-realPrice').textContent = priceFormatter.format(data.salePrice) + '원'; // 단일 상품 판매가
+                document.getElementById('exchange-modal-realPrice').textContent = priceFormatter.format(data.price) + '원'; // 단일 상품 판매가
                 document.getElementById('exchange-modal-salePrice').textContent = priceFormatter.format(data.salePrice * data.piece) + '원'; // 총 판매가
                 document.getElementById('exchange-modal-discount').textContent = data.discountString || '0원';
                 document.getElementById('exchange-modal-finalPrice').textContent = data.priceString || '0원';
