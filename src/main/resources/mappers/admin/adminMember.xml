@@ -55,7 +55,8 @@
         m."Date",
         m.OPERATION
         FROM MEMBER m
-        JOIN POINT p ON m.CUST_NUMBER = p.CUST_NUMBER
+        LEFT JOIN POINT p ON m.CUST_NUMBER = p.CUST_NUMBER
+        WHERE m.AUTH =1
         GROUP BY m.CUST_NUMBER, m.CUSTID, m.NAME, m.GENDER, m.RATING, m.EMAIL, m.HP, m."Date", m.OPERATION
         OFFSET #{pageRequestDTO.offset} ROWS
         FETCH NEXT #{pageRequestDTO.size} ROWS ONLY

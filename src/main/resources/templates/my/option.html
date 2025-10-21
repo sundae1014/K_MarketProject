@@ -25,7 +25,7 @@
                     </div>
                     <div class="option">
                         <h4>나의설정</h4>
-                        <form>
+                        <form th:action="@{/my/option}" method="post">
                             <table class="option-table">
                                 <tr>
                                     <th>사용자 ID</th>
@@ -33,7 +33,7 @@
                                 </tr>
                                 <tr>
                                     <th>비밀번호</th>
-                                    <td><button class="pass-btn"><a th:href="@{/memder/find/changePassword}">비밀번호수정</a></button></td>
+                                    <td><button class="pass-btn"><a th:href="@{/memder/find/password}">비밀번호수정</a></button></td>
                                 </tr>
                                 <tr>
                                     <th>이름</th>
@@ -46,9 +46,9 @@
                                 <tr>
                                     <th>Email</th>
                                     <td>
-                                        <input type="text" class="id input-group-email" th:value="${emailId}" disabled>
+                                        <input type="text" name="email1" class="id input-group-email" th:value="${emailId}" disabled>
                                         @
-                                        <input type="text" id="emailDomain" class="domain input-group-email" th:value="${emailDomain}" disabled>
+                                        <input type="text" name="email2" id="emailDomain" class="domain input-group-email" th:value="${emailDomain}" disabled>
                                         <select class="input-group-email" id="emailDomainSelect" disabled>
                                             <option value="naver.com" th:selected="${emailDomain == 'naver.com'}">naver.com</option>
                                             <option value="hanmail.net" th:selected="${emailDomain == 'hanmail.net'}">hanmail.net</option>
@@ -62,9 +62,9 @@
                                 <tr>
                                     <th>휴대폰</th>
                                     <td>
-                                        <input type="number" class="hpbox input-group-hp" th:value="${hp1}" disabled> -
-                                        <input type="number" class="hpbox input-group-hp" th:value="${hp2}" disabled> -
-                                        <input type="number" class="hpbox input-group-hp" th:value="${hp3}" disabled>
+                                        <input type="number" name="hp1" class="hpbox input-group-hp" th:value="${hp1}" disabled> -
+                                        <input type="number" name="hp2" class="hpbox input-group-hp" th:value="${hp2}" disabled> -
+                                        <input type="number" name="hp3" class="hpbox input-group-hp" th:value="${hp3}" disabled>
                                         <button class="modi-btn" data-target="input-group-hp">수정하기</button>
                                     </td>
                                 </tr>
@@ -83,12 +83,17 @@
                                 <tr>
                                     <th>탈퇴</th>
                                     <td>
-                                        <button class="del-btn"><a>탈퇴하기</a></button>
+                                        <button type="button"
+                                                class="del-btn btn btn-danger"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#confirmDeleteModal">
+                                            탈퇴하기
+                                        </button>
                                     </td>
                                 </tr>
                             </table>
                             <div class="btn-area">
-                                <button class="final-modify-btn">수정하기</button>
+                                <button class="final-modify-btn" type="submit">수정하기</button>
                             </div>
                         </form>
                     </div>
@@ -96,5 +101,31 @@
             </div>
         </div>
     </main>
+
+<!-- 모달부분 -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="deleteForm" th:action="@{/my/delete}" method="post">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmDeleteModalLabel">회원 탈퇴</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>정말로 저희 서비스를 탈퇴하시겠습니까?</p>
+                    <p class="text-danger">탈퇴 시 모든 정보가 삭제되며, 복구가 불가능합니다.</p>
+                    <div class="mb-3">
+                        <label for="passwordCheck" class="form-label">비밀번호 확인</label>
+                        <input type="password" class="form-control" id="passwordCheck" name="pass" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                    <button type="submit" class="btn btn-danger">확인</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 </body>
 </html>
