@@ -59,4 +59,6 @@ public class OrderDTO {
     private int trackingNumber;
     private List<ProductDTO> products;
 
+    private int couponNo;
+    private int couponDiscount; // 쿠폰 할인 금액
 }

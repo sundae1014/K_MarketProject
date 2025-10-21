@@ -18,6 +18,9 @@
         <result column="SAYOUNG" property="sayoung"/>
         <result column="BARGUP" property="bargup"/>
         <result column="COUPON_ISSUE" property="couponIssue"/>
+        <result column="HISTORY_NO" property="historyNo"/>
+        <result column="CUST_NUMBER" property="custNumber"/>
+        <result column="USE_DATE" property="useDate"/>
     </resultMap>
 
     <!-- ✅ 쿠폰 등록 -->
@@ -108,5 +111,65 @@
         SET COUPON_ISSUE = COUPON_ISSUE + 1
         WHERE COUPON_NO = #{couponNo}
     </update>
+
+    <update id="stopCoupon">
+        UPDATE COUPON
+        SET STATUS = '종료'
+        WHERE COUPON_NO = #{couponNo}
+    </update>
+    <update id="updateCouponStatusToUsed">
+        UPDATE COUPON
+        SET STATUS = '사용'
+        WHERE COUPON_NO = #{couponNo}
+    </update>
+    <!-- ✅ 검색된 전체 개수 조회 (검색 페이징용) -->
+    <select id="countSearchCoupons" resultType="int">
+        SELECT COUNT(*) FROM COUPON
+        <where>
+            <if test="type == 'couponNo'">
+                COUPON_NO = #{keyword}
+            </if>
+            <if test="type == 'couponName'">
+                COUPON_NAME LIKE '%' || #{keyword} || '%'
+            </if>
+            <if test="type == 'issuer'">
+                ISSUER LIKE '%' || #{keyword} || '%'
+            </if>
+        </where>
+    </select>
+    <!-- ✅ 쿠폰 발급 현황 조회 -->
+    <select id="selectIssuedCoupons" resultMap="couponMap">
+        SELECT
+            H.HISTORY_NO      AS HISTORY_NO,
+            H.CUST_NUMBER     AS CUST_NUMBER,     -- ✅ 추가
+            H.COUPON_NO       AS COUPON_NO,
+            C.COUPON_TYPE     AS COUPON_TYPE,
+            C.COUPON_NAME     AS COUPON_NAME,
+            M.NAME            AS ISSUER,          -- ✅ 고객 이름을 임시로 issuer에 출력
+            C.STATUS          AS STATUS,
+            H.ISSUE_DATE      AS ISSUE_DATE,
+            H.USE_DATE        AS USE_DATE
+        FROM COUPON_HISTORY H
+                 JOIN COUPON C ON H.COUPON_NO = C.COUPON_NO
+                 JOIN MEMBER M ON H.CUST_NUMBER = M.CUST_NUMBER
+        ORDER BY H.HISTORY_NO DESC
+    </select>
+    <select id="selectAvailableCoupons" resultMap="couponMap">
+        SELECT
+            H.HISTORY_NO,
+            C.COUPON_NO,
+            C.COUPON_TYPE,
+            C.COUPON_NAME,
+            H.ISSUE_DATE,
+            H.USE_DATE,
+            H.CUST_NUMBER,
+            C.BENEFIT,
+            C.USE_PERIOD
+        FROM COUPON_HISTORY H
+                 JOIN COUPON C ON H.COUPON_NO = C.COUPON_NO
+        WHERE H.CUST_NUMBER = #{custNumber}
+          AND H.USE_DATE IS NULL
+        ORDER BY H.HISTORY_NO DESC
+    </select>
 
 </mapper>
