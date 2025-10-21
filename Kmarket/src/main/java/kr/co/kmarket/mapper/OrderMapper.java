@@ -9,7 +9,7 @@ import java.util.List;
 public interface OrderMapper {
 
     // 주문 테이블
-    String insertOrder(OrderDTO orderDTO);
+    int insertOrder(OrderDTO orderDTO);
     void insertOrderDetail(OrderDTO orderDTO);
     OrderDTO selectOrderByNumber(String order_number);
     List<OrderDTO> selectOrderDetails(String order_number);
@@ -26,5 +26,7 @@ public interface OrderMapper {
     void insertPoint(PointDTO pointDTO);
     void usePoint(int cust_number, String order_number, int usePoint);
     void earnPoint(int cust_number, String order_number, int earnPoint);
+
+    OrderDTO selectOrderComplete(String orderNumber);
 
 }

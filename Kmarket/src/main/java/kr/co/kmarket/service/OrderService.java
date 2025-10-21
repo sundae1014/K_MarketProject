@@ -29,4 +29,7 @@ public interface OrderService {
     void insertPoint(PointDTO pointDTO);
     void usePoint(int cust_number, String order_number, int usePoint);
     void earnPoint(int cust_number, String order_number, int earnPoint);
+
+    OrderDTO selectOrderComplete(String orderNumber);
+
 }

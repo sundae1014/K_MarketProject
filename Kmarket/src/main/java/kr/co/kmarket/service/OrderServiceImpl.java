@@ -12,16 +12,15 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class OrderServiceImpl implements OrderService {
+public class  OrderServiceImpl implements OrderService {
 
     private final OrderMapper orderMapper;
     private final ProductMapper mapper;
 
     @Override
     public String insertOrder(OrderDTO orderDTO) {
-        orderMapper.insertOrder(orderDTO);
 
-        // <selectKey>로 미리 ORDER_NUMBER를 채워두면 이게 자동 세팅됨
+        orderMapper.insertOrder(orderDTO);
         return orderDTO.getOrder_number();
     }
 
@@ -103,6 +102,11 @@ public class OrderServiceImpl implements OrderService {
         pointDTO.setPoint_amount(earnPoint);
         pointDTO.setDescription("상품 결제 포인트 적립");
         orderMapper.insertPoint(pointDTO);
+    }
+
+    @Override
+    public OrderDTO selectOrderComplete(String orderNumber) {
+        return orderMapper.selectOrderComplete(orderNumber);
     }
 
 }
