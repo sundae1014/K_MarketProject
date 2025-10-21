@@ -13,10 +13,13 @@ public class CouponService {
 
     private final CouponMapper mapper;
 
-    // 쿠폰 등록
+    // ✅ 쿠폰 등록
     public void insertCoupon(CouponDTO dto) {
         mapper.insertCoupon(dto);
     }
+
+
+    // ✅ 타입 숫자를 문자로 변환
 
     // 쿠폰 목록 조회
     public List<CouponDTO> getCoupons() {
@@ -50,17 +53,32 @@ public class CouponService {
             default -> "기타";
         };
     }
-    public List<CouponDTO> searchCoupons(String type, String keyword) {
-        return mapper.selectSearchCoupons(type, keyword);
+
+    // ✅ 페이지네이션 목록 조회
+    public List<CouponDTO> getCouponsByPage(int page, int size) {
+        int offset = (page - 1) * size;
+        List<CouponDTO> list = mapper.selectCouponsByPage(offset, size);
+        list.forEach(dto -> dto.setCouponTypename(convertTypeToName(dto.getCouponType())));
+        return list;
     }
 
-    // 쿠폰 개수 세기
-    public int countCoupons(String type, String keyword) {
-        return mapper.countCoupons(type, keyword);
+    // ✅ 전체 페이지 수
+    public int getTotalPages(int size) {
+        int totalCount = mapper.countCoupons();
+        return (int) Math.ceil((double) totalCount / size);
     }
 
-    // 페이지 단위 쿠폰 조회
-    public List<CouponDTO> getCouponsPage(String type, String keyword, int offset, int size) {
-        return mapper.selectCouponsPage(type, keyword, offset, size);
+    // ✅ 검색 + 페이지네이션
+    public List<CouponDTO> searchCoupons(String type, String keyword, int page, int size) {
+        int offset = (page - 1) * size;
+        List<CouponDTO> list = mapper.searchCouponsByPage(type, keyword, offset, size);
+        list.forEach(dto -> dto.setCouponTypename(convertTypeToName(dto.getCouponType())));
+        return list;
+    }
+
+    // ✅ 검색 결과 페이지 수
+    public int getSearchTotalPages(String type, String keyword, int size) {
+        int totalCount = mapper.countSearchCoupons(type, keyword);
+        return (int) Math.ceil((double) totalCount / size);
     }
 }
