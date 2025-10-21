@@ -24,8 +24,13 @@
         </trim>
     </sql>
 
+    <select id="findById" resultType="kr.co.kmarket.dto.PointDTO">
+        SELECT * FROM POINT
+        WHERE POINT_ID = #{point_id}
+    </select>
+
     <select id="findAll" resultType="map">
-        SELECT ROW_NUMBER() OVER (ORDER BY m.CUST_NUMBER) AS ID,
+        SELECT p.POINT_ID,
         m.CUSTID,
         m.NAME,
         p.POINT_AMOUNT,
@@ -74,4 +79,14 @@
         </where>
     </select>
 
+    <update id="updatePoint">
+        UPDATE POINT
+        SET BALANCE = #{balance}
+        WHERE CUST_NUMBER = #{cust_number}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM POINT
+        WHERE POINT_ID = #{point_id}
+    </delete>
 </mapper>
