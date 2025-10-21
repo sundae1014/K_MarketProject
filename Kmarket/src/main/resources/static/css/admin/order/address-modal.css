@@ -68,3 +68,37 @@
     text-align: center;
     border: none;
 }
+
+#text-area{
+    width: 453px;
+    height: 83px;
+    color: #808080;
+    border: 0.5px solid #BFBFBF;
+}
+
+.short-box{
+    width: 162px;
+    height: 26px;
+    color: #808080;
+    border: 0.5px solid #BFBFBF;
+}
+
+.middle-box{
+    width: 243px;
+    height: 30px;
+    color: #808080;
+    border: 0.5px solid #BFBFBF;
+}
+
+.long-box{
+    width: 454px;
+    height: 26px;
+    color: #808080;
+    border: 0.5px solid #BFBFBF;
+}
+
+.select-box{
+    width: 142px;
+    height: 29px;
+    border: 0.5px solid #BFBFBF;
+}

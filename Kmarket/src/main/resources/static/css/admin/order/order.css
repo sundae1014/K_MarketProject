@@ -177,3 +177,13 @@ a:hover{
     color: #4CAF50 !important;
     font-weight: bold !important;
 }
+
+.status-payment-pending { color: #92D050; font-weight: bold; }    /* 결제대기 */
+.status-payment-complete { color: #0047AB; font-weight: bold; }  /* 결제완료 */
+.status-preparing-shipment { color: #0070C0; font-weight: bold; } /* 배송준비 */
+.status-shipping { color: #FFA500; font-weight: bold; }          /* 배송중 */
+.status-delivered { color: #228B22; font-weight: bold; }         /* 배송완료 */
+.status-order-cancelled { color: #FF0000; font-weight: bold; }   /* 주문취소 */
+.status-return-request { color: #FF0000; font-weight: bold; }    /* 반품요청 */
+.status-exchange-request { color: #FF8C00; font-weight: bold; }  /* 교환요청 */
+.status-purchase-confirmed {color: #6f42c1; font-weight: bold; } /* 구매확정 */
