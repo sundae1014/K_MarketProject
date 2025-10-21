@@ -32,8 +32,6 @@
     <script th:src="@{/js/product/category.js}" defer></script>
     <!-- 베스트상품 온앤오프 & 스크롤 기능 -->
     <script th:src="@{/js/product/best.js}" defer></script>
-    <!-- TOP 버튼(맨 위로) 기능 -->
-    <script th:src="@{/js/product/top-btn.js}" defer></script>
 </head>
 <body>
     <main class="page">
@@ -62,7 +60,7 @@
             <section class="col-b">
 
                 <div class="list-header">
-                    <h2 class="list-title">주문하기</h2>
+                    <h2 class="list-title">주문완료</h2>
 
                     <!-- 경로 네비게이션 -->
                     <nav class="cart-steps">
@@ -108,21 +106,13 @@
                             </div>
                         </div>
 
-                        <!-- 포인트 혜택 -->
+                        <!-- ✅ 포인트 혜택 -->
                         <div class="order-section point-benefit">
                             <div class="section-header">
                                 <h3>포인트 혜택</h3>
                             </div>
                             <p>총 적립 예정 포인트
-                                <span th:text="${order.savePoint != null ? order.savePoint : 0}">0</span>원
-                            </p>
-                            <p>사용 포인트
-                                <span th:text="${order.usePoint != null ? order.usePoint : 0}">0</span>원
-                            </p>
-
-                            <p>포인트 내역:
-                                <span th:text="${order.pointType}"></span>
-                                <span th:text="${order.pointAmount}"></span>원
+                                <span th:text="${#numbers.formatInteger(order.salePrice * 0.01, 3, 'COMMA')}"></span>P
                             </p>
                         </div>
                     </div>
@@ -146,15 +136,19 @@
                         <h3>결제상세</h3>
                         <div class="final-product-info">
                             <ul>
-                                <li><span>상품수</span><span><strong th:text="${details.size()}"></strong></span></li>
+                                <li>
+                                    <span>상품수</span>
+                                    <span><strong th:text="${order.piece}"></strong>개</span>
+                                </li>
+
                                 <li><span>상품금액</span><span><strong
-                                        th:text="${#numbers.formatInteger(order.price,3,'COMMA')}"></strong>원</span></li>
+                                        th:text="${#numbers.formatInteger(order.price != null ? order.price : 0,3,'COMMA')}"></strong>원</span></li>
                                 <li><span>할인금액</span><span><strong
-                                        th:text="'-' + ${#numbers.formatInteger(order.discount,3,'COMMA')}"></strong>원</span></li>
+                                        th:text="'-' + ${#numbers.formatInteger(order.discount != null ? order.discount : 0,3,'COMMA')}"></strong>원</span></li>
                                 <li><span>배송비</span><span><strong
                                         th:text="'+' + ${#numbers.formatInteger(order.delivery != null ? order.delivery : 0,3,'COMMA')}"></strong>원</span></li>
                                 <li><span>적립 포인트</span><span><strong
-                                        th:text="${#numbers.formatInteger(order.price * 0.01, 3, 'COMMA')}"></strong>원</span></li>
+                                        th:text="${#numbers.formatInteger(order.salePrice * 0.01, 3, 'COMMA')}"></strong>P</span></li>
                             </ul>
                             <p class="order-total">
                                 <strong th:text="${#numbers.formatInteger(order.price - (order.discount != null ? order.discount : 0),3,'COMMA')}"></strong>원
@@ -165,7 +159,7 @@
                     <!-- 버튼 -->
                     <div class="final-complete-btn">
                         <a th:href="@{/}" class="btn-home">홈으로</a>
-                        <a th:href="@{/my/orderList}" class="btn-order">주문내역 확인</a>
+                        <a th:href="@{/my/order}" class="btn-order">주문내역 확인</a>
                     </div>
                 </div>
             </section>
