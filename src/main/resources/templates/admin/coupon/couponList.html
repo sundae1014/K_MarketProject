@@ -427,11 +427,8 @@
       </thead>
         <tbody>
         <tr th:each="coupon : ${coupons}">
-            <td>
-                <a href="#" th:text="${coupon.couponNo}"
-                   th:onclick="'openDetail(' + ${coupon.couponNo} + '); return false;'"></a>
-            </td>
-            <td th:text="${coupon.couponType}"></td>
+            <td colspan="5" style="text-align:center;">등록된 쿠폰이 없습니다.</td>
+            <td th:text="${coupon.couponTypename}"></td>
             <td th:text="${coupon.couponName}"></td>
             <td th:text="${coupon.benefit}"></td>
             <td th:text="${coupon.usePeriod}"></td>
@@ -440,7 +437,9 @@
             <td th:text="${coupon.useCount}"></td>
             <td th:text="${coupon.status}"></td>
             <td th:text="${coupon.issueDate}"></td>
-            <td><a href="#">종료</a></td>
+            <td>
+                <a href="#" th:onclick="'stopCoupon(' + ${coupon.couponNo} + '); return false;'">종료</a>
+            </td>
         </tr>
         </tbody>
     </table>
@@ -551,11 +550,11 @@
                         <td>
                             <select id="newType">
                                 <option value="">쿠폰종류 선택</option>
-                                <option value="개별상품 할인">개별상품 할인</option>
-                                <option value="주문금액 할인">주문금액 할인</option>
-                                <option value="배송비 무료">배송비 무료</option>
-                                <option value="회원등급 전용">회원등급 전용</option>
-                                <option value="첫구매 전용">첫구매 전용</option>
+                                <option value="1">개별상품 할인</option>
+                                <option value="2">주문금액 할인</option>
+                                <option value="3">배송비 무료</option>
+                                <option value="4">회원등급 전용</option>
+                                <option value="5">첫구매 전용</option>
                             </select>
                         </td>
                     </tr>
@@ -647,6 +646,23 @@
                 }
             })
             .catch(err => console.error('오류:', err));
+    }
+    function stopCoupon(couponNo) {
+        if (!confirm("해당 쿠폰 발급을 종료하시겠습니까?")) return;
+
+        fetch(`/kmarket/admin/coupon/stop?couponNo=` + couponNo, {
+            method: 'POST'
+        })
+            .then(res => res.text())
+            .then(result => {
+                if (result === "success") {
+                    alert("쿠폰 발급이 종료되었습니다.");
+                    location.reload();
+                } else {
+                    alert("처리 실패. 다시 시도하세요.");
+                }
+            })
+            .catch(err => console.error("Error:", err));
     }
 </script>
 </body>

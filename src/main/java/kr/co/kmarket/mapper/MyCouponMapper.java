@@ -14,4 +14,6 @@ public interface MyCouponMapper {
 
     // ✅ 사용자 쿠폰 총 개수 조회 (페이지네이션용)
     int countCouponsByUser(@Param("custNumber") int custNumber);
+
+    int updateCouponStatus(@Param("couponNo") int couponNo, @Param("custNumber") int custNumber);
 }

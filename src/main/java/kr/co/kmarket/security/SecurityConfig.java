@@ -22,6 +22,8 @@ public class SecurityConfig {
 
     private final CustomLoginSuccessHandler successHandler = new CustomLoginSuccessHandler();
 
+    private final SocialLoginSuccessHandler socialSuccessHandler = new SocialLoginSuccessHandler();
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, CustomOauth2UserService customOauth2UserService) throws Exception {
         // 로그인 설정
@@ -70,7 +72,7 @@ public class SecurityConfig {
                 .userInfoEndpoint(userInfo -> userInfo
                         .userService(customOauth2UserService)
                 )
-                .defaultSuccessUrl("/")
+                .successHandler(socialSuccessHandler)
                 .failureUrl("/member/login?error=true")
         );
 

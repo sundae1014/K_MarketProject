@@ -65,7 +65,8 @@ public class CouponController {
 
     // ✅ 쿠폰 발급 현황 페이지 이동
     @GetMapping("/issued")
-    public String issued() {
+    public String issued(Model model) {
+        model.addAttribute("issuedCoupons", service.getIssuedCoupons());
         return "admin/coupon/couponStat";
     }
 
@@ -93,4 +94,6 @@ public class CouponController {
         }
         return result;
     }
+
+
 }

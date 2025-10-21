@@ -16,6 +16,7 @@ body {
 
 .content-section{
     min-width: 878px;
+    max-width: 884.08px;
 }
 
 .board {
@@ -92,6 +93,7 @@ a:hover{
     font-weight: 700;
     text-align: center;
     padding: 15px;
+    white-space: nowrap;
 }
 
 .orders-table td{
