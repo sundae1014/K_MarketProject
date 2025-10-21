@@ -44,8 +44,10 @@ public class OrderService {
         return orderMapper.selectDeliveryOrderCount();
     }
 
-    public OrderDTO selectDeliveryOrderDetail(String orderNumber) {
-        return orderMapper.selectOrderDetailCombined(orderNumber);
+
+    public OrderDTO selectDeliveryOrderDetail(String orderNumber, Integer trackingNumber) {
+        // Controller에서 전달받은 orderNumber (String)와 trackingNumber (Integer)를 Mapper로 전달
+        return orderMapper.selectDeliveryOrderDetail(orderNumber, trackingNumber);
     }
 }
 

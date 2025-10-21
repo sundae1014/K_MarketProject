@@ -32,8 +32,11 @@ document.addEventListener('DOMContentLoaded', function () {
             event.preventDefault();
 
             var orderNumber = $(this).data('order-number');
+            // ⭐️ 추가: HTML의 data-tracking-number 속성 값 가져오기
+            var trackingNumber = $(this).data('tracking-number');
+
             const modalOrderNumTitle = $('#deliveryModal .modal-sm-title');
-            const modalProductList = $('#deliveryModalProductList'); // **tbody ID를 #deliveryModalProductList로 가정**
+            const modalProductList = $('#modalProductList');
 
             // delivery-modal.html의 상세 정보 ID
             const modalDeliOrderNumber = $('#modalDeliOrderNumber');
@@ -44,17 +47,25 @@ document.addEventListener('DOMContentLoaded', function () {
             const modalDeliTracking = $('#modalDeliTracking');
             const modalDeliReq = $('#modalDeliReq');
 
-            modalOrderNumTitle.text('주문번호: ' + orderNumber + ' 로딩 중...');
+            modalOrderNumTitle.text('주문번호: ' + orderNumber);
             modalProductList.html('<tr><td colspan="9" class="text-center"><i class="fas fa-spinner fa-spin"></i> 상품 정보 로딩 중...</td></tr>');
 
+            // ⭐️ 수정: trackingNumber 유무에 따라 URL 결정 ⭐️
+            let url = CONTEXT_PATH + '/admin/order/delivery-detail/' + orderNumber;
+            // trackingNumber가 유효한 값(null, 0이 아닐 경우)일 때만 쿼리 파라미터로 추가
+            if (trackingNumber && trackingNumber > 0) {
+                url += '?trackingNumber=' + trackingNumber;
+            }
+
             $.ajax({
-                url: CONTEXT_PATH + '/admin/order/delivery-detail/' + orderNumber,
+                url: url, // 수정된 URL 사용
                 type: 'GET',
                 dataType: 'json',
                 success: function(response) {
                     if (response.success && response.order) {
                         const order = response.order;
-                        const products = order.details || [];
+                        // ⭐️ 수정: DTO의 필드명 'products' 사용 ⭐️
+                        const products = order.products || [];
 
                         // 배송 및 결제 정보 채우기
                         modalOrderNumTitle.text('주문번호: ' + order.order_number);
@@ -77,10 +88,17 @@ document.addEventListener('DOMContentLoaded', function () {
                         let productHtml = '';
                         if (products.length > 0) {
                             products.forEach(p => {
-                                // OrderDTO 필드를 사용한 계산
-                                const finalPrice = (p.salePrice * p.itemPiece);
-                                const imgPath = p.img1;
+                                // ⭐️ 수정: 모든 숫자 필드에 || 0 방어 로직 추가 ⭐️
+                                const unitPrice = p.price || 0;             // 상품 원가 (OD_PRICE)
+                                const unitSalePrice = p.salePrice || 0;     // 주문 시 최종 판매가 (OD_SALEPRICE)
+                                const discountRate = p.discount || 0;       // 할인율
+                                const quantity = p.itemPiece || 0;          // 수량 (OD_PIECE)
                                 const deliveryFee = p.deliveryFee || 0;
+
+                                // 최종 결제 금액 계산
+                                const finalPrice = (unitSalePrice * quantity);
+
+                                const imgPath = p.img1;
 
                                 productHtml += `
                                     <tr>
@@ -88,10 +106,15 @@ document.addEventListener('DOMContentLoaded', function () {
                                         <td>${p.prod_number}</td>
                                         <td>${p.prod_name}</td>
                                         <td>${p.manufacture}</td>
-                                        <td>${priceFormatter.format(p.price)} 원</td>
-                                        <td>${p.discount}%</td>
-                                        <td>${p.itemPiece} 건</td>
+                                        
+                                        <td>${priceFormatter.format(unitPrice)} 원</td>
+                                        
+                                        <td>${discountRate}%</td>
+                                        
+                                        <td>${quantity} 건</td>
+                                        
                                         <td>${priceFormatter.format(deliveryFee)} 원</td>
+                                        
                                         <td>${priceFormatter.format(finalPrice)} 원</td>
                                     </tr>
                                 `;
