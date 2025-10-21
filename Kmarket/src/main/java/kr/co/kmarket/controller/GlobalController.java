@@ -204,7 +204,7 @@ public class GlobalController {
         LocalDate today = LocalDate.now();
         LocalTime now = LocalTime.now();
 
-        return bannerService.getBannersByLocationStatus("my").stream()
+        return bannerService.getBannersByLocationStatus("my1").stream()
                 .filter(b -> b.getBanner_status() != null && b.getBanner_status() == 1) // 사용중인 배너만
                 .filter(b -> {
                     LocalDate start = b.getStart_date();

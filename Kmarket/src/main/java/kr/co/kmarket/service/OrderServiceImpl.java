@@ -5,11 +5,13 @@ import kr.co.kmarket.mapper.OrderMapper;
 import kr.co.kmarket.mapper.ProductMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class OrderServiceImpl implements OrderService {
 
     private final OrderMapper orderMapper;

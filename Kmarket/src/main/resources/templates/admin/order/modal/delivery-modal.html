@@ -20,6 +20,7 @@
                             <h4>상품정보</h4>
                         </div>
                         <table class="order-table">
+                            <thead>
                             <tr>
                                 <th></th>
                                 <th>상품번호</th>
@@ -31,17 +32,9 @@
                                 <th>배송비</th>
                                 <th>결제금액</th>
                             </tr>
-                            <tr>
-                                <td><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1mhr6nEByB_Ogeul8De_kghNipSNo_psQ2w&s" alt="상품사진"></td>
-                                <td>120120021</td>
-                                <td>OOO</td>
-                                <td>(주)상호명</td>
-                                <td>24,000</td>
-                                <td>-1,200</td>
-                                <td>3</td>
-                                <td>0</td>
-                                <td>68,400</td>
-                            </tr>
+                            </thead>
+                            <tbody id="modalProductList">
+                            </tbody>
                         </table>
                     </div>
                     <div class="deli-info">
@@ -51,35 +44,33 @@
                         <table class="deli-table">
                             <tr>
                                 <th>주문번호</th>
-                                <td>10121211341</td>
+                                <td id="modalDeliOrderNumber"></td>
                             </tr>
                             <tr>
-                                <th>수취인</th>
-                                <td>김유신</td>
+                                <th>수령인</th>
+                                <td id="modalDeliRecipName"></td>
                             </tr>
                             <tr>
                                 <th>연락처</th>
-                                <td>010-1234-1234</td>
+                                <td id="modalDeliRecipHp"></td>
                             </tr>
                             <tr>
                                 <th>배송지 주소</th>
-                                <td>부산 부산진구 123-11 10층</td>
+                                <td colspan="3" id="modalDeliRecipAddr"></td>
                             </tr>
                             <tr>
-                                <th></th>
-                                <td></td>
                             </tr>
                             <tr>
                                 <th>택배사</th>
-                                <td>로젠택배</td>
+                                <td id="modalDeliCompany"></td>
                             </tr>
                             <tr>
                                 <th>송장번호</th>
-                                <td>10122102315</td>
+                                <td id="modalDeliTracking"></td>
                             </tr>
                             <tr>
-                                <th>기타</th>
-                                <td>감사합니다. 수고하세요.</td>
+                                <th>기타/요청사항</th>
+                                <td colspan="3" id="modalDeliReq"></td>
                             </tr>
                         </table>
                     </div>
