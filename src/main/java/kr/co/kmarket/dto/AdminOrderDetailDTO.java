@@ -48,7 +48,7 @@ public class AdminOrderDetailDTO {
     private String prod_name;
     private String manufacture;
     private String img1;            // ⬅️ IMG_1 (상품 이미지)
-    private int delivery_fee;       // ⬅️ DELIVERY_FEE (배송비)
+    private int deliveryFee;       // ⬅️ DELIVERY_FEE (배송비)
 
     // 뷰 출력용 필드 (선택 사항, Controller/JS에서 포맷팅 가능)
     private String oDateString;

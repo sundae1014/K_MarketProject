@@ -1,6 +1,7 @@
 package kr.co.kmarket.service;
 
 import kr.co.kmarket.dto.*;
+import kr.co.kmarket.mapper.MyCouponMapper;
 import kr.co.kmarket.mapper.OrderMapper;
 import kr.co.kmarket.mapper.ProductMapper;
 import lombok.RequiredArgsConstructor;
@@ -12,16 +13,16 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class OrderServiceImpl implements OrderService {
+public class  OrderServiceImpl implements OrderService {
 
     private final OrderMapper orderMapper;
     private final ProductMapper mapper;
+    private final MyCouponMapper myCouponMapper;
 
     @Override
     public String insertOrder(OrderDTO orderDTO) {
-        orderMapper.insertOrder(orderDTO);
 
-        // <selectKey>로 미리 ORDER_NUMBER를 채워두면 이게 자동 세팅됨
+        orderMapper.insertOrder(orderDTO);
         return orderDTO.getOrder_number();
     }
 
@@ -65,6 +66,10 @@ public class OrderServiceImpl implements OrderService {
         return orderMapper.selectCartItemsByNumbers(cart_number);
     }
 
+    @Override
+    public void useCoupon(int couponNo, int custNumber) {
+        myCouponMapper.updateCouponStatus(couponNo, custNumber);
+    }
 
     @Override
     public List<CouponDTO> selectAvailableCoupons(int cust_number) {
@@ -103,6 +108,11 @@ public class OrderServiceImpl implements OrderService {
         pointDTO.setPoint_amount(earnPoint);
         pointDTO.setDescription("상품 결제 포인트 적립");
         orderMapper.insertPoint(pointDTO);
+    }
+
+    @Override
+    public OrderDTO selectOrderComplete(String orderNumber) {
+        return orderMapper.selectOrderComplete(orderNumber);
     }
 
 }

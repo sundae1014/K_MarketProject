@@ -29,5 +29,12 @@
         WHERE ch.CUST_NUMBER = #{custNumber}
         ORDER BY ch.HISTORY_NO DESC
     </select>
+    <update id="updateCouponStatus">
+        UPDATE coupon_history
+        SET status = '사용', use_date = SYSDATE
+        WHERE coupon_no = #{couponNo}
+          AND cust_number = #{custNumber}
+          AND status = '미사용'
+    </update>
 
 </mapper>

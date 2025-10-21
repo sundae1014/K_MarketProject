@@ -10,14 +10,14 @@
     <link rel="stylesheet"
           th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css}">
 
-    <!-- 유저별 권한 기능 -->
-    <script th:inline="javascript">
-        /*<![CDATA[*/
-        let userType = /*[[${session.member != null ? (session.member.auth == 9 ? 'admin' : 'user') : 'guest'}]]*/ "guest";
-        let userName = /*[[${session.member != null ? session.member.name : ''}]]*/ "";
-        /*]]>*/
-    </script>
-    <script th:src="@{/js/main/user-menu.js}" defer></script>
+<!--    &lt;!&ndash; 유저별 권한 기능 &ndash;&gt;-->
+<!--    <script th:inline="javascript">-->
+<!--        /*<![CDATA[*/-->
+<!--        let userType = /*[[${session.member != null ? (session.member.auth == 9 ? 'admin' : 'user') : 'guest'}]]*/ "guest";-->
+<!--        let userName = /*[[${session.member != null ? session.member.name : ''}]]*/ "";-->
+<!--        /*]]>*/-->
+<!--    </script>-->
+<!--    <script th:src="@{/js/main/user-menu.js}" defer></script>-->
 
     <!-- 헤더 상단 공용 검색 기능 -->
     <script th:src="@{/js/product/header-search.js}" defer></script>
@@ -231,6 +231,17 @@
                                 class="btn cart">장바구니</button>
 
                         <button class="btn buy">바로구매</button>
+                    </div>
+
+                    <div class="product1-banner" style="margin-top: 7px;">
+                        <th:block th:each="banner : ${product1Banners}">
+                            <a th:href="${banner.link}">
+                                <img th:src="@{'/uploads/banner/' + ${banner.img}}"
+                                     th:alt="${banner.banner_name}"
+                                     class="ad-img"
+                                     th:style="'width:' + ${banner.width} + '; height:' + ${banner.height} + '; background-color:' + ${banner.background_color}"/>
+                            </a>
+                        </th:block>
                     </div>
                 </div>
             </section>

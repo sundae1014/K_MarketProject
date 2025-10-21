@@ -31,4 +31,8 @@ public class CouponDTO {
     private int cust_number;        // 고객 고유 번호 (MEMBER 테이블)
     private Date expireDate;
     private String couponImage;     // 쿠폰 이미지 경로
+    private int historyNo;     // 발급 번호
+    private int custNumber;    // 사용자 번호
+    private Date useDate;      // 사용일
+
 }

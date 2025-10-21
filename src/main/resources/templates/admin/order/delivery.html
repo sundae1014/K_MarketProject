@@ -126,6 +126,7 @@
                             <a data-bs-toggle="modal" data-bs-target="#deliveryModal"
                                class="delivery-detail-link"
                                th:data-order-number="${order.order_number}"
+                               th:data-tracking-number="${order.trackingNumber}"
                                th:text="${order.trackingNumber ?: '미등록'}">10121211341</a>
                         </td>
                         <td th:text="${order.deliveryCompany ?: '-'}">로젠택배</td>

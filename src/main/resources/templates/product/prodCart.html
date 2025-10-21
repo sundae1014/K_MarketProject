@@ -9,14 +9,14 @@
     <link rel="stylesheet" th:href="@{/css/product/style_prodList.css}">
     <link rel="stylesheet" th:href="@{/css/product/style_prodCart.css}">
 
-    <!-- 유저별 권한 기능 -->
-    <script th:inline="javascript">
-        /*<![CDATA[*/
-        let userType = /*[[${session.member != null ? (session.member.auth == 9 ? 'admin' : 'user') : 'guest'}]]*/ "guest";
-        let userName = /*[[${session.member != null ? session.member.name : ''}]]*/ "";
-        /*]]>*/
-    </script>
-    <script th:src="@{/js/main/user-menu.js}" defer></script>
+<!--    &lt;!&ndash; 유저별 권한 기능 &ndash;&gt;-->
+<!--    <script th:inline="javascript">-->
+<!--        /*<![CDATA[*/-->
+<!--        let userType = /*[[${session.member != null ? (session.member.auth == 9 ? 'admin' : 'user') : 'guest'}]]*/ "guest";-->
+<!--        let userName = /*[[${session.member != null ? session.member.name : ''}]]*/ "";-->
+<!--        /*]]>*/-->
+<!--    </script>-->
+<!--    <script th:src="@{/js/main/user-menu.js}" defer></script>-->
 
     <!-- 헤더 상단 공용 검색 기능 -->
     <script th:src="@{/js/product/header-search.js}" defer></script>

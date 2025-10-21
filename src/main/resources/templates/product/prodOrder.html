@@ -10,20 +10,9 @@
     <link rel="stylesheet" th:href="@{/css/product/style_prodCart.css}">
     <link rel="stylesheet" th:href="@{/css/product/style_prodOrder.css}">
 
-    <!-- 유저별 권한 기능 -->
-    <script th:inline="javascript">
-        /*<![CDATA[*/
-        let userType = /*[[${session.member != null ? (session.member.auth == 9 ? 'admin' : 'user') : 'guest'}]]*/ "guest";
-        let userName = /*[[${session.member != null ? session.member.name : ''}]]*/ "";
-        /*]]>*/
-    </script>
-    <script th:src="@{/js/main/user-menu.js}" defer></script>
-
     <!-- 헤더 상단 공용 검색 기능 -->
     <script th:src="@{/js/product/header-search.js}" defer></script>
-    <!-- 상품 리스트 내부 검색 + 정렬 기능 -->
     <script th:src="@{/js/product/search.js}" defer></script>
-    <!-- 전체 카테고리 구현 기능 -->
     <script th:inline="javascript">
         /*<![CDATA[*/
         const CATEGORY_DATA = /*[[${categories}]]*/ {};
@@ -31,177 +20,154 @@
         /*]]>*/
     </script>
     <script th:src="@{/js/product/category.js}" defer></script>
-    <!-- 베스트상품 온앤오프 & 스크롤 기능 -->
     <script th:src="@{/js/product/best.js}" defer></script>
-    <!-- TOP 버튼(맨 위로) 기능 -->
     <script th:src="@{/js/product/top-btn.js}" defer></script>
-    <!-- 카카오(구 다음) 우편번호 서비스 API -->
     <script th:src="@{//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js}"></script>
     <script th:src="@{/js/product/postcode.js}"></script>
-    <!-- 쿠폰/포인트 사용 기능 -->
     <script th:src="@{/js/product/order.js}" id="orderScript" defer></script>
     <script>
-        // JS에서 동적으로 캐시버전 추가
         const script = document.getElementById('orderScript');
         script.src += '?v=' + new Date().getTime();
     </script>
 </head>
 <body>
-    <main class="page">
+<main class="page">
 
-        <!-- 헤더 -->
-        <div th:replace="~{_header :: headerFragment}"></div>
+    <!-- 헤더 -->
+    <div th:replace="~{_header :: headerFragment}"></div>
 
-        <!-- 주문/결제 레이아웃 -->
-        <div class="order-wrap">
+    <!-- 주문/결제 레이아웃 -->
+    <div class="order-wrap">
 
-            <!-- 베스트상품 -->
-            <aside class="col-a">
-                <div class="best-panel">
-                    <h3 class="section-title">베스트상품</h3>
-                    <ol class="best-num-list" id="best-num-list">
-                        <li><button data-idx="0">NO.1</button></li>
-                        <li><button data-idx="1">NO.2</button></li>
-                        <li><button data-idx="2">NO.3</button></li>
-                        <li><button data-idx="3">NO.4</button></li>
-                        <li><button data-idx="4">NO.5</button></li>
+        <!-- 베스트상품 -->
+        <aside class="col-a">
+            <div class="best-panel">
+                <h3 class="section-title">베스트상품</h3>
+                <ol class="best-num-list" id="best-num-list">
+                    <li><button data-idx="0">NO.1</button></li>
+                    <li><button data-idx="1">NO.2</button></li>
+                    <li><button data-idx="2">NO.3</button></li>
+                    <li><button data-idx="3">NO.4</button></li>
+                    <li><button data-idx="4">NO.5</button></li>
+                </ol>
+            </div>
+        </aside>
+
+        <!-- 우측: 주문/결제 -->
+        <section class="col-b">
+
+            <div class="list-header">
+                <h2 class="list-title">주문하기</h2>
+
+                <nav class="cart-steps">
+                    <ol>
+                        <li><a href="#">01 옵션선택</a></li>
+                        <li><a th:href="@{/product/cart}">02 장바구니</a></li>
+                        <li class="active">03 주문/결제</li>
+                        <li><a href="#">04 주문완료</a></li>
                     </ol>
-                </div>
-            </aside>
 
-            <!-- 우측: 주문/결제 -->
-            <section class="col-b">
+                </nav>
+            </div>
 
-                <div class="list-header">
-                    <h2 class="list-title">주문하기</h2>
+            <!-- 주문 내역 -->
+            <form th:action="@{/order/complete}" method="post" id="orderForm">
+                <div class="order-grid">
+                    <!-- 좌측: 주문 상세 -->
+                    <div class="order-list">
 
-                    <!-- 경로 네비게이션 -->
-                    <nav class="cart-steps">
-                        <ol>
-                            <li><a href="#">01 옵션선택</a></li>
-                            <li><a th:href="@{/product/cart}">02 장바구니</a></li>
-                            <li class="active">03 주문/결제</li>
-                            <li><a href="#">04 주문완료</a></li>
-                        </ol>
-                    </nav>
-                </div>
+                        <!-- 구매자 정보 -->
+                        <div class="order-section buyer-box">
+                            <div class="section-header">
+                                <h3>구매자 정보</h3>
+                            </div>
+                            <div class="buyer-info">
+                                <div class="form-row">
+                                    <label for="buyerName">이름</label>
+                                    <input type="text" id="buyerName" th:value="${buyer.name}" readonly>
 
-                <!-- 주문 내역 -->
-                <form th:action="@{/order/complete}" method="post" id="orderForm">
-                    <div class="order-grid">
-                        <!-- 좌측: 주문 상세 -->
-                        <div class="order-list">
-
-                            <!-- 구매자 정보 -->
-                            <div class="order-section buyer-box">
-                                <div class="section-header">
-                                    <h3>구매자 정보</h3>
                                 </div>
-                                <div class="buyer-info">
-                                    <div class="form-row">
-                                        <label for="buyerName">이름</label>
-                                        <input type="text" id="buyerName" th:value="${buyer.name}" readonly>
-                                    </div>
-                                    <div class="form-row">
-                                        <label for="buyerPhone">연락처</label>
-                                        <input type="text" id="buyerPhone" th:value="${buyer.hp}" readonly>
-                                    </div>
-                                    <div class="form-row">
-                                        <label for="buyerAddress">주소지</label>
-                                        <input type="text" id="buyerAddress" th:value="${buyer.addr1}" readonly>
+                                <div class="form-row">
+                                    <label for="buyerPhone">연락처</label>
+                                    <input type="text" id="buyerPhone" th:value="${buyer.hp}" readonly>
+                                </div>
+                                <div class="form-row">
+                                    <label for="buyerAddress">주소지</label>
+                                    <input type="text" id="buyerAddress" th:value="${buyer.addr1}" readonly>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 배송지 정보 -->
+                        <div class="order-section delivery-box">
+                            <div class="section-header">
+                                <h3>배송지 정보</h3>
+                            </div>
+
+                            <div class="delivery-info">
+                                <div class="form-row">
+                                    <label for="name">받는 사람</label>
+                                    <input type="text" id="name" placeholder="이름 입력">
+                                </div>
+                                <div class="form-row">
+                                    <label for="hp">연락처</label>
+                                    <input type="text" id="hp" placeholder="연락처 입력">
+                                </div>
+                                <div class="form-row">
+                                    <label for="zip">우편번호</label>
+                                    <input type="text" id="zip" placeholder="우편번호" readonly>
+                                    <button type="button" onclick="execDaumPostcode()">검색</button>
+                                </div>
+                                <div class="form-row">
+                                    <label for="addr">주소</label>
+                                    <input type="text" id="addr" placeholder="기본 주소" readonly>
+                                </div>
+                                <div class="form-row">
+                                    <label for="addr2">상세주소</label>
+                                    <input type="text" id="addr2" placeholder="상세 주소">
+                                </div>
+                                <div class="form-row">
+                                    <label for="req">배송 메모</label>
+                                    <div class="memo-wrap">
+                                        <select id="req">
+                                            <option value="">배송 메모를 선택해주세요</option>
+                                            <option value="부재 시 경비실에 맡겨주세요">부재 시 경비실에 맡겨주세요</option>
+                                            <option value="문 앞에 놓아주세요">문 앞에 놓아주세요</option>
+                                            <option value="배송 전 연락주세요">배송 전 연락주세요</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
+                        </div>
 
-                            <!-- 배송지 정보 -->
-                            <div class="order-section delivery-box">
-                                <div class="section-header">
-                                    <h3>배송지 정보</h3>
-                                </div>
-
-                                <div class="delivery-info">
-                                    <div class="form-row">
-                                        <label for="name">받는 사람</label>
-                                        <input type="text" id="name" placeholder="이름 입력">
-                                    </div>
-                                    <div class="form-row">
-                                        <label for="hp">연락처</label>
-                                        <input type="text" id="hp" placeholder="연락처 입력">
-                                    </div>
-                                    <div class="form-row">
-                                        <label for="zip">우편번호</label>
-                                        <input type="text" id="zip" placeholder="우편번호" readonly>
-                                        <button type="button" onclick="execDaumPostcode()">검색</button>
-                                    </div>
-                                    <div class="form-row">
-                                        <label for="addr">주소</label>
-                                        <input type="text" id="addr" placeholder="기본 주소" readonly>
-                                    </div>
-                                    <div class="form-row">
-                                        <label for="addr2">상세주소</label>
-                                        <input type="text" id="addr2" placeholder="상세 주소">
-                                    </div>
-                                    <div class="form-row">
-                                        <label for="req">배송 메모</label>
-                                        <div class="memo-wrap">
-                                            <select id="req">
-                                                <option value="">배송 메모를 선택해주세요</option>
-                                                <option value="부재 시 경비실에 맡겨주세요">부재 시 경비실에 맡겨주세요</option>
-                                                <option value="문 앞에 놓아주세요">문 앞에 놓아주세요</option>
-                                                <option value="배송 전 연락주세요">배송 전 연락주세요</option>
-                                            </select>
-                                            <svg class="chevron-down" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                                 stroke-linecap="round" stroke-linejoin="round">
-                                                <path d="m6 9 6 6 6-6"/>
-                                            </svg>
-                                        </div>
-                                    </div>
-                                </div>
+                        <!-- 상품 정보 -->
+                        <div class="order-section product-box">
+                            <div class="section-header">
+                                <h3>상품 정보</h3>
                             </div>
 
-                            <!-- 상품 정보 -->
-                            <div class="order-section product-box">
-                                <div class="section-header">
-                                    <h3>상품 정보</h3>
-                                </div>
-
-                                <!-- 장바구니 + 바로구매 통합 버전 -->
-                                <th:block th:each="item : ${orderItems}">
-                                    <div class="product-info"
-                                         th:with="
-                                              unitSale=${ (item.price * (1 - (item.discount / 100.0)))
-                                                          + (item.opt_price != null ? item.opt_price : 0) },
+                            <th:block th:each="item : ${orderItems}">
+                                <div class="product-info"
+                                     th:with="unitSale=${ (item.price * (1 - (item.discount / 100.0))) + (item.opt_price != null ? item.opt_price : 0) },
                                               qty=${item.quantity}">
+                                    <img th:src="@{${item.img_1}}" alt="상품" class="product-thumb">
 
-                                        <img th:src="@{${item.img_1}}" alt="상품" class="product-thumb">
+                                    <div class="product-detail">
+                                        <p class="product-name" th:text="${item.prod_name}"></p>
+                                        <p class="product-option"
+                                           th:text="${item.quantity + '개, ' + (item.opt_name != null ? item.opt_name : 'free') + ' (' + #numbers.formatInteger(item.opt_price, 3, 'COMMA') + '원)'}"></p>
 
-                                        <div class="product-detail">
-                                            <p class="product-name" th:text="${item.prod_name}"></p>
-
-                                            <!-- 수량, 옵션 (가격은 JS에서 계산) -->
-                                            <p class="product-option"
-                                               th:text="${item.quantity + '개, ' +
-                                                            (item.opt_name != null ? item.opt_name : 'free') +
-                                                            ' (' + #numbers.formatInteger(item.opt_price, 3, 'COMMA') + '원)'}">
-                                            </p>
-                                            <!-- ✅ 할인율 / 할인가(총액) / 정상가(총액) -->
-                                            <div class="product-price">
-                                                <span class="discount" th:text="${item.discount + '%'}"></span>
-                                                <strong class="sale"
-                                                        th:text="${#numbers.formatInteger(item.opt_price * item.quantity, 3, 'COMMA')}"></strong>원
-                                                <del class="regular"
-                                                     th:text="${#numbers.formatInteger(item.price * item.quantity, 3, 'COMMA')} + '원'"></del>
-                                            </div>
-
-                                            <!-- ✅ 적립 포인트 (총액 기준) -->
-                                            <div class="product-point">
-                                                <p th:text="'최대 ' + ${#numbers.formatInteger(
-                                                            ((item.price + (item.opt_price != null ? item.opt_price : 0))
-                                                            * (1 - (item.discount / 100)) * item.quantity * 0.01),
-                                                            3, 'COMMA')} + '점 적립'"></p>
-                                            </div>
+                                        <div class="product-price">
+                                            <span class="discount" th:text="${item.discount + '%'}"></span>
+                                            <strong class="sale" th:text="${#numbers.formatInteger(item.opt_price * item.quantity, 3, 'COMMA')}"></strong>원
+                                            <del class="regular" th:text="${#numbers.formatInteger(item.price * item.quantity, 3, 'COMMA')} + '원'"></del>
                                         </div>
+
+
+                                        <div class="product-point">
+                                            <p th:text="'최대 ' + ${#numbers.formatInteger(((item.price + (item.opt_price != null ? item.opt_price : 0)) * (1 - (item.discount / 100)) * item.quantity * 0.01), 3, 'COMMA')} + '점 적립'"></p>
+                                        </div>
+
                                     </div>
                                 </th:block>
 
@@ -211,20 +177,7 @@
 
                                     <!-- 쿠폰 영역 -->
                                     <div class="coupon-list">
-                                        <th:block th:if="${#lists.isEmpty(coupons)}">
-                                            <p>사용 가능한 쿠폰이 없습니다.</p>
-                                        </th:block>
-
-                                        <th:block th:each="coupon : ${coupons}">
-                                            <label>
-                                                <input type="checkbox"
-                                                       name="coupon"
-                                                       th:data-discount="${coupon.benefit}"
-                                                       th:value="${coupon.couponNo}">
-                                                <span th:text="${coupon.couponName}"></span>
-                                                <span class="coupon-cond" th:text="'(~' + ${coupon.usePeriod} + ')'"></span>
-                                            </label>
-                                        </th:block>
+                                        <td colspan="5" style="text-align:center;">등록된 쿠폰이 없습니다.</td>
                                     </div>
 
                                     <!-- 포인트 영역 -->
@@ -232,75 +185,196 @@
                                         <p>현재 포인트: <strong id="currentPoint" th:text="${#numbers.formatInteger(userPoint,3,'COMMA')}"></strong>점</p>
                                         <input type="number" id="usePoint" placeholder="사용할 포인트 입력">
                                         <button type="button" onclick="applyPoint()">사용하기</button>
+
                                     </div>
+                                    <input type="hidden" name="prod_number" th:value="${item.prod_number}">
                                 </div>
-                            </div>
+                            </th:block>
 
-                            <!-- 결제방법 -->
-                            <div class="order-section payment-box">
-                                <div class="section-header">
-                                    <h3>결제방법</h3>
+                            <div class="coupon-point-box">
+                                <h4>쿠폰/포인트</h4>
+                                <div class="coupon-list">
+                                    <th:block th:if="${#lists.isEmpty(coupons)}">
+                                        <p>사용 가능한 쿠폰이 없습니다.</p>
+                                    </th:block>
+                                    <th:block th:each="coupon : ${coupons}">
+                                        <label>
+                                            <input type="checkbox" name="coupon"
+                                                   th:data-discount="${coupon.benefit}"
+                                                   th:value="${coupon.couponNo}">
+                                            <span th:text="${coupon.couponName}"></span>
+                                            <span class="coupon-cond" th:text="'(~' + ${coupon.usePeriod} + ')'"></span>
+                                        </label>
+                                    </th:block>
                                 </div>
 
-                                <div class="payment-methods">
-                                    <button type="button" class="pay-btn active">신용카드</button>
-                                    <button type="button" class="pay-btn">체크카드</button>
-                                    <button type="button" class="pay-btn">계좌이체</button>
-                                    <button type="button" class="pay-btn">무통장입금</button>
-                                    <button type="button" class="pay-btn">휴대폰결제</button>
-                                    <button type="button" class="pay-btn">카카오페이</button>
+                                <div class="point-box">
+                                    <p>현재 포인트: <strong id="currentPoint" th:text="${#numbers.formatInteger(userPoint,3,'COMMA')}"></strong>점</p>
+                                    <input type="number" id="usePoint" placeholder="사용할 포인트 입력">
+                                    <button type="button" onclick="applyPoint()">사용하기</button>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- 우측: 최종결제정보 -->
-                        <aside class="order-summary">
-                            <h3>최종 결제정보</h3>
 
-                            <ul>
-                                <li><span>상품수</span><span><strong th:text="${#lists.size(orderItems)}"></strong></span></li>
-                                <li><span>상품금액</span><span><strong th:text="${#numbers.formatInteger(basePrice,3,'COMMA')}"></strong>원</span></li>
-                                <li><span>할인금액</span><span><strong th:text="${#numbers.formatInteger(couponDiscount,3,'COMMA')}"></strong>원</span></li>
-                                <li><span>배송비</span><span><strong th:text="${#numbers.formatInteger(delivery,3,'COMMA')}"></strong>원</span></li>
-                                <li><span>적립 포인트</span><span><strong th:text="${#numbers.formatInteger(point,3,'COMMA')}"></strong>점</span></li>
-                            </ul>
-
-                            <p class="order-total">
-                                <strong th:text="${#numbers.formatInteger(finalPrice,3,'COMMA')}"></strong>원
-                            </p>
-
-                            <!-- ✅ 서버로 보낼 hidden 값들 -->
-                            <input type="hidden" name="cust_number" th:value="${buyer.cust_number}">
-                            <input type="hidden" name="price" th:value="${finalPrice}">
-                            <input type="hidden" name="usePoint" id="hiddenUsePoint" th:value="${usePoint}">
-                            <input type="hidden" name="payment" id="payment" value="신용카드">
-
-                            <!-- ✅ 배송지 입력값 연결 -->
-                            <input type="hidden" name="receiver" id="hiddenReceiver">
-                            <input type="hidden" name="addr1" id="hiddenAddr1">
-                            <input type="hidden" name="addr2" id="hiddenAddr2">
-                            <input type="hidden" name="hp" id="hiddenHp">
-
-                            <!-- ✅ 결제 버튼 -->
-                            <button type="submit" class="btn-order">결제하기</button>
-                        </aside>
+                        <!-- 결제방법 -->
+                        <div class="order-section payment-box">
+                            <div class="section-header">
+                                <h3>결제방법</h3>
+                            </div>
+                            <div class="payment-methods">
+                                <button type="button" class="pay-btn active">신용카드</button>
+                                <button type="button" class="pay-btn">체크카드</button>
+                                <button type="button" class="pay-btn">계좌이체</button>
+                                <button type="button" class="pay-btn">무통장입금</button>
+                                <button type="button" class="pay-btn">휴대폰결제</button>
+                                <button type="button" class="pay-btn">카카오페이</button>
+                            </div>
+                        </div>
                     </div>
-                </form>
-            </section>
-        </div>
 
-        <!-- TOP 버튼 -->
-        <button id="topBtn" class="top-btn" aria-label="맨 위로 이동">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                 class="lucide lucide-chevrons-up-icon lucide-chevrons-up">
-                <path d="m17 11-5-5-5 5"/>
-                <path d="m17 18-5-5-5 5"/>
-            </svg>
-        </button>
+                    <!-- 우측: 최종결제정보 -->
+                    <aside class="order-summary">
+                        <h3>최종 결제정보</h3>
+                        <ul>
+                            <li><span>상품수</span><span><strong th:text="${#lists.size(orderItems)}"></strong></span></li>
+                            <li><span>상품금액</span><span><strong th:text="${#numbers.formatInteger(basePrice,3,'COMMA')}"></strong>원</span></li>
+                            <li><span>할인금액</span><span><strong th:text="${#numbers.formatInteger(couponDiscount,3,'COMMA')}"></strong>원</span></li>
+                            <li><span>배송비</span><span><strong th:text="${#numbers.formatInteger(delivery,3,'COMMA')}"></strong>원</span></li>
+                            <li><span>적립 포인트</span><span><strong th:text="${#numbers.formatInteger(point,3,'COMMA')}"></strong>점</span></li>
+                        </ul>
 
-        <!-- 푸터 -->
-        <div th:replace="~{_footer :: footerFragment}"></div>
+                        <p class="order-total">
+                            <strong th:text="${#numbers.formatInteger(finalPrice,3,'COMMA')}"></strong>원
+                        </p>
+
+                        <!-- 서버로 보낼 hidden 값들 -->
+                        <input type="hidden" name="cust_number" th:value="${buyer.cust_number}">
+                        <input type="hidden" name="price" th:value="${finalPrice}">
+                        <input type="hidden" name="usePoint" id="hiddenUsePoint" th:value="${usePoint}">
+                        <input type="hidden" name="payment" id="payment" value="신용카드">
+                        <input type="hidden" name="delivery" value="0">
+                        <input type="hidden" name="piece" th:value="${#lists.size(orderItems)}">
+
+                        <!-- ✅ 배송정보 hidden 필드 -->
+                        <input type="hidden" name="zip" id="hiddenZip">
+                        <input type="hidden" name="req" id="hiddenReq">
+                        <input type="hidden" name="name" id="hiddenReceiver">
+                        <input type="hidden" name="hp" id="hiddenHp">
+                        <input type="hidden" name="addr" id="hiddenAddr1">
+                        <input type="hidden" name="addr2" id="hiddenAddr2">
+
+                        <button type="submit" class="btn-order">결제하기</button>
+                    </aside>
+                </div>
+            </form>
+        </section>
+    </div>
+
+
+    <button id="topBtn" class="top-btn" aria-label="맨 위로 이동">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m17 11-5-5-5 5"/>
+            <path d="m17 18-5-5-5 5"/>
+        </svg>
+    </button>
+
+    <div th:replace="~{_footer :: footerFragment}"></div>
+
     </main>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+
+            const productPriceEl = document.querySelector(".order-summary li:nth-child(2) strong");
+            let basePrice = parseInt(productPriceEl.textContent.replace(/[^0-9]/g, "")) || 0;
+
+            if (isNaN(basePrice)) basePrice = 0;
+
+            let couponDiscount = 0;
+            let usedPoint = 0;
+            let delivery = 0; // 기본 배송비 0원 유지
+            let finalPrice = basePrice;
+
+            const couponSelect = document.getElementById("couponSelect");
+            const discountEl = document.getElementById("discountAmount");
+            const totalEl = document.querySelector(".order-total strong");
+
+            const couponNoInput = document.getElementById("couponNo");
+            const couponDiscountInput = document.getElementById("couponDiscount");
+            const priceInput = document.querySelector("input[name='price']");
+            const hiddenUsePoint = document.getElementById("hiddenUsePoint");
+
+            const currentPointEl = document.getElementById("currentPoint");
+            let userPoint = parseInt(currentPointEl?.textContent.replace(/,/g, "")) || 0;
+
+            updateFinalPrice();
+
+            if (couponSelect) {
+                couponSelect.addEventListener("change", function () {
+                    const opt = this.options[this.selectedIndex];
+                    if (!opt.value) {
+                        resetCoupon();
+                        return;
+                    }
+
+                    const type = parseInt(opt.dataset.type);
+                    const benefit = parseInt(opt.dataset.discount);
+
+                    applyCoupon(type, benefit);
+                    couponNoInput.value = opt.value;
+                });
+            }
+
+            function applyCoupon(type, benefit) {
+                if (type === 1) {
+                    couponDiscount = benefit;
+                } else if (type === 2) {
+                    couponDiscount = Math.floor(basePrice * (benefit / 100));
+                }
+                updateFinalPrice();
+            }
+
+            function resetCoupon() {
+                couponDiscount = 0;
+                couponNoInput.value = "";
+                couponDiscountInput.value = 0;
+                updateFinalPrice();
+            }
+
+            // ✅ 포인트 적용
+            window.applyPoint = function () {
+                const inputVal = parseInt(document.getElementById("usePoint").value) || 0;
+
+                if (inputVal < 5000) {
+                    alert("포인트는 5,000점 이상부터 사용 가능합니다.");
+                    return;
+                }
+                if (inputVal > userPoint) {
+                    alert("보유 포인트를 초과할 수 없습니다.");
+                    return;
+                }
+
+                usedPoint = inputVal;
+                hiddenUsePoint.value = usedPoint;
+                updateFinalPrice();
+            };
+
+            function updateFinalPrice() {
+                finalPrice = basePrice - couponDiscount - usedPoint + delivery;
+                if (finalPrice < 0) finalPrice = 0;
+
+                totalEl.textContent = finalPrice.toLocaleString();
+                discountEl.textContent = couponDiscount.toLocaleString();
+
+                couponDiscountInput.value = couponDiscount;
+                if (priceInput) priceInput.value = finalPrice;
+            }
+        });
+    </script>
+
+
+
+
 </body>
 </html>
