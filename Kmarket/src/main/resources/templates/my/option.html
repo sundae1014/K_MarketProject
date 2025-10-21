@@ -14,7 +14,14 @@
                 </div>
                 <div class="main-content">
                     <div class="banner-ad">
-                        <img th:src="@{/images/my/banner_ad.jpg}" alt="광고사진">
+                        <th:block th:each="banner : ${myBanners}">
+                            <a th:href="${banner.link}">
+                                <img th:src="@{'/uploads/banner/' + ${banner.img}}"
+                                     th:alt="${banner.banner_name}"
+                                     class="ad-img"
+                                     th:style="'width:' + ${banner.width} + '; height:' + ${banner.height} + '; background-color:' + ${banner.background_color}"/>
+                            </a>
+                        </th:block>
                     </div>
                     <div class="option">
                         <h4>나의설정</h4>

@@ -1,26 +1,44 @@
 package kr.co.kmarket.service;
 
 import kr.co.kmarket.dto.*;
+import kr.co.kmarket.mapper.MyCouponMapper;
 import kr.co.kmarket.mapper.OrderMapper;
 import kr.co.kmarket.mapper.ProductMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class OrderServiceImpl implements OrderService {
+@Transactional
+public class  OrderServiceImpl implements OrderService {
 
     private final OrderMapper orderMapper;
     private final ProductMapper mapper;
+    private final MyCouponMapper myCouponMapper;
 
     @Override
     public String insertOrder(OrderDTO orderDTO) {
-        orderMapper.insertOrder(orderDTO);
 
-        // <selectKey>로 미리 ORDER_NUMBER를 채워두면 이게 자동 세팅됨
+        orderMapper.insertOrder(orderDTO);
         return orderDTO.getOrder_number();
+    }
+
+    @Override
+    public void insertOrderDetail(OrderDTO orderDTO) {
+        orderMapper.insertOrderDetail(orderDTO);
+    }
+
+    @Override
+    public OrderDTO selectOrderByNumber(String order_number) {
+        return orderMapper.selectOrderByNumber(order_number);
+    }
+
+    @Override
+    public List<OrderDTO> selectOrderDetails(String order_number) {
+        return orderMapper.selectOrderDetails(order_number);
     }
 
     @Override
@@ -48,6 +66,10 @@ public class OrderServiceImpl implements OrderService {
         return orderMapper.selectCartItemsByNumbers(cart_number);
     }
 
+    @Override
+    public void useCoupon(int couponNo, int custNumber) {
+        myCouponMapper.updateCouponStatus(couponNo, custNumber);
+    }
 
     @Override
     public List<CouponDTO> selectAvailableCoupons(int cust_number) {
@@ -86,6 +108,11 @@ public class OrderServiceImpl implements OrderService {
         pointDTO.setPoint_amount(earnPoint);
         pointDTO.setDescription("상품 결제 포인트 적립");
         orderMapper.insertPoint(pointDTO);
+    }
+
+    @Override
+    public OrderDTO selectOrderComplete(String orderNumber) {
+        return orderMapper.selectOrderComplete(orderNumber);
     }
 
 }

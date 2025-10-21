@@ -1,7 +1,7 @@
 <footer>
     <div class="footer-layout">
         <div class="footer-content">
-            <img th:src="@{/images/admin/main/cupangMS_logo(color).png}" alt="로고">
+            <img th:src="@{'/uploads/logo/' + ${basicData.footer_logo_admin}}" alt="로고">
             <div class="about-company">
                 <h2 th:inline="text">[[${basicData.trade_name}]]</h2>
                 <h2 th:inline="text">대표이사 [[${basicData.ceo}]]</h2>

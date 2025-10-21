@@ -393,52 +393,38 @@
     </div>
 
     <!-- 테이블 -->
-    <table>
-      <thead>
-        <tr>
-          <th>발급번호</th>
-          <th>쿠폰번호</th>
-          <th>쿠폰종류</th>
-          <th>쿠폰명</th>
-          <th>사용자</th>
-          <th>상태</th>
-          <th>사용일</th>
-          <th>관리</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-            <td><a href="#" onclick="openModal('12345678')">12345678</a></td>
-            <td>1012121212</td>
-            <td>개별상품 할인</td>
-            <td>10월 한달 감사 쿠폰</td>
-            <td>dream</td>
-            <td style="color: red; font-weight: bold;">미사용</td>
-            <td>0000-00-00<br>00:00:00</td>
-            <td>중단</td>
-        </tr>
-        <tr>
-            <td><a href="#" onclick="openModal('11111111')">11111111</a></td>
-            <td>201910101</td>
-            <td>개별상품 할인</td>
-            <td>10월 한달 감사 쿠폰</td>
-            <td>dream</td>
-            <td>사용</td>
-            <td>0000-00-00<br>00:00:00</td>
-            <td>중단</td>
-        </tr>
-        <tr>
-            <td><a href="#" onclick="openModal('99999999')">99999999</a></td>
-            <td>201222222</td>
-            <td>개별상품 할인</td>
-            <td>10월 한달 감사 쿠폰</td>
-            <td>dream</td>
-            <td>사용</td>
-            <td>0000-00-00<br>00:00:00</td>
-            <td>중단</td>
-        </tr>
-      </tbody>
-    </table>
+      <table>
+          <thead>
+          <tr>
+              <th>발급번호</th>
+              <th>쿠폰번호</th>
+              <th>쿠폰종류</th>
+              <th>쿠폰명</th>
+              <th>사용자</th>
+              <th>상태</th>
+              <th>사용일</th>
+              <th>관리</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="ic : ${issuedCoupons}">
+              <td th:text="${ic.historyNo}"></td>
+              <td th:text="${ic.couponNo}"></td>
+              <!-- ✅ 쿠폰종류 숫자를 사용자 친화적으로 변환 -->
+              <td th:text="${ic.couponTypename}"></td>
+              <td th:text="${ic.couponName}"></td>
+              <!-- ✅ 사용자명 -->
+              <td th:text="${ic.issuer}"></td>
+              <td th:text="${ic.status}"></td>
+              <!-- ✅ 사용일(useDate), 없으면 '-' 표시 -->
+              <td th:text="${ic.useDate != null ? ic.useDate : '-'}"></td>
+              <!-- ✅ 관리 버튼 -->
+              <td>
+                  <button class="btn" th:attr="onclick=|openModal('${ic.historyNo}')|">보기</button>
+              </td>
+          </tr>
+          </tbody>
+      </table>
 
     <!-- 하단 바 -->
     <div class="bottom-bar">

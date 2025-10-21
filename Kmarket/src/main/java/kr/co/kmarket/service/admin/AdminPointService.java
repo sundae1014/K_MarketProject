@@ -2,6 +2,7 @@ package kr.co.kmarket.service.admin;
 
 import kr.co.kmarket.dto.PageRequestDTO;
 import kr.co.kmarket.dto.PageResponseDTO;
+import kr.co.kmarket.dto.PointDTO;
 import kr.co.kmarket.mapper.admin.AdminPointMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,5 +37,20 @@ public class AdminPointService {
                 .dtoList(dtoList)
                 .total(total)
                 .build();
+    }
+
+    public void remove(List<String> idList) {
+        for(String point_id : idList) {
+            PointDTO dto = adminPointMapper.findById(point_id);
+
+            if(dto != null) {
+                dto.setBalance(dto.getBalance() - dto.getPoint_amount());
+                log.info("삭제 후 값 변경중 = {}", dto);
+                int cust_number = dto.getCust_number();
+                int balance = dto.getBalance();
+                adminPointMapper.updatePoint(cust_number, balance);
+                adminPointMapper.delete(point_id);
+            }
+        }
     }
 }

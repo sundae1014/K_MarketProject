@@ -7,16 +7,22 @@
 
     <resultMap id="OrderResultMap2" type="kr.co.kmarket.dto.OrderDTO">
         <result property="order_number" column="ORDER_NUMBER"/>
+        <result property="name" column="RECIP_NAME"/>
+        <result property="hp" column="HP"/>
+        <result property="zip" column="ZIP"/>
+        <result property="addr" column="ADDR"/>
+        <result property="addr2" column="ADDR2"/>
+        <result property="req" column="REQ"/>
+        <result property="custId" column="CUSTID"/>
+        <result property="ordName" column="ORD_NAME"/>
         <result property="oDate" column="O_DATE"/>
         <result property="stat" column="STAT"/>
+        <result property="payment" column="PAYMENT"/>
         <result property="piece" column="PIECE"/>
         <result property="price" column="PRICE"/>
-        <result property="img1" column="IMG_1"/>
-        <result property="manufacture" column="MANUFACTURE"/>
+        <result property="deliveryCompany" column="DELIVERY_COMPANY"/>
+        <result property="trackingNumber" column="TRACKING_NUMBER"/>
         <result property="prod_name" column="PROD_NAME"/>
-        <result property="discount" column="DISCOUNT"/>
-        <result property="salePrice" column="SALEPRICE"/>
-        <result property="prod_number" column="PROD_NUMBER"/>
     </resultMap>
 
     <resultMap id="ProductDetailResultMap" type="kr.co.kmarket.dto.AdminOrderDetailDTO">
@@ -28,7 +34,7 @@
         <result property="prod_name" column="PROD_NAME"/>
         <result property="manufacture" column="MANUFACTURE"/>
         <result property="img1" column="IMG_1"/>
-        <result property="delivery_fee" column="DELIVERY_FEE"/>
+        <result property="deliveryFee" column="DELIVERY_FEE"/>
     </resultMap>
 
     <resultMap id="OrderDetailCombinedResultMap" type="kr.co.kmarket.dto.OrderDTO">
@@ -36,72 +42,98 @@
         <result property="cust_number" column="CUST_NUMBER"/>
         <result property="payment" column="PAYMENT"/>
         <result property="stat" column="STAT"/>
-        <result property="price" column="TOTAL_FINAL_PRICE"/>
-        <result property="usePoint" column="USEPOINT"/>
+        <result property="piece" column="PIECE"/>  <result property="price" column="TOTAL_FINAL_PRICE"/>
         <result property="oDate" column="O_DATE"/>
+
         <result property="name" column="RECIP_NAME"/>
         <result property="hp" column="RECIP_HP"/>
         <result property="zip" column="RECIP_ZIP"/>
         <result property="addr" column="RECIP_ADDR1"/>
         <result property="addr2" column="RECIP_ADDR2"/>
         <result property="req" column="REQ"/>
+
         <result property="custId" column="CUSTID"/>
         <result property="ordName" column="ORD_NAME"/>
-        <result property="ordHp" column="ORD_HP"/>
-        <collection property="details" ofType="kr.co.kmarket.dto.AdminOrderDetailDTO" resultMap="ProductDetailResultMap" />
+        <result property="ordHp" column="ORD_HP"/> <result property="deliveryCompany" column="DELIVERY_COMPANY"/>
+        <result property="trackingNumber" column="TRACKING_NUMBER"/>
+
+        <collection property="products" ofType="kr.co.kmarket.dto.AdminOrderDetailDTO">
+            <id property="prod_number" column="PROD_NUMBER"/>
+            <result property="itemPiece" column="OD_PIECE"/>
+            <result property="price" column="OD_PRICE"/>
+            <result property="salePrice" column="OD_SALEPRICE"/>
+            <result property="point" column="OD_POINT"/>
+            <result property="deliveryFee" column="DELIVERY_FEE"/>
+
+            <result property="prod_name" column="PROD_NAME"/>
+            <result property="manufacture" column="MANUFACTURE"/>
+            <result property="discount" column="DISCOUNT"/>
+            <result property="img1" column="IMG_1"/> </collection>
+    </resultMap>
+
+    <resultMap id="DeliveryOrderDetailResultMap" type="kr.co.kmarket.dto.OrderDTO">
+        <result property="order_number" column="ORDER_NUMBER"/>
+        <result property="name" column="NAME"/>
+        <result property="hp" column="HP"/>
+        <result property="zip" column="ZIP"/>
+        <result property="addr" column="ADDR"/>
+        <result property="addr2" column="ADDR2"/>
+        <result property="req" column="REQ"/>
+        <result property="deliveryCompany" column="DELIVERY_COMPANY"/>
+        <result property="trackingNumber" column="TRACKING_NUMBER"/>
+        <result property="stat" column="STAT"/>
+        <result property="oDate" column="O_DATE"/>
+        <collection property="products" ofType="kr.co.kmarket.dto.AdminOrderDetailDTO" resultMap="ProductDetailResultMap"/>
     </resultMap>
 
     <select id="selectAllOrdersListPage" resultMap="OrderResultMap2">
         SELECT
-        ORDER_NUMBER,
-        O_DATE,
-        STAT,
-        PAYMENT,
+        ORDER_NUMBER ,
+        O_DATE ,
+        STAT ,
+        PAYMENT ,
         PIECE,
-        PRICE,
+        PRICE ,
         CUSTID,
-        NAME
+        ORD_NAME,
+        RECIP_NAME,
+        HP,
+        ZIP,
+        ADDR,
+        ADDR2,
+        REQ,
+        PROD_NAME
         FROM (
         SELECT
-        a.ORDER_NUMBER,
-        a.O_DATE,
-        a.STAT,
-        a.PAYMENT,
+        a.ORDER_NUMBER ,
+        a.O_DATE ,
+        a.STAT ,
+        a.PAYMENT ,
         b.PIECE,
-        b.PRICE,
+        b.PRICE ,
         c.CUSTID,
-        c.NAME,
-        ROW_NUMBER() OVER (ORDER BY a.O_DATE DESC) AS rn
+        c.NAME AS ORD_NAME,
+        a.NAME AS RECIP_NAME,
+        a.HP,
+        a.ZIP,
+        a.ADDR,
+        a.ADDR2,
+        a.REQ,
+        d.PROD_NAME, ROW_NUMBER() OVER (ORDER BY a.O_DATE DESC) AS rn
         FROM "ORDER" a
         JOIN ORDERDETAIL b ON a.ORDER_NUMBER = b.ORDER_NUMBER
         JOIN "MEMBER" c ON a.CUST_NUMBER = c.CUST_NUMBER
-
-        <if test="searchType != null and keyword != null and keyword != ''">
-            WHERE
-            <choose>
-                <when test="searchType == 'orderNumber'">
-                    a.ORDER_NUMBER LIKE '%' || #{keyword} || '%'
-                </when>
-            </choose>
-        </if>
+        JOIN PRODUCT d ON b.PROD_NUMBER = d.PROD_NUMBER
         )
         WHERE rn BETWEEN #{start} + 1 AND #{start} + #{limit}
         ORDER BY rn ASC
     </select>
 
+
     <select id="selectAllOrderCount" resultType="int">
         SELECT COUNT(a.ORDER_NUMBER)
         FROM "ORDER" a
         JOIN ORDERDETAIL b ON a.ORDER_NUMBER = b.ORDER_NUMBER
-
-        <if test="searchType != null and keyword != null and keyword != ''">
-            WHERE
-            <choose>
-                <when test="searchType == 'orderNumber'">
-                    a.ORDER_NUMBER LIKE '%' || #{keyword} || '%'
-                </when>
-            </choose>
-        </if>
     </select>
 
     <select id="selectOrderDetailCombined" resultMap="OrderDetailCombinedResultMap">
@@ -110,7 +142,6 @@
         T1.ORDER_NUMBER,
         T1.PAYMENT,
         T1.STAT,
-        T2.PRICE AS TOTAL_FINAL_PRICE,
         T1.O_DATE,
         T1.NAME AS RECIP_NAME,
         T1.HP AS RECIP_HP,
@@ -118,22 +149,114 @@
         T1.ADDR AS RECIP_ADDR1,
         T1.ADDR2 AS RECIP_ADDR2,
         T1.REQ,
+        T1.DELIVERY_COMPANY,
+        T1.TRACKING_NUMBER,
         T3.CUSTID,
         T3.NAME AS ORD_NAME,
         T3.HP AS ORD_HP,
         T2.PROD_NUMBER,
         T2.PIECE AS OD_PIECE,
+        T2.PRICE AS TOTAL_FINAL_PRICE,
         T4.PRICE AS OD_PRICE,
-        T4.SALEPRICE AS OD_SALEPRICE, T4.DISCOUNT AS OD_DISCOUNT,
+        T4.SALEPRICE AS OD_SALEPRICE,
+        T4.DELIVERY_FEE,
         T4.PROD_NAME,
         T4.MANUFACTURE,
-        T4.IMG_1,
-        T4.DELIVERY_FEE
+        T4.DISCOUNT,
+        T4.IMG_1
         FROM "ORDER" T1
         JOIN ORDERDETAIL T2 ON T1.ORDER_NUMBER = T2.ORDER_NUMBER
         JOIN MEMBER T3 ON T1.CUST_NUMBER = T3.CUST_NUMBER
         JOIN PRODUCT T4 ON T2.PROD_NUMBER = T4.PROD_NUMBER
         WHERE T1.ORDER_NUMBER = #{order_number}
+    </select>
+
+    <select id="selectOrderInfoByOrderNumber" resultMap="OrderResultMap2">
+        SELECT
+        ORDER_NUMBER, NAME AS RECIP_NAME, HP, ZIP, ADDR, ADDR2,
+        DELIVERY_COMPANY, TRACKING_NUMBER, REQ
+        FROM "ORDER"
+        WHERE ORDER_NUMBER = #{order_number}
+    </select>
+
+    <update id="updateDeliveryInfo">
+        UPDATE "ORDER" SET
+        DELIVERY_COMPANY = #{deliveryCompany},
+        TRACKING_NUMBER = #{trackingNumber},
+        STAT = 2  WHERE ORDER_NUMBER = #{order_number}
+    </update>
+
+    <select id="selectDeliveryOrdersListPage" resultMap="OrderResultMap2">
+        SELECT
+        ORDER_NUMBER ,
+        O_DATE ,
+        STAT ,
+        PAYMENT ,
+        PIECE,
+        PRICE ,
+        CUSTID,
+        ORD_NAME,
+        RECIP_NAME,
+        HP,
+        ZIP,
+        ADDR,
+        ADDR2,
+        REQ,
+        DELIVERY_COMPANY,  TRACKING_NUMBER, PROD_NAME
+        FROM (
+        SELECT
+        a.ORDER_NUMBER ,
+        a.O_DATE ,
+        a.STAT ,
+        a.PAYMENT ,
+        b.PIECE,
+        b.PRICE ,
+        c.CUSTID,
+        c.NAME AS ORD_NAME,
+        a.NAME AS RECIP_NAME,
+        a.HP,
+        a.ZIP,
+        a.ADDR,
+        a.ADDR2,
+        a.REQ,
+        a.DELIVERY_COMPANY,
+        a.TRACKING_NUMBER,
+        d.PROD_NAME,
+        ROW_NUMBER() OVER (ORDER BY a.O_DATE DESC) AS rn
+        FROM "ORDER" a
+        JOIN ORDERDETAIL b ON a.ORDER_NUMBER = b.ORDER_NUMBER
+        JOIN "MEMBER" c ON a.CUST_NUMBER = c.CUST_NUMBER
+        JOIN PRODUCT d ON b.PROD_NUMBER = d.PROD_NUMBER
+        WHERE a.STAT >= 2
+        )
+        WHERE rn BETWEEN #{start} + 1 AND #{start} + #{limit}
+        ORDER BY rn ASC
+    </select>
+
+    <select id="selectDeliveryOrderCount" resultType="int">
+        SELECT COUNT(*)
+        FROM "ORDER" a
+        WHERE a.STAT >= 2
+    </select>
+
+    <select id="selectDeliveryOrderDetail" resultMap="DeliveryOrderDetailResultMap">
+        SELECT
+        A.*,
+        B.PROD_NUMBER, C.IMG_1, B.PRICE, c.SALEPRICE,
+        C.PROD_NAME, C.MANUFACTURE, C.DELIVERY_FEE, B.PIECE
+        FROM "ORDER" A
+        JOIN ORDERDETAIL B ON A.ORDER_NUMBER = B.ORDER_NUMBER
+        JOIN PRODUCT C ON B.PROD_NUMBER = C.PROD_NUMBER
+        <where>
+            <choose>
+                <when test="trackingNumber != null and trackingNumber > 0">
+                    AND A.TRACKING_NUMBER = #{trackingNumber}
+                </when>
+                <otherwise>
+                    AND A.ORDER_NUMBER = #{orderNumber}
+                </otherwise>
+            </choose>
+        </where>
     </select>
 
 </mapper>

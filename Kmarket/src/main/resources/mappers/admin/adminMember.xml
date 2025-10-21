@@ -44,24 +44,19 @@
     </select>
 
     <select id="findAll" resultType="map">
-        SELECT *
-        FROM (
-        SELECT
-        ROW_NUMBER() OVER (PARTITION BY m.CUSTID ORDER BY m."Date" DESC) AS rn,
+        SELECT ROW_NUMBER() OVER (ORDER BY m.CUST_NUMBER) AS ID,
         m.CUSTID,
         m.NAME,
         m.GENDER,
         m.RATING,
-        p.BALANCE,
+        MAX(p.BALANCE) AS BALANCE,
         m.EMAIL,
         m.HP,
         m."Date",
         m.OPERATION
         FROM MEMBER m
-        LEFT JOIN POINT p ON m.CUST_NUMBER = p.CUST_NUMBER
-        WHERE m.AUTH = 1
-        ) t
-        WHERE rn = 1
+        JOIN POINT p ON m.CUST_NUMBER = p.CUST_NUMBER
+        GROUP BY m.CUST_NUMBER, m.CUSTID, m.NAME, m.GENDER, m.RATING, m.EMAIL, m.HP, m."Date", m.OPERATION
         OFFSET #{pageRequestDTO.offset} ROWS
         FETCH NEXT #{pageRequestDTO.size} ROWS ONLY
     </select>

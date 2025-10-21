@@ -20,4 +20,21 @@ public interface AdminOrderMapper {
 
     public OrderDTO selectOrderDetailCombined(@Param("order_number") String orderNumber);
 
+
+    public int updateDeliveryInfo(@Param("order_number") String order_number,
+                                  @Param("deliveryCompany") String deliveryCompany,
+                                  @Param("trackingNumber") String trackingNumber);
+
+    public OrderDTO selectOrderInfoByOrderNumber(String order_number);
+
+    public List<OrderDTO> selectDeliveryOrdersListPage(@Param("start") int start,
+                                                       @Param("limit") int limit);
+
+    public int selectDeliveryOrderCount();
+
+    public OrderDTO selectDeliveryOrderDetail(
+            @Param("orderNumber") String orderNumber,
+            @Param("trackingNumber") Integer trackingNumber
+    );
+
 }

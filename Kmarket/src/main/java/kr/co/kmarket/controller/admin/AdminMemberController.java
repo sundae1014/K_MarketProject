@@ -95,4 +95,13 @@ public class AdminMemberController {
         return "admin/member/admin_pointManagement";
     }
 
+    @DeleteMapping("/point")
+    @ResponseBody
+    public String deletePoint(@RequestBody List<String> idList) {
+
+        log.info("idList = " + idList);
+        adminPointService.remove(idList);
+
+        return "";
+    }
 }

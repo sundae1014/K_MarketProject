@@ -14,6 +14,30 @@
             allSelect.addEventListener("change", function() {
                 checkboxes.forEach(cb => cb.checked = allSelect.checked);
             });
+
+            //삭제 기능
+            const deleteBtn = document.querySelector(".select_delete");
+            deleteBtn.addEventListener("click", async () => {
+                const selected = document.querySelectorAll("tbody .row-checkbox:checked");
+                const idList = Array.from(selected).map(cb => {
+                    return cb.dataset.id;
+                });
+                console.log("삭제 id리스트: ", idList);
+                const response = await fetch("/kmarket/admin/member/point", {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(idList)
+                });
+
+                if(response.ok) {
+                    alert("삭제 완료!");
+                    location.reload();
+                } else {
+                    alert("삭제 실패!");
+                }
+            });
         });
     </script>
     <script th:src="@{/js/admin/cs/recruit/sidebarAction.js}" defer></script>
@@ -164,8 +188,8 @@
                             </thead>
                             <tbody>
                                 <tr th:each="dto, stat:${pageResponseDTO.dtoList}">
-                                    <td><input type="checkbox" class="row-checkbox" th:value="${dto['ID']}" th:data-id="${dto['CUSTID']}"></td>
-                                    <td th:text="${dto['ID']}"></td>
+                                    <td><input type="checkbox" class="row-checkbox" th:value="${dto['POINT_ID']}" th:data-id="${dto['POINT_ID']}"></td>
+                                    <td th:text="${dto['POINT_ID']}"></td>
                                     <td th:text="${dto['CUSTID']}"></td>
                                     <td th:text="${dto['NAME']}"></td>
                                     <td th:text="${dto['POINT_AMOUNT']}"></td>

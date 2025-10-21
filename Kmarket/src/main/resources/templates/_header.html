@@ -1,26 +1,54 @@
  <!-- Header -->
+ <html xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
  <header th:fragment="headerFragment" class="header" role="banner">
 
     <div class="page">
 
          <!-- 최상단 광고 배너 -->
         <div class="top-banners">
-            <a href="#" class="top-banner" aria-label="오늘 12시까지 주문 시 배송 내일 도착">
-                <img th:src="@{/images/main/상단배너img_1.png}" alt="상단 광고 배너 1">
-            </a>
-            <a href="#" class="top-banner" aria-label="얼리버드 할인 이벤트">
-                <img th:src="@{/images/main/상단배너img_2.png}" alt="상단 광고 배너 2">
-            </a>
+            <th:block th:each="banner : ${main1Banners}">
+                <a th:href="${banner.link}">
+                    <img th:src="@{'/uploads/banner/' + ${banner.img}}"
+                         th:alt="${banner.banner_name}"
+                         class="ad-img"
+                         th:style="'width:' + ${banner.width} + '; height:' + ${banner.height} + '; background-color:' + ${banner.background_color}"/>
+                </a>
+            </th:block>
         </div>
 
         <!-- 로그인 + 회원가입 + 고객센터 -->
         <div class="utility-nav">
-            <div class="inner">
+            <div class="inner" >
                 <ul class="utility-list" id="utility-menu">
-                    <!-- 기본 상태 : 로그인 전 -->
-                    <li><a href="#">로그인</a></li>
-                    <li><a href="#">회원가입</a></li>
-                    <li><a href="#">고객센터</a></li>
+                    <!-- 로그인 상태 -->
+                    <li sec:authorize="isAuthenticated()">
+                        <!-- 일반 로그인일 때 -->
+                        <span th:if="${#authentication.name != null}" th:text="${#authentication.name}"></span>
+
+                        <!-- 소셜 로그인일 때 -->
+                        <span th:if="${oauth2User != null}" th:text="${oauth2User.name}"></span>
+                        님
+                    </li>
+                    <li sec:authorize="isAuthenticated()">
+                        <a th:href="@{/member/logout}">로그아웃</a>
+                    </li>
+                    <li sec:authorize="isAuthenticated()">
+                        <a th:href="@{/cs/index}">고객센터</a>
+                    </li>
+                    <!-- 관리자 로그인 시 관리자 페이지 링크 -->
+                    <li sec:authorize="hasAnyRole('2','3')">
+                        <a th:href="@{/admin}">관리자</a>
+                    </li>
+                    <!-- 비로그인 상태 -->
+                    <li sec:authorize="!isAuthenticated()">
+                        <a th:href="@{/member/login}">로그인</a>
+                    </li>
+                    <li sec:authorize="!isAuthenticated()">
+                        <a th:href="@{/member/join}">회원가입</a>
+                    </li>
+                    <li sec:authorize="!isAuthenticated()">
+                        <a th:href="@{/cs/index}">고객센터</a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -28,7 +56,7 @@
         <!-- 검색창 전체 + 인풋박스 + 검색 버튼 -->
         <div class="brand-row container">
             <a th:href="@{/}" class="logo" aria-label="큐팡 홈">
-                <img th:src="@{/images/main/cupang_logo(color).png}" alt="큐팡 로고" class="logo-img">
+                <img th:src="@{'/uploads/logo/' + ${basicData.header_logo_main}}" alt="큐팡 로고" class="logo-img">
             </a>
 
             <form class="search-bar" role="search" aria-label="사이트 검색" action="/kmarket/product/list" method="get">

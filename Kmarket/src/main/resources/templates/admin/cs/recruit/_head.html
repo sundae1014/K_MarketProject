@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cupang::관리자 고객센터 </title>
+    <link rel="icon" type="image/png" th:href="@{'/uploads/logo/' + ${basicData.favicon}}">
+    <title>[[${basicData.title}]]-[[${basicData.sub_title}]]::관리자 고객센터 [[${appInfo.appVersion}]]</title>
     <!-- header/footer css -->
     <link rel="stylesheet" th:href="@{/css/admin/main/header_footer.css}">
 
@@ -32,7 +33,7 @@
     <div class="header-layout">
         <div class="header-content">
             <a th:href="@{/admin}">
-                <img th:src="@{/images/admin/main/cupangMS_logo(color).png}" alt="로고">
+                <img th:src="@{'/uploads/logo/' + ${basicData.header_logo_admin}}" alt="로고">
             </a>
 
 

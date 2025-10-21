@@ -1,3 +1,4 @@
+<html xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -87,7 +88,7 @@
                 case "메인 슬라이더 배너": initialLocation = "main2"; break;
                 case "상품 상세 보기 배너": initialLocation = "product1"; break;
                 case "회원 로그인 배너": initialLocation = "member1"; break;
-                case "마이페이지 배너": initialLocation = "my"; break;
+                case "마이페이지 배너": initialLocation = "my1"; break;
             }
             loadBanners(initialLocation);
 
@@ -103,7 +104,7 @@
                         case "메인 슬라이더 배너": location = "main2"; break;
                         case "상품 상세 보기 배너": location = "product1"; break;
                         case "회원 로그인 배너": location = "member1"; break;
-                        case "마이페이지 배너": location = "my"; break;
+                        case "마이페이지 배너": location = "my1"; break;
                     }
 
                     loadBanners(location);
@@ -244,7 +245,7 @@
         <div class="header-layout">
             <div class="header-content">
                 <a th:href="@{/admin}">
-                    <img th:src="@{/images/admin/main/cupangMS_logo(color).png}" alt="로고">
+                    <img th:src="@{'/uploads/logo/' + ${basicData.header_logo_admin}}" alt="로고">
                 </a>
 
                 <div class="header-link">
@@ -262,7 +263,10 @@
                         </a>
                     </div>
 
-                    <button>로그아웃</button>
+                    <!-- 로그인 했을 경우 관리자 접속 가능 head 맨위에 sec 관련 태그 추가하기 -->
+                    <form th:action="@{/member/logout}" method="post" sec:authorize="isAuthenticated()">
+                        <button type="submit">로그아웃</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -467,7 +471,7 @@
     <footer>
         <div class="footer-layout">
             <div class="footer-content">
-                <img th:src="@{/images/admin/main/cupangMS_logo(color).png}" alt="로고">
+                <img th:src="@{'/uploads/logo/' + ${basicData.footer_logo_admin}}" alt="로고">
                 <div class="about-company">
                     <h2 th:inline="text">[[${basicData.trade_name}]]</h2>
                     <h2 th:inline="text">대표이사 [[${basicData.ceo}]]</h2>

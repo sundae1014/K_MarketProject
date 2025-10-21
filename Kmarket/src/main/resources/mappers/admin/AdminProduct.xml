@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.kmarket.mapper.admin.AdminProductMapper">
+
+    <sql id="searchWhere">
+        <trim prefix="" prefixOverrides="AND |OR ">
+            <if test="pageRequestDTO.searchType != null and pageRequestDTO.keyword != ''">
+                <choose>
+                    <when test="pageRequestDTO.searchType == 'prod_name'">
+                        AND p.prod_name LIKE '%' || #{pageRequestDTO.keyword} || '%'
+                    </when>
+                    <when test="pageRequestDTO.searchType == 'prod_number'">
+                        AND p.prod_number LIKE '%' || #{pageRequestDTO.keyword} || '%'
+                    </when>
+                    <when test="pageRequestDTO.searchType == 'manufacture'">
+                        AND p.manufacture LIKE '%' || #{pageRequestDTO.keyword} || '%'
+                    </when>
+                </choose>
+            </if>
+        </trim>
+    </sql>
+
+    <select id="findByProdNumber">
+        SELECT PROD_NUMBER FROM PRODUCT
+        WHERE PROD_NUMBER = #{prod_number}
+    </select>
+
+    <select id="findCategory">
+        SELECT * FROM CATEGORY WHERE UP_CATE_CD = #{upCateCd}
+    </select>
+
+    <select id="findAll" resultType="map">
+        SELECT p.*, pm.stock, po.point_amount
+        FROM PRODUCT p
+        LEFT JOIN PRODUCTMANGEMENT pm
+        ON p.prod_number = pm.prod_number
+        LEFT JOIN POINT PO
+        ON p.prod_number = po.prod_number
+        OFFSET #{pageRequestDTO.offset} ROWS
+        FETCH NEXT #{pageRequestDTO.size} ROWS ONLY
+    </select>
+    <select id="selectCount" resultType="int">
+        SELECT COUNT(*) FROM PRODUCT
+    </select>
+
+    <select id="searchAll" resultType="map">
+        SELECT p.*, pm.stock
+        FROM PRODUCT p
+        LEFT JOIN PRODUCTMANGEMENT pm
+        ON p.prod_number = pm.prod_number
+        LEFT JOIN POINT PO
+        ON p.prod_number = po.prod_number
+        <where>
+            <if test="pageRequestDTO.searchType != null and pageRequestDTO.keyword != ''">
+                <include refid="searchWhere"/>
+            </if>
+        </where>
+        OFFSET #{pageRequestDTO.offset} ROWS
+        FETCH NEXT #{pageRequestDTO.size} ROWS ONLY
+    </select>
+    <select id="searchCount" resultType="int">
+        SELECT COUNT(*) FROM PRODUCT p
+        <where>
+            <if test="pageRequestDTO.searchType != null and pageRequestDTO.keyword != ''">
+                <include refid="searchWhere"/>
+            </if>
+        </where>
+    </select>
+
+    <insert id="insertProduct">
+        INSERT INTO PRODUCT(PROD_NUMBER, CATE_CD, PROD_NAME, DESCRIPTION, MANUFACTURE, PRICE, DISCOUNT, DELIVERY_FEE, IMG_1, DETAIL_IMG, PROD_STAT, PROD_TAX, PROD_BUSINESS, PROD_NATION, SALEPRICE, PRO_SCORE)
+        VALUES (#{prod_number},#{cate_cd},#{prod_name},#{description}, #{manufacture}, #{price}, #{discount}, #{delivery_fee}, #{img_1}, #{detail_img}, #{prod_stat}, #{prod_tax}, #{prod_business}, #{prod_nation}, #{salePrice}, #{pro_score})
+    </insert>
+
+    <delete id="deletePoint">
+        DELETE FROM POINT
+        WHERE PROD_NUMBER = #{prod_number}
+    </delete>
+    <delete id="deleteProductManagement">
+        DELETE FROM PRODUCTMANGEMENT
+        WHERE PROD_NUMBER = #{prod_number}
+    </delete>
+    <delete id="deleteProduct">
+        DELETE FROM PRODUCT
+        WHERE PROD_NUMBER = #{prod_number}
+    </delete>
+</mapper>

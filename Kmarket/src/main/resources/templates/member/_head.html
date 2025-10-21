@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" type="image/png" th:href="@{/images/member/favicon.png}">
+    <link rel="icon" type="image/png" th:href="@{'/uploads/logo/' + ${basicData.favicon}}">
     <title>[[${basicData.title}]]-[[${basicData.sub_title}]]::회원 [[${appInfo.appVersion}]]</title>
     <link rel="stylesheet" th:href="@{/css/main/style_index.css}">
     <link rel="stylesheet" th:href="@{/css/main/style_header.css}">
@@ -36,7 +36,7 @@
                     <!-- 로그인 상태 -->
                     <li sec:authorize="isAuthenticated()">
                         <!-- 일반 로그인일 때 -->
-                        <span th:if="${member.name != null}" th:text="${member.name}"></span>
+                        <span th:if="${#authentication.name != null}" th:text="${#authentication.name}"></span>
 
                         <!-- 소셜 로그인일 때 -->
                         <span th:if="${oauth2User != null}" th:text="${oauth2User.name}"></span>
@@ -69,7 +69,7 @@
         <!-- 검색창 전체 + 인풋박스 + 검색 버튼 -->
         <div class="brand-row container">
             <a th:href="@{/}" class="logo" aria-label="큐팡 홈">
-                <img th:src="@{/images/main/cupang_logo(color).png}" alt="큐팡 로고" class="logo-img">
+                <img th:src="@{'/uploads/logo/' + ${basicData.header_logo_main}}" alt="큐팡 로고" class="logo-img">
             </a>
 
 
