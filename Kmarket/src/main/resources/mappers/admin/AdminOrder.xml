@@ -242,8 +242,15 @@
     <select id="selectDeliveryOrderDetail" resultMap="DeliveryOrderDetailResultMap">
         SELECT
         A.*,
-        B.PROD_NUMBER, C.IMG_1, B.PRICE, c.SALEPRICE,
-        C.PROD_NAME, C.MANUFACTURE, C.DELIVERY_FEE, B.PIECE
+        B.PROD_NUMBER,
+        C.IMG_1,
+        C.PRICE AS OD_PRICE,
+        C.SALEPRICE AS OD_SALEPRICE,
+        C.PROD_NAME,
+        C.MANUFACTURE,
+        C.DELIVERY_FEE,
+        B.PIECE AS OD_PIECE,
+        C.DISCOUNT AS OD_DISCOUNT
         FROM "ORDER" A
         JOIN ORDERDETAIL B ON A.ORDER_NUMBER = B.ORDER_NUMBER
         JOIN PRODUCT C ON B.PROD_NUMBER = C.PROD_NUMBER
