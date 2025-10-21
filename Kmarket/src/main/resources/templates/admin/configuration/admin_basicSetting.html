@@ -1,3 +1,4 @@
+<html xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -33,7 +34,10 @@
                         </a>
                     </div>
 
-                    <button>로그아웃</button>
+                    <!-- 로그인 했을 경우 관리자 접속 가능 head 맨위에 sec 관련 태그 추가하기 -->
+                    <form th:action="@{/member/logout}" method="post" sec:authorize="isAuthenticated()">
+                        <button type="submit">로그아웃</button>
+                    </form>
                 </div>
             </div>
         </div>
