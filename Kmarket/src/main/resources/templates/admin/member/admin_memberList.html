@@ -321,8 +321,7 @@
                                 <tr th:each="dto, stat:${pageResponseDTO.dtoList}">
                                     <td><input type="checkbox" class="row-checkbox" th:value="${dto['ID']}" th:data-id="${dto['CUSTID']}"></td>
                                     <td th:text="${dto['ID']}"></td>
-                                    <td th:text="${#strings.length(dto['CUSTID']) <= 3 ? dto['CUSTID'] :
-                                    #strings.substring(dto['CUSTID'], 0, 3) + #strings.repeat('*', #strings.length(dto['CUSTID']) - 3)}"></td>
+                                    <td th:text="${#strings.substring(dto['CUSTID'], 0, 3) + '***'}"></td>
                                     <td th:text="${dto['NAME']}"></td>
                                     <td th:text="${dto['GENDER'] == 1 ? 'M' : 'F'}"></td>
                                     <td>
@@ -334,7 +333,7 @@
                                             <option value="family" th:selected="${dto['RATING'] == 'family'}">FAMILY</option>
                                         </select>
                                     </td>
-                                    <td th:text="${dto['BALANCE']}"></td>
+                                    <td th:text="${dto['BALANCE'] ?: 0}"></td>
                                     <td th:text="${#strings.substring(dto['EMAIL'], 0, #strings.indexOf(dto['EMAIL'], '@') + 1) + '...'}"></td>
                                     <td th:text="${#strings.substring(dto['HP'], 0 ,3) + '...'}"></td>
                                     <td th:text="${#dates.format(dto['Date'], 'yyyy-MM-dd HH:mm:ss')}"></td>

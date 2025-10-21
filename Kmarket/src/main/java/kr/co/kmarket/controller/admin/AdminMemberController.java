@@ -82,6 +82,7 @@ public class AdminMemberController {
     @GetMapping("/point")
     public String point(Model model, PageRequestDTO pageRequestDTO) {
         PageResponseDTO pageResponseDTO = adminPointService.selectAll(pageRequestDTO);
+        log.info("포인트 관리 = {}", pageResponseDTO);
         model.addAttribute("pageResponseDTO", pageResponseDTO);
 
         return "admin/member/admin_pointManagement";
