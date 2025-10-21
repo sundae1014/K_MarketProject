@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cupang::회사소개</title>
+    <link rel="icon" type="image/png" th:href="@{/images/member/favicon.png}">
+    <title>[[${basicData.title}]]-[[${basicData.sub_title}]]::회사소개 [[${appInfo.appVersion}]]</title>
     <link rel="stylesheet" th:href="@{/css/company/Company.css}">
     <script th:src="@{/js/main/top-btn.js}" defer></script>
     <script th:src="@{/js/company/header-active.js}" defer></script>
@@ -17,7 +18,7 @@
     <div class="header-layout">
         <div class="header-content">
             <a th:href="@{/company/index}">
-                <img th:src="@{/images/company/cupangIntro_logo(color).png}" alt="로고">
+                <img th:src="@{'/uploads/logo/' + ${basicData.header_logo_intro}}" alt="로고">
             </a>
 
             <div class="header-link">

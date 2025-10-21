@@ -5,122 +5,121 @@
     <title>교환신청</title>
 </head>
 <body>
-    <div th:fragment="modal">
-        <div class="modal fade modal-top" id="exchangeModal" tabindex="-1" aria-labelledby="exchangeModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exchangeModalLabel">교환신청</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="닫기"></button>
-                    </div>
-                    <div class="modal-body exchange-contents">
-                        <div class="content-1">
-                            <div class="content-top">
-                                <div class="content-title">
-                                    <span>상품정보</span>
-                                </div>
+<div th:fragment="modal">
+    <div class="modal fade modal-top" id="exchangeModal" tabindex="-1" aria-labelledby="exchangeModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exchangeModalLabel">교환신청</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="닫기"></button>
+                </div>
+                <div class="modal-body exchange-contents">
+                    <div class="content-1">
+                        <div class="content-top">
+                            <div class="content-title">
+                                <span>상품정보</span>
                             </div>
-                            <table class="exchange-prod-table">
+                        </div>
+                        <table class="exchange-prod-table">
+                            <tr>
+                                <th>날짜</th>
+                                <th></th>
+                                <th class="second-th">상품정보</th>
+                                <th>결제금액</th>
+                                <th>상태</th>
+                            </tr>
+                            <tr>
+                                <td><span id="exchange-modal-date"></span></td>
+                                <td>
+                                    <div class="prod-img">
+                                        <img id="exchange-modal-prod-img" src="" alt="상품사진">
+                                    </div>
+                                </td>
+                                <td class="second-td">
+                                    <div class="exchange-prod-info">
+                                        <p>주문번호 : <span id="exchange-modal-orderNumber"></span></p>
+                                        <p><span id="exchange-modal-manufacture"></span></p>
+                                        <p><span id="exchange-modal-prodName"></span></p>
+                                        <p>수량 : <span id="exchange-modal-piece"></span></p>
+                                        <h4><span id="exchange-modal-realPrice"></span></h4>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="pay-info">
+                                        <p class="flex-between">
+                                            판매가 <span id="exchange-modal-salePrice"></span> </p>
+                                        <p class="flex-between">
+                                            할인 <span id="exchange-modal-discount"></span> </p>
+                                        <p class="flex-between" style="font-weight: bold">
+                                            결제금액 <span id="exchange-modal-finalPrice"></span> </p>
+                                    </div>
+                                </td>
+                                <td><span id="exchange-modal-stat"></span></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="content-2">
+                        <div class="content-top">
+                            <div class="content-title">
+                                <span>교환정보 입력</span>
+                            </div>
+                        </div>
+                        <form id="exchangeForm" method="POST">
+                            <input type="hidden" id="exchangeFormOrderNumber" name="orderNumber" value="">
+
+                            <table class="exchange-info-table">
                                 <tr>
-                                    <th>날짜</th>
-                                    <th></th>
-                                    <th class="second-th">상품정보</th>
-                                    <th>결제금액</th>
-                                    <th>상태</th>
+                                    <th>교환유형</th>
+                                    <td>
+                                        <div class="exchange-types">
+                                            <div class="exchange-type">
+                                                <input type="radio" id="sizeChange" name="exchange" value="5" required>
+                                                <label for="sizeChange">사이즈 변경</label>
+                                            </div>
+                                            <div class="exchange-type">
+                                                <input type="radio" id="colorChange" name="exchange" value="6" required>
+                                                <label for="colorChange">색상 변경</label>
+                                            </div>
+                                            <div class="exchange-type">
+                                                <input type="radio" id="wrongDelivery" name="exchange" value="7" required>
+                                                <label for="wrongDelivery">오배송</label> </div>
+                                            <div class="exchange-type">
+                                                <input type="radio" id="etcExchange" name="exchange" value="8" required>
+                                                <label for="etcExchange">기타</label>
+                                            </div>
+                                        </div>
+                                    </td>
                                 </tr>
                                 <tr>
-                                    <td><span id="exchange-modal-date"></span></td>
+                                    <th>사유입력</th>
                                     <td>
-                                        <div class="prod-img">
-                                            <img id="exchange-modal-prod-img" src="" alt="상품사진">
-                                        </div>
+                                            <textarea name="exchange_reason" class="reason-textarea" rows="5"
+                                                      placeholder="교환 사유를 상세히 입력해주세요." required></textarea>
                                     </td>
-                                    <td class="second-td">
-                                        <div class="exchange-prod-info">
-                                            <p>주문번호 : <span id="exchange-modal-orderNumber"></span></p>
-                                            <p><span id="exchange-modal-manufacture"></span></p>
-                                            <p><span id="exchange-modal-prodName"></span></p>
-                                            <p>수량 : <span id="exchange-modal-piece"></span></p>
-                                            <h4><span id="exchange-modal-realPrice"></span></h4>
-                                        </div>
-                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>사진첨부(선택)</th>
                                     <td>
-                                        <div class="pay-info">
-                                            <p class="flex-between">
-                                                판매가 <span id="exchange-modal-salePrice"></span> </p>
-                                            <p class="flex-between">
-                                                할인 <span id="exchange-modal-discount"></span> </p>
-                                            <p class="flex-between" style="font-weight: bold">
-                                                결제금액 <span id="exchange-modal-finalPrice"></span> </p>
+                                        <div class="file-upload-section">
+                                            <button type="button" class="file-upload-btn" onclick="document.getElementById('photoUpload').click()">
+                                                파일선택
+                                            </button>
+                                            <input type="file" id="photoUpload" name="images" class="file-input" accept="image/*" multiple onchange="handleFileUpload(event, 'photo')">
                                         </div>
                                     </td>
-                                    <td><span id="exchange-modal-stat"></span></td>
                                 </tr>
                             </table>
-                        </div>
-                        <div class="content-2">
-                            <div class="content-top">
-                                <div class="content-title">
-                                    <span>교환정보 입력</span>
-                                </div>
+
+                            <div class="button-group">
+                                <button type="submit" class="btn-submit">교환신청</button>
+                                <button type="button" class="btn-cancel" data-bs-dismiss="modal">취소</button>
                             </div>
-                            <form id="exchangeForm" method="POST">
-                                <input type="hidden" id="exchangeFormOrderNumber" name="orderNumber" value="">
-
-                                <table class="exchange-info-table">
-                                    <tr>
-                                        <th>교환유형</th>
-                                        <td>
-                                            <div class="exchange-types">
-                                                <div class="exchange-type">
-                                                    <input type="radio" id="defect" name="exchange" value="R_CHANGE_MIND" required>
-                                                    <label for="defect">단순 교환</label>
-                                                </div>
-                                                <div class="exchange-type">
-                                                    <input type="radio" id="different" name="exchange" value="R_DAMAGED" required>
-                                                    <label for="different">파손 및 불량</label>
-                                                </div>
-                                                <div class="exchange-type">
-                                                    <input type="radio" id="damaged" name="exchange" value="R_DELIVERY_ERROR" required>
-                                                    <label for="damaged">주문 실수</label>
-                                                </div>
-                                                <div class="exchange-type">
-                                                    <input type="radio" id="other" name="exchange" value="R_OTHER" required>
-                                                    <label for="other">기타</label>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>사유입력</th>
-                                        <td>
-                                        <textarea name="exchange_reason" class="reason-textarea"
-                                                  placeholder="교환 사유를 상세히 입력해주세요." required></textarea>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>사진첨부(선택)</th>
-                                        <td>
-                                            <div class="file-upload-section">
-                                                <button type="button" class="file-upload-btn" onclick="document.getElementById('photoUpload').click()">
-                                                    파일선택
-                                                </button>
-                                                <input type="file" id="photoUpload" class="file-input" accept="image/*" multiple onchange="handleFileUpload(event, 'photo')">
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </table>
-
-                                <div class="button-group">
-                                    <button type="submit" class="btn-submit">교환신청</button>
-                                    <button type="button" class="btn-cancel" data-bs-dismiss="modal">취소</button>
-                                </div>
-                            </form>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 </body>
 </html>

@@ -3,72 +3,239 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>배너관리</title>
+    <link rel="icon" type="image/png" th:href="@{/images/member/favicon.png}">
+    <title>[[${basicData.title}]]-[[${basicData.sub_title}]]::관리자 환경설정 [[${appInfo.appVersion}]]</title>
     <link rel="stylesheet" th:href="@{/css/admin/main/header_footer.css}">
     <link rel="stylesheet" th:href="@{/css/admin/configuration/banner.css}">
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const banner_btns = document.querySelectorAll(".banner_select");
+        document.addEventListener("DOMContentLoaded", () => {
 
-            banner_btns.forEach(banner_btn => { //배너 버튼 기능
-                banner_btn.addEventListener("click", function() {
-                    banner_btns.forEach(banner => banner.classList.remove("active"));
-                    this.classList.add("active");
+            const bannerBox = document.getElementById("banner_box");
+            const bannerList = document.getElementById("banner_list");
+
+            /* =====================
+               배너 데이터 로딩
+            ===================== */
+            function loadBanners(location) {
+                fetch(`/kmarket/admin/config/banner/list?location=${location}`)
+                    .then(res => {
+                        const contentType = res.headers.get("content-type");
+                        if (!contentType || !contentType.includes("application/json")) {
+                            throw new Error("서버에서 JSON이 아닌 응답을 반환했습니다.");
+                        }
+                        return res.json();
+                    })
+                    .then(data => {
+                        bannerList.innerHTML = "";
+
+                        if (!data || data.length === 0) {
+                            const emptyMsg = document.createElement("tr");
+                            emptyMsg.innerHTML = `<td colspan="10" style="text-align:center;">표시할 배너가 없습니다.</td>`;
+                            bannerList.appendChild(emptyMsg);
+                            return;
+                        }
+
+                        data.forEach((banner, index) => {
+                            const tr = document.createElement("tr");
+
+
+                            tr.innerHTML = `
+                            <td><input type="checkbox" value="${banner.banner_no}"></td>
+                            <td>${index + 1}</td>
+                            <td><img src="/kmarket/uploads/banner/${banner.img}" alt="${banner.banner_name}" style="width:80px;height:80px;"></td>
+                            <td style="text-align: left;">
+                                <span>${banner.banner_name}</span><br>
+                                <span>크기: ${banner.banner_size}</span><br>
+                                <span>배경색: ${banner.background_color}</span><br>
+                                <a href="${banner.link}" class="banner_a">${banner.link}</a>
+                            </td>
+                            <td>${banner.location}</td>
+                            <td>${banner.start_date}</td>
+                            <td>${banner.end_date}</td>
+                            <td>${banner.start_time}</td>
+                            <td>${banner.end_time}</td>
+                            <td>
+                                <button class="status_btn" data-status="1" >[활성]</button><br>
+                                <button class="status_btn" data-status="0">[비활성]</button>
+                            </td>
+                        `;
+                            const activeBtn = tr.querySelector('button[data-status="1"]');
+                            const inactiveBtn = tr.querySelector('button[data-status="0"]');
+
+                            if(banner.banner_status === 1){
+                                activeBtn.style.color = "red";
+                                inactiveBtn.style.color = "gray";
+                            } else {
+                                activeBtn.style.color = "gray";
+                                inactiveBtn.style.color = "green";
+                            }
+
+                            bannerList.appendChild(tr);
+                        });
+                    })
+                    .catch(err => {
+                                console.error("배너 불러오기 오류:", err);
+                                alert("배너 데이터를 불러오는 중 문제가 발생했습니다.");
+                            });
+            }
+
+            // 초기 배너 로딩
+            const currentLocationInitial = document.querySelector("#banner_box .banner_select.active")?.textContent.trim() || "메인 상단 배너";
+            let initialLocation = "";
+            switch(currentLocationInitial){
+                case "메인 상단 배너": initialLocation = "main1"; break;
+                case "메인 슬라이더 배너": initialLocation = "main2"; break;
+                case "상품 상세 보기 배너": initialLocation = "product1"; break;
+                case "회원 로그인 배너": initialLocation = "member1"; break;
+                case "마이페이지 배너": initialLocation = "my1"; break;
+            }
+            loadBanners(initialLocation);
+
+            // 위치 선택 이벤트
+            bannerBox.addEventListener("click", (e) => {
+                if (e.target.classList.contains("banner_select")) {
+                    document.querySelectorAll(".banner_select").forEach(btn => btn.classList.remove("active"));
+                    e.target.classList.add("active");
+
+                    let location = "";
+                    switch (e.target.textContent.trim()) {
+                        case "메인 상단 배너": location = "main1"; break;
+                        case "메인 슬라이더 배너": location = "main2"; break;
+                        case "상품 상세 보기 배너": location = "product1"; break;
+                        case "회원 로그인 배너": location = "member1"; break;
+                        case "마이페이지 배너": location = "my1"; break;
+                    }
+
+                    loadBanners(location);
+                }
+            });
+
+            /* =====================
+               전체 선택 체크박스
+            ===================== */
+            const allSelect = document.querySelector(".all_select");
+            if (allSelect) {
+                allSelect.addEventListener("change", () => {
+                    const checkboxes = bannerList.querySelectorAll("input[type='checkbox']");
+                    checkboxes.forEach(cb => cb.checked = allSelect.checked);
                 });
-            });
+            }
 
-            const allSelect = document.querySelector(".all_select"); // 전체 선택 체크박스
-            const checkboxes = document.querySelectorAll("tbody input[type='checkbox']"); // 테이블 안 체크박스들
-
-            allSelect.addEventListener("change", function() {
-                checkboxes.forEach(cb => cb.checked = allSelect.checked);
-            });
-
-            /*모달 파트*/
+            /* =====================
+               모달 제어
+            ===================== */
             const modal = document.getElementById("myModal");
             const openBtn = document.querySelector(".banner_regist");
-            const closeBtn = modal.querySelector(".close");
-            const form = document.getElementById("bannerForm");
+            if(openBtn && modal) {
+                const closeBtn = modal.querySelector(".close");
+                const form = document.getElementById("bannerForm");
 
-            openBtn.addEventListener("click", () => {
-                modal.style.display = "block";
+                openBtn.addEventListener("click", () => modal.style.display = "block");
+                closeBtn.addEventListener("click", () => modal.style.display = "none");
+                window.addEventListener("click", (e) => {
+                    if (e.target === modal) modal.style.display = "none";
+                });
+                modal.querySelector(".modal-content").addEventListener("click", (e) => e.stopPropagation());
+
+                /* =====================
+                   배너 등록 (submit)
+                ===================== */
+                if(form){
+                    form.addEventListener("submit", (e) => {
+                        e.preventDefault();
+                        const formData = new FormData(form);
+                        fetch(form.action, { method: 'POST', body: formData })
+                            .then(res => {
+                                if (res.ok) {
+                                    alert("배너 등록 성공!");
+                                    location.reload();
+                                } else {
+                                    alert("등록 실패! 다른 파일을 올려주세요!");
+                                }
+                            })
+                            .catch(err => console.error("배너 등록 오류:", err));
+                    });
+                }
+            }
+
+            /* =====================
+               선택 삭제
+            ===================== */
+            const selectDeleteBtn = document.querySelector(".select_delete");
+            if (selectDeleteBtn) {
+                selectDeleteBtn.addEventListener("click", () => {
+                    const checkedBoxes = bannerList.querySelectorAll("input[type='checkbox']:checked");
+                    if (checkedBoxes.length === 0) {
+                        alert("삭제할 배너를 선택해주세요.");
+                        return;
+                    }
+
+                    if (!confirm("선택한 배너를 정말 삭제하시겠습니까?")) return;
+
+                    const bannerNos = Array.from(checkedBoxes).map(cb => cb.value);
+
+                    fetch('/kmarket/admin/config/banner/delete', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(bannerNos)
+                    })
+                        .then(res => {
+                            if (res.ok) {
+                                alert("배너가 삭제되었습니다.");
+                                location.reload();
+                            } else {
+                                alert("삭제 실패!");
+                            }
+                        })
+                        .catch(err => {
+                            console.error("배너 삭제 오류:", err);
+                            alert("삭제 중 오류가 발생했습니다.");
+                        });
+                });
+            }
+
+            /* =====================
+               상태 버튼 클릭
+            ===================== */
+            bannerList.addEventListener("click", (e) => {
+                if (e.target.classList.contains("status_btn")) {
+                    const row = e.target.closest("tr");
+                    const banner_no = row.querySelector("input[type='checkbox']").value;
+                    const banner_status = parseInt(e.target.dataset.status);
+
+                    fetch('/kmarket/admin/config/banner/status', {
+                        method: "POST",
+                        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                        body: `banner_no=${banner_no}&banner_status=${banner_status}`
+                    })
+                        .then(res => res.json())
+                        .then(data => {
+                            if(data.success) {
+                                alert("상태가 변경되었습니다.");
+
+                                const activeBtn = row.querySelector('button[data-status="1"]');
+                                const inactiveBtn = row.querySelector('button[data-status="0"]');
+                                if(banner_status === 1){
+                                    activeBtn.style.color = "red";
+                                    inactiveBtn.style.color = "gray";
+                                } else {
+                                    activeBtn.style.color = "gray";
+                                    inactiveBtn.style.color = "green";
+                                }
+
+                            } else {
+                                alert("상태 변경 실패!");
+                            }
+                        })
+                        .catch(err => console.error(err));
+                }
             });
 
-            closeBtn.addEventListener("click", () => modal.style.display = "none");
-            window.addEventListener("click", (e) => {
-                if (e.target === modal) modal.style.display = "none";
-            });
 
-            const modalContent = modal.querySelector(".modal-content");
-                modalContent.addEventListener("click", (e) => {
-                    e.stopPropagation(); // 클릭 이벤트가 부모로 전달되지 않도록 막음
-            });
 
-            form.addEventListener("submit", (e) => {
-                e.preventDefault();
-
-                const data = {
-                    banner_name: form.banner_name.value,
-                    banner_size: form.banner_size.value,
-                    background_color: form.background_color.value,
-                    banner_link: form.banner_link.value,
-                    banner_location: form.banner_location.value,
-                    start_date: form.start_date.value,
-                    end_date: form.end_date.value,
-                    start_time: form.start_time.value,
-                    end_time: form.end_time.value,
-                    banner_file: form.banner_file.value
-                };
-
-                console.log("폼 데이터: ", data);
-
-                alert("상점이 등록되었습니다!");
-
-                form.reset();
-                modal.style.display = "none";
-            });
         });
     </script>
+
     <script th:src="@{/js/admin/cs/recruit/sidebarAction.js}" defer></script>
     <link rel="stylesheet" th:href="@{/css/admin/main/sidebar.css}">
 </head>
@@ -77,7 +244,7 @@
         <div class="header-layout">
             <div class="header-content">
                 <a th:href="@{/admin}">
-                    <img th:src="@{/images/admin/main/cupangMS_logo(color).png}" alt="로고">
+                    <img th:src="@{'/uploads/logo/' + ${basicData.header_logo_admin}}" alt="로고">
                 </a>
 
                 <div class="header-link">
@@ -218,88 +385,9 @@
                                     <th>관리</th>
                                 </tr>                         
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td><input type="checkbox"></td>
-                                    <td>1</td>
-                                    <td><img th:src="@{/images/admin/configuration/cola.jpg}" alt="콜라" style="width:80px;height: 80px;"></td>
-                                    <td style="text-align: left;">
-                                        <span>배너명</span><br>
-                                        <span>크기: 1200 x 80</span><br>
-                                        <span>배경색: #ffff00</span><br>
-                                        <a href="#" class="banner_a">배너링크</a>
-                                    </td>
-                                    <td>MAIN1</td>
-                                    <td>2023/01/01</td>
-                                    <td>2023/01/07</td>
-                                    <td>13:00</td>
-                                    <td>15:00</td>
-                                    <td>
-                                        <button class="status_btn">[활성]</button><br>
-                                        <button class="status_btn">[비활성]</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><input type="checkbox"></td>
-                                    <td>2</td>
-                                    <td><img th:src="@{/images/admin/configuration/cola.jpg}" alt="콜라" style="width:80px;height: 80px;"></td>
-                                    <td style="text-align: left;">
-                                        <span>배너명</span><br>
-                                        <span>크기: 1200 x 80</span><br>
-                                        <span>배경색: #ffff00</span><br>
-                                        <a href="#" class="banner_a">배너링크</a>
-                                    </td>
-                                    <td>MAIN1</td>
-                                    <td>2023/01/01</td>
-                                    <td>2023/01/07</td>
-                                    <td>13:00</td>
-                                    <td>15:00</td>
-                                    <td>
-                                        <button class="status_btn">[활성]</button><br>
-                                        <button class="status_btn">[비활성]</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><input type="checkbox"></td>
-                                    <td>3</td>
-                                    <td><img th:src="@{/images/admin/configuration/cola.jpg}" alt="콜라" style="width:80px;height: 80px;"></td>
-                                    <td style="text-align: left;">
-                                        <span>배너명</span><br>
-                                        <span>크기: 1200 x 80</span><br>
-                                        <span>배경색: #ffff00</span><br>
-                                        <a href="#" class="banner_a">배너링크</a>
-                                    </td>
-                                    <td>MAIN1</td>
-                                    <td>2023/01/01</td>
-                                    <td>2023/01/07</td>
-                                    <td>13:00</td>
-                                    <td>15:00</td>
-                                    <td>
-                                        <button class="status_btn">[활성]</button><br>
-                                        <button class="status_btn">[비활성]</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><input type="checkbox"></td>
-                                    <td>4</td>
-                                    <td><img th:src="@{/images/admin/configuration/cola.jpg}" alt="콜라" style="width:80px;height: 80px;"></td>
-                                    <td style="text-align: left;">
-                                        <span>배너명</span><br>
-                                        <span>크기: 1200 x 80</span><br>
-                                        <span>배경색: #ffff00</span><br>
-                                        <a href="#" class="banner_a">배너링크</a>
-                                    </td>
-                                    <td>MAIN1</td>
-                                    <td>2023/01/01</td>
-                                    <td>2023/01/07</td>
-                                    <td>13:00</td>
-                                    <td>15:00</td>
-                                    <td>
-                                        <button class="status_btn">[활성]</button><br>
-                                        <button class="status_btn">[비활성]</button>
-                                    </td>
-                                </tr>
-                            </tbody>                  
+                            <tbody id="banner_list">
+
+                            </tbody>
                         </table>
                     </div>          
                 </div>
@@ -320,7 +408,7 @@
                     <span class="close">&times;</span>
                 </div>
 
-                <form action="#" method="post" id="bannerForm">
+                <form th:action="@{/admin/config/banner/register}" method="post" id="bannerForm" enctype="multipart/form-data">
                     <div class="form-body">
                         <div class="form_row">
                             <div class="form-label">배너이름</div>
@@ -336,15 +424,16 @@
                         </div>
                         <div class="form_row">
                             <div class="form-label">배너링크</div>
-                            <input type="text" name="banner_link" class="form-input" placeholder="배너링크입력">                           
+                            <input type="text" name="link" class="form-input" placeholder="배너링크입력">
                         </div>
                         <div class="form_row">
                             <div class="form-label">배너위치</div>
-                            <select name="banner_location" id="banner_location" class="form-input">
+                            <select id="locationSelect" name="location" class="form-input">
                                 <option>선택</option>
                                 <option value="main1">MAIN1</option>
                                 <option value="main2">MAIN2</option>
                                 <option value="product1">PRODUCT1</option>
+                                <option value="member1">MEMBER1</option>
                                 <option value="my1">MY1</option>
                             </select>
                         </div>
@@ -354,19 +443,18 @@
                                 <input type="date" name="start_date" class="form-input">&nbsp;~&nbsp;
                                 <input type="date" name="end_date" class="form-input">
                             </div>
-                            
                         </div>
                         <div class="form_row">
                             <div class="form-label">노출시간</div>
                             <div>
-                                <input type="time" name="start_time" class="form-input" style="width: 121px;">&nbsp;~&nbsp;
+                                <input type="time" name="start_time" class="form-input" style="width:121px;">&nbsp;~&nbsp;
                                 <input type="time" name="end_time" class="form-input">
                             </div>
                         </div>
                         <div class="form_row_last">
                             <div class="form-label">배너파일</div>
-                            <input type="file" name="banner_file" class="info_file">
-                            <span style="font-size:14px;margin-left: 10px;">노출 위치에 맞는 크기 권장</span>
+                            <input type="file" name="imgFile" class="info_file">
+                            <span style="font-size:14px;margin-left:10px;">노출 위치에 맞는 크기 권장</span>
                         </div>
                     </div>
                     <div style="text-align: center;">
@@ -379,35 +467,38 @@
     <footer>
         <div class="footer-layout">
             <div class="footer-content">
-                <img th:src="@{/images/admin/main/cupangMS_logo(color).png}" alt="로고">
+                <img th:src="@{'/uploads/logo/' + ${basicData.footer_logo_admin}}" alt="로고">
                 <div class="about-company">
-                    <h2>(주)큐팡</h2>
-                    <h2>대표이사 이름(db)</h2>
+                    <h2 th:inline="text">[[${basicData.trade_name}]]</h2>
+                    <h2 th:inline="text">대표이사 [[${basicData.ceo}]]</h2>
                     <h2>|</h2>
                     <h2>사업자등록번호</h2>
-                    <h2>123-132-1231232(db)</h2>
+                    <h2 th:inline="text">[[${basicData.business_num}]]</h2>
                     <h2>|</h2>
                     <h2>통신판매업신고</h2>
-                    <h2>2023-부산 해운대구-1232(db)</h2>
+                    <h2 th:inline="text">[[${basicData.communication_num}]]</h2>
                     <h2>|</h2>
-                    <h2>부산광역시 부산진구 중앙동(db)</h2>
-                    <h2>(삼성동, green빌딩) 7층(db)</h2>
+                    <h2 th:inline="text">[[${basicData.addr1}]]</h2>
+                    <h2 th:inline="text">[[${basicData.addr2}]]</h2>
                 </div>
                 <div class="about-company">
                     <h2>고객센터</h2>
                     <h2>|</h2>
-                    <h2>02-1234-1231</h2>
-                    <h2>평일 09:00 ~ 18:00(db)</h2>
+                    <h2 th:inline="text">[[${basicData.hp}]]</h2>
+                    <h2 th:inline="text">[[${basicData.work_time}]]</h2>
 
                     <h2>이메일</h2>
-                    <h2>abc@cupang(db)</h2>
+                    <h2 th:inline="text">[[${basicData.email}]]</h2>
 
                     <h2>전자금융거래 분쟁담당</h2>
-                    <h2>12321-12321(db)</h2>
+                    <h2 th:inline="text">[[${basicData.transaction}]]</h2>
                 </div>
-                <h2>Copyright@cupang.All.rights.reserved (db)</h2>
+                <h2 th:inline="text">[[${basicData.copyright}]]</h2>
+                <h2 th:inline="text">ver.[[${appInfo.appVersion}]]</h2>
             </div>
+
         </div>
+
     </footer>
 </body>
 </html>

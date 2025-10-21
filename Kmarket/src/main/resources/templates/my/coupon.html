@@ -12,6 +12,7 @@
                         </ul>
                     </div>
                 </div>
+
                 <div class="main-content">
                     <div class="banner-ad">
                         <img th:src="@{/images/my/banner_ad.jpg}" alt="광고사진">
@@ -24,7 +25,6 @@
                         </div>
                         <div>
                             <table>
-                                <thead>
                                 <tr>
                                     <th>쿠폰명</th>
                                     <th>할인금액</th>
@@ -32,25 +32,86 @@
                                     <th>상태</th>
                                     <th>유효기간</th>
                                 </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td>1만원 할인 쿠폰 쿠폰</td>
-                                    <td>10,000원</td>
-                                    <td>10,000원 이상 구매시</td>
-                                    <td>사용가능</td>
-                                    <td>~ 12/31</td>
+                                <tr th:each="coupon : ${coupons}">
+                                    <td th:text="${coupon.couponName}"></td>
+                                    <td th:text="${coupon.benefit}"></td>
+                                    <td th:text="${coupon.benefit2}"></td>
+                                    <td th:text="${coupon.status}"></td>
+                                    <td th:text="${coupon.issueDate}"></td>
                                 </tr>
-                                <tr>
-                                    <td>무료배송 쿠폰을 사용한 무료배송</td>
-                                    <td>5,000원</td>
-                                    <td>5,000원 이상 구매시</td>
-                                    <td>사용가능</td>
-                                    <td>~ 12/31</td>
-                                </tr>
-                                </tbody>
                             </table>
                         </div>
+
+                        <div class="pagination">
+                            <div class="prev">
+                                <!-- 검색 있을 때 -->
+                                <a th:if="${searchType != null and keyword != null and keyword != ''}"
+                                   th:href="@{/my/coupon/search(searchType=${searchType}, keyword=${keyword}, pg=1)}"
+                                   th:classappend="${CouponPage.pg == 1} ? ' disabled' : ''">
+                                    <img th:src="@{/images/company/btn-first-page.png}">
+                                </a>
+                                <a th:if="${searchType != null and keyword != null and keyword != ''}"
+                                   th:href="@{/my/coupon/search(searchType=${searchType}, keyword=${keyword}, pg=${CouponPage.pg - 1})}"
+                                   th:classappend="${CouponPage.pg == 1} ? ' disabled' : ''">
+                                    <img th:src="@{/images/company/btn-prev-page.png}">
+                                </a>
+
+                                <!-- 검색 없을 때 -->
+                                <a th:unless="${searchType != null and keyword != null and keyword != ''}"
+                                   th:href="@{/my/coupon(pg=1)}"
+                                   th:classappend="${CouponPage.pg == 1} ? ' disabled' : ''">
+                                    <img th:src="@{/images/company/btn-first-page.png}">
+                                </a>
+                                <a th:unless="${searchType != null and keyword != null and keyword != ''}"
+                                   th:href="@{/my/coupon(pg=${CouponPage.pg - 1})}"
+                                   th:classappend="${CouponPage.pg == 1} ? ' disabled' : ''">
+                                    <img th:src="@{/images/company/btn-prev-page.png}">
+                                </a>
+                            </div>
+
+                            <div class="pagenumber">
+                                <!-- 검색 있을 때 -->
+                                <a th:each="i : ${#numbers.sequence(CouponPage.start, CouponPage.end)}"
+                                   th:if="${searchType != null and keyword != null and keyword != ''}"
+                                   th:href="@{/my/coupon/search(searchType=${searchType}, keyword=${keyword}, pg=${i})}"
+                                   th:text="${i}"
+                                   th:classappend="${i == CouponPage.pg} ? ' active' : ''"></a>
+
+                                <!-- 검색 없을 때 -->
+                                <a th:each="i : ${#numbers.sequence(CouponPage.start, CouponPage.end)}"
+                                   th:unless="${searchType != null and keyword != null and keyword != ''}"
+                                   th:href="@{/my/coupon(pg=${i})}"
+                                   th:text="${i}"
+                                   th:classappend="${i == CouponPage.pg} ? ' active' : ''"></a>
+                            </div>
+
+                            <div class="last">
+                                <!-- 검색 있을 때 -->
+                                <a th:if="${searchType != null and keyword != null and keyword != ''}"
+                                   th:href="@{/my/coupon/search(searchType=${searchType}, keyword=${keyword}, pg=${CouponPage.pg + 1})}"
+                                   th:classappend="${CouponPage.pg == CouponPage.end} ? ' disabled' : ''">
+                                    <img th:src="@{/images/company/btn-next-page.png}">
+                                </a>
+                                <a th:if="${searchType != null and keyword != null and keyword != ''}"
+                                   th:href="@{/my/coupon/search(searchType=${searchType}, keyword=${keyword}, pg=${CouponPage.end})}"
+                                   th:classappend="${CouponPage.pg == CouponPage.end} ? ' disabled' : ''">
+                                    <img th:src="@{/images/company/btn-last-page.png}">
+                                </a>
+
+                                <!-- 검색 없을 때 -->
+                                <a th:unless="${searchType != null and keyword != null and keyword != ''}"
+                                   th:href="@{/my/coupon(pg=${CouponPage.pg + 1})}"
+                                   th:classappend="${CouponPage.pg == CouponPage.end} ? ' disabled' : ''">
+                                    <img th:src="@{/images/company/btn-next-page.png}">
+                                </a>
+                                <a th:unless="${searchType != null and keyword != null and keyword != ''}"
+                                   th:href="@{/my/coupon(pg=${CouponPage.end})}"
+                                   th:classappend="${CouponPage.pg == CouponPage.end} ? ' disabled' : ''">
+                                    <img th:src="@{/images/company/btn-last-page.png}">
+                                </a>
+                            </div>
+                        </div>
+
                         <div class="coupon-notice">
                             <ul>
                                 <li>쿠폰은 유효기간 내에만 사용 가능하며 기간이 지나면 자동 소멸됩니다.</li>
@@ -61,6 +122,8 @@
                                 <li>쿠폰은 현금으로 환불되지 않으며, 타인에게 양도할 수 없습니다.</li>
                             </ul>
                         </div>
+
+
                     </div>
                 </div>
             </div>

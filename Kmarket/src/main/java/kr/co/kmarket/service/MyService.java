@@ -1,10 +1,7 @@
 package kr.co.kmarket.service;
 
 import jakarta.transaction.Transactional;
-import kr.co.kmarket.dto.MemberDTO;
-import kr.co.kmarket.dto.OrderDTO;
-import kr.co.kmarket.dto.ProductReviewDTO;
-import kr.co.kmarket.dto.QnaDTO;
+import kr.co.kmarket.dto.*;
 import kr.co.kmarket.mapper.MyMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -40,7 +37,7 @@ public class MyService {
         return myMapper.countNotConfirmedOrders(custNumber);
     }
 
-    public OrderDTO getOrderDetailByCustomer(int custNumber, int orderNumber) {
+    public OrderDTO getOrderDetailByCustomer(int custNumber, String orderNumber) {
         return myMapper.selectOrderDetailByCustomer(custNumber, orderNumber);
     }
 
@@ -52,7 +49,7 @@ public class MyService {
         myMapper.insertQna(dto);
     }
 
-    public int updateOrderConfirmation(int orderNumber, int custNumber) {
+    public int updateOrderConfirmation(String orderNumber, int custNumber) {
 
         // 1. 현재 주문 정보(stat 포함)를 DB에서 조회
         OrderDTO order = myMapper.selectOrderStat1(orderNumber, custNumber);
@@ -67,7 +64,7 @@ public class MyService {
         return myMapper.updateOrderConfirmation(orderNumber, custNumber);
     }
 
-    public int updateOrderCancel(int orderNumber, int custNumber) {
+    public int updateOrderCancel(String orderNumber, int custNumber) {
         return myMapper.updateOrderCancel(orderNumber, custNumber);
     }
 
@@ -75,7 +72,7 @@ public class MyService {
     public void registerReview(ProductReviewDTO reviewDTO, List<MultipartFile> images) {
 
         Integer stat = myMapper.selectOrderStat(
-                reviewDTO.getOrderNumber(),
+                reviewDTO.getOrder_number(),
                 reviewDTO.getProd_number(),
                 reviewDTO.getCust_number()
         );
@@ -83,7 +80,7 @@ public class MyService {
         // STAT이 8이 아니거나, 주문 상품이 조회되지 않은 경우
         if (stat == null || stat != PURCHASE_CONFIRMED_CODE) { // 💡 상수 사용
             log.warn("리뷰 작성 실패: 주문 {} 상품 {} 상태가 구매 확정({})이 아님. 현재 상태: {}",
-                    reviewDTO.getOrderNumber(), reviewDTO.getProd_number(), PURCHASE_CONFIRMED_CODE, stat);
+                    reviewDTO.getOrder_number(), reviewDTO.getProd_number(), PURCHASE_CONFIRMED_CODE, stat);
             // IllegalStateException을 던져 Controller로 오류 전달
             throw new IllegalStateException("구매 확정된 상품에 대해서만 리뷰를 작성할 수 있습니다.");
         }
@@ -97,9 +94,6 @@ public class MyService {
         myMapper.insertReview(reviewDTO);
     }
 
-    /**
-     * 첨부 파일 저장 및 DTO에 파일명 설정 (최대 3개)
-     */
     private void processAndSetFileNames(ProductReviewDTO reviewDTO, List<MultipartFile> images) {
 
         String path = fileUploadPath + "/review/";
@@ -149,10 +143,106 @@ public class MyService {
     }
 
     public int orderReturn(OrderDTO orderDTO) {
+        OrderDTO stat = myMapper.selectOrderStat1(
+                orderDTO.getOrder_number(),
+                orderDTO.getCust_number()
+        );
+
+        if (stat == null || stat.getStat() != DELIVERY_COMPLETE_CODE) {
+            return 0;
+        }
+
         return myMapper.orderReturn(orderDTO);
     }
 
     public int orderExchange(OrderDTO orderDTO) {
+        OrderDTO stat = myMapper.selectOrderStat1(
+                orderDTO.getOrder_number(),
+                orderDTO.getCust_number()
+        );
+
+        if (stat == null || stat.getStat() != DELIVERY_COMPLETE_CODE) {
+            return 0;
+        }
+
         return myMapper.orderExchange(orderDTO);
     }
+
+    public int updateEmail(int custNumber, String email) {
+        return myMapper.updateEmail(custNumber, email);
+    }
+
+    public int updateHp(int custNumber, String hp) {
+        return myMapper.updateHp(custNumber, hp);
+    }
+
+    public int updateAddr(MemberDTO memberDTO) {
+        return myMapper.updateAddr(memberDTO);
+    }
+
+    public MemberDTO selectUserOptions(int custNumber) {
+        return myMapper.selectUserOptions(custNumber);
+    }
+
+    public MemberDTO selectUserInfo(int custNumber) {
+        return myMapper.selectUserInfo(custNumber);
+    }
+
+    public int selectQnaCountByUserId(String user_id) {
+        return myMapper.selectQnaCountByUserId(user_id);
+    }
+
+    public List<QnaDTO> selectQnaListPage(String user_id, int start, int limit) {
+        // start는 offset, limit은 size 역할을 합니다.
+        return myMapper.selectQnaListPage(user_id, start, limit);
+    }
+
+    public List<ProductReviewDTO> selectReviewsListPage(int custNumber, int start, int limit) {
+        return myMapper.selectReviewsListPage(custNumber, start, limit);
+    }
+
+    public int selectReviewCountByCustNumber(int custNumber) {
+        return myMapper.selectReviewCountByCustNumber(custNumber);
+    }
+
+    public int selectOrderCountByCustNumber(int custNumber) {
+        return myMapper.selectOrderCountByCustNumber(custNumber);
+    }
+
+    public List<OrderDTO> selectOrdersListPage(int custNumber, int start, int limit) {
+        return myMapper.selectOrdersListPage(custNumber, start, limit);
+    }
+
+    public int selectWaitingQna(int custNumber) {
+        return myMapper.selectWaitingQna(custNumber);
+    }
+
+    public List<CouponDTO> selectCouponsListPage(int cust_number, int start, int limit) {
+        return myMapper.selectCouponsListPage(cust_number, start, limit);
+    }
+
+    public int selectCouponCountByCustNumber(int cust_number) {
+        return myMapper.selectCouponCountByCustNumber(cust_number);
+    }
+
+    public int selectPointCountByCustNumber(int custNumber) {
+        return myMapper.selectPointCountByCustNumber(custNumber);
+    }
+
+    public List<PointDTO> selectPointsListPage(int custNumber, int start, int limit) {
+        return myMapper.selectPointsListPage(custNumber, start, limit);
+    }
+
+    public List<PointDTO> selectPoints(int custNumber){
+        return myMapper.selectPoints(custNumber);
+    }
+
+    public int selectAllPoints(int custNumber) {
+        return myMapper.selectAllPoints(custNumber);
+    }
+
+    public int selectCountCoupon() {
+        return myMapper.selectCountCoupon();
+    }
+
 }

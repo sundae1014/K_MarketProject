@@ -14,18 +14,26 @@ body {
     min-height: 100vh;
 }
 
+.content-section{
+    min-width: 878px;
+}
+
+.board {
+    width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: stretch;
+    gap: 30px;
+    min-height: 100vh;
+}
+
 main {
-    flex: 1;
+    display: flex;
+    align-items: stretch;
 }
 
 a:hover{
     cursor: pointer;
-}
-
-.content-wraper {
-    width: 100%;
-    margin: 0 auto;
-    padding: 0 15px;
 }
 
 .content-title {
@@ -91,6 +99,7 @@ a:hover{
     font-size: 12px;
     font-weight: 400;
     padding: 30px 20px;
+    text-align: center;
 }
 
 .btn-white{
@@ -108,62 +117,63 @@ a:hover{
     padding-top: 20px;
 }
 
-/*페이지네이션 부분*/
-.pagenation {
-    width: 100%;
-    height: 62px;
-    padding:0px;
-    margin: 30px auto 0 auto;
-    text-align: center;
-}
-.pagenation li {
-    border: 1px solid #DEDEDE;
-    display: inline-block;
-    list-style: none;
-    width: 32px;
-    height: 32px;
-}
-.pagenation .page1 {
-    background-color: #1A528E;
-
-    color: white;
-    display: block;
-    width: 100%;
-    height: 100%;
-    text-align: center;
-    text-decoration: none;
-}
-.pagenation .page2, .pagenation .page3 {
-    color: #888888;
-    display: block;
-    width: 100%;
-    height: 100%;
-    text-align: center;
-    text-decoration: none;
-}
-.pagenation li a {
-    display: block;
-    width: 100%;
-    height: 100%;
-    text-align: center;
-}
-.pagenation li a span {
-    background-size: contain;
-    background-repeat: no-repeat;
-    display:inline-block;
-    width: 10px;
-    height: 10px;
-}
-.pagenation .first {
-    background-image: url('../../../images/admin/order/btn-first-page.png');
-}
-.pagenation .prev {
-    background-image: url('../../../images/admin/order/btn-prev-page.png');
-}
-.pagenation .next {
-    background-image: url('../../../images/admin/order/btn-next-page.png');
-}
-.pagenation .last {
-    background-image: url('../../../images/admin/order/btn-last-page.png');
+.pagination{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    margin-top: 50px;
+    gap:24px;
 }
 
+.pagination > .prev,
+.pagination > .pagenumber,
+.pagination > .last{
+    display:flex;
+    align-items:center;
+    gap:4px;
+}
+
+
+.pagination .pagenumber a{
+    display:inline-flex;
+    justify-content:center;
+    align-items:center;
+    width:32px;
+    height:29px;
+    color:#666;
+    text-decoration:none;
+    box-sizing:border-box;
+    line-height:1;
+    font-weight: 350;
+    font-size: 15px;
+}
+
+
+.pagination .pagenumber a.active{
+    color:#436CFF;
+}
+
+.pagination .prev a,
+.pagination .last a{
+    display:inline-flex;
+    justify-content:center;
+    align-items:center;
+    width:32px;
+    height:32px;
+}
+.pagination a.paging img{
+    display:block;
+    max-width:18px;
+    max-height:18px;
+}
+
+.disabled {
+    opacity: 0;
+    pointer-events: none;   /* 클릭 금지 */
+    cursor: default;
+}
+
+.status-complete {
+    color: #4CAF50 !important;
+    font-weight: bold !important;
+}

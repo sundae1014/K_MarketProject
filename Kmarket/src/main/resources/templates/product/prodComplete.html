@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Cupang::주문완료(5조)</title>
+    <title>Cupang::주문완료 (5조)</title>
     <link rel="stylesheet" th:href="@{/css/product/style_header.css}">
     <link rel="stylesheet" th:href="@{/css/product/style_footer.css}">
     <link rel="stylesheet" th:href="@{/css/product/style_index.css}">
@@ -10,12 +10,25 @@
     <link rel="stylesheet" th:href="@{/css/product/style_prodComplete.css}">
 
     <!-- 유저별 권한 기능 -->
-    <script th:src="@{/js/product/user-menu.js}" defer></script>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        let userType = /*[[${session.member != null ? (session.member.auth == 9 ? 'admin' : 'user') : 'guest'}]]*/ "guest";
+        let userName = /*[[${session.member != null ? session.member.name : ''}]]*/ "";
+        /*]]>*/
+    </script>
+    <script th:src="@{/js/main/user-menu.js}" defer></script>
+
     <!-- 헤더 상단 공용 검색 기능 -->
     <script th:src="@{/js/product/header-search.js}" defer></script>
     <!-- 상품 리스트 내부 검색 + 정렬 기능 -->
     <script th:src="@{/js/product/search.js}" defer></script>
     <!-- 전체 카테고리 구현 기능 -->
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        const CATEGORY_DATA = /*[[${categories}]]*/ {};
+        console.log(CATEGORY_DATA);
+        /*]]>*/
+    </script>
     <script th:src="@{/js/product/category.js}" defer></script>
     <!-- 베스트상품 온앤오프 & 스크롤 기능 -->
     <script th:src="@{/js/product/best.js}" defer></script>
@@ -67,10 +80,10 @@
                     <!-- 좌측: 주문 상세 -->
                     <div class="order-list">
 
-                        <!-- 주문 완료 메시지 -->
+                        <!-- 완료 메시지 -->
                         <div class="complete-message">
                             <h2>주문이 정상적으로 완료되었습니다.</h2>
-                            <p>주문번호: <strong>202510021234</strong></p>
+                            <p>주문번호: <strong th:text="${order.order_number}"></strong></p>
                         </div>
 
                         <!-- 배송지 정보 -->
@@ -78,19 +91,19 @@
                             <div class="section-header">
                                 <h3>배송지 정보</h3>
                             </div>
-
                             <div class="delivery-info">
                                 <div class="form-row">
                                     <label>이름</label>
-                                    <input type="text" value="정순권" readonly>
+                                    <input type="text" th:value="${order.name}" readonly>
                                 </div>
                                 <div class="form-row">
                                     <label>연락처</label>
-                                    <input type="text" value="010-1234-5678" readonly>
+                                    <input type="text" th:value="${order.hp}" readonly>
                                 </div>
                                 <div class="form-row">
                                     <label>주소</label>
-                                    <input type="text" value="부산광역시 해운대구 센텀중앙로" readonly>
+                                    <input type="text"
+                                           th:value="${order.addr} + ' ' + ${order.addr2}" readonly>
                                 </div>
                             </div>
                         </div>
@@ -100,40 +113,52 @@
                             <div class="section-header">
                                 <h3>포인트 혜택</h3>
                             </div>
-                            <p>총 적립 예정 포인트 <strong>720</strong>원</p>
+                            <p>
+                                총 적립 예정 포인트
+                                <strong th:text="${#numbers.formatInteger(order.price * 0.01, 3, 'COMMA')}"></strong>원
+                            </p>
                         </div>
                     </div>
 
-                    <!-- 상품 & 결제 요약 -->
+                    <!-- 우측: 상품 및 결제 요약 -->
                     <aside class="order-summary">
                         <h3>최종 주문정보</h3>
 
-                        <div class="product-info">
-                            <img th:src="@{/images/Hit-product_1.png}" alt="상품" class="product-thumb">
+                        <!-- ✅ 주문 상품 목록 -->
+                        <div th:each="item : ${details}" class="product-info">
+                            <img th:src="@{${item.img1}}" alt="상품" class="product-thumb">
                             <div class="product-detail">
-                                <p class="product-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
-                                <p class="product-option">1세트</p>
-                                <strong class="sale" id="basePrice">35,590</strong>원
+                                <p class="product-name" th:text="${item.prod_name}"></p>
+                                <p class="product-option" th:text="${item.manufacture}"></p>
+                                <strong class="sale"
+                                        th:text="${#numbers.formatInteger(item.salePrice, 3, 'COMMA')}"></strong>원
                             </div>
                         </div>
 
+                        <!-- ✅ 결제 상세 -->
                         <h3>결제상세</h3>
                         <div class="final-product-info">
                             <ul>
-                                <li><span>상품수</span><span><strong>1</strong></span></li>
-                                <li><span>상품금액</span><span><strong>35,590</strong>원</span></li>
-                                <li><span>할인금액</span><span><strong>-5,000</strong>원</span></li>
-                                <li><span>배송비</span><span><strong>+0</strong>원</span></li>
-                                <li><span>적립 포인트</span><span><strong>720</strong>원</span></li>
+                                <li><span>상품수</span><span><strong th:text="${details.size()}"></strong></span></li>
+                                <li><span>상품금액</span><span><strong
+                                        th:text="${#numbers.formatInteger(order.price,3,'COMMA')}"></strong>원</span></li>
+                                <li><span>할인금액</span><span><strong
+                                        th:text="'-' + ${#numbers.formatInteger(order.discount,3,'COMMA')}"></strong>원</span></li>
+                                <li><span>배송비</span><span><strong
+                                        th:text="'+' + ${#numbers.formatInteger(order.delivery != null ? order.delivery : 0,3,'COMMA')}"></strong>원</span></li>
+                                <li><span>적립 포인트</span><span><strong
+                                        th:text="${#numbers.formatInteger(order.price * 0.01, 3, 'COMMA')}"></strong>원</span></li>
                             </ul>
-                            <p class="order-total"><strong>30,590</strong>원</p>
+                            <p class="order-total">
+                                <strong th:text="${#numbers.formatInteger(order.price - (order.discount != null ? order.discount : 0),3,'COMMA')}"></strong>원
+                            </p>
                         </div>
                     </aside>
 
                     <!-- 버튼 -->
                     <div class="final-complete-btn">
                         <a th:href="@{/}" class="btn-home">홈으로</a>
-                        <a href="#" class="btn-order">주문내역 확인</a>
+                        <a th:href="@{/my/orderList}" class="btn-order">주문내역 확인</a>
                     </div>
                 </div>
             </section>

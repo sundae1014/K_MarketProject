@@ -2,7 +2,8 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>공지사항 수정</title>
+    <link rel="icon" type="image/png" th:href="@{/images/member/favicon.png}">
+    <title>[[${basicData.title}]]-[[${basicData.sub_title}]]::관리자 자주묻는 질문 수정 [[${appInfo.appVersion}]]</title>
     <link rel="stylesheet" th:href="@{/css/admin/main/header_footer.css}">
     <link rel="stylesheet" th:href="@{/css/admin/cs/faq/faqModify.css}">
     <script th:src="@{/js/admin/cs/recruit/sidebarAction.js}" defer></script>
@@ -18,7 +19,7 @@
 
             const category_box = { // 카테고리
                 "회원": ["가입", "탈퇴", "회원정보", "로그인"],
-                "쿠폰 / 이벤트": ["쿠폰 / 할인혜택", "포인트", "제휴", "이벤트"],
+                "쿠폰 / 혜택 / 이벤트": ["쿠폰 / 할인혜택", "포인트", "제휴", "이벤트"],
                 "주문 / 결제": ["상품", "결제", "구매내역", "영수증 / 증빙"],
                 "배송": ["배송상태 / 기간", "배송정보확인 / 변경", "해외배송", "당일배송", "해외직구"],
                 "취소 / 반품 / 교환": ["반품신청 / 철회", "반품정보확인 / 변경", "교환 AS신청 / 철회", "교환정보확인 / 변경", "취소신청 / 철회", "취소확인 / 환불정보"],
@@ -196,14 +197,14 @@
           <table>
               <tbody>
               <!-- 유형 박스 1차/2차 선택 한 줄 -->
-              <tr>
+              <tr class="tr_line">
                   <th>유형</th>
                   <td>
                       <div class="select-row">
                           <select name="type1" id="category1">
                               <option>1차 선택</option>
                               <option value="회원" th:selected="${faqDTO.type1 == '회원'}">회원</option>
-                              <option value="쿠폰 / 이벤트" th:selected="${faqDTO.type1 == '쿠폰 / 이벤트'}">쿠폰 / 이벤트</option>
+                              <option value="쿠폰 / 혜택 / 이벤트" th:selected="${faqDTO.type1 == '쿠폰 / 혜택 / 이벤트'}">쿠폰 / 이벤트</option>
                               <option value="주문 / 결제" th:selected="${faqDTO.type1 == '주문 / 결제'}">주문 / 결제</option>
                               <option value="배송" th:selected="${faqDTO.type1 == '배송'}">배송</option>
                               <option value="취소 / 반품 / 교환" th:selected="${faqDTO.type1 == '취소 / 반품 / 교환'}">취소 / 반품 / 교환</option>
@@ -216,14 +217,14 @@
                   </td>
               </tr>
               <!-- 제목 입력 -->
-              <tr>
+              <tr class="tr_line">
                   <th>제목</th>
                   <td>
                       <input type="text" name="title" class="input-box" th:value="${faqDTO.title}">
                   </td>
               </tr>
               <!-- 내용 입력 -->
-              <tr>
+              <tr class="tr_line">
                   <th>내용</th>
                   <td>
                       <textarea class="input-box" name="content" th:text="${faqDTO.content}"></textarea>

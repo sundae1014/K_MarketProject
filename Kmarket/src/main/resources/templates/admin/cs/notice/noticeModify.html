@@ -2,10 +2,10 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <title>공지사항 수정</title>
+    <link rel="icon" type="image/png" th:href="@{/images/member/favicon.png}">
+    <title>[[${basicData.title}]]-[[${basicData.sub_title}]]::관리자 공지사항 수정 [[${appInfo.appVersion}]]</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
       margin: 0;
       background-color: #f5f5f5;
     }
@@ -377,49 +377,45 @@ html, body {
       </div>
     </div>
 
-    <table>
-      <tbody>
-        <!-- 유형 박스 하드코딩, 박스 형태 유지 -->
-        <tr>
-          <th>유형</th>
-          <td>
-              <select name="notice_type" id="notice_type">
-                  <option>유형선택</option>
-                  <option value="고객서비스">고객서비스</option>
-                  <option value="안전거래">안전거래</option>
-                  <option value="위해상품">위해상품</option>
-                  <option value="이벤트 당첨">이벤트 당첨</option>
-              </select>
-          </td>
-        </tr>
-        <!-- 제목 입력 가능 -->
-        <tr>
-          <th>제목</th>
-          <td>
-            <input type="text" class="input-box" value="제목을 입력하세요">
-          </td>
-        </tr>
-        <!-- 내용 입력 가능 -->
-        <tr>
-          <th>내용</th>
-          <td>
-            <textarea class="input-box">
-공지사항 내용을 입력하세요.
+      <form th:action="@{/admin/cs/notice/modify}" method="post">
+          <input type="hidden" name="id" th:value="${noticeDTO.id}">
+          <table>
+              <tbody>
+              <!-- 유형 박스 하드코딩, 박스 형태 유지 -->
+              <tr>
+                  <th>유형</th>
+                  <td>
+                      <select name="notice_type" id="notice_type">
+                          <option>유형선택</option>
+                          <option value="고객서비스" th:selected="${noticeDTO.notice_type == '고객서비스'}">고객서비스</option>
+                          <option value="안전거래" th:selected="${noticeDTO.notice_type == '안전거래'}">안전거래</option>
+                          <option value="위해상품" th:selected="${noticeDTO.notice_type == '위해상품'}">위해상품</option>
+                          <option value="이벤트 당첨" th:selected="${noticeDTO.notice_type == '이벤트 당첨'}">이벤트 당첨</option>
+                      </select>
+                  </td>
+              </tr>
+              <!-- 제목 입력 가능 -->
+              <tr>
+                  <th>제목</th>
+                  <td>
+                      <input type="text" name="title" class="input-box" th:value="${noticeDTO.title}">
+                  </td>
+              </tr>
+              <!-- 내용 입력 가능 -->
+              <tr>
+                  <th>내용</th>
+                  <td>
+                      <textarea class="input-box" name="content" th:text="${noticeDTO.content}"></textarea>
+                  </td>
+              </tr>
+              </tbody>
+          </table>
 
-한줄 띄어쓰기
-
-
-두줄띄어쓰기
-            </textarea>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-
-    <div class="bottom-bar">
-      <button class="btn2" th:onclick="|location.href='@{/admin/cs/notice/list}'|">취소하기</button>
-      <button class="btn">등록하기</button>
-    </div>
+          <div class="bottom-bar">
+              <button type="button" class="btn2" th:onclick="|location.href='@{/admin/cs/notice/list}'|">취소하기</button>
+              <button type="submit" class="btn">등록하기</button>
+          </div>
+      </form>
   </div>
 </div>
 <footer>

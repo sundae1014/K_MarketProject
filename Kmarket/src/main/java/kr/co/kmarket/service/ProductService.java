@@ -25,7 +25,7 @@ public interface ProductService {
     List<ProductReviewDTO> selectProductReviews(int prodNo);
 
     // 상품 옵션 조회
-    List<ProductOptionDTO> selectProductOptions(int prod_number);
+    List<ProductOptionDTO> selectOptionsByProduct(int prod_number);
 
     // 평균 리뷰 점수
     double selectAvgRating(int prod_number);

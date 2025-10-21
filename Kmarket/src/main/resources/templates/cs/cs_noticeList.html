@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>공지사항 목록</title>
+    <link rel="icon" type="image/png" th:href="@{/images/member/favicon.png}">
+    <title>[[${basicData.title}]]-[[${basicData.sub_title}]]::공지사항 목록 [[${appInfo.appVersion}]]</title>
     <link rel="stylesheet" th:href="@{/css/cs/cs_noticeList.css}">
     <script> 
         document.addEventListener('DOMContentLoaded', () => { // 네비게이션 포커싱
@@ -12,11 +13,32 @@
             if("전체" === nt_h3.innerText) {
                 nav[0].style.color = "black";
                 nav[0].style.textDecoration = "underline";
+            } else if ("고객서비스" === nt_h3.innerText) {
+                nav[1].style.color = "black";
+                nav[1].style.textDecoration = "underline";
+            } else if ("안전거래" === nt_h3.innerText) {
+                nav[2].style.color = "black";
+                nav[2].style.textDecoration = "underline";
+            } else if ("위해상품" === nt_h3.innerText) {
+                nav[3].style.color = "black";
+                nav[3].style.textDecoration = "underline";
+            } else if ("이벤트 당첨" === nt_h3.innerText) {
+                nav[4].style.color = "black";
+                nav[4].style.textDecoration = "underline";
             }
         });
     </script>
+    <!-- 유저별 권한 기능 -->
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        let userType = /*[[${session.member != null ? (session.member.auth == 9 ? 'admin' : 'user') : 'guest'}]]*/ "guest";
+        let userName = /*[[${session.member != null ? session.member.name : ''}]]*/ "";
+        /*]]>*/
+    </script>
     <!-- 로그인/로그아웃/관리자 메뉴 기능 -->
     <script th:src="@{/js/main/user-menu.js}" defer></script>
+    <!-- 헤더 바로가기 기능 -->
+    <script th:src="@{/js/main/header-actions.js}" defer></script>
 </head>
 <body>
     <!-- Header -->
@@ -45,7 +67,7 @@
         </div>
 
         <!-- 검색창 전체 + 인풋박스 + 검색 버튼 -->
-        <div class="brand-row sub-container">
+        <div class="brand-row container">
             <a th:href="@{/}" class="logo" aria-label="큐팡 홈">
                 <img th:src="@{/images/main/cupang_logo(color).png}" alt="큐팡 로고" class="logo-img">
             </a>
@@ -62,7 +84,7 @@
                     </svg>
                     <span>찜</span>
                 </a>
-                <a href="#" class="quick-action" aria-label="마이페이지">
+                <a th:href="@{/my/home}" class="quick-action" aria-label="마이페이지">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2"
                          stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-round-icon lucide-user-round">
                         <circle cx="12" cy="8" r="5"/>
@@ -70,7 +92,7 @@
                     </svg>
                     <span>마이페이지</span>
                 </a>
-                <a href="#" class="quick-action" aria-label="장바구니">
+                <a th:href="@{/product/cart}" class="quick-action" id="header-cart" aria-label="장바구니">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2"
                          stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shopping-cart-icon lucide-shopping-cart">
                         <circle cx="8" cy="21" r="1"/>
@@ -95,56 +117,60 @@
                     <h3 style="display:inline;">공지사항</h3>
 
                     <ul id="navList">
-                        <li><a href="#" class="navList_a">전체</a></li>
-                        <li><a href="#" class="navList_a">고객서비스</a></li>
-                        <li><a href="#" class="navList_a">안전거래</a></li>
-                        <li><a href="#" class="navList_a">위해상품</a></li>
-                        <li><a href="#" class="navList_a">이벤트 당첨</a></li>
+                        <li><a th:href="@{/cs/notice/list}" class="navList_a">전체</a></li>
+                        <li><a th:href="@{/cs/notice/list/csService}" class="navList_a">고객서비스</a></li>
+                        <li><a th:href="@{/cs/notice/list/safeTrade}" class="navList_a">안전거래</a></li>
+                        <li><a th:href="@{/cs/notice/list/dangerProduct}" class="navList_a">위해상품</a></li>
+                        <li><a th:href="@{/cs/notice/list/event}" class="navList_a">이벤트 당첨</a></li>
                     </ul>
                 </div>
-                <div id="notice_all" style="width:900px;height:800px;">
+                <div id="notice_all" style="width:900px;">
                     <div id="notice_title">
-                        <h3 id="notice_title_h3">전체</h3>
-                        <span>공지사항 전체 내용 입니다.</span>
+                        <h3 id="notice_title_h3">[[${typeName}]]</h3>
+                        <span>공지사항 [[${typeName}]] 내용 입니다.</span>
                     </div>
                     <div style="border:1px solid black; float:right;width:814px;"></div>
                     <div id="notice_list">
                         <ul style="margin:0px;">
-                            <li><a href="#"><span class="text_title">[안내] &nbsp;해외 결제 사칭 문자주의</span><span class="text_date">00.00.00</span></a></li>
-                            <li><a href="#"><span class="text_title">[발표] 『G.Live X SK 스토어 (하남쭈꾸미)』 이벤트 당첨자</span><span class="text_date">00.00.00</span></a></li>
-                            <li><a href="#"><span class="text_title">[안내] &nbsp;로젠택배 반품 / 교환수 거 지시지 연안 내</span><span class="text_date">00.00.00</span></a></li>
-                            <li><a href="#"><span class="text_title">[주의] &nbsp;SNS 기반 해외직구 사기사이트 피해 주의 안내</span><span class="text_date">00.00.00</span></a></li>
-                            <li><a href="#"><span class="text_title">[발표] 『해외여행 – 괌사이판 모두투어 라이브』 이벤트 당첨자</span><span class="text_date">00.00.00</span></a></li>
-                            <li><a href="#"><span class="text_title">[주의] &nbsp;관세청, 화약식 타정총 등 위해물품 반입금지 안내</span><span class="text_date">00.00.00</span></a></li>
-                            <li><a href="#"><span class="text_title">[발표] 『닌텐도 스위치2 추첨 예약판매』 이벤트 당첨자</span><span class="text_date">00.00.00</span></a></li>
-                            <li><a href="#"><span class="text_title">[안내] &nbsp;위치정보이용약관 개정 공지</span><span class="text_date">00.00.00</span></a></li>
-                            <li><a href="#"><span class="text_title">[안내] &nbsp;구매 회원 이용약관 개정</span><span class="text_date">00.00.00</span></a></li>
-                            <li><a href="#"><span class="text_title">[안내] &nbsp;씨티은행 시스템 점검에 따른 계좌, 체크카드 결제 서비스 일시 중단</span><span class="text_date">00.00.00</span></a></li>
+                            <li th:each="notice, stat:${pageResponseDTO.dtoList}">
+                                <input type="hidden" name="id" th:value="${notice.id}">
+                                <a th:href="@{/cs/notice/view(id=${notice.id}, notice_type=${notice.notice_type})}">
+                                    <span class="text_title">[[${notice.title}]]</span>
+                                    <span th:text="${#temporals.format(notice.reg_date, 'yy.MM.dd')}" class="text_date">00.00.00</span>
+                                </a>
+                            </li>
                         </ul> 
                     </div>
 
                     <ul class="pagenation">
-                        <li><a href="#"><span class="first"></span></a></li>
-                        <li><a href="#"><span class="prev"></span></a></li>
-                        <li><a href="#" class="active2">1</a></li>
-                        <li><a href="#" class="pageNum">2</a></li>
-                        <li><a href="#" class="pageNum">3</a></li>
-                        <li><a href="#"><span class="next"></span></a></li>
-                        <li><a href="#"><span class="last"></span></a></li>
+                        <li>
+                            <a th:if="${pageResponseDTO.prev}"
+                               th:href="@{/cs/notice/list(pg=${pageResponseDTO.start - 1})}">
+                            <span class="prev"></span>
+                            </a>
+                        </li>
+                        <th:block th:if="${pageResponseDTO.total > 0}" th:each="num:${#numbers.sequence(pageResponseDTO.start, pageResponseDTO.end)}">
+                            <li><a th:href="@{/cs/notice/list (pg=${num})}" th:class="${num == pageResponseDTO.pg ? 'active2' : 'pageNum'}">[[${num}]]</a>
+                        </th:block>
+                        <li><a th:if="${pageResponseDTO.next}"
+                               th:href="@{/cs/notice/list(pg=${pageResponseDTO.end + 1})}">
+                            <span class="next"></span>
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>
         </div>
     </main>
     <!-- Footer -->
-    <footer class="footer">
+    <footer th:fragment="footerFragment" class="footer">
         <div class="footer-bar">
-            <div class="footer-links sub-container">
+            <div class="footer-links container">
                 <ul>
-                    <li><a href="#">회사소개</a></li>
-                    <li><a href="#">서비스이용약관</a></li>
-                    <li><a href="#">개인정보처리방침</a></li>
-                    <li><a href="#">전자금융거래약관</a></li>
+                    <li><a th:href="@{/company/index}">회사소개</a></li>
+                    <li><a th:href="@{/policy/buyer}">서비스이용약관</a></li>
+                    <li><a th:href="@{/policy/privacy}">개인정보처리방침</a></li>
+                    <li><a th:href="@{/policy/finance}">전자금융거래약관</a></li>
                 </ul>
             </div>
         </div>
@@ -156,27 +182,32 @@
             </div>
 
             <div class="footer-col">
-                <p><strong>(주)큐팡 | 대표: 김철학</strong></p>
-                <p>부산광역시 해운대구 달맞이길 30 시그니엘 부산</p>
-                <p>사업자등록번호: 202-50-70702</p>
-                <p>통신판매업 신고번호: 제2025-부산광역시-0707호</p>
+                <p th:inline="text"><strong>[[${basicData.trade_name}]] | 대표: [[${basicData.ceo}]]</strong></p>
+                <p th:inline="text">[[${basicData.addr1}]][[${basicData.addr2}]]</p>
+                <p th:inline="text">사업자등록번호: [[${basicData.business_num}]]</p>
+                <p th:inline="text">통신판매업 신고번호: [[${basicData.communication_num}]]</p>
                 <p>본 작업물은 웹개발 프로젝트 포트폴리오용 입니다</p>
             </div>
 
             <div class="footer-col">
-                <p class="footer-ce"><strong>365고객센터</strong> | 전자금융거래분쟁처리담당</p>
-                <p class="footer-ph">1577-0912 (유료)</p>
+                <p class="footer-ce" th:inline="text"><strong>365고객센터</strong> | 전자금융거래분쟁처리담당</p>
+                <p class="footer-ph" th:inline="text">[[${basicData.transaction}]] (유료)</p>
                 <p>개인정보보호책임자: 정순권</p>
-                <p>Fax: 051-123-4567 | Email: cup25@cupang.com</p>
+                <p th:inline="text">문의: [[${basicData.hp}]] | [[${basicData.work_time}]]</p>
+                <p th:inline="text">Fax: 051-123-4567 | Email: [[${basicData.email}]]</p>
+
             </div>
         </div>
 
         <div class="footer-sub">
-            <p class="sub-title">호스팅서비스 사업자: (주)큐팡</p>
+            <p class="sub-title" th:inline="text">호스팅서비스 사업자: [[${basicData.trade_name}]]</p>
             <p class="sub-text">㈜큐팡은 CUPANG.COM 실시간 항공권, 실시간 렌터카 서비스의 통신판매중개자로서 거래 당사자가 아니며,
                 입점 판매사가 등록한 상품 정보 및 거래에 대해 책임을 지지 않습니다.<br>
                 ㈜큐팡 사이트의 상품/판매자/쇼핑정보, 컨텐츠, UI 등에 대한 무단 복제, 전송, 배포, 스크래핑 등의 행위는
-                저작권법, 콘텐츠사업 진흥법 등에 의하여 엄격히 금지됩니다.</p>
+                저작권법, 콘텐츠사업 진흥법 등에 의하여 엄격히 금지됩니다.
+            </p>
+            <p class="sub-text" th:inline="text">[[${basicData.copyright}]]</p>
+            <span style="color: #9F9F9F;font-size: 15px;">[[${appInfo.appName}]] ver.[[${appInfo.appVersion}]]</span> <!-- 임시로 만든거 -->
         </div>
     </footer>
 </body>

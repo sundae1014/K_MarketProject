@@ -1,262 +1,259 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<title>쿠폰 목록</title>
-<style>
-  body { font-family: Arial, sans-serif; margin: 0; background-color: #f5f5f5; }
-  .container { display: flex; padding-left: 20px; height: 800px; }
-/*///////////////헤더 푸터 삽입 시 공백 제거///////////////////*/
-html, body {
-    margin: 0;
-    padding: 0;
-}
+    <meta charset="UTF-8">
+    <title>쿠폰 목록</title>
+    <style>
+        body { margin: 0; background-color: #f5f5f5; }
+        .container { display: flex; padding-left: 20px; height: 800px; }
+        /*///////////////헤더 푸터 삽입 시 공백 제거///////////////////*/
+        html, body {
+            margin: 0;
+            padding: 0;
+        }
 
-/*////////////////////// header영역 //////////////////////*/
+        /*////////////////////// header영역 //////////////////////*/
 
-.header-layout{
-    height: 60px;
-    margin: 0 auto;
-    width: 100%;
-    box-sizing: border-box;
-    background-color: #325a83;
-    display: flex;
-    vertical-align: middle;
-    align-items: center;
-    justify-content: center;
-}
+        .header-layout{
+            height: 60px;
+            margin: 0 auto;
+            width: 100%;
+            box-sizing: border-box;
+            background-color: #325a83;
+            display: flex;
+            vertical-align: middle;
+            align-items: center;
+            justify-content: center;
+        }
 
-.header-content{
-    width: 80%;
-    display: flex;
-    justify-content: space-between;
-    display: flex;
-    align-items: center;
-}
-.header-content img{
-    width: 200px;
-    display: block;
-}
+        .header-content{
+            width: 80%;
+            display: flex;
+            justify-content: space-between;
+            display: flex;
+            align-items: center;
+        }
+        .header-content img{
+            width: 200px;
+            display: block;
+        }
 
-.header-link{
-    display: flex;
-    gap: 25px;
-    vertical-align: middle;
-    align-items: center;
-}
-.header-link p{
-    margin: 0;
-}
+        .header-link{
+            display: flex;
+            gap: 25px;
+            vertical-align: middle;
+            align-items: center;
+        }
+        .header-link p{
+            margin: 0;
+        }
 
-.header-link a,
-.header-link button{
-    text-decoration: none;
-    color: white;
-    font-weight: 500;
-    font-size: 10px;
-}
+        .header-link a,
+        .header-link button{
+            text-decoration: none;
+            color: white;
+            font-weight: 500;
+            font-size: 10px;
+        }
 
-.header-item a{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    color: white;
+        .header-item a{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: white;
 
-}
-.header-link button{
-    border: none;
-    outline: none;
-    background-color: #91a9ce;
-    padding: 5px 15px 5px 15px;
-    cursor: pointer;
-
-
-}
-/*////////////////////// footer영역 //////////////////////*/
-.footer-layout{
-    height: 110px;
-    margin: 0 auto;
-    width: 100%;
-    background-color: #325a83;
-}
+        }
+        .header-link button{
+            border: none;
+            outline: none;
+            background-color: #91a9ce;
+            padding: 5px 15px 5px 15px;
+            cursor: pointer;
 
 
-.footer-content{
-    width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    padding-top: 15px;
-    text-align: center;
-    gap: 2px;
-}
-.footer-content img{
-    width: 150px;
-    display: block;
-    margin: 0 auto;
-}
-.about-company{
-    display: flex;
-    justify-content: center;
-}
-.footer-content h2{
-    font-size: 12px;
-    color: #333;
-    font-weight: 400;
-    margin: 0 2px;
-}
-.footer-content a{
-    color: black;
-    font-size: 13px;
-}
-
-  /* 사이드바 */
-
-/*///////////////////사이드 바///////////////////*/
-.sidebar {
-    width: 200px;
-    display: flex;
-    flex-direction: column;
-    background-color: #e0e0e0;
-
-}
-
-.sidebar a {
-    text-decoration: none;
-}
+        }
+        /*////////////////////// footer영역 //////////////////////*/
+        .footer-layout{
+            height: 110px;
+            margin: 0 auto;
+            width: 100%;
+            background-color: #325a83;
+        }
 
 
-.side-item {
-    border-bottom: 1px solid #ccc;
-}
-.main-menu p {
-    color: black;
-    font-size: 15px;
-    cursor: pointer;
-    margin: 0;
+        .footer-content{
+            width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            padding-top: 15px;
+            text-align: center;
+            gap: 2px;
+        }
+        .footer-content img{
+            width: 150px;
+            display: block;
+            margin: 0 auto;
+        }
+        .about-company{
+            display: flex;
+            justify-content: center;
+        }
+        .footer-content h2{
+            font-size: 12px;
+            color: #333;
+            font-weight: 400;
+            margin: 0 2px;
+        }
+        .footer-content a{
+            color: black;
+            font-size: 13px;
+        }
 
-}
+          /* 사이드바 */
 
-.main-menu{
-    display: flex;
-    width: 100%;
-    padding: 10px;
-    box-sizing: border-box;
-    display: flex;
-    align-items: center;
-}
-.sub-menu{
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    display: none;
-}
+        /*///////////////////사이드 바///////////////////*/
+        .sidebar {
+            width: 200px;
+            display: flex;
+            flex-direction: column;
+            background-color: #e0e0e0;
 
-.sub-menu.active {
-    display: flex;
-}
-.sub-menu a{
-    color: black;
-    font-size: 14px;
-}
+        }
 
-.sub-menu ul,
-.sub-menu li {
-    margin: 0;
-    list-style-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10"  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/></svg>');
-}
-
-.main-menu svg{
-    width: 17px;
-    height: 17px;
-    margin-right: 10px;
-}
-
-.side-item .main-menu:hover{
-    background-color: #ccc;
-}
-
-.side-item.active .main-menu {
-    background-color: #666;
-}
-
-.side-item.active .main-menu,
-.side-item.active .main-menu p{
-    color: white;
-    font-weight: 500;
-}
-
-.sub-menu a.active {
-    font-weight: bold;
-}
+        .sidebar a {
+            text-decoration: none;
+        }
 
 
-  .content { flex: 1; padding: 20px; background-color: #fff; }
-  .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px solid #000; padding-bottom: 10px; }
-  .header-top h1 { font-size: 20px; margin: 0; }
-  .breadcrumb { font-size: 14px; }
-  .breadcrumb a { text-decoration: none; color: #007bff; }
-  .breadcrumb span { color: #555; }
-  .breadcrumb a:hover { text-decoration: underline; }
+        .side-item {
+            border-bottom: 1px solid #ccc;
+        }
+        .main-menu p {
+            color: black;
+            font-size: 15px;
+            cursor: pointer;
+            margin: 0;
 
-  /* 검색바 */
-  .search-bar { margin-bottom: 10px; display: flex; gap: 5px; align-items: center; }
-  .search-bar select, .search-bar input, .search-bar button { padding: 5px; }
+        }
 
-  table { width: 100%; border-collapse: collapse; font-size: 14px; }
-  th, td { border: 1px solid #ddd; padding: 10px; text-align: center; }
-  th { background-color: #f0f0f0; }
+        .main-menu{
+            display: flex;
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            display: flex;
+            align-items: center;
+        }
+        .sub-menu{
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            display: none;
+        }
 
-  .status.active { color: #2ecc71; font-weight: bold; }
-  .status.expired { color: #888; }
+        .sub-menu.active {
+            display: flex;
+        }
+        .sub-menu a{
+            color: black;
+            font-size: 14px;
+        }
 
-  .bottom-bar { margin-top: 15px; display: flex; justify-content: space-between; align-items: center; }
-  .pagination { flex: 1; text-align: center; }
-  .pagination a { margin: 0 5px; text-decoration: none; color: #000; }
-  .btn { padding: 6px 12px; background-color: #3693c2; color: white; border: none; cursor: pointer; }
-  .btn:hover { background-color: #2980b9; }
-  td a { color: #007bff; text-decoration: none; cursor: pointer; }
-  td a:hover { text-decoration: underline; }
+        .sub-menu ul,
+        .sub-menu li {
+            margin: 0;
+            list-style-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10"  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/></svg>');
+        }
 
-  /* 팝업 공통 */
-  .popup-overlay {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.5); display: none; justify-content: center; align-items: center; z-index: 1000;
-  }
-  .popup { background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
-  .popup-header { background: #333; color: #fff; padding: 12px 16px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; }
-  .popup-header span#couponId { font-weight: normal; margin-left: 0; }
-  .popup-header .close-btn { cursor: pointer; font-weight: bold; }
-  .popup-content { padding: 24px; font-size: 15px; }
-  .popup-content table { width: 100%; border-collapse: collapse; }
-  .popup-content th, .popup-content td { text-align: left; padding: 10px 0; border: none; }
-  .popup-content tr { border-bottom: 1px solid #ddd; }
-  .popup-footer { text-align: center; padding: 12px; }
-  .popup-footer button { background: #4CAF50; color: #fff; border: none; padding: 8px 20px; border-radius: 4px; cursor: pointer; }
-  .popup-footer button:hover { background: #45a049; }
+        .main-menu svg{
+            width: 17px;
+            height: 17px;
+            margin-right: 10px;
+        }
 
-  /* 각 팝업 크기 */
-  #detailPopup .popup { width: 800px; }
-  #registerPopup .popup { width: 800px; }
+        .side-item .main-menu:hover{
+            background-color: #ccc;
+        }
 
-  /* 혜택 라디오 버튼 정렬: 5개씩 */
-  #registerPopup td {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-  }
-  #registerPopup td label {
-    width: calc(20% - 12px); /* 한 줄에 5개 */
-    display: flex;
-    align-items: center;
-  }
-  #registerPopup input[type="radio"] {
-    margin-right: 6px;
-  }
-</style>
-</head>
-<body>
+        .side-item.active .main-menu {
+            background-color: #666;
+        }
 
+        .side-item.active .main-menu,
+        .side-item.active .main-menu p{
+            color: white;
+            font-weight: 500;
+        }
+
+        .sub-menu a.active {
+            font-weight: bold;
+        }
+
+
+          .content { flex: 1; padding: 20px; background-color: #fff; }
+          .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px solid #000; padding-bottom: 10px; }
+          .header-top h1 { font-size: 20px; margin: 0; }
+          .breadcrumb { font-size: 14px; }
+          .breadcrumb a { text-decoration: none; color: #007bff; }
+          .breadcrumb span { color: #555; }
+          .breadcrumb a:hover { text-decoration: underline; }
+
+          /* 검색바 */
+          .search-bar { margin-bottom: 10px; display: flex; gap: 5px; align-items: center; }
+          .search-bar select, .search-bar input, .search-bar button { padding: 5px; }
+
+          table { width: 100%; border-collapse: collapse; font-size: 14px; }
+          th, td { border: 1px solid #ddd; padding: 10px; text-align: center; }
+          th { background-color: #f0f0f0; }
+
+          .status.active { color: #2ecc71; font-weight: bold; }
+          .status.expired { color: #888; }
+
+          .bottom-bar { margin-top: 15px; display: flex; justify-content: space-between; align-items: center; }
+          .pagination { flex: 1; text-align: center; }
+          .pagination a { margin: 0 5px; text-decoration: none; color: #000; }
+          .btn { padding: 6px 12px; background-color: #3693c2; color: white; border: none; cursor: pointer; }
+          .btn:hover { background-color: #2980b9; }
+          td a { color: #007bff; text-decoration: none; cursor: pointer; }
+          td a:hover { text-decoration: underline; }
+
+          /* 팝업 공통 */
+          .popup-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5); display: none; justify-content: center; align-items: center; z-index: 1000;
+          }
+          .popup { background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+          .popup-header { background: #333; color: #fff; padding: 12px 16px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; }
+          .popup-header span#couponId { font-weight: normal; margin-left: 0; }
+          .popup-header .close-btn { cursor: pointer; font-weight: bold; }
+          .popup-content { padding: 24px; font-size: 15px; }
+          .popup-content table { width: 100%; border-collapse: collapse; }
+          .popup-content th, .popup-content td { text-align: left; padding: 10px 0; border: none; }
+          .popup-content tr { border-bottom: 1px solid #ddd; }
+          .popup-footer { text-align: center; padding: 12px; }
+          .popup-footer button { background: #4CAF50; color: #fff; border: none; padding: 8px 20px; border-radius: 4px; cursor: pointer; }
+          .popup-footer button:hover { background: #45a049; }
+
+          /* 각 팝업 크기 */
+          #detailPopup .popup { width: 800px; }
+          #registerPopup .popup { width: 800px; }
+
+          /* 혜택 라디오 버튼 정렬: 5개씩 */
+          #registerPopup td {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+          }
+          #registerPopup td label {
+            width: calc(20% - 12px); /* 한 줄에 5개 */
+            display: flex;
+            align-items: center;
+          }
+          #registerPopup input[type="radio"] {
+            margin-right: 6px;
+          }
+    </style>
     <link rel="stylesheet" th:href="@{/css/admin/main/header_footer.css}">
 
     <!-- 사이드바 동작 js 및 css -->
@@ -275,10 +272,9 @@ html, body {
     <!-- 개인 필요 및 작업 css, js -->
     <link rel="stylesheet" th:href="@{/css/admin/cs/recruit/Recruit.css}">
     <script th:src="@{/js/admin/cs/recruit/checkboxAction.js}" defer></script>
-    <script th:src="@{/js/admin/cs/recruit/sidebarAction.js}" defer></script>
+</head>
 
 <body>
-
 <header>
     <div class="header-layout">
         <div class="header-content">

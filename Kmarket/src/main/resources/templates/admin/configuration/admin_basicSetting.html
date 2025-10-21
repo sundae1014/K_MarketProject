@@ -3,33 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>기본설정</title>
+    <link rel="icon" type="image/png" th:href="@{/images/member/favicon.png}">
+    <title>[[${basicData.title}]]-[[${basicData.sub_title}]]::관리자 환경설정 [[${appInfo.appVersion}]]</title>
     <link rel="stylesheet" th:href="@{/css/admin/main/header_footer.css}">
     <link rel="stylesheet" th:href="@{/css/admin/configuration/basicSetting.css}">
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            let optionCount = 3;
-
-            function addRow() {
-                optionCount++;
-
-                const option_box = document.querySelector(".option_box");
-                const newDiv = document.createElement("div");
-                newDiv.className = "line_row";
-                newDiv.innerHTML = `
-                    <div class="option_title">옵션${optionCount}</div>
-                    <input type="text" name="option${optionCount}" class="option_content">
-                    <div class="option_title" style="margin-left: 20px;">옵션${optionCount} 항목</div>
-                    <input type="text" name="option${optionCount}_detail" class="option_content">
-                `;
-                option_box.appendChild(newDiv);
-            }
-
-            document.querySelector(".option_pls").addEventListener("click", function() {
-                addRow();
-            });
-        });
-    </script>
     <script th:src="@{/js/admin/cs/recruit/sidebarAction.js}" defer></script>
     <link rel="stylesheet" th:href="@{/css/admin/main/sidebar.css}">
 </head>
@@ -38,7 +15,7 @@
         <div class="header-layout">
             <div class="header-content">
                 <a th:href="@{/admin}">
-                    <img th:src="@{/images/admin/main/cupangMS_logo(color).png}" alt="로고">
+                    <img th:src="@{'/uploads/logo/' + ${basicData.header_logo_admin}}" alt="로고">
                 </a>
 
                 <div class="header-link">
@@ -159,7 +136,7 @@
                     <div id="site_version">
                         <div class="line_row_last">
                             <div class="version_title">사이트 버전</div>
-                            <span style="margin-left: 10px;">1.0.1-RELEASE</span>
+                            <span style="margin-left: 10px;" th:inline="text">[[${appInfo.appVersion}]]</span>
                         </div>
                     </div>   
                 </div>
@@ -170,15 +147,15 @@
                         <p class="title_p">브라우저 탭, 헤더 및 푸터 노출 정보 입니다.</p>
                     </div>
                         
-                    <form action="">
+                    <form th:action="@{/admin/config/basic/update}" method="post">
                     <div class="site_info_input">
                         <div class="line_row">
                             <div class="setting_title">제목</div>
-                            <input type="text" name="title" class="input_setting" value="케이마켓">
+                            <input type="text" name="title" class="input_setting" th:value="${basicData.title}">
                         </div>
                         <div class="line_row_last">
                             <div class="setting_title">부제</div>
-                            <input type="text" name="sub_title" class="input_setting" value="더 나은 쇼핑 위한 선택">
+                            <input type="text" name="sub_title" class="input_setting" th:value="${basicData.sub_title}">
                         </div>
                     </div>
                     <div style="display: flex; justify-content: flex-end;">
@@ -193,23 +170,43 @@
                         <p class="title_p">브라우저 탭, 헤더 및 푸터 노출 로고 입니다.</p>
                     </div>
 
-                    <form action="">
+                    <form th:action="@{/admin/config/basic/update}" method="post" enctype="multipart/form-data">
                         <div class="logo_box">
+                            <h4>헤더 로고</h4>
                             <div class="line_row">
-                                <div class="setting_title">헤더 로고</div>
-                                <input type="file" name="image1" class="info_file"><span class="file_span">크기 370 x 76 권장</span><br>
+                                <div class="setting_title">메인</div>
+                                <input type="file" name="header_logoFile1" class="info_file"><span class="file_span">크기 370 x 76 권장</span><br>
                             </div>
                             <div class="line_row">
-                                <div class="setting_title">푸터 로고</div>
-                                <input type="file" name="image2" class="info_file"><span class="file_span">크기 155 x 36 권장</span><br>
+                                <div class="setting_title">회사소개</div>
+                                <input type="file" name="header_logoFile2" class="info_file"><span class="file_span">크기 370 x 76 권장</span><br>
                             </div>
+                            <div class="line_row">
+                                <div class="setting_title">관리자</div>
+                                <input type="file" name="header_logoFile3" class="info_file"><span class="file_span">크기 370 x 76 권장</span><br>
+                            </div>
+                            <br/>
+                            <h4>푸터 로고</h4>
+                            <div class="line_row">
+                                <div class="setting_title">메인</div>
+                                <input type="file" name="footer_logoFile1" class="info_file"><span class="file_span">크기 155 x 36 권장</span><br>
+                            </div>
+                            <div class="line_row">
+                                <div class="setting_title">회사소개</div>
+                                <input type="file" name="footer_logoFile2" class="info_file"><span class="file_span">크기 155 x 36 권장</span><br>
+                            </div>
+                            <div class="line_row">
+                                <div class="setting_title">관리자</div>
+                                <input type="file" name="footer_logoFile3" class="info_file"><span class="file_span">크기 155 x 36 권장</span><br>
+                            </div>
+                            <br/>
                             <div class="line_row">
                                 <div class="setting_title">파비콘</div>
-                                <input type="file" name="image3" class="info_file"><span class="file_span">크기 32 x 32 권장</span><br>
-                            </div>    
+                                <input type="file" name="favicon_File" class="info_file"><span class="file_span">크기 32 x 32 권장</span><br>
+                            </div>
                         </div>
                         <div style="display: flex; justify-content: flex-end;">
-                            <input type="button" value="수정하기" class="modify_btn">
+                            <input type="submit" value="수정하기" class="modify_btn">
                         </div>
                     </form>
                 </div>
@@ -220,31 +217,31 @@
                         <p class="title_p">푸터에 노출되는 기업 정보 입니다.</p>
                     </div>
 
-                    <form action="">
+                    <form th:action="@{/admin/config/basic/update}" method="post">
                         <div class="company_info_input">
                             <div class="line_row">
                                 <div class="setting_title">상호명</div>
-                                <input type="text" name="trade_name" class="setting_info_content" value="케이 마켓 쇼핑 주식회사">
+                                <input type="text" name="trade_name" class="setting_info_content" th:value="${basicData.trade_name}">
                             </div>
                             <div class="line_row">
                                 <div class="setting_title">대표이사</div>
-                                <input type="text" name="ceo" class="setting_info_content" value="홍길동">
+                                <input type="text" name="ceo" class="setting_info_content" th:value="${basicData.ceo}">
                             </div>
                             <div class="line_row">
                                 <div class="setting_title">사업자등록번호</div>
-                                <input type="text" name="business_num" class="setting_info_content" value="123-12-12345">
+                                <input type="text" name="business_num" class="setting_info_content" th:value="${basicData.business_num}">
                             </div>
                             <div class="line_row">
                                 <div class="setting_title">통신판매업신고</div>
-                                <input type="text" name="communication_num" class="setting_info_content" value="2024-서울강남-1234">    
+                                <input type="text" name="communication_num" class="setting_info_content" th:value="${basicData.communication_num}">
                             </div>
                             <div class="line_row">
                                 <div class="setting_title">기본주소</div>
-                                <input type="text" name="addr1" class="setting_info_content2" value="부산광역시 부산진구 중앙동">
+                                <input type="text" name="addr1" class="setting_info_content2" th:value="${basicData.addr1}">
                             </div>
                             <div class="line_row">
                                 <div class="setting_title">상세주소</div>
-                                <input type="text" name="addr2" class="setting_info_content2" value="(삼성동, WeWork 빌딩) 7층">
+                                <input type="text" name="addr2" class="setting_info_content2" th:value="${basicData.addr2}">
                             </div>
                         </div>
                         <div style="display: flex; justify-content: flex-end;">
@@ -258,24 +255,24 @@
                         <h4>고객센터 정보</h4>
                         <p class="title_p">푸터에 노출되는 고객센터 정보 입니다.</p>
                     </div>
-                        
-                    <form action="">
+
+                    <form th:action="@{/admin/config/basic/update}" method="post">
                         <div class="site_info_input">
                             <div class="line_row">
                                 <div class="customerCenter_title">전화번호</div>
-                                <input type="text" name="hp" class="input_setting" value="02-1234-5678">
+                                <input type="text" name="hp" class="input_setting" th:value="${basicData.hp}">
                             </div>
                             <div class="line_row">
                                 <div class="customerCenter_title">업무시간</div>
-                                <input type="text" name="work_time" class="input_setting" value="평일 09:00 ~ 18:00">
+                                <input type="text" name="work_time" class="input_setting" th:value="${basicData.work_time}">
                             </div>
                             <div class="line_row">
                                 <div class="customerCenter_title">이메일</div>
-                                <input type="text" name="email" class="input_setting" value="admin@kmarket.com">
+                                <input type="text" name="email" class="input_setting" th:value="${basicData.email}">
                             </div>
                             <div class="line_row_last">
                                 <div class="customerCenter_title">전자금융거래 분쟁담당</div>
-                                <input type="text" name="transaction" class="input_setting" value="1234-1234">
+                                <input type="text" name="transaction" class="input_setting" th:value="${basicData.transaction}">
                             </div>
                         </div>
                         <div style="display: flex; justify-content: flex-end;">
@@ -289,12 +286,12 @@
                         <h4>카피라이트</h4>
                         <p class="title_p">푸터에 노출되는 카피라이트 정보 입니다.</p>
                     </div>
-                        
-                    <form action="">
+
+                    <form th:action="@{/admin/config/basic/update}" method="post">
                         <div class="site_info_input">
                             <div class="line_row_last">
                                 <div class="customerCenter_title">카피라이트</div>
-                                <input type="text" name="copyright" class="setting_info_content2" value="Copyright@Kmarket. All rights reserved.">
+                                <input type="text" name="copyright" class="setting_info_content2" th:value="${basicData.copyright}">
                             </div>
                         </div>
                         <div style="display: flex; justify-content: flex-end;">
@@ -308,35 +305,38 @@
     <footer>
         <div class="footer-layout">
             <div class="footer-content">
-                <img th:src="@{/images/admin/main/cupangMS_logo(color).png}" alt="로고">
+                <img th:src="@{'/uploads/logo/' + ${basicData.footer_logo_admin}}" alt="로고">
                 <div class="about-company">
-                    <h2>(주)큐팡</h2>
-                    <h2>대표이사 이름(db)</h2>
+                    <h2 th:inline="text">[[${basicData.trade_name}]]</h2>
+                    <h2 th:inline="text">대표이사 [[${basicData.ceo}]]</h2>
                     <h2>|</h2>
                     <h2>사업자등록번호</h2>
-                    <h2>123-132-1231232(db)</h2>
+                    <h2 th:inline="text">[[${basicData.business_num}]]</h2>
                     <h2>|</h2>
                     <h2>통신판매업신고</h2>
-                    <h2>2023-부산 해운대구-1232(db)</h2>
+                    <h2 th:inline="text">[[${basicData.communication_num}]]</h2>
                     <h2>|</h2>
-                    <h2>부산광역시 부산진구 중앙동(db)</h2>
-                    <h2>(삼성동, green빌딩) 7층(db)</h2>
+                    <h2 th:inline="text">[[${basicData.addr1}]]</h2>
+                    <h2 th:inline="text">[[${basicData.addr2}]]</h2>
                 </div>
                 <div class="about-company">
                     <h2>고객센터</h2>
                     <h2>|</h2>
-                    <h2>02-1234-1231</h2>
-                    <h2>평일 09:00 ~ 18:00(db)</h2>
+                    <h2 th:inline="text">[[${basicData.hp}]]</h2>
+                    <h2 th:inline="text">[[${basicData.work_time}]]</h2>
 
                     <h2>이메일</h2>
-                    <h2>abc@cupang(db)</h2>
+                    <h2 th:inline="text">[[${basicData.email}]]</h2>
 
                     <h2>전자금융거래 분쟁담당</h2>
-                    <h2>12321-12321(db)</h2>
+                    <h2 th:inline="text">[[${basicData.transaction}]]</h2>
                 </div>
-                <h2>Copyright@cupang.All.rights.reserved (db)</h2>
+                <h2 th:inline="text">[[${basicData.copyright}]]</h2>
+                <h2 th:inline="text">ver.[[${appInfo.appVersion}]]</h2>
             </div>
+
         </div>
+
     </footer>
 </body>
 </html>

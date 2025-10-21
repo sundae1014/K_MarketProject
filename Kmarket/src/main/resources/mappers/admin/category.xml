@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.kmarket.mapper.admin.CategoryMapper">
+    <select id="selectAllCate" resultType="kr.co.kmarket.dto.CategoryDTO">
+        SELECT *
+        FROM category
+        ORDER BY
+        CASE WHEN up_cate_cd IS NULL THEN cate_order ELSE 0 END,
+        NVL(up_cate_cd, cate_cd),
+        cate_order
+    </select>
+    <select id="selectMaxCateCd" resultType="String">
+        select max(cate_cd) from category
+        where up_cate_cd is null
+        and cate_cd like #{cate_cd} || '%'
+    </select>
+    <select id="selectMaxSubCateCd" resultType="String">
+        select max(cate_cd) from category where up_cate_cd = #{up_cate_cd}
+    </select>
+    <select id="getNextCateCd" parameterType="string" resultType="string">
+        <choose>
+            <when test="up_cate_cd == null">
+                SELECT 'C' || LPAD(NVL(MAX(TO_NUMBER(SUBSTR(cate_cd,2,2))),0)+1,2,'0') || '00'
+                FROM category
+                WHERE up_cate_cd IS NULL
+            </when>
+            <otherwise>
+                SELECT #{up_cate_cd} || LPAD(NVL(MAX(TO_NUMBER(SUBSTR(cate_cd,4,2))),0)+1,2,'0')
+                FROM category
+                WHERE up_cate_cd = #{up_cate_cd}
+            </otherwise>
+        </choose>
+    </select>
+    <insert id="insertCate" parameterType="kr.co.kmarket.dto.CategoryDTO">
+        insert into category (cate_cd, up_cate_cd, cate_name, cate_order)
+        values (
+        #{cate_cd},
+        #{up_cate_cd,jdbcType=VARCHAR},
+        #{cate_name,jdbcType=VARCHAR},
+        <choose>
+            <when test="up_cate_cd == null">
+                (SELECT NVL(MAX(cate_order),0)+1 FROM category WHERE up_cate_cd IS NULL)
+            </when>
+            <otherwise>
+                (SELECT NVL(MAX(cate_order),0)+1 FROM category WHERE up_cate_cd = #{up_cate_cd})
+            </otherwise>
+        </choose>
+        )
+    </insert>
+    <update id="updateCate">
+        update category
+        set cate_name = #{cate_name},
+        up_cate_cd = #{up_cate_cd}
+        where cate_cd = #{cate_cd}
+    </update>
+    <!-- 상위 카테고리인지 확인 -->
+    <select id="isTopCategory" parameterType="string" resultType="int">
+        SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END
+        FROM category
+        WHERE cate_cd = #{cate_cd} AND up_cate_cd IS NULL
+    </select>
+    <!-- 1차 카테고리 삭제 시 2차도 삭제 -->
+    <delete id="deleteSubCategories" parameterType="string">
+        DELETE FROM category
+        WHERE up_cate_cd = #{up_cate_cd}
+    </delete>
+
+    <!-- 카테고리 단일 삭제 -->
+    <delete id="deleteCategory" parameterType="string">
+        DELETE FROM category
+        WHERE cate_cd = #{cate_cd}
+    </delete>
+
+    <update id="reorderTopCategories">
+        MERGE INTO category c
+        USING (
+        SELECT cate_cd, ROW_NUMBER() OVER (ORDER BY cate_order) AS new_order
+        FROM category
+        WHERE up_cate_cd IS NULL
+        ) t
+        ON (c.cate_cd = t.cate_cd)
+        WHEN MATCHED THEN
+        UPDATE SET c.cate_order = t.new_order
+    </update>
+
+    <!-- 2차 카테 순서 재배치 -->
+    <update id="reorderSubCategories">
+        MERGE INTO category c
+        USING (
+        SELECT cate_cd, ROW_NUMBER() OVER (PARTITION BY up_cate_cd ORDER BY cate_order) AS new_order
+        FROM category
+        WHERE up_cate_cd IS NOT NULL
+        ) t
+        ON (c.cate_cd = t.cate_cd)
+        WHEN MATCHED THEN
+        UPDATE SET c.cate_order = t.new_order
+    </update>
+
+    <update id="updateCategoryOrder">
+        UPDATE category
+        SET cate_order = #{cate_order}
+        WHERE cate_cd = #{cate_cd}
+    </update>
+
+    <update id="updateCategoryOrdersFast" parameterType="java.util.List">
+        UPDATE category
+        SET cate_order = CASE cate_cd
+        <foreach collection="list" item="map">
+            WHEN #{map.cate_cd} THEN #{map.cate_order}
+        </foreach>
+        END
+        WHERE cate_cd IN
+        <foreach collection="list" item="map" open="(" separator="," close=")">
+            #{map.cate_cd}
+        </foreach>
+    </update>
+
+</mapper>

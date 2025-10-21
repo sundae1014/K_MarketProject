@@ -21,4 +21,5 @@ public interface CouponMapper {
     // ✅ 전체 개수 + 검색 카운트
     int countCoupons(@Param("type") String type,
                      @Param("keyword") String keyword);
+
 }

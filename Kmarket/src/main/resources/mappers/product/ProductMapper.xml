@@ -96,6 +96,11 @@
 
     </select>
 
+    <select id="selectProductById" parameterType="int" resultType="kr.co.kmarket.dto.ProductDTO">
+        SELECT *
+        FROM PRODUCT
+        WHERE PROD_NUMBER = #{prod_number}
+    </select>
 
     <!-- 상품 상세 -->
     <select id="selectProductByNo" resultType="kr.co.kmarket.dto.ProductDTO">
@@ -164,9 +169,8 @@
         </if>
     </select>
 
-    <!-- 상품번호로 옵션 리스트 조회 -->
-    <select id="selectProductOptions"
-            parameterType="int"
+    <!-- 상품 옵션 조회 -->
+    <select id="selectOptionsByProduct" parameterType="int"
             resultType="kr.co.kmarket.dto.ProductOptionDTO">
         SELECT
             OPTION_ID,
@@ -268,6 +272,26 @@
         ) s ON p.PROD_NUMBER = s.PROD_NUMBER
         ORDER BY s.soldCount DESC
         FETCH FIRST 5 ROWS ONLY
+    </select>
+
+    <select id="selectProductDetail"
+            parameterType="int"
+            resultType="kr.co.kmarket.dto.ProductDTO">
+
+        SELECT
+            p.PROD_NUMBER,
+            p.PROD_NAME,
+            p.PRICE,
+            p.DISCOUNT,
+            p.SALEPRICE,
+            p.IMG_1,
+            o.OPT_NAME,
+            o.OPT_PRICE
+        FROM PRODUCT p
+                 LEFT JOIN PRODUCT_OPTION o
+                           ON p.PROD_NUMBER = o.PROD_NUMBER
+        WHERE p.PROD_NUMBER = #{prod_number}
+
     </select>
 
 </mapper>

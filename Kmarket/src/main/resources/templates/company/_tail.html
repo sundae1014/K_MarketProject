@@ -10,7 +10,7 @@
 <footer>
     <div class="footer-layout">
         <div class="footer-content">
-            <img th:src="@{/images/company/cupangIntro_logo(color).png}" alt="로고">
+            <img th:src="@{'/uploads/logo/' + ${basicData.footer_logo_intro}}" alt="로고">
             <div class="about-link">
                 <p>큐팡 회사소개</p>
                 <a th:href="@{index}">HOME</a>
@@ -26,8 +26,15 @@
         </div>
         <div class="footer-content">
             <div class="about-company">
-                <h2>(주)큐팡 대표자: 김철학 | 사업자 등록번호: 202-50-70702 | 부산광역시 해운대구 달맞이길 30 시그니엘 부산</h2>
-                <a href="https://privacy.coupang.com/ko/land/aboutcoupang/">개인정보 처리방침</a>
+                <h2 th:inline="text">[[${basicData.trade_name}]] 대표자: [[${basicData.ceo}]] | 사업자 등록번호: [[${basicData.business_num}]] | [[${basicData.addr1}]] [[${basicData.addr2}]]</h2>
+                <h2 th:inline="text">고객센터 | [[${basicData.hp}]] [[${basicData.work_time}]] 이메일: [[${basicData.email}]] 전자금융거래 분쟁담당: [[${basicData.transaction}]]</h2>
+                <div>
+                    <h2 th:inline="text">[[${basicData.copyright}]]</h2>
+                    <a href="https://privacy.coupang.com/ko/land/aboutcoupang/">개인정보 처리방침</a>
+                </div>
+
+                <h2 th:inline="text">ver.[[${appInfo.appVersion}]]</h2>
+
             </div>
         </div>
 

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.kmarket.mapper.NoticeMapper">
+
+    <select id="findById" resultType="kr.co.kmarket.dto.NoticeDTO">
+        SELECT *
+        FROM NOTICE
+        WHERE ID = #{id}
+    </select>
+
+    <select id="findNoticeAll" resultType="kr.co.kmarket.dto.NoticeDTO">
+        SELECT *
+        FROM NOTICE
+        ORDER BY ID DESC
+        FETCH FIRST 5 ROWS ONLY
+    </select>
+
+    <select id="findAll" resultType="kr.co.kmarket.dto.NoticeDTO">
+        SELECT *
+        FROM NOTICE
+        ORDER BY ID DESC
+        OFFSET #{pageRequestDTO.offset} ROWS
+        FETCH NEXT #{pageRequestDTO.size} ROWS ONLY
+    </select>
+    <select id="selectCount" resultType="int">
+        SELECT COUNT(*) FROM NOTICE
+    </select>
+
+    <select id="findTypeAll" resultType="kr.co.kmarket.dto.NoticeDTO">
+        SELECT *
+        FROM NOTICE
+        WHERE NOTICE_TYPE = #{nType}
+        ORDER BY ID DESC
+        OFFSET #{pageRequestDTO.offset} ROWS
+        FETCH NEXT #{pageRequestDTO.size} ROWS ONLY
+    </select>
+    <select id="selectCountTotal" resultType="int">
+        SELECT COUNT(*) FROM NOTICE
+        WHERE NOTICE_TYPE = #{nType}
+    </select>
+
+    <insert id="insert">
+        INSERT INTO NOTICE(NOTICE_TYPE, TITLE, CONTENT, REG_DATE)
+        VALUES (#{notice_type}, #{title}, #{content}, #{reg_date})
+    </insert>
+
+    <update id="update">
+        UPDATE NOTICE SET
+        NOTICE_TYPE = #{notice_type}, TITLE = #{title}, CONTENT = #{content}
+        WHERE ID = #{id}
+    </update>
+    <update id="update2">
+        UPDATE NOTICE SET
+        VIEWS = #{views}
+        WHERE ID = #{id}
+    </update>
+
+    <delete id="delete" parameterType="list">
+        DELETE FROM NOTICE
+        WHERE ID IN
+        <foreach item="id" collection="list" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    <delete id="deleteById">
+        DELETE FROM NOTICE
+        WHERE ID = #{id}
+    </delete>
+
+</mapper>

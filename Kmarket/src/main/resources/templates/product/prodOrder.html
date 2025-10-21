@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Cupang::주문/결제(5조)</title>
+    <title>Cupang::주문/결제 (5조)</title>
     <link rel="stylesheet" th:href="@{/css/product/style_header.css}">
     <link rel="stylesheet" th:href="@{/css/product/style_footer.css}">
     <link rel="stylesheet" th:href="@{/css/product/style_index.css}">
@@ -11,24 +11,40 @@
     <link rel="stylesheet" th:href="@{/css/product/style_prodOrder.css}">
 
     <!-- 유저별 권한 기능 -->
-    <script th:src="@{/js/product/user-menu.js}" defer></script>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        let userType = /*[[${session.member != null ? (session.member.auth == 9 ? 'admin' : 'user') : 'guest'}]]*/ "guest";
+        let userName = /*[[${session.member != null ? session.member.name : ''}]]*/ "";
+        /*]]>*/
+    </script>
+    <script th:src="@{/js/main/user-menu.js}" defer></script>
+
     <!-- 헤더 상단 공용 검색 기능 -->
     <script th:src="@{/js/product/header-search.js}" defer></script>
     <!-- 상품 리스트 내부 검색 + 정렬 기능 -->
     <script th:src="@{/js/product/search.js}" defer></script>
     <!-- 전체 카테고리 구현 기능 -->
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        const CATEGORY_DATA = /*[[${categories}]]*/ {};
+        console.log(CATEGORY_DATA);
+        /*]]>*/
+    </script>
     <script th:src="@{/js/product/category.js}" defer></script>
     <!-- 베스트상품 온앤오프 & 스크롤 기능 -->
     <script th:src="@{/js/product/best.js}" defer></script>
     <!-- TOP 버튼(맨 위로) 기능 -->
     <script th:src="@{/js/product/top-btn.js}" defer></script>
-    <!-- 장바구니 구현 기능 -->
-    <script th:src="@{/js/product/cart.js}" defer></script>
     <!-- 카카오(구 다음) 우편번호 서비스 API -->
     <script th:src="@{//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js}"></script>
     <script th:src="@{/js/product/postcode.js}"></script>
     <!-- 쿠폰/포인트 사용 기능 -->
-    <script th:src="@{/js/product/order.js}"></script>
+    <script th:src="@{/js/product/order.js}" id="orderScript" defer></script>
+    <script>
+        // JS에서 동적으로 캐시버전 추가
+        const script = document.getElementById('orderScript');
+        script.src += '?v=' + new Date().getTime();
+    </script>
 </head>
 <body>
     <main class="page">
@@ -83,15 +99,15 @@
                             <div class="buyer-info">
                                 <div class="form-row">
                                     <label for="buyerName">이름</label>
-                                    <input type="text" id="buyerName" placeholder="이름 입력">
+                                    <input type="text" id="buyerName" th:value="${buyer.name}" readonly>
                                 </div>
                                 <div class="form-row">
                                     <label for="buyerPhone">연락처</label>
-                                    <input type="text" id="buyerPhone" placeholder="연락처 입력">
+                                    <input type="text" id="buyerPhone" th:value="${buyer.hp}" readonly>
                                 </div>
                                 <div class="form-row">
                                     <label for="buyerAddress">주소지</label>
-                                    <input type="text" id="buyerAddress" placeholder="주소 입력">
+                                    <input type="text" id="buyerAddress" th:value="${buyer.addr1}" readonly>
                                 </div>
                             </div>
                         </div>
@@ -104,34 +120,34 @@
 
                             <div class="delivery-info">
                                 <div class="form-row">
-                                    <label for="receiver">받는 사람</label>
-                                    <input type="text" id="receiver" placeholder="이름 입력">
+                                    <label for="name">받는 사람</label>
+                                    <input type="text" id="name" placeholder="이름 입력">
                                 </div>
                                 <div class="form-row">
-                                    <label for="phone">연락처</label>
-                                    <input type="text" id="phone" placeholder="연락처 입력">
+                                    <label for="hp">연락처</label>
+                                    <input type="text" id="hp" placeholder="연락처 입력">
                                 </div>
                                 <div class="form-row">
-                                    <label for="postcode">우편번호</label>
-                                    <input type="text" id="postcode" placeholder="우편번호" readonly>
+                                    <label for="zip">우편번호</label>
+                                    <input type="text" id="zip" placeholder="우편번호" readonly>
                                     <button type="button" onclick="execDaumPostcode()">검색</button>
                                 </div>
                                 <div class="form-row">
-                                    <label for="address">주소</label>
-                                    <input type="text" id="address" placeholder="기본 주소" readonly>
+                                    <label for="addr">주소</label>
+                                    <input type="text" id="addr" placeholder="기본 주소" readonly>
                                 </div>
                                 <div class="form-row">
-                                    <label for="detailAddress">상세주소</label>
-                                    <input type="text" id="detailAddress" placeholder="상세 주소">
+                                    <label for="addr2">상세주소</label>
+                                    <input type="text" id="addr2" placeholder="상세 주소">
                                 </div>
                                 <div class="form-row">
-                                    <label for="memo">배송 메모</label>
+                                    <label for="req">배송 메모</label>
                                     <div class="memo-wrap">
-                                        <select id="memo">
-                                            <option>배송 메모를 선택해주세요</option>
-                                            <option>부재 시 경비실에 맡겨주세요</option>
-                                            <option>문 앞에 놓아주세요</option>
-                                            <option>배송 전 연락 부탁드립니다</option>
+                                        <select id="req">
+                                            <option value="">배송 메모를 선택해주세요</option>
+                                            <option value="부재 시 경비실에 맡겨주세요">부재 시 경비실에 맡겨주세요</option>
+                                            <option value="문 앞에 놓아주세요">문 앞에 놓아주세요</option>
+                                            <option value="배송 전 연락주세요">배송 전 연락주세요</option>
                                         </select>
                                         <svg class="chevron-down" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                              viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -148,19 +164,45 @@
                             <div class="section-header">
                                 <h3>상품 정보</h3>
                             </div>
-                            <div class="product-info">
-                                <img th:src="@{/images/main/Hit-product_1.png}" alt="상품" class="product-thumb">
-                                <div class="product-detail">
-                                    <p class="product-name">동원 튜나리챔 O-48호+부직포백 선물 세트</p>
-                                    <p class="product-option">1세트</p>
-                                    <div class="product-price">
-                                        <span class="discount">49%</span>
-                                        <strong class="sale" id="basePrice">35,590</strong>원
-                                        <del class="regular">69,900원</del>
-                                        <span class="badge">무료배송</span>
+
+                            <!-- 장바구니 + 바로구매 통합 버전 -->
+                            <th:block th:each="item : ${orderItems}">
+                                <div class="product-info"
+                                     th:with="
+                                          unitSale=${ (item.price * (1 - (item.discount / 100.0)))
+                                                      + (item.opt_price != null ? item.opt_price : 0) },
+                                          qty=${item.quantity}">
+
+                                    <img th:src="@{${item.img_1}}" alt="상품" class="product-thumb">
+
+                                    <div class="product-detail">
+                                        <p class="product-name" th:text="${item.prod_name}"></p>
+
+                                        <!-- 수량, 옵션 (가격은 JS에서 계산) -->
+                                        <p class="product-option"
+                                           th:text="${item.quantity + '개, ' +
+                                                        (item.opt_name != null ? item.opt_name : 'free') +
+                                                        ' (' + #numbers.formatInteger(item.opt_price, 3, 'COMMA') + '원)'}">
+                                        </p>
+                                        <!-- ✅ 할인율 / 할인가(총액) / 정상가(총액) -->
+                                        <div class="product-price">
+                                            <span class="discount" th:text="${item.discount + '%'}"></span>
+                                            <strong class="sale"
+                                                    th:text="${#numbers.formatInteger(item.opt_price * item.quantity, 3, 'COMMA')}"></strong>원
+                                            <del class="regular"
+                                                 th:text="${#numbers.formatInteger(item.price * item.quantity, 3, 'COMMA')} + '원'"></del>
+                                        </div>
+
+                                        <!-- ✅ 적립 포인트 (총액 기준) -->
+                                        <div class="product-point">
+                                            <p th:text="'최대 ' + ${#numbers.formatInteger(
+                                                        ((item.price + (item.opt_price != null ? item.opt_price : 0))
+                                                        * (1 - (item.discount / 100)) * item.quantity * 0.01),
+                                                        3, 'COMMA')} + '점 적립'"></p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            </th:block>
 
                             <!-- 쿠폰/포인트 -->
                             <div class="coupon-point-box">
@@ -168,16 +210,25 @@
 
                                 <!-- 쿠폰 영역 -->
                                 <div class="coupon-list">
-                                    <label>
-                                        <input type="checkbox" id="coupon-check" data-discount="0.15">
-                                        귀여운 소비 15% 할인 쿠폰
-                                        <span class="coupon-cond">(100원 이상 구매 시, ~11/30)</span>
-                                    </label>
+                                    <th:block th:if="${#lists.isEmpty(coupons)}">
+                                        <p>사용 가능한 쿠폰이 없습니다.</p>
+                                    </th:block>
+
+                                    <th:block th:each="coupon : ${coupons}">
+                                        <label>
+                                            <input type="checkbox"
+                                                   name="coupon"
+                                                   th:data-discount="${coupon.benefit}"
+                                                   th:value="${coupon.couponNo}">
+                                            <span th:text="${coupon.couponName}"></span>
+                                            <span class="coupon-cond" th:text="'(~' + ${coupon.usePeriod} + ')'"></span>
+                                        </label>
+                                    </th:block>
                                 </div>
 
                                 <!-- 포인트 영역 -->
                                 <div class="point-box">
-                                    <p>현재 포인트: <strong id="currentPoint">7,200</strong>점</p>
+                                    <p>현재 포인트: <strong id="currentPoint" th:text="${#numbers.formatInteger(userPoint,3,'COMMA')}"></strong>점</p>
                                     <input type="number" id="usePoint" placeholder="사용할 포인트 입력">
                                     <button type="button" onclick="applyPoint()">사용하기</button>
                                 </div>
@@ -191,7 +242,7 @@
                             </div>
 
                             <div class="payment-methods">
-                                <button class="pay-btn active">신용카드</button>
+                                <button class="pay-btn">신용카드</button>
                                 <button class="pay-btn">체크카드</button>
                                 <button class="pay-btn">계좌이체</button>
                                 <button class="pay-btn">무통장입금</button>
@@ -212,7 +263,7 @@
                             <li><span>적립 포인트</span><span><strong>270</strong>원</span></li>
                         </ul>
                         <p class="order-total"><strong>24,650</strong>원</p>
-                        <button class="btn-order">결제하기</button>
+                        <button class="btn-order" th:src="@{/order/complete}">결제하기</button>
                     </aside>
                 </div>
             </section>

@@ -32,7 +32,7 @@ public class ProductReviewDTO {
     // 파일 업로드를 위한 임시 필드 (DB에 저장 안 함)
     private List<MultipartFile> images;
 
-    private int orderNumber;
+    private String order_number;
 
     private String prod_name;
 

@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>자주묻는질문 글보기</title>
+    <link rel="icon" type="image/png" th:href="@{/images/member/favicon.png}">
+    <title>[[${basicData.title}]]-[[${basicData.sub_title}]]::자주묻는질문 글보기 [[${appInfo.appVersion}]]</title>
     <link rel="stylesheet" th:href="@{/css/cs/cs_faqView.css}">
     <script> 
         document.addEventListener('DOMContentLoaded', () => { // 네비게이션 포커싱
@@ -15,8 +16,17 @@
             }
         });
     </script>
+    <!-- 유저별 권한 기능 -->
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        let userType = /*[[${session.member != null ? (session.member.auth == 9 ? 'admin' : 'user') : 'guest'}]]*/ "guest";
+        let userName = /*[[${session.member != null ? session.member.name : ''}]]*/ "";
+        /*]]>*/
+    </script>
     <!-- 로그인/로그아웃/관리자 메뉴 기능 -->
     <script th:src="@{/js/main/user-menu.js}" defer></script>
+    <!-- 헤더 바로가기 기능 -->
+    <script th:src="@{/js/main/header-actions.js}" defer></script>
 </head>
 <body>
     <!-- Header -->
@@ -62,7 +72,7 @@
                     </svg>
                     <span>찜</span>
                 </a>
-                <a href="#" class="quick-action" aria-label="마이페이지">
+                <a th:href="@{/my/home}" class="quick-action" aria-label="마이페이지">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2"
                          stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-round-icon lucide-user-round">
                         <circle cx="12" cy="8" r="5"/>
@@ -70,7 +80,7 @@
                     </svg>
                     <span>마이페이지</span>
                 </a>
-                <a href="#" class="quick-action" aria-label="장바구니">
+                <a th:href="@{/product/cart}" class="quick-action" id="header-cart" aria-label="장바구니">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2"
                          stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shopping-cart-icon lucide-shopping-cart">
                         <circle cx="8" cy="21" r="1"/>
@@ -96,115 +106,103 @@
 
                     <ul id="navList">
                         <li>
-                            <a href="#" class="navList_a">회원</a>
+                            <a th:href="@{/cs/faq/list/member}" class="navList_a">회원</a>
                             <ul class="subMenu">
-                                <li><a href="#">가입</a></li>
-                                <li><a href="#">탈퇴</a></li>
-                                <li><a href="#">회원정보</a></li>
-                                <li><a href="#">로그인</a></li>
+                                <li><a th:href="@{/cs/faq/list/member/register}">가입</a></li>
+                                <li><a th:href="@{/cs/faq/list/member/withdrawal}">탈퇴</a></li>
+                                <li><a th:href="@{/cs/faq/list/member/info}">회원정보</a></li>
+                                <li><a th:href="@{/cs/faq/list/member/login}">로그인</a></li>
                             </ul>
                         </li>
                         <li>
-                            <a href="#" class="navList_a">쿠폰 / 혜택 / 이벤트</a>
+                            <a th:href="@{/cs/faq/list/benefit}" class="navList_a">쿠폰 / 혜택 / 이벤트</a>
                             <ul class="subMenu">
-                                <li><a href="#">쿠폰 / 할인혜택</a></li>
-                                <li><a href="#">포인트</a></li>
-                                <li><a href="#">제휴</a></li>
-                                <li><a href="#">이벤트</a></li>
+                                <li><a th:href="@{/cs/faq/list/benefit/couponAndDiscount}">쿠폰 / 할인혜택</a></li>
+                                <li><a th:href="@{/cs/faq/list/benefit/point}">포인트</a></li>
+                                <li><a th:href="@{/cs/faq/list/benefit/partnership}">제휴</a></li>
+                                <li><a th:href="@{/cs/faq/list/benefit/event}">이벤트</a></li>
                             </ul>
                         </li>
                         <li>
-                            <a href="#" class="navList_a">주문 / 결제</a>
+                            <a th:href="@{/cs/faq/list/orderAndPay}" class="navList_a">주문 / 결제</a>
                             <ul class="subMenu">
-                                <li><a href="#">상품</a></li>
-                                <li><a href="#">결제</a></li>
-                                <li><a href="#">구매내역</a></li>
-                                <li><a href="#">영수증 / 증빙</a></li>
+                                <li><a th:href="@{/cs/faq/list/orderAndPay/product}">상품</a></li>
+                                <li><a th:href="@{/cs/faq/list/orderAndPay/pay}">결제</a></li>
+                                <li><a th:href="@{/cs/faq/list/orderAndPay/buyList}">구매내역</a></li>
+                                <li><a th:href="@{/cs/faq/list/orderAndPay/receipt}">영수증 / 증빙</a></li>
                             </ul>
                         </li>
                         <li>
-                            <a href="#" class="navList_a">배송</a>
+                            <a th:href="@{/cs/faq/list/deliver}" class="navList_a">배송</a>
                             <ul class="subMenu">
-                                <li><a href="#">배송상태 / 기간</a></li>
-                                <li><a href="#">배송정보확인/변경</a></li>
-                                <li><a href="#">해외배송</a></li>
-                                <li><a href="#">당일배송</a></li>
-                                <li><a href="#">해외직구</a></li>
+                                <li><a th:href="@{/cs/faq/list/deliver/statusAndPeriod}">배송상태 / 기간</a></li>
+                                <li><a th:href="@{/cs/faq/list/deliver/checkAndChange}">배송정보확인 / 변경</a></li>
+                                <li><a th:href="@{/cs/faq/list/deliver/foreign}">해외배송</a></li>
+                                <li><a th:href="@{/cs/faq/list/deliver/day}">당일배송</a></li>
+                                <li><a th:href="@{/cs/faq/list/deliver/direct}">해외직구</a></li>
                             </ul>
                         </li>
                         <li>
-                            <a href="#" class="navList_a">취소 / 반품 / 교환</a>
+                            <a th:href="@{/cs/faq/list/cancelAndReturnAndExchange}" class="navList_a">취소 / 반품 / 교환</a>
                             <ul class="subMenu">
-                                <li><a href="#">반품신청 / 철회</a></li>
-                                <li><a href="#">반품정보확인 / 변경</a></li>
-                                <li><a href="#">교환 AS신청 / 철회</a></li>
-                                <li><a href="#">교환정보확인 / 변경</a></li>
-                                <li><a href="#">취소신청 / 철회</a></li>
-                                <li><a href="#">취소확인 / 환불정보</a></li>
+                                <li><a th:href="@{/cs/faq/list/cancelAndReturnAndExchange/returnAndWithdrawal}">반품신청 / 철회</a></li>
+                                <li><a th:href="@{/cs/faq/list/cancelAndReturnAndExchange/returnAndChange}">반품정보확인 / 변경</a></li>
+                                <li><a th:href="@{/cs/faq/list/cancelAndReturnAndExchange/exchangeAndWithdrawal}">교환 AS신청 / 철회</a></li>
+                                <li><a th:href="@{/cs/faq/list/cancelAndReturnAndExchange/exchangeAndChange}">교환정보확인 / 변경</a></li>
+                                <li><a th:href="@{/cs/faq/list/cancelAndReturnAndExchange/cancelAndWithdrawal}">취소신청 / 철회</a></li>
+                                <li><a th:href="@{/cs/faq/list/cancelAndReturnAndExchange/cancelAndRefund}">취소확인 / 환불정보</a></li>
                             </ul>
                         </li>
                         <li>
-                            <a href="#" class="navList_a">여행 / 숙박 / 항공</a>
+                            <a th:href="@{/cs/faq/list/traverlAndAccommodationAndAviation}" class="navList_a">여행 / 숙박 / 항공</a>
                             <ul class="subMenu">
-                                <li><a href="#">여행 / 숙박</a></li>
-                                <li><a href="#">항공</a></li>
+                                <li><a th:href="@{/cs/faq/list/traverlAndAccommodationAndAviation/travel}">여행 / 숙박</a></li>
+                                <li><a th:href="@{/cs/faq/list/traverlAndAccommodationAndAviation/flight}">항공</a></li>
                             </ul>
                         </li>
                         <li>
-                            <a href="#" class="navList_a">안전거래</a>
+                            <a th:href="@{/cs/faq/list/Safetrade}" class="navList_a">안전거래</a>
                             <ul class="subMenu">
-                                <li><a href="#">서비스 이용규칙 위반</a></li>
-                                <li><a href="#">지식재산권침해</a></li>
-                                <li><a href="#">법령 및 정책위반 상품</a></li>
-                                <li><a href="#">게시물 정책위반</a></li>
-                                <li><a href="#">직거래 / 외부거래유도</a></li>
-                                <li><a href="#">표시광고</a></li>
-                                <li><a href="#">청소년 위해상품/이미지</a></li>
-                            </ul>  
+                                <li><a th:href="@{/cs/faq/list/Safetrade/service}">서비스 이용규칙 위반</a></li>
+                                <li><a th:href="@{/cs/faq/list/Safetrade/knowledge}">지식재산권침해</a></li>
+                                <li><a th:href="@{/cs/faq/list/Safetrade/contraveningGoods}">법령 및 정책위반 상품</a></li>
+                                <li><a th:href="@{/cs/faq/list/Safetrade/article}">게시물 정책위반</a></li>
+                                <li><a th:href="@{/cs/faq/list/Safetrade/induction}">직거래 / 외부거래유도</a></li>
+                                <li><a th:href="@{/cs/faq/list/Safetrade/advertising}">표시광고</a></li>
+                                <li><a th:href="@{/cs/faq/list/Safetrade/teenager}">청소년 위해상품 / 이미지</a></li>
+                            </ul>
                         </li>
                     </ul>
                 </div>
-                <div id="faq_all" style="width:900px;height:800px;">
+                <div id="faq_all" style="width:1000px;">
                     <div id="top_title">
-                        <h3 id="faq_title_h3">회원</h3>
-                        <span>회원 관련 자주 묻는 질문입니다.</span>
+                        <h3 id="faq_title_h3">[[${faqDTO.type1}]]</h3>
+                        <span>[[${faqDTO.type1}]] 관련 자주 묻는 질문입니다.</span>
                     </div>
-                    <div style="border:1px solid black; float:right;width:814px;"></div>
+                    <div style="border:1px solid black; float:right;width:945px;"></div>
                     <div id="faq_content">
                         <div id="faq_title">
-                            <h3><span class="text_q">Q.</span><span>개인회원과 법인회원에 차이가 있나요?</span></h3>
+                            <h3><span class="text_q">Q.</span><span>[[${faqDTO.title}]]</span></h3>
                         </div>
                         <div id="faq_text">
-                            <p style="margin-top: 30px;">
-                                개인회원에서 법인회원(사업자 회원)으로 전환은 불가하므로 법인회원 (사업자 회원) 전환은 신규 가입으로 진행을 <br>
-                                해야 합니다.                     
-                            </p>
-                            <p style="margin: 30px 0px;">
-                                ※ 피싱 관련 피해 신고
-                            </p>
-
-                            <p style="margin-bottom: 30px;">
-                                ▶ 경찰청사이버수사국 (국번없이) 182 : http://cyberbureau.police.go.kr <br>
-                                ▶ KISA 인터넷침해대응센터 (국번없이)118 : http://www.krcert.or.kr <br>
-                                감사합니다.
-                            </p>
+                            <p style="margin-top: 30px; white-space: pre-wrap;">[[${faqDTO.content}]]</p>
                         </div>
                     </div>
 
-                    <a th:href="@{/cs/faq/list}" id="list_btn">목록</a>
+                    <a href="javascript:history.back()" id="list_btn">목록</a>
                 </div>
             </div>
         </div>
     </main>
     <!-- Footer -->
-    <footer class="footer">
+    <footer th:fragment="footerFragment" class="footer">
         <div class="footer-bar">
-            <div class="footer-links sub-container">
+            <div class="footer-links container">
                 <ul>
-                    <li><a href="#">회사소개</a></li>
-                    <li><a href="#">서비스이용약관</a></li>
-                    <li><a href="#">개인정보처리방침</a></li>
-                    <li><a href="#">전자금융거래약관</a></li>
+                    <li><a th:href="@{/company/index}">회사소개</a></li>
+                    <li><a th:href="@{/policy/buyer}">서비스이용약관</a></li>
+                    <li><a th:href="@{/policy/privacy}">개인정보처리방침</a></li>
+                    <li><a th:href="@{/policy/finance}">전자금융거래약관</a></li>
                 </ul>
             </div>
         </div>
@@ -216,27 +214,32 @@
             </div>
 
             <div class="footer-col">
-                <p><strong>(주)큐팡 | 대표: 김철학</strong></p>
-                <p>부산광역시 해운대구 달맞이길 30 시그니엘 부산</p>
-                <p>사업자등록번호: 202-50-70702</p>
-                <p>통신판매업 신고번호: 제2025-부산광역시-0707호</p>
+                <p th:inline="text"><strong>[[${basicData.trade_name}]] | 대표: [[${basicData.ceo}]]</strong></p>
+                <p th:inline="text">[[${basicData.addr1}]][[${basicData.addr2}]]</p>
+                <p th:inline="text">사업자등록번호: [[${basicData.business_num}]]</p>
+                <p th:inline="text">통신판매업 신고번호: [[${basicData.communication_num}]]</p>
                 <p>본 작업물은 웹개발 프로젝트 포트폴리오용 입니다</p>
             </div>
 
             <div class="footer-col">
-                <p class="footer-ce"><strong>365고객센터</strong> | 전자금융거래분쟁처리담당</p>
-                <p class="footer-ph">1577-0912 (유료)</p>
+                <p class="footer-ce" th:inline="text"><strong>365고객센터</strong> | 전자금융거래분쟁처리담당</p>
+                <p class="footer-ph" th:inline="text">[[${basicData.transaction}]] (유료)</p>
                 <p>개인정보보호책임자: 정순권</p>
-                <p>Fax: 051-123-4567 | Email: cup25@cupang.com</p>
+                <p th:inline="text">문의: [[${basicData.hp}]] | [[${basicData.work_time}]]</p>
+                <p th:inline="text">Fax: 051-123-4567 | Email: [[${basicData.email}]]</p>
+
             </div>
         </div>
 
         <div class="footer-sub">
-            <p class="sub-title">호스팅서비스 사업자: (주)큐팡</p>
+            <p class="sub-title" th:inline="text">호스팅서비스 사업자: [[${basicData.trade_name}]]</p>
             <p class="sub-text">㈜큐팡은 CUPANG.COM 실시간 항공권, 실시간 렌터카 서비스의 통신판매중개자로서 거래 당사자가 아니며,
                 입점 판매사가 등록한 상품 정보 및 거래에 대해 책임을 지지 않습니다.<br>
                 ㈜큐팡 사이트의 상품/판매자/쇼핑정보, 컨텐츠, UI 등에 대한 무단 복제, 전송, 배포, 스크래핑 등의 행위는
-                저작권법, 콘텐츠사업 진흥법 등에 의하여 엄격히 금지됩니다.</p>
+                저작권법, 콘텐츠사업 진흥법 등에 의하여 엄격히 금지됩니다.
+            </p>
+            <p class="sub-text" th:inline="text">[[${basicData.copyright}]]</p>
+            <span style="color: #9F9F9F;font-size: 15px;">[[${appInfo.appName}]] ver.[[${appInfo.appVersion}]]</span> <!-- 임시로 만든거 -->
         </div>
     </footer>
 </body>

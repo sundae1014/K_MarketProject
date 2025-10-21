@@ -2,7 +2,8 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>공지사항 목록</title>
+    <link rel="icon" type="image/png" th:href="@{/images/member/favicon.png}">
+    <title>[[${basicData.title}]]-[[${basicData.sub_title}]]::관리자 공지사항 목록 [[${appInfo.appVersion}]]</title>
     <style>
         body {
           margin: 0;
@@ -308,12 +309,17 @@
         .action a {
           display: block;
           text-decoration: none;
-          color: #007bff;
+          color: black;
           margin-bottom: 4px;
         }
 
         .action a:last-child {
           margin-bottom: 0;
+        }
+
+        .notice_a {
+            color: black;
+            text-decoration: none;
         }
     </style>
     <script>
@@ -324,6 +330,37 @@
 
             allSelect.addEventListener("change", function() {
                 checkboxes.forEach(cb => cb.checked = allSelect.checked);
+            });
+
+            const notice_type = document.getElementById("notice_type");
+            notice_type.addEventListener("change", function() {
+                const nType = notice_type.value;
+                if(nType) {
+                    window.location.href = `/kmarket/admin/cs/notice/list/${nType}`;
+                }
+            });
+
+            //삭제 기능
+            const deleteBtn = document.querySelector(".select_delete");
+            deleteBtn.addEventListener("click", async () => {
+                const selected = document.querySelectorAll("tbody .row-checkbox:checked");
+                const idList = Array.from(selected).map(cb => cb.value);
+                console.log("삭제 id리스트: ", idList);
+
+                const response = await fetch("/kmarket/admin/cs/notice/list", {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(idList)
+                });
+
+                if(response.ok) {
+                    alert("삭제 완료!");
+                    location.reload();
+                } else {
+                    alert("삭제 실패!");
+                }
             });
         });
     </script>
@@ -455,10 +492,10 @@
         <div class="search-bar">
           <select name="notice_type" id="notice_type">
             <option>유형선택</option>
-            <option value="고객서비스">고객서비스</option>
-            <option value="안전거래">안전거래</option>
-            <option value="위해상품">위해상품</option>
-            <option value="이벤트 당첨">이벤트 당첨</option>
+            <option value="csService">고객서비스</option>
+            <option value="safeTrade">안전거래</option>
+            <option value="dangerProduct">위해상품</option>
+            <option value="event">이벤트 당첨</option>
           </select>
         </div>
 
@@ -475,57 +512,38 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                  <td><input type="checkbox"></td>
-                  <td>100</td>
-                  <td>고객서비스</td>
-                  <td>[안내] 설연휴 배송 및 휴무 안내</td>
-                  <td>120</td>
-                  <td>2025.09.17</td>
+                <tr th:each="notice, stat:${pageResponseDTO.dtoList}">
+                  <td><input type="checkbox" class="row-checkbox" th:value="${notice.id}"></td>
+                  <td>[[${notice.id}]]</td>
+                  <td>[[${notice.notice_type}]]</td>
+                  <td><a th:href="@{/admin/cs/notice/view(id=${notice.id})}" class="notice_a">[[${notice.title}]]</a></td>
+                  <td>[[${notice.views}]]</td>
+                    <td th:text="${#temporals.format(notice.reg_date, 'yy.MM.dd')}"></td>
                   <td class="action">
-                    <a href="#">[수정]</a>
-                    <a href="#">[관리]</a>
+                    <a th:href="@{/admin/cs/notice/delete(id=${notice.id})}">[삭제]</a>
+                    <a th:href="@{/admin/cs/notice/modify(id=${notice.id})}">[수정]</a>
                   </td>
-                </tr>
-                <tr>
-                    <td><input type="checkbox"></td>
-                      <td>99</td>
-                      <td>이벤트 안내</td>
-                      <td>[안내] 블랙 SK-eco(샘플) 이벤트 안내</td>
-                      <td>120</td>
-                      <td>2025.09.17</td>
-                      <td class="action">
-                        <a href="#">[수정]</a>
-                        <a href="#">[관리]</a>
-                      </td>
-                </tr>
-                <tr>
-                    <td><input type="checkbox"></td>
-                    <td>98</td>
-                    <td>업데이트</td>
-                    <td>[안내] 운영센터 점검 / 고급 A/S공지</td>
-                    <td>120</td>
-                    <td>2025.09.17</td>
-                    <td class="action">
-                        <a href="#">[수정]</a>
-                        <a href="#">[관리]</a>
-                    </td>
                 </tr>
             </tbody>
         </table>
 
         <div class="bottom-bar">
           <div>
-            <button class="btn2">선택삭제</button>
+            <button class="btn2 select_delete">선택삭제</button>
           </div>
           <div class="pagination">
-            <a href="#">이전</a>
-            <a href="#">1</a>
-            <a href="#">2</a>
-            <a href="#">3</a>
-            <a href="#">4</a>
-            <a href="#">5</a>
-            <a href="#">다음</a>
+              <a th:if="${pageResponseDTO.prev}"
+                 th:href="@{/admin/cs/notice/list(pg=${pageResponseDTO.start - 1})}" class="arrow">
+                  <span class="prev"></span>
+              </a>
+              <th:block th:if="${pageResponseDTO.total > 0}" th:each="num:${#numbers.sequence(pageResponseDTO.start, pageResponseDTO.end)}">
+                  <a th:href="@{/admin/cs/notice/list (pg=${num})}"
+                     th:class="${num == pageResponseDTO.pg ? 'active2' : 'pageNum'}">[[${num}]]</a>
+              </th:block>
+              <a th:if="${pageResponseDTO.next}"
+                 th:href="@{/admin/cs/notice/list(pg=${pageResponseDTO.end + 1})}" class="arrow">
+                  <span class="next"></span>
+              </a>
           </div>
           <div>
             <button class="btn" th:onclick="|location.href='@{/admin/cs/notice/write}'|">작성하기</button>

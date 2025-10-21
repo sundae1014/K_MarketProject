@@ -1,49 +1,120 @@
 <div th:replace="~{my/_header.html}"></div>
-            <div class="main-container">
-                <div class="side-menu">
-                    <div class="menu-list">
-                        <ul>
-                            <li><a th:href="@{/my/order}">전체주문내역</a></li>
-                            <li><a th:href="@{/my/point}">포인트내역</a></li>
-                            <li><a th:href="@{/my/coupon}">쿠폰</a></li>
-                            <li><a th:href="@{/my/review}">나의리뷰</a></li>
-                            <li class="active"><a th:href="@{/my/qna}">문의하기</a></li>
-                            <li><a th:href="@{/my/option}">나의설정</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="main-content">
-                    <div class="banner-ad">
-                        <img th:src="@{/images/my/banner_ad.jpg}" alt="광고사진">
-                    </div>
-                    <div class="qna">
-                        <div class="content-top">
-                            <div class="content-title">
-                                <span>문의하기</span>
-                            </div>
-                        </div>
-                        <table>
-                            <tr>
-                                <th>번호</th>
-                                <th>문의채널</th>
-                                <th>문의유형</th>
-                                <th>제목</th>
-                                <th>작성일</th>
-                                <th>상태</th>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>고객센터</td>
-                                <td>주문/결제</td>
-                                <td>신용카드 결제 오류</td>
-                                <td>2022-12-12</td>
-                                <td>검토중</td>
-                            </tr>
-                        </table>
-                    </div>
+<div class="main-container">
+    <div class="side-menu">
+        <div class="menu-list">
+            <ul>
+                <li><a th:href="@{/my/order}">전체주문내역</a></li>
+                <li><a th:href="@{/my/point}">포인트내역</a></li>
+                <li><a th:href="@{/my/coupon}">쿠폰</a></li>
+                <li><a th:href="@{/my/review}">나의리뷰</a></li>
+                <li class="active"><a th:href="@{/my/qna}">문의하기</a></li>
+                <li><a th:href="@{/my/option}">나의설정</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="main-content">
+        <div class="banner-ad">
+            <img th:src="@{/images/my/banner_ad.jpg}" alt="광고사진">
+        </div>
+        <div class="qna">
+            <div class="content-top">
+                <div class="content-title">
+                    <span>문의하기</span>
                 </div>
             </div>
+            <table>
+                <tr>
+                    <th>번호</th>
+                    <th>문의채널</th>
+                    <th>문의유형</th>
+                    <th>제목</th>
+                    <th>작성일</th>
+                    <th>상태</th>
+                </tr>
+                <tr th:each="qna : ${qnas}">
+                    <td th:text="${qna.id}"></td>
+                    <td>고객센터</td>
+                    <td th:text="${qna.type1}"></td>
+                    <td th:text="${qna.title}"></td>
+                    <td th:text="${#temporals.format(qna.reg_date, 'yy-MM-dd')}"></td>
+                    <td th:text="${qna.status == 'waiting'} ? '검토중' : (${qna.status == 'complete'} ? '답변완료' : ${qna.status})"
+                        th:classappend="${qna.status == 'complete'} ? 'status-complete' : ''">
+                    </td>
+                </tr>
+            </table>
         </div>
-    </main>
+        <div class="pagination">
+            <div class="prev">
+                <!-- 검색 있을 때 -->
+                <a th:if="${searchType != null and keyword != null and keyword != ''}"
+                   th:href="@{/my/qna/search(searchType=${searchType}, keyword=${keyword}, pg=1)}"
+                   th:classappend="${QnaPage.pg == 1} ? ' disabled' : ''">
+                    <img th:src="@{/images/company/btn-first-page.png}">
+                </a>
+                <a th:if="${searchType != null and keyword != null and keyword != ''}"
+                   th:href="@{/my/qna/search(searchType=${searchType}, keyword=${keyword}, pg=${QnaPage.pg - 1})}"
+                   th:classappend="${QnaPage.pg == 1} ? ' disabled' : ''">
+                    <img th:src="@{/images/company/btn-prev-page.png}">
+                </a>
+
+                <!-- 검색 없을 때 -->
+                <a th:unless="${searchType != null and keyword != null and keyword != ''}"
+                   th:href="@{/my/qna(pg=1)}"
+                   th:classappend="${QnaPage.pg == 1} ? ' disabled' : ''">
+                    <img th:src="@{/images/company/btn-first-page.png}">
+                </a>
+                <a th:unless="${searchType != null and keyword != null and keyword != ''}"
+                   th:href="@{/my/qna(pg=${QnaPage.pg - 1})}"
+                   th:classappend="${QnaPage.pg == 1} ? ' disabled' : ''">
+                    <img th:src="@{/images/company/btn-prev-page.png}">
+                </a>
+            </div>
+
+            <div class="pagenumber">
+                <!-- 검색 있을 때 -->
+                <a th:each="i : ${#numbers.sequence(QnaPage.start, QnaPage.end)}"
+                   th:if="${searchType != null and keyword != null and keyword != ''}"
+                   th:href="@{/my/qna/search(searchType=${searchType}, keyword=${keyword}, pg=${i})}"
+                   th:text="${i}"
+                   th:classappend="${i == QnaPage.pg} ? ' active' : ''"></a>
+
+                <!-- 검색 없을 때 -->
+                <a th:each="i : ${#numbers.sequence(QnaPage.start, QnaPage.end)}"
+                   th:unless="${searchType != null and keyword != null and keyword != ''}"
+                   th:href="@{/my/qna(pg=${i})}"
+                   th:text="${i}"
+                   th:classappend="${i == QnaPage.pg} ? ' active' : ''"></a>
+            </div>
+
+            <div class="last">
+                <!-- 검색 있을 때 -->
+                <a th:if="${searchType != null and keyword != null and keyword != ''}"
+                   th:href="@{/my/qna/search(searchType=${searchType}, keyword=${keyword}, pg=${QnaPage.pg + 1})}"
+                   th:classappend="${QnaPage.pg == QnaPage.end} ? ' disabled' : ''">
+                    <img th:src="@{/images/company/btn-next-page.png}">
+                </a>
+                <a th:if="${searchType != null and keyword != null and keyword != ''}"
+                   th:href="@{/my/qna/search(searchType=${searchType}, keyword=${keyword}, pg=${QnaPage.end})}"
+                   th:classappend="${QnaPage.pg == QnaPage.end} ? ' disabled' : ''">
+                    <img th:src="@{/images/company/btn-last-page.png}">
+                </a>
+
+                <!-- 검색 없을 때 -->
+                <a th:unless="${searchType != null and keyword != null and keyword != ''}"
+                   th:href="@{/my/qna(pg=${QnaPage.pg + 1})}"
+                   th:classappend="${QnaPage.pg == QnaPage.end} ? ' disabled' : ''">
+                    <img th:src="@{/images/company/btn-next-page.png}">
+                </a>
+                <a th:unless="${searchType != null and keyword != null and keyword != ''}"
+                   th:href="@{/my/qna(pg=${QnaPage.end})}"
+                   th:classappend="${QnaPage.pg == QnaPage.end} ? ' disabled' : ''">
+                    <img th:src="@{/images/company/btn-last-page.png}">
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</main>
 </body>
 </html>

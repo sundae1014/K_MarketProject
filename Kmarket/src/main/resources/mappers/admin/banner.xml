@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.kmarket.mapper.admin.BannerMapper">
+
+    <select id="selectBannersByLocationStatus" resultType="kr.co.kmarket.dto.BannerDTO">
+        SELECT * FROM banner
+        WHERE banner_status = 1
+        AND location = #{location}
+        AND (start_date IS NULL OR start_date &lt;= SYSDATE)
+        AND (end_date IS NULL OR end_date &gt;= SYSDATE)
+        ORDER BY banner_order
+    </select>
+
+    <select id="selectBanners" resultType="kr.co.kmarket.dto.BannerDTO">
+        SELECT * FROM banner ORDER BY banner_order
+    </select>
+
+    <select id="selectBannersByLocation" resultType="kr.co.kmarket.dto.BannerDTO">
+        SELECT * FROM banner
+        WHERE location = #{location}
+        ORDER BY banner_order
+    </select>
+
+    <insert id="insertBanner" parameterType="kr.co.kmarket.dto.BannerDTO">
+        INSERT INTO banner (
+            banner_name, img, link, location, banner_order,
+            banner_status, banner_size, background_color,
+            start_date, end_date, start_time, end_time
+        ) VALUES (
+                     #{banner_name}, #{img}, #{link}, #{location}, #{banner_order, jdbcType=INTEGER},
+                     #{banner_status}, #{banner_size}, #{background_color},
+                     #{start_date}, #{end_date}, #{start_time}, #{end_time}
+                 )
+    </insert>
+
+    <update id="updateBannerStatus">
+        UPDATE banner
+        SET banner_status = #{banner_status}
+        WHERE banner_no = #{banner_no}
+    </update>
+
+    <delete id="deleteBanners" parameterType="list">
+        DELETE FROM banner WHERE banner_no IN
+        <foreach item="no" collection="list" open="(" separator="," close=")">
+            #{no}
+        </foreach>
+    </delete>
+
+
+</mapper>

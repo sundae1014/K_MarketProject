@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.kmarket.mapper.admin.BasicMapper">
+    <update id="updateBasic">
+        update basic
+        <set>
+        <if test="title != null">title = #{title}, </if>
+        <if test="sub_title != null">sub_title = #{sub_title}, </if>
+        <if test="header_logo_main != null">header_logo_main = #{header_logo_main}, </if>
+        <if test="header_logo_intro != null">header_logo_intro = #{header_logo_intro}, </if>
+        <if test="header_logo_admin != null">header_logo_admin = #{header_logo_admin}, </if>
+        <if test="footer_logo_main != null">footer_logo_main = #{footer_logo_main}, </if>
+        <if test="footer_logo_intro != null">footer_logo_intro = #{footer_logo_intro}, </if>
+        <if test="footer_logo_admin != null">footer_logo_admin = #{footer_logo_admin}, </if>
+        <if test="favicon != null">favicon = #{favicon}, </if>
+        <if test="trade_name != null">trade_name = #{trade_name}, </if>
+        <if test="ceo != null">ceo = #{ceo}, </if>
+        <if test="business_num != null">business_num = #{business_num}, </if>
+        <if test="communication_num != null">communication_num = #{communication_num}, </if>
+        <if test="addr1 != null">addr1 = #{addr1}, </if>
+        <if test="addr2 != null">addr2 = #{addr2}, </if>
+        <if test="hp != null">hp = #{hp}, </if>
+        <if test="work_time != null">work_time = #{work_time}, </if>
+        <if test="email != null">email = #{email}, </if>
+        <if test="transaction != null">transaction = #{transaction}, </if>
+        <if test="copyright != null">copyright = #{copyright}, </if>
+        </set>
+        where id = 1
+    </update>
+
+    <select id="selectBasic" resultType="kr.co.kmarket.dto.BasicDTO">
+        select * from basic
+    </select>
+
+
+</mapper>
