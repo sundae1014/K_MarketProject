@@ -158,11 +158,13 @@ public class OrderController {
         return "/admin/order/delivery";
     }
 
-    @ResponseBody
     @GetMapping("/delivery-detail/{orderNumber}")
-    public Map<String, Object> deliveryDetail(@PathVariable String orderNumber) {
-        // OrderService.selectDeliveryOrderDetail는 내부적으로 selectOrderDetailCombined를 호출할 것으로 가정
-        OrderDTO orderDetail = orderService.selectDeliveryOrderDetail(orderNumber); //
+    @ResponseBody
+    public Map<String, Object> deliveryDetail(@PathVariable String orderNumber,
+                                              @RequestParam(name = "trackingNumber", required = false) Integer trackingNumber) {
+
+        // 운송장 번호 파라미터를 Service로 함께 전달
+        OrderDTO orderDetail = orderService.selectDeliveryOrderDetail(orderNumber, trackingNumber);
 
         Map<String, Object> response = new HashMap<>();
         if (orderDetail != null) {
@@ -170,7 +172,6 @@ public class OrderController {
             response.put("order", orderDetail);
         } else {
             response.put("success", false);
-            response.put("message", "주문 정보를 찾을 수 없습니다.");
         }
         return response;
     }

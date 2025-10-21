@@ -127,7 +127,8 @@
                                data-bs-toggle="modal"
                                data-bs-target="#orderModal"
                                th:text="${order.order_number}"
-                               th:data-order-number="${order.order_number}">
+                               th:data-order-number="${order.order_number}"
+                               class="order-detail-link">
                             </a>
                         </td>
                         <td th:text="${order.custId}"></td>
