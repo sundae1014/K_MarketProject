@@ -26,4 +26,11 @@ public interface AdminOrderMapper {
                                   @Param("trackingNumber") String trackingNumber);
 
     public OrderDTO selectOrderInfoByOrderNumber(String order_number);
+
+    public List<OrderDTO> selectDeliveryOrdersListPage(@Param("start") int start,
+                                                       @Param("limit") int limit);
+
+    public int selectDeliveryOrderCount();
+
+
 }

@@ -35,5 +35,17 @@ public class OrderService {
     public OrderDTO selectOrderInfoByOrderNumber(String order_number) {
         return orderMapper.selectOrderInfoByOrderNumber(order_number);
     }
+
+    public List<OrderDTO> selectDeliveryOrdersListPage(int start, int limit) {
+        return orderMapper.selectDeliveryOrdersListPage(start, limit);
+    }
+
+    public int selectDeliveryOrderCount(){
+        return orderMapper.selectDeliveryOrderCount();
+    }
+
+    public OrderDTO selectDeliveryOrderDetail(String orderNumber) {
+        return orderMapper.selectOrderDetailCombined(orderNumber);
+    }
 }
 

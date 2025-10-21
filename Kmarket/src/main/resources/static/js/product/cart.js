@@ -36,7 +36,6 @@ const getUnitBase = item => {
     return item.price; // 상품 원가(정상가)
 };
 
-// 할인가: DB에서 이미 할인된 opt_price 내려오면 그대로 사용
 // opt_price가 없다면 정상가에 할인률 적용
 const getUnitSale = item => {
     if (item.opt_price && item.opt_price > 0) {
@@ -46,7 +45,7 @@ const getUnitSale = item => {
     }
 };
 
-// ✅ 합계 계산
+// 합계 계산
 const getTotals = item => {
     const regular = getUnitBase(item) * item.quantity;      // 정상가 합계
     const sale = getUnitSale(item) * item.quantity;          // 할인가 합계
@@ -99,9 +98,9 @@ function renderCart() {
                 <p>최대 ${formatPrice(totalPoint)} 적립</p>
             </div>
             <div class="cart-qty">
-                <button class="minus" data-id="${item.cart_number}">-</button>
-                <input type="text" value="${item.quantity}" data-id="${item.cart_number}">
-                <button class="plus" data-id="${item.cart_number}">+</button>
+                <button type="button" class="minus" data-id="${item.cart_number}">-</button>
+                <input  type="text"  class="qty-input" value="${item.quantity}" data-id="${item.cart_number}">
+                <button type="button" class="plus"  data-id="${item.cart_number}">+</button>
             </div>
         </div>`;
         list.appendChild(div);
@@ -212,6 +211,7 @@ function updateSummary() {
 // 주문 페이지로 이동
 // =========================
 document.addEventListener("click", e => {
+
     if (e.target.classList.contains("btn-order")) {
         const selected = [...document.querySelectorAll(".chk-item:checked")]
             .map(chk => chk.dataset.id);
@@ -227,38 +227,47 @@ document.addEventListener("click", e => {
 });
 
 // =========================
-// 초기 실행
+// 수량 변경 기능 (+ / - 버튼, 직접 입력 통합)
 // =========================
-document.addEventListener("DOMContentLoaded", fetchCartData);
 
-// =========================
-// 수량 변경 기능 (+ / - 버튼)
-// =========================
-document.addEventListener("click", async (e) => {
-    if (e.target.classList.contains("plus") || e.target.classList.contains("minus")) {
-        const id = e.target.dataset.id;
-        const input = document.querySelector(`input[data-id="${id}"]`);
-        let qty = parseInt(input.value) || 1;
+// (1) + / - 버튼 클릭 시
+document.addEventListener("click", e => {
+    const btn = e.target.closest(".plus, .minus"); // ✅ 버튼 또는 내부 텍스트 클릭 대응
+    if (!btn) return;
 
-        if (e.target.classList.contains("plus")) qty++;
-        if (e.target.classList.contains("minus") && qty > 1) qty--;
+    const id     = btn.dataset.id;
+    const itemEl = btn.closest(".cart-item");                          // 범위 한정
+    const input  = itemEl?.querySelector(`.cart-qty .qty-input[data-id="${id}"]`);
+    if (!input) { console.warn("qty input not found for", id); return; }
 
-        // ✅ 즉시 화면 반영
-        input.value = qty;
+    let qty = parseInt(input.value) || 1;
+    if (btn.classList.contains("plus")) qty++;
+    if (btn.classList.contains("minus") && qty > 1) qty--;
 
-        const item = cartData.find(i => i.cart_number == id);
-        if (item) item.quantity = qty;
+    input.value = qty;
+    input.dispatchEvent(new Event("input", { bubbles: true }));
+});
 
-        updateItemDisplay(id, qty);
-        updateSummary();
+// (2) input 직접 입력 시
+document.addEventListener("input", e => {
+    if (!e.target.matches('input[data-id]')) return;
 
-        // ✅ 비동기 서버 PATCH (화면 갱신 안 건드림)
-        fetch("/kmarket/product/cart/updateQty", {
-            method: "PATCH",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ cart_number: id, quantity: qty })
-        }).catch(err => console.error("수량 변경 오류:", err));
-    }
+    const id = e.target.dataset.id;
+    let qty = parseInt(e.target.value) || 1;
+    if (qty < 1) qty = 1;
+    e.target.value = qty;
+
+    const item = cartData.find(i => i.cart_number == id);
+    if (item) item.quantity = qty;
+
+    updateItemDisplay(id, qty);
+    updateSummary();
+
+    fetch("/kmarket/product/cart/updateQty", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ cart_number: id, quantity: qty })
+    }).catch(err => console.error("수량 변경 오류:", err));
 });
 
 // =========================
@@ -284,28 +293,6 @@ function updateItemDisplay(cartId, qty) {
 }
 
 // =========================
-// 직접 입력 시(텍스트박스) 수량 변경
+// 초기 실행
 // =========================
-document.addEventListener("change", async (e) => {
-    if (e.target.matches("input[data-id]")) {
-        const id = e.target.dataset.id;
-        let qty = parseInt(e.target.value);
-        if (isNaN(qty) || qty < 1) qty = 1;
-        e.target.value = qty;
-
-        const item = cartData.find(i => i.cart_number == id);
-        if (item) item.quantity = qty;
-
-        await fetch(`/kmarket/product/cart/updateQty`, {
-            method: "PATCH",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ cart_number: id, quantity: qty })
-        });
-
-        // 리로드 대신 화면만 갱신
-        updateItemDisplay(id, qty);
-        updateSummary();
-
-    }
-});
-
+document.addEventListener("DOMContentLoaded", fetchCartData);

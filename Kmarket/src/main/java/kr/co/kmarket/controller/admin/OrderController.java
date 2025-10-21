@@ -40,31 +40,25 @@ public class OrderController {
         int limit = 10;
         int block = 10;
 
-        // 3. 전체 개수 및 마지막 페이지 계산 (검색 조건 적용)
-        int total = orderService.selectAllOrderCount(searchType, keyword);
-
+        int total = orderService.selectAllOrderCount(searchType, keyword); // OrderService의 메서드에 searchType, keyword 전달 가정
         int lastPage = (int) Math.ceil(total / (double) limit);
-        int start = (pg - 1) * limit; // OFFSET
+        int start = (pg - 1) * limit;
 
-        // 4. 페이지 블록 계산
         int startPage = (pg - 1) / block * block + 1;
         int endPage = startPage + block - 1;
         if (endPage > lastPage) {
             endPage = lastPage;
         }
 
-        // 5. 주문 목록 조회 (검색 조건 적용)
         List<OrderDTO> allOrders = orderService.selectAllOrdersListPage(start, limit, searchType, keyword);
 
-        // 6. View로 전달할 페이지 정보 구성
-        Map<String, Object> OrderPage = new HashMap<>();
+        Map<String, Object> OrderPage = new HashMap<>(); // list.html은 OrderPage 사용
         OrderPage.put("pg", pg);
         OrderPage.put("start", startPage);
         OrderPage.put("end", endPage);
         OrderPage.put("lastPage", lastPage);
-
-        OrderPage.put("searchType", searchType);
-        OrderPage.put("keyword", keyword);
+        OrderPage.put("searchType", searchType); // Thymeleaf 오류 방지 및 검색 유지
+        OrderPage.put("keyword", keyword);       // Thymeleaf 오류 방지 및 검색 유지
 
         model.addAttribute("allOrders", allOrders);
         model.addAttribute("OrderPage", OrderPage);
@@ -125,7 +119,61 @@ public class OrderController {
     }
 
     @GetMapping("/delivery")
-    public String delivery(){
-        return "admin/order/delivery";
+    public String deliveryList(Model model, HttpSession session, @RequestParam(name = "pg", defaultValue = "1") int pg,
+                               @RequestParam(name = "searchType", required = false) String searchType,
+                               @RequestParam(name = "keyword", required = false) String keyword){
+        Integer custNumber = (Integer) session.getAttribute("cust_number");
+
+        if (custNumber == null) {
+            return "redirect:/member/login";
+        }
+
+        int limit = 10;
+        int block = 10;
+
+        int total = orderService.selectDeliveryOrderCount();
+        int lastPage = (int) Math.ceil(total / (double) limit);
+        int start = (pg - 1) * limit; // OFFSET
+
+        int startPage = (pg - 1) / block * block + 1;
+        int endPage = startPage + block - 1;
+        if (endPage > lastPage) {
+            endPage = lastPage;
+        }
+
+        List<OrderDTO> deliveryOrders = orderService.selectDeliveryOrdersListPage(start, limit);
+
+        Map<String, Object> DeliveryPage = new HashMap<>(); // delivery.html은 DeliveryPage 사용
+        DeliveryPage.put("pg", pg);
+        DeliveryPage.put("start", startPage);
+        DeliveryPage.put("end", endPage);
+        DeliveryPage.put("lastPage", lastPage);
+
+        DeliveryPage.put("searchType", searchType);
+        DeliveryPage.put("keyword", keyword);
+
+        model.addAttribute("deliveryOrders", deliveryOrders);
+        model.addAttribute("DeliveryPage", DeliveryPage);
+
+        return "/admin/order/delivery";
     }
+
+    @ResponseBody
+    @GetMapping("/delivery-detail/{orderNumber}")
+    public Map<String, Object> deliveryDetail(@PathVariable String orderNumber) {
+        // OrderService.selectDeliveryOrderDetail는 내부적으로 selectOrderDetailCombined를 호출할 것으로 가정
+        OrderDTO orderDetail = orderService.selectDeliveryOrderDetail(orderNumber); //
+
+        Map<String, Object> response = new HashMap<>();
+        if (orderDetail != null) {
+            response.put("success", true);
+            response.put("order", orderDetail);
+        } else {
+            response.put("success", false);
+            response.put("message", "주문 정보를 찾을 수 없습니다.");
+        }
+        return response;
+    }
+
+
 }

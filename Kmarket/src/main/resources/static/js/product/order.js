@@ -238,4 +238,34 @@ function updateProductPoints() {
     });
 }
 
+document.addEventListener("DOMContentLoaded", () => {
+    const form = document.getElementById("orderForm");
+    const btn = document.querySelector(".btn-order");
+
+    btn.addEventListener("click", (e) => {
+        // 배송정보 입력값 가져오기
+        const name = document.getElementById("name").value.trim();
+        const hp = document.getElementById("hp").value.trim();
+        const addr = document.getElementById("addr").value.trim();
+        const addr2 = document.getElementById("addr2").value.trim();
+
+        if (!name || !hp || !addr) {
+            alert("배송 정보를 모두 입력해주세요.");
+            e.preventDefault();
+            return;
+        }
+
+        // hidden input에 복사
+        document.getElementById("hiddenReceiver").value = name;
+        document.getElementById("hiddenHp").value = hp;
+        document.getElementById("hiddenAddr1").value = addr;
+        document.getElementById("hiddenAddr2").value = addr2;
+
+        // 선택한 결제수단 (버튼 활성화된 값)
+        const activePay = document.querySelector(".pay-btn.active");
+        if (activePay) {
+            document.getElementById("payment").value = activePay.textContent.trim();
+        }
+    });
+});
 

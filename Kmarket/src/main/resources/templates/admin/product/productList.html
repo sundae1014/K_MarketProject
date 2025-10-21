@@ -165,65 +165,17 @@
                                 </tr>                         
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td><input type="checkbox"></td>
+                                <tr th:each="product, stat:${pageResponseDTO.dtoList}">
+                                    <td><input type="checkbox" class="row-checkbox" th:value="${product.prod_number}"></td>
                                     <td><img th:src="@{/images/admin/product/cola.jpg}" alt="콜라" style="width:80px;height: 80px;"></td>
-                                    <td>201603292</td>
-                                    <td>상품명 #1</td>
-                                    <td>32,000</td>
-                                    <td>10%</td>
+                                    <td th:text="${product.prod_number}"></td>
+                                    <td th:text="${product.prod_name}" style="width:300px;"></td>
+                                    <td th:text="${product.price}"></td>
+                                    <td th:text="${product.discount}"></td>
                                     <td>320</td>
                                     <td>1,000</td>
-                                    <td>(주) 다파라</td>
-                                    <td>120</td>
-                                    <td>
-                                        <button class="status_btn">[삭제]</button><br>
-                                        <button class="status_btn">[수정]</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><input type="checkbox"></td>
-                                    <td><img th:src="@{/images/admin/product/cola.jpg}" alt="콜라" style="width:80px;height: 80px;"></td>
-                                    <td>201603292</td>
-                                    <td>상품명 #2</td>
-                                    <td>32,000</td>
-                                    <td>5%</td>
-                                    <td>200</td>
-                                    <td>1,000</td>
-                                    <td>(주) 다파라</td>
-                                    <td>120</td>
-                                    <td>
-                                        <button class="status_btn">[삭제]</button><br>
-                                        <button class="status_btn">[수정]</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><input type="checkbox"></td>
-                                    <td><img th:src="@{/images/admin/product/cola.jpg}" alt="콜라" style="width:80px;height: 80px;"></td>
-                                    <td>201603292</td>
-                                    <td>상품명 #3</td>
-                                    <td>32,000</td>
-                                    <td>-</td>
-                                    <td>100</td>
-                                    <td>1,000</td>
-                                    <td>(주) 다파라</td>
-                                    <td>120</td>
-                                    <td>
-                                        <button class="status_btn">[삭제]</button><br>
-                                        <button class="status_btn">[수정]</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><input type="checkbox"></td>
-                                    <td><img th:src="@{/images/admin/product/cola.jpg}" alt="콜라" style="width:80px;height: 80px;"></td>
-                                    <td>201603292</td>
-                                    <td>상품명 #4</td>
-                                    <td>32,000</td>
-                                    <td>12%</td>
-                                    <td>300</td>
-                                    <td>1,000</td>
-                                    <td>(주) 다파라</td>
-                                    <td>120</td>
+                                    <td th:text="${product.manufacture}"></td>
+                                    <td th:text="${product.hit}"></td>
                                     <td>
                                         <button class="status_btn">[삭제]</button><br>
                                         <button class="status_btn">[수정]</button>
@@ -235,13 +187,24 @@
                 </div>
                 <div class="bottom-section" style="position: relative;">
                     <ul class="pagenation">
-                        <li><a href="#"><span class="first"></span></a></li>
-                        <li><a href="#"><span class="prev"></span></a></li>
-                        <li><a href="#" class="active2">1</a></li>
-                        <li><a href="#" class="pageNum">2</a></li>
-                        <li><a href="#" class="pageNum">3</a></li>
-                        <li><a href="#"><span class="next"></span></a></li>
-                        <li><a href="#"><span class="last"></span></a></li>
+                        <li>
+                            <a th:if="${pageResponseDTO.prev}"
+                               th:href="@{/admin/product/list(pg=${pageResponseDTO.start - 1})}">
+                            <span class="prev"></span>
+                            </a>
+                        </li>
+                        <th:block th:if="${pageResponseDTO.total > 0}" th:each="num:${#numbers.sequence(pageResponseDTO.start, pageResponseDTO.end)}">
+                            <li>
+                                <a th:href="@{/admin/product/list (pg=${num})}"
+                                   th:class="${num == pageResponseDTO.pg ? 'active2' : 'pageNum'}">[[${num}]]</a>
+                            </li>
+                        </th:block>
+                        <li>
+                            <a th:if="${pageResponseDTO.next}"
+                               th:href="@{/admin/product/list(pg=${pageResponseDTO.end + 1})}">
+                            <span class="next"></span>
+                            </a>
+                        </li>
                     </ul>
                     <div class="btn_box">
                         <button class="productList_Btn select_delete">선택삭제</button>
