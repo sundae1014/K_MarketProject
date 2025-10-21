@@ -39,13 +39,15 @@
         p.CREATED_AT
         FROM MEMBER m
         JOIN POINT p ON m.CUST_NUMBER=p.CUST_NUMBER
+        WHERE p.POINT_AMOUNT != 0
         OFFSET #{pageRequestDTO.offset} ROWS
         FETCH NEXT #{pageRequestDTO.size} ROWS ONLY
     </select>
     <select id="selectCount" resultType="int">
-        SELECT COUNT(DISTINCT m.CUSTID)
+        SELECT COUNT(m.CUSTID)
         FROM MEMBER m
         JOIN POINT p ON m.CUST_NUMBER=p.CUST_NUMBER
+        WHERE p.POINT_AMOUNT != 0
     </select>
 
     <select id="searchAll" resultType="map">
