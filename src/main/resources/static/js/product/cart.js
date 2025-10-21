@@ -10,7 +10,14 @@ async function fetchCartData() {
     try {
         const res = await fetch("/kmarket/product/cart/list");
         if (!res.ok) throw new Error("서버 응답 오류");
-        cartData = await res.json();
+
+        const data = await res.json();
+        cartData = data.map(item => ({
+            ...item,
+            quantity: Number(item.quantity ?? 1) // ✅ 문자열→숫자 변환 & null 방지
+        }));
+
+        console.log("cartData after fetch:", cartData);
         renderCart();
     } catch (e) {
         console.error(e);
@@ -22,14 +29,13 @@ async function fetchCartData() {
 // 유틸 함수
 // =========================
 const formatPrice = num => num.toLocaleString() + "원";
-const getPoint = price => Math.floor(price * 0.01);
+const getPoint = (unitPrice, quantity = 1) => Math.floor(unitPrice * 0.01 * quantity);
 
 // 기본가(정상가): product.price 사용 (옵션가 포함 시 price + opt 추가금)
 const getUnitBase = item => {
     return item.price; // 상품 원가(정상가)
 };
 
-// 할인가: DB에서 이미 할인된 opt_price 내려오면 그대로 사용
 // opt_price가 없다면 정상가에 할인률 적용
 const getUnitSale = item => {
     if (item.opt_price && item.opt_price > 0) {
@@ -39,7 +45,7 @@ const getUnitSale = item => {
     }
 };
 
-// ✅ 합계 계산
+// 합계 계산
 const getTotals = item => {
     const regular = getUnitBase(item) * item.quantity;      // 정상가 합계
     const sale = getUnitSale(item) * item.quantity;          // 할인가 합계
@@ -61,6 +67,8 @@ function renderCart() {
     }
 
     cartData.forEach(item => {
+        console.log('quantity type:', typeof item.quantity, item.quantity);
+
         const unitBase = getUnitBase(item); // 정상가
         const unitSale = getUnitSale(item); // 할인가
         const totalBase = unitBase * item.quantity;
@@ -90,16 +98,15 @@ function renderCart() {
                 <p>최대 ${formatPrice(totalPoint)} 적립</p>
             </div>
             <div class="cart-qty">
-                <button class="minus" data-id="${item.cart_number}">-</button>
-                <input type="text" value="${item.quantity}" data-id="${item.cart_number}">
-                <button class="plus" data-id="${item.cart_number}">+</button>
+                <button type="button" class="minus" data-id="${item.cart_number}">-</button>
+                <input  type="text"  class="qty-input" value="${item.quantity}" data-id="${item.cart_number}">
+                <button type="button" class="plus"  data-id="${item.cart_number}">+</button>
             </div>
         </div>`;
         list.appendChild(div);
     });
 
     renderSelectAll();
-    updateSummary(); // ✅ 단 한 번만 호출
 }
 
 // =========================
@@ -140,6 +147,8 @@ function renderSelectAll() {
         cartData = cartData.filter(i => !selected.includes(String(i.cart_number)));
         renderCart();
     });
+
+    updateSummary();
 }
 
 // =========================
@@ -180,7 +189,7 @@ function updateSummary() {
         totalCount += item.quantity;
         totalRegular += regular;
         totalDiscountAmt += discountAmt;
-        totalPoint += getPoint(sale);
+        totalPoint += getPoint(getUnitSale(item), item.quantity);
     });
 
     const final = totalRegular - totalDiscountAmt; // ✅ 정상가 - 할인금액
@@ -202,6 +211,7 @@ function updateSummary() {
 // 주문 페이지로 이동
 // =========================
 document.addEventListener("click", e => {
+
     if (e.target.classList.contains("btn-order")) {
         const selected = [...document.querySelectorAll(".chk-item:checked")]
             .map(chk => chk.dataset.id);
@@ -215,6 +225,72 @@ document.addEventListener("click", e => {
         window.location.href = `/kmarket/order/form?cartNumbers=${cartNumbers}`;
     }
 });
+
+// =========================
+// 수량 변경 기능 (+ / - 버튼, 직접 입력 통합)
+// =========================
+
+// (1) + / - 버튼 클릭 시
+document.addEventListener("click", e => {
+    const btn = e.target.closest(".plus, .minus"); // ✅ 버튼 또는 내부 텍스트 클릭 대응
+    if (!btn) return;
+
+    const id     = btn.dataset.id;
+    const itemEl = btn.closest(".cart-item");                          // 범위 한정
+    const input  = itemEl?.querySelector(`.cart-qty .qty-input[data-id="${id}"]`);
+    if (!input) { console.warn("qty input not found for", id); return; }
+
+    let qty = parseInt(input.value) || 1;
+    if (btn.classList.contains("plus")) qty++;
+    if (btn.classList.contains("minus") && qty > 1) qty--;
+
+    input.value = qty;
+    input.dispatchEvent(new Event("input", { bubbles: true }));
+});
+
+// (2) input 직접 입력 시
+document.addEventListener("input", e => {
+    if (!e.target.matches('input[data-id]')) return;
+
+    const id = e.target.dataset.id;
+    let qty = parseInt(e.target.value) || 1;
+    if (qty < 1) qty = 1;
+    e.target.value = qty;
+
+    const item = cartData.find(i => i.cart_number == id);
+    if (item) item.quantity = qty;
+
+    updateItemDisplay(id, qty);
+    updateSummary();
+
+    fetch("/kmarket/product/cart/updateQty", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ cart_number: id, quantity: qty })
+    }).catch(err => console.error("수량 변경 오류:", err));
+});
+
+// =========================
+// 개별 상품 화면 갱신
+// =========================
+function updateItemDisplay(cartId, qty) {
+    const item = cartData.find(i => i.cart_number == cartId);
+    if (!item) return;
+
+    item.quantity = qty;
+
+    const unitSale = getUnitSale(item);
+    const totalSale = unitSale * qty;
+    const totalBase = getUnitBase(item) * qty;
+    const totalPoint = getPoint(unitSale, qty);
+
+    const container = document.querySelector(`.chk-item[data-id="${cartId}"]`).closest(".cart-item");
+    container.querySelector(".sale").textContent = formatPrice(totalSale);
+    container.querySelector(".regular").textContent = formatPrice(totalBase);
+    container.querySelector(".cart-point p").textContent = `최대 ${formatPrice(totalPoint)} 적립`;
+    container.querySelector(".product-option").textContent = `${qty}개${item.opt_name ? ', ' + item.opt_name + ` (${formatPrice(unitSale)})` : ''}`;
+    container.querySelector(`input[data-id="${cartId}"]`).value = qty; // ✅ input 즉시 반영
+}
 
 // =========================
 // 초기 실행

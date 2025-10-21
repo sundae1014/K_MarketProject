@@ -11,10 +11,17 @@
         </div>
     </div>
 
+    <!--
+    basicData. 뒤에 메인/관리자 구분해서 변경해주세요.!
+    메인쪽 로고(기본) : header_logo_main, footer_logo_main
+    관리자 로고 : header_logo_admin, footer_logo_admin
+    -->
+    <img th:src="@{'/uploads/logo/' + ${basicData.footer_logo_main}}" alt="큐팡 푸터 로고" class="footer-logo">
+
     <div class="footer-info">
 
         <div class="footer-col">
-            <img th:src="@{/images/main/cupang_logo(grey).png}" alt="큐팡 푸터 로고" class="footer-logo">
+            <img th:src="@{'/uploads/logo/' + ${basicData.footer_logo_main}}" alt="큐팡 푸터 로고" class="footer-logo">
         </div>
 
         <div class="footer-col">

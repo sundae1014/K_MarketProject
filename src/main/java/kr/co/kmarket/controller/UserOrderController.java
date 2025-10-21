@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -31,51 +32,77 @@ public class UserOrderController {
         // 구매자 정보
         model.addAttribute("buyer", memberDTO);
 
-        // Case 1: 장바구니에서 넘어온 경우
+        List<CartDTO> orderItems = new ArrayList<>();
+
+        // Case 1: 장바구니 주문
         if (cartNumbers != null && !cartNumbers.isEmpty()) {
             String[] numbers = cartNumbers.split(",");
-            List<CartDTO> orderItems = orderService.selectCartItemsByNumbers(numbers);
-            model.addAttribute("orderItems", orderItems);
-
-            // 포인트, 쿠폰
-            model.addAttribute("userPoint", orderService.selectUserPoint(memberDTO.getCust_number()));
-            model.addAttribute("coupons", orderService.selectAvailableCoupons(memberDTO.getCust_number()));
-
-            return "product/prodOrder";
+            orderItems = orderService.selectCartItemsByNumbers(numbers);
         }
 
-        // Case 2: 상품 상세 페이지 → 바로구매
-        if (prod_number != null) {
-            ProductDTO productDTO = orderService.selectProductDetail(prod_number);
-            model.addAttribute("product", productDTO);
-            model.addAttribute("quantity", quantity);
-            model.addAttribute("options", orderService.selectOptionsByProduct(prod_number));
-            model.addAttribute("coupons", orderService.selectAvailableCoupons(memberDTO.getCust_number()));
-            model.addAttribute("userPoint", orderService.selectUserPoint(memberDTO.getCust_number()));
-            return "product/prodOrder";
+        // Case 2: 바로구매 주문
+        else if (prod_number != null) {
+            ProductDTO p = orderService.selectProductDetail(prod_number);
+
+            CartDTO temp = new CartDTO();
+            temp.setProd_number(p.getProd_number());
+            temp.setProd_name(p.getProd_name());
+            temp.setImg_1(p.getImg_1());
+            temp.setDiscount(p.getDiscount());
+            temp.setPrice(p.getPrice());
+            temp.setQuantity(quantity);
+
+            List<ProductOptionDTO> opts = orderService.selectOptionsByProduct(prod_number);
+            if (opts != null && !opts.isEmpty()) {
+                temp.setOpt_name(opts.get(0).getOpt_name());
+                temp.setOpt_price(opts.get(0).getOpt_price());
+            } else {
+                temp.setOpt_name("free");
+                temp.setOpt_price(0);
+            }
+
+            orderItems.add(temp);
         }
 
-        return "redirect:/product/cart";
+        // ✅ 공통 데이터
+        model.addAttribute("orderItems", orderItems);
+        model.addAttribute("userPoint", orderService.selectUserPoint(memberDTO.getCust_number()));
+        model.addAttribute("coupons", orderService.selectAvailableCoupons(memberDTO.getCust_number()));
+
+        return "product/prodOrder";
     }
 
     // 주문 처리 (결제 완료 버튼 누른 후)
     @PostMapping("/complete")
     public String completeOrder(@ModelAttribute OrderDTO orderDTO) {
+        System.out.println("✅ 주문 데이터 확인: " + orderDTO);
 
-        // 1️⃣ 주문 생성
-        orderDTO.setPayment(1);
+        // 1️⃣ 주문 메인 저장
         String order_number = orderService.insertOrder(orderDTO);
 
-        // 2️⃣ 포인트 차감
+        // 2️⃣ 주문 상세 저장 (단일 상품 기준 예시 — 여러 상품일 경우 반복 호출)
+        orderDTO.setOrder_number(order_number);
+        orderService.insertOrderDetail(orderDTO);
+
+        // 3️⃣ 포인트 차감 및 적립
         if (orderDTO.getUsePoint() > 0) {
             orderService.usePoint(orderDTO.getCust_number(), order_number, orderDTO.getUsePoint());
         }
-
-        // 3️⃣ 포인트 적립 (1%)
-        int earn = (int)(orderDTO.getPrice() * 0.01);
+        int earn = (int) (orderDTO.getPrice() * 0.01);
         orderService.earnPoint(orderDTO.getCust_number(), order_number, earn);
 
-        // 완료 페이지 이동
+        // 4️⃣ 완료 페이지로 이동
+        return "redirect:/order/complete?order_number=" + order_number;
+    }
+
+    @GetMapping("/complete")
+    public String showComplete(@RequestParam("order_number") String order_number, Model model) {
+        OrderDTO order = orderService.selectOrderByNumber(order_number);
+        List<OrderDTO> details = orderService.selectOrderDetails(order_number);
+
+        model.addAttribute("order", order);
+        model.addAttribute("details", details);
+
         return "product/prodComplete";
     }
 }

@@ -5,11 +5,13 @@ import kr.co.kmarket.mapper.OrderMapper;
 import kr.co.kmarket.mapper.ProductMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class OrderServiceImpl implements OrderService {
 
     private final OrderMapper orderMapper;
@@ -21,6 +23,21 @@ public class OrderServiceImpl implements OrderService {
 
         // <selectKey>로 미리 ORDER_NUMBER를 채워두면 이게 자동 세팅됨
         return orderDTO.getOrder_number();
+    }
+
+    @Override
+    public void insertOrderDetail(OrderDTO orderDTO) {
+        orderMapper.insertOrderDetail(orderDTO);
+    }
+
+    @Override
+    public OrderDTO selectOrderByNumber(String order_number) {
+        return orderMapper.selectOrderByNumber(order_number);
+    }
+
+    @Override
+    public List<OrderDTO> selectOrderDetails(String order_number) {
+        return orderMapper.selectOrderDetails(order_number);
     }
 
     @Override
