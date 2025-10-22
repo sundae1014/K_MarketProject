@@ -201,6 +201,6 @@ public class UserOrderController {
         model.addAttribute("details", details);
         model.addAttribute("totalPieces", totalPieces); // 🧩 추가된 부분
 
-        return "/product/prodComplete";
+        return "product/prodComplete";
     }
 }
