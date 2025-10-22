@@ -43,4 +43,8 @@ public interface CouponMapper {
     int stopCoupon(int couponNo);
     List<CouponDTO> selectIssuedCoupons();
     List<CouponDTO> selectAvailableCoupons(int custNumber);
+    int updateCouponStatusToStop(int couponNo);
+
+    List<CouponDTO> selectIssuedCouponsByPage(@Param("offset") int offset, @Param("size") int size);
+    int countIssuedCoupons();
 }

@@ -9,6 +9,7 @@ import java.util.Map;
 
 @Mapper
 public interface AdminProductMapper {
+    public int findMaxProdNumber();
     public int findByProdNumber(int prod_number);
     public List<CategoryDTO> findCategory(String upCateCd);
     public List<Map<String, Object>> findAll(@Param("pageRequestDTO") PageRequestDTO pageRequestDTO);

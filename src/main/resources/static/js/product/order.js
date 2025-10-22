@@ -2,11 +2,12 @@
    주문/결제 - 쿠폰 & 포인트 계산
    (단일상품 + 장바구니 통합 버전)
 ========================= */
+let finalPrice = 0;      // 최종 결제금액
+
 document.addEventListener("DOMContentLoaded", () => {
     let originalPrice = 0;   // 정상가 합계
     let discountPrice = 0;   // 할인금액 합계
     let basePrice = 0;       // 할인가 (정상가 - 할인금액)
-    let finalPrice = 0;      // 최종 결제금액
     let couponDiscount = 0;
     let usedPoint = 0;
 
@@ -209,40 +210,52 @@ function updateProductPoints() {
 }
 
 /* =========================
-   ✅ 폼 전송 시 검증 + hidden input 복사 (최종 통합 버전)
+   ✅ 폼 전송 시 검증 + hidden input 복사 (완전 확정 버전)
 ========================= */
 document.addEventListener("DOMContentLoaded", () => {
     const orderForm = document.getElementById("orderForm");
     if (!orderForm) return;
 
     orderForm.addEventListener("submit", (e) => {
-        const name = document.getElementById("name").value.trim();
-        const hp = document.getElementById("hp").value.trim();
-        const addr = document.getElementById("addr").value.trim();
-        const addr2 = document.getElementById("addr2").value.trim();
+        e.preventDefault(); // ⚠️ 기본 전송 막기 (값 복사 먼저)
+
+        const name = document.getElementById("name")?.value.trim();
+        const hp = document.getElementById("hp")?.value.trim();
+        const zip = document.getElementById("zip")?.value.trim();
+        const addr = document.getElementById("addr")?.value.trim();
+        const addr2 = document.getElementById("addr2")?.value.trim();
+        const req = document.getElementById("req")?.value.trim();
+        const usePoint = document.getElementById("usePoint")?.value.trim() || 0;
         const activePay = document.querySelector(".pay-btn.active");
+        const hiddenPrice = document.querySelector('input[name="price"]');
 
         // ✅ 필수 입력 검증
         if (!name || !hp || !addr) {
             alert("배송 정보를 모두 입력해주세요.");
-            e.preventDefault();
             return;
         }
+
+        // ✅ hidden 값 복사
+        document.getElementById("hiddenReceiver").value = name;
+        document.getElementById("hiddenHp").value = hp;
+        document.getElementById("hiddenZip").value = zip;
+        document.getElementById("hiddenAddr1").value = addr;
+        document.getElementById("hiddenAddr2").value = addr2;
+        document.getElementById("hiddenReq").value = req;
+        document.getElementById("hiddenUsePoint").value = usePoint;
+        if (hiddenPrice) hiddenPrice.value = finalPrice;
 
         // ✅ 결제수단 반영
         if (activePay) {
             document.getElementById("payment").value = activePay.textContent.trim();
         }
 
-        // ✅ hidden input 복사
-        document.getElementById("hiddenReceiver").value = name;
-        document.getElementById("hiddenHp").value = hp;
-        document.getElementById("hiddenZip").value = document.getElementById("zip").value;
-        document.getElementById("hiddenAddr1").value = addr;
-        document.getElementById("hiddenAddr2").value = addr2;
-        document.getElementById("hiddenReq").value = document.getElementById("req").value;
-        document.getElementById("hiddenUsePoint").value = document.getElementById("usePoint").value;
+        console.log("📦 최종 전송 데이터:", { name, hp, zip, addr, addr2, req, finalPrice });
 
-        console.log("📦 최종 전송 데이터:", name, hp, addr, addr2);
+        // ✅ 모든 값 복사 완료 후 폼 수동 전송
+        orderForm.submit();
     });
 });
+
+
+

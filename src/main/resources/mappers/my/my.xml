@@ -117,7 +117,6 @@
         JOIN PRODUCT b ON a.COMPANY_NAME = b.MANUFACTURE
         WHERE a.AUTH = 3
         AND b.MANUFACTURE = #{manufacture}
-        FETCH FIRST 1 ROWS ONLY
     </select>
 
     <insert id="insertQna" parameterType="kr.co.kmarket.dto.QnaDTO">
@@ -421,7 +420,7 @@
 
     <select id="selectCouponCountByCustNumber" resultType="int">
         SELECT COUNT(*) FROM COUPON
-        WHERE STATUS = '정상'
+        WHERE STATUS = '사용가능'
     </select>
 
     <select id="selectCouponsListPage" resultMap="CouponResultMap">
@@ -441,7 +440,7 @@
         STATUS,
         ROW_NUMBER() OVER (ORDER BY ISSUE_DATE DESC) AS rn
         FROM COUPON
-        WHERE STATUS = '정상' )
+        WHERE STATUS = '사용가능' )
         WHERE rn BETWEEN #{start} + 1 AND #{start} + #{limit}
         ORDER BY rn ASC
     </select>
@@ -507,8 +506,43 @@
         SELECT
             COUNT(*)
         FROM COUPON
-        WHERE STATUS = '정상'
+        WHERE STATUS = '사용가능'
     </select>
 
+    <update id="updateMemberInfo">
+        UPDATE MEMBER
+        <set>
+            <if test="hp != null and hp != ''">
+                HP = #{hp, jdbcType=VARCHAR},
+            </if>
+
+            <if test="email != null and email != ''">
+                EMAIL = #{email, jdbcType=VARCHAR},
+            </if>
+
+            <if test="zip != null and zip != ''">
+                ZIP = #{zip, jdbcType=VARCHAR},
+            </if>
+
+            <if test="addr1 != null and addr1 != ''">
+                ADDR1 = #{addr1, jdbcType=VARCHAR},
+            </if>
+
+            <if test="addr2 != null and addr2 != ''">
+                ADDR2 = #{addr2, jdbcType=VARCHAR},
+            </if>
+        </set>
+        WHERE CUST_NUMBER = #{cust_number}
+    </update>
+
+    <select id="selectMemberPass" resultType="String">
+        SELECT "PW" FROM MEMBER
+        WHERE CUST_NUMBER = #{custNumber}
+    </select>
+
+    <delete id="deleteMember">
+        DELETE FROM MEMBER
+        WHERE "CUST_NUMBER" = #{custNumber}
+    </delete>
 
 </mapper>

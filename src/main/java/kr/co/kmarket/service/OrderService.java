@@ -1,8 +1,6 @@
 package kr.co.kmarket.service;
 
 import kr.co.kmarket.dto.*;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -23,6 +21,8 @@ public interface OrderService {
     List<CartDTO> selectCartList(List<Integer> cart_numbers);
     List<CartDTO> selectCartItemsByNumbers(String[] cart_number);
 
+    void useCoupon(int couponNo, int custNumber);
+
     // 쿠폰 조회
     List<CouponDTO> selectAvailableCoupons(int cust_number);
 
@@ -33,7 +33,5 @@ public interface OrderService {
     void earnPoint(int cust_number, String order_number, int earnPoint);
 
     OrderDTO selectOrderComplete(String orderNumber);
-
-    void useCoupon(int couponNo, int custNumber);
 
 }

@@ -29,11 +29,9 @@ public class CouponController {
         int size = 10; // 페이지당 10개
 
         if (keyword != null && !keyword.isEmpty()) {
-            // ✅ 검색 결과 조회
             model.addAttribute("coupons", service.searchCoupons(type, keyword, page, size));
             model.addAttribute("totalPages", service.getSearchTotalPages(type, keyword, size));
         } else {
-            // ✅ 일반 목록 조회
             model.addAttribute("coupons", service.getCouponsByPage(page, size));
             model.addAttribute("totalPages", service.getTotalPages(size));
         }
@@ -65,11 +63,21 @@ public class CouponController {
 
     // ✅ 쿠폰 발급 현황 페이지 이동
     @GetMapping("/issued")
-    public String issued(Model model) {
-        model.addAttribute("issuedCoupons", service.getIssuedCoupons());
+    public String issued(@RequestParam(defaultValue = "1") int page,
+                         Model model) {
+
+        int size = 10; // 페이지당 표시할 개수
+
+        model.addAttribute("issuedCoupons", service.getIssuedCouponsByPage(page, size));
+
+        model.addAttribute("totalPages", service.getIssuedTotalPages(size));
+
+        model.addAttribute("currentPage", page);
+
         return "admin/coupon/couponStat";
     }
 
+    // ✅ 쿠폰 발급 처리
     @PostMapping("/issue")
     @ResponseBody
     public Map<String, Object> issueCoupon(@RequestParam("couponno") int couponNo,
@@ -77,23 +85,46 @@ public class CouponController {
 
         Map<String, Object> result = new HashMap<>();
 
-        // ✅ 로그인 확인
         Integer custNumber = (Integer) session.getAttribute("user");
         if (custNumber == null) {
             result.put("status", "loginRequired");
             return result;
         }
 
-        // ✅ 서비스 호출
         int issued = service.issueCoupon(couponNo, custNumber);
 
         if (issued == 1) {
-            result.put("status", "success"); // 발급 성공
+            result.put("status", "success");
         } else {
-            result.put("status", "duplicate"); // 이미 발급됨
+            result.put("status", "duplicate");
         }
         return result;
     }
 
+    // ✅ 쿠폰 종료 (발급 중지)
+    @PostMapping("/stop")
+    @ResponseBody
+    public Map<String, Object> stopCoupon(@RequestParam("couponNo") int couponNo) {
+        Map<String, Object> result = new HashMap<>();
 
+        try {
+            int updated = service.stopCoupon(couponNo);
+            if (updated > 0) {
+                result.put("status", "success");
+            } else {
+                result.put("status", "fail");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.put("status", "error");
+        }
+
+        return result;
+    }
+
+    @GetMapping("/detail")
+    @ResponseBody
+    public CouponDTO getCouponDetail(@RequestParam("couponNo") int couponNo) {
+        return service.getCouponDetail(couponNo); // ✅ Service 통해 조회
+    }
 }

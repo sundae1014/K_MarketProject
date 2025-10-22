@@ -246,4 +246,17 @@ public class MyService {
         return myMapper.selectCountCoupon();
     }
 
+    public int updateMemberInfo(MemberDTO memberDTO) {
+        return myMapper.updateMemberInfo(memberDTO);
+    }
+
+    public String selectMemberPass(int custNumber) {
+        return myMapper.selectMemberPass(custNumber);
+    }
+
+    // 비밀번호 검증은 Controller에서 처리하므로, 삭제는 custNumber만 받도록 변경
+    public int deleteMember(int custNumber) {
+        return myMapper.deleteMember(custNumber);
+    }
+
 }

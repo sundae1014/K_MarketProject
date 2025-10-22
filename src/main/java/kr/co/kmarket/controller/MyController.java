@@ -5,9 +5,11 @@ import kr.co.kmarket.dto.*;
 import kr.co.kmarket.service.MyService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -26,6 +28,7 @@ public class MyController {
     private final MyService myService;
     private final SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
     private final DecimalFormat priceFormatter = new DecimalFormat("#,###");
+    private final PasswordEncoder passwordEncoder;
 
     @ModelAttribute
     public void addCommonAttributes(Model model, HttpSession session) {
@@ -193,6 +196,81 @@ public class MyController {
         model.addAttribute("userInfo", userInfo);
 
         return "my/option";
+    }
+
+    @PostMapping("/option")
+    public String updateOption(@ModelAttribute MemberDTO memberDTO,
+                               @RequestParam(required = false) String hp1,
+                               @RequestParam(required = false) String hp2,
+                               @RequestParam(required = false) String hp3,
+                               @RequestParam(required = false) String email1,
+                               @RequestParam(required = false) String email2,
+                               HttpSession session,
+                               RedirectAttributes redirectAttributes) {
+
+        Integer custNumber = (Integer) session.getAttribute("cust_number");
+
+        if (custNumber == null) {
+            return "redirect:/member/login";
+        }
+
+        // 1. DTO에 cust_number 설정
+        memberDTO.setCust_number(custNumber);
+
+        // ===============================================
+        // 💡 핵심 수정: 분리된 필드 값 합치기 및 유효성 검사 강화
+        // ===============================================
+
+        // 2. 전화번호 합치기
+        // 💡 세 필드 모두 null이 아니고 (전송되었고), 하나라도 값이 비어있지 않은 경우에만 합칩니다.
+        //    trim()을 사용하여 공백을 제거하고, isBlank() (Java 11+) 또는 isEmpty()로 빈 문자열을 확인합니다.
+
+        // 필드 값이 빈 문자열이 아닌지 확인하는 헬퍼 함수를 가정 (Java 8+ 기준)
+        boolean isHpValid = hp1 != null && !hp1.trim().isEmpty() &&
+                hp2 != null && !hp2.trim().isEmpty() &&
+                hp3 != null && !hp3.trim().isEmpty();
+
+        if (isHpValid) {
+            String fullHp = hp1.trim() + "-" + hp2.trim() + "-" + hp3.trim();
+            memberDTO.setHp(fullHp);
+        } else {
+            // 만약 HP 필드가 수정되지 않아 빈 문자열이나 null이 넘어왔다면,
+            // DTO의 hp 필드를 null로 설정하여 MyBatis의 <if> 조건이 false가 되도록 유도합니다.
+            // 이는 DB의 기존 값을 유지하도록 하기 위함입니다.
+            memberDTO.setHp(null);
+        }
+
+        // 3. 이메일 합치기
+        boolean isEmailValid = email1 != null && !email1.trim().isEmpty() &&
+                email2 != null && !email2.trim().isEmpty();
+
+        if (isEmailValid) {
+            String fullEmail = email1.trim() + "@" + email2.trim();
+            memberDTO.setEmail(fullEmail);
+        } else {
+            // 이메일도 유효하지 않으면 null로 설정
+            memberDTO.setEmail(null);
+        }
+
+        if (memberDTO.getZip() != null && memberDTO.getZip().trim().isEmpty()) memberDTO.setZip(null);
+        if (memberDTO.getAddr1() != null && memberDTO.getAddr1().trim().isEmpty()) memberDTO.setAddr1(null);
+        if (memberDTO.getAddr2() != null && memberDTO.getAddr2().trim().isEmpty()) memberDTO.setAddr2(null);
+
+        // ===============================================
+
+        // 5. 서비스 호출
+        int result = myService.updateMemberInfo(memberDTO);
+
+        // ===============================================
+
+        // 5. 결과 처리
+        if (result > 0) {
+            redirectAttributes.addFlashAttribute("successMessage", "회원 정보가 성공적으로 수정되었습니다.");
+        } else {
+            redirectAttributes.addFlashAttribute("errorMessage", "회원 정보 수정에 실패했습니다. (DB 오류)");
+        }
+
+        return "redirect:/my/option";
     }
 
     @GetMapping("/order")
@@ -402,5 +480,45 @@ public class MyController {
 
         return "my/review";
     }
+
+    @PostMapping("/delete")
+    public String deleteMember(@RequestParam("pass") String inputPass, // 사용자가 입력한 비밀번호
+                               HttpSession session,
+                               RedirectAttributes redirectAttributes) {
+
+        Integer custNumber = (Integer) session.getAttribute("cust_number");
+
+        if (custNumber == null) {
+            return "redirect:/member/login";
+        }
+
+        // 1. DB에 저장된 암호화된 비밀번호 조회
+        String dbPass = myService.selectMemberPass(custNumber);
+
+        // 2. 사용자가 입력한 비밀번호(inputPass)와 DB 비밀번호(dbPass) 비교
+        //    💡 passwordEncoder.matches(평문, 암호문) 사용
+        if (dbPass != null && passwordEncoder.matches(inputPass, dbPass)) {
+
+            // 3. 비밀번호 일치: DB에서 회원 삭제
+            int result = myService.deleteMember(custNumber);
+
+            if (result > 0) {
+                // 4. 삭제 성공 시 세션 무효화 (로그아웃 처리)
+                session.invalidate();
+                redirectAttributes.addFlashAttribute("successMessage", "회원 탈퇴가 완료되었습니다. 그동안 이용해주셔서 감사합니다.");
+                return "redirect:/member/login";
+            } else {
+                // DB 삭제 실패 (매우 드문 경우)
+                redirectAttributes.addFlashAttribute("errorMessage", "회원 정보 삭제 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.");
+                return "redirect:/my/option";
+            }
+
+        } else {
+            // 5. 비밀번호 불일치
+            redirectAttributes.addFlashAttribute("errorMessage", "비밀번호가 일치하지 않습니다.");
+            return "redirect:/my/option"; // 나의 설정 페이지로 돌아감
+        }
+    }
+
 
 }

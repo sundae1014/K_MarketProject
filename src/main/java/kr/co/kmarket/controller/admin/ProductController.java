@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -68,8 +69,12 @@ public class ProductController {
     @PostMapping("/register")
     public String register(ProductDTO productDTO,
                            ProductNoticeDTO productNoticeDTO,
-                           ProductMangementDTO productMangementDTO) {
-
+                           ProductMangementDTO productMangementDTO,
+                           @RequestParam(value = "file1", required = false) MultipartFile file1,
+                           @RequestParam(value = "file2", required = false) MultipartFile file2,
+                           @RequestParam(value = "file3", required = false) MultipartFile file3,
+                           @RequestParam(value = "detailFile", required = false) MultipartFile detailFile) {
+        log.info("file1={}, file2={}, file3={}, detailFile={}", file1, file2, file3, detailFile);
         int discount = productDTO.getDiscount();
         double  sale = (1 - Double.parseDouble(String.valueOf(productDTO.getDiscount())) / 100);
         int salePrice = (int) (productDTO.getPrice() * sale);
@@ -81,7 +86,7 @@ public class ProductController {
         }
 
         log.info("productDTO = {}, productNoticeDTO = {}, productMangementDTO = {}",  productDTO, productNoticeDTO, productMangementDTO);
-        adminProductService.insert(productDTO, productNoticeDTO, productMangementDTO);
+        adminProductService.insert(productDTO, productNoticeDTO, productMangementDTO, file1, file2, file3, detailFile);
 
         return "redirect:/admin/product/list";
     }
