@@ -112,7 +112,7 @@
         WHERE COUPON_NO = #{couponNo}
     </update>
 
-    <update id="stopCoupon">
+    <update id="updateCouponStatusToStop">
         UPDATE COUPON
         SET STATUS = '종료'
         WHERE COUPON_NO = #{couponNo}
@@ -171,5 +171,30 @@
           AND H.USE_DATE IS NULL
         ORDER BY H.HISTORY_NO DESC
     </select>
+
+    <select id="selectIssuedCouponsByPage" resultMap="couponMap">
+        SELECT
+            H.HISTORY_NO,
+            H.CUST_NUMBER,
+            H.COUPON_NO,
+            C.COUPON_TYPE,
+            C.COUPON_NAME,
+            M.NAME AS ISSUER,
+            C.STATUS,
+            H.ISSUE_DATE,
+            H.USE_DATE
+        FROM COUPON_HISTORY H
+                 JOIN COUPON C ON H.COUPON_NO = C.COUPON_NO
+                 JOIN MEMBER M ON H.CUST_NUMBER = M.CUST_NUMBER
+        ORDER BY H.HISTORY_NO DESC
+        OFFSET #{offset} ROWS FETCH NEXT #{size} ROWS ONLY
+    </select>
+
+    <select id="countIssuedCoupons" resultType="int">
+        SELECT COUNT(*)
+        FROM COUPON_HISTORY
+    </select>
+
+
 
 </mapper>

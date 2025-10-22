@@ -99,23 +99,41 @@ public class OrderController {
     }
 
     @PostMapping("/delivery-input")
-    @ResponseBody
-    public Map<String, Object> deliveryInput(@RequestBody Map<String, String> payload) {
-        // JS에서 보낸 폼 데이터 추출
-        String orderNumber = payload.get("orderNumber");
-        String deliveryCompany = payload.get("deliveryCompany");
-        String trackingNumber = payload.get("trackingNumber");
+    @ResponseBody // @Controller이므로 JSON 응답을 위해 필수
+    public Map<String, Object> deliveryInput(@RequestBody OrderDTO orderDTO) {
+        // 🚨 @RequestBody: JSON 형식의 요청 본문(Body)을 OrderDTO 객체에 자동으로 바인딩합니다.
 
-        int result = orderService.updateDelivery(orderNumber, deliveryCompany, trackingNumber);
+        Map<String, Object> resultMap = new HashMap<>();
 
-        Map<String, Object> response = new HashMap<>();
-        if (result > 0) {
-            response.put("success", true);
-        } else {
-            response.put("success", false);
-            response.put("message", "등록 중 오류가 발생했거나, 주문번호를 찾을 수 없습니다.");
+        // 1. DTO 필드 값이 잘 들어왔는지 확인 (선택 사항)
+        log.info("deliveryInput order_number: {}", orderDTO.getOrder_number());
+        log.info("deliveryInput trackingNumber: {}", orderDTO.getTrackingNumber());
+        log.info("deliveryInput stat: {}", orderDTO.getStat()); // 클라이언트(order.js)에서 stat: 2로 설정됨
+
+        try {
+            // 2. Service 호출: 운송장 정보 업데이트 및 주문 상태(stat=2) 변경
+            // OrderService.java의 'updateDeliveryInfo' 메소드가 필요합니다. (아래 1-1, 1-2 참고)
+            int result = orderService.updateDeliveryInfo(
+                    orderDTO.getOrder_number(),
+                    orderDTO.getDeliveryCompany(),
+                    orderDTO.getTrackingNumber(),
+                    orderDTO.getStat() // 클라이언트(order.js)에서 2로 설정된 값
+            );
+
+            if (result > 0) {
+                resultMap.put("success", true);
+                resultMap.put("message", "운송장 정보 등록 및 상태 업데이트 성공");
+            } else {
+                resultMap.put("success", false);
+                resultMap.put("message", "DB 업데이트에 실패했습니다. (결과값 0)");
+            }
+        } catch (Exception e) {
+            log.error("배송 정보 등록 중 시스템 오류 발생:", e);
+            resultMap.put("success", false);
+            resultMap.put("message", "시스템 오류가 발생했습니다.");
         }
-        return response;
+
+        return resultMap;
     }
 
     @GetMapping("/delivery")
@@ -161,7 +179,7 @@ public class OrderController {
     @GetMapping("/delivery-detail/{orderNumber}")
     @ResponseBody
     public Map<String, Object> deliveryDetail(@PathVariable String orderNumber,
-                                              @RequestParam(name = "trackingNumber", required = false) Integer trackingNumber) {
+                                              @RequestParam(name = "trackingNumber", required = false) String trackingNumber) {
 
         // 운송장 번호 파라미터를 Service로 함께 전달
         OrderDTO orderDetail = orderService.selectDeliveryOrderDetail(orderNumber, trackingNumber);

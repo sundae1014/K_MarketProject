@@ -428,13 +428,22 @@
 
     <!-- 하단 바 -->
     <div class="bottom-bar">
-      <div class="pagination">
-        <a href="#">이전</a>
-        <a href="#">1</a>
-        <a href="#">2</a>
-        <a href="#">3</a>
-        <a href="#">다음</a>
-      </div>
+        <div class="pagination">
+            <a th:if="${currentPage > 1}"
+               th:href="@{|/admin/coupon/issued?page=${currentPage - 1}|}">이전</a>
+
+            <span th:each="p : ${#numbers.sequence(1, totalPages)}">
+    <a th:if="${p != currentPage}"
+       th:href="@{|/admin/coupon/issued?page=${p}|}"
+       th:text="${p}"></a>
+    <strong th:if="${p == currentPage}"
+            th:text="${p}"
+            style="color:#fff; background:#325a83; padding:5px 10px; border-radius:4px;"></strong>
+  </span>
+
+            <a th:if="${currentPage < totalPages}"
+               th:href="@{|/admin/coupon/issued?page=${currentPage + 1}|}">다음</a>
+        </div>
     </div>
   </div>
 </div>

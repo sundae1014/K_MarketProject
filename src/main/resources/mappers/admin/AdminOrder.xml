@@ -42,7 +42,8 @@
         <result property="cust_number" column="CUST_NUMBER"/>
         <result property="payment" column="PAYMENT"/>
         <result property="stat" column="STAT"/>
-        <result property="piece" column="PIECE"/>  <result property="price" column="TOTAL_FINAL_PRICE"/>
+        <result property="piece" column="PIECE"/>
+        <result property="price" column="TOTAL_FINAL_PRICE"/>
         <result property="oDate" column="O_DATE"/>
 
         <result property="name" column="RECIP_NAME"/>
@@ -54,7 +55,8 @@
 
         <result property="custId" column="CUSTID"/>
         <result property="ordName" column="ORD_NAME"/>
-        <result property="ordHp" column="ORD_HP"/> <result property="deliveryCompany" column="DELIVERY_COMPANY"/>
+        <result property="ordHp" column="ORD_HP"/>
+        <result property="deliveryCompany" column="DELIVERY_COMPANY"/>
         <result property="trackingNumber" column="TRACKING_NUMBER"/>
 
         <collection property="products" ofType="kr.co.kmarket.dto.AdminOrderDetailDTO">
@@ -180,10 +182,11 @@
     </select>
 
     <update id="updateDeliveryInfo">
-        UPDATE "ORDER" SET
+        UPDATE "ORDER"
+        SET
         DELIVERY_COMPANY = #{deliveryCompany},
         TRACKING_NUMBER = #{trackingNumber},
-        STAT = 2  WHERE ORDER_NUMBER = #{order_number}
+        STAT = #{stat}             WHERE ORDER_NUMBER = #{order_number}
     </update>
 
     <select id="selectDeliveryOrdersListPage" resultMap="OrderResultMap2">
