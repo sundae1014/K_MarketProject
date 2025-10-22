@@ -23,7 +23,8 @@ public interface AdminOrderMapper {
 
     public int updateDeliveryInfo(@Param("order_number") String order_number,
                                   @Param("deliveryCompany") String deliveryCompany,
-                                  @Param("trackingNumber") String trackingNumber);
+                                  @Param("trackingNumber") String trackingNumber,
+                                  @Param("stat") int stat); // ⬅️ stat 파라미터 추가
 
     public OrderDTO selectOrderInfoByOrderNumber(String order_number);
 
@@ -34,7 +35,10 @@ public interface AdminOrderMapper {
 
     public OrderDTO selectDeliveryOrderDetail(
             @Param("orderNumber") String orderNumber,
-            @Param("trackingNumber") Integer trackingNumber
+            @Param("trackingNumber") String trackingNumber
     );
+
+    public int updateOrderStat(@Param("order_number") String order_number,
+                               @Param("stat") int stat);
 
 }
