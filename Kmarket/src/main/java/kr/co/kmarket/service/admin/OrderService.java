@@ -1,5 +1,6 @@
 package kr.co.kmarket.service.admin;
 
+import jakarta.transaction.Transactional;
 import kr.co.kmarket.dto.AdminOrderDetailDTO;
 import kr.co.kmarket.dto.OrderDTO;
 import kr.co.kmarket.mapper.admin.AdminOrderMapper;
@@ -28,8 +29,10 @@ public class OrderService {
         return orderMapper.selectOrderDetailCombined(orderNumber);
     }
 
-    public int updateDelivery(String order_number, String deliveryCompany, String trackingNumber) {
-        return orderMapper.updateDeliveryInfo(order_number, deliveryCompany, trackingNumber);
+    @Transactional
+    public int updateDeliveryInfo(String order_number, String deliveryCompany, String trackingNumber, int stat) {
+        // 하나의 매퍼 메소드만 호출하여 모든 업데이트를 처리
+        return orderMapper.updateDeliveryInfo(order_number, deliveryCompany, trackingNumber, stat);
     }
 
     public OrderDTO selectOrderInfoByOrderNumber(String order_number) {
@@ -45,7 +48,7 @@ public class OrderService {
     }
 
 
-    public OrderDTO selectDeliveryOrderDetail(String orderNumber, Integer trackingNumber) {
+    public OrderDTO selectDeliveryOrderDetail(String orderNumber, String trackingNumber) {
         // Controller에서 전달받은 orderNumber (String)와 trackingNumber (Integer)를 Mapper로 전달
         return orderMapper.selectDeliveryOrderDetail(orderNumber, trackingNumber);
     }

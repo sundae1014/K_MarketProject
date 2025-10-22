@@ -182,10 +182,11 @@
     </select>
 
     <update id="updateDeliveryInfo">
-        UPDATE "ORDER" SET
+        UPDATE "ORDER"
+        SET
         DELIVERY_COMPANY = #{deliveryCompany},
         TRACKING_NUMBER = #{trackingNumber},
-        STAT = 2  WHERE ORDER_NUMBER = #{order_number}
+        STAT = #{stat}             WHERE ORDER_NUMBER = #{order_number}
     </update>
 
     <select id="selectDeliveryOrdersListPage" resultMap="OrderResultMap2">
