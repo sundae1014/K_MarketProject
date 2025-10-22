@@ -22,6 +22,9 @@
         </trim>
     </sql>
 
+    <select id="findMaxProdNumber" resultType="int"> <!-- 임시 -->
+        SELECT COALESCE(MAX(prod_number), 10000) FROM product
+    </select>
     <select id="findByProdNumber">
         SELECT PROD_NUMBER FROM PRODUCT
         WHERE PROD_NUMBER = #{prod_number}
