@@ -56,8 +56,10 @@ public class AdminProductService {
             MultipartFile file2,
             MultipartFile file3,
             MultipartFile detailFile) {
-        productDTO.setProd_number(10050);
+        int maxProdNum = adminProductMapper.findMaxProdNumber();
+        productDTO.setProd_number(maxProdNum + 1);
         productDTO.setPro_score(BigDecimal.valueOf(5));
+        productDTO.setHit(0);
         log.info("서비스 삽입 = {}",  productDTO);
 
         saveFile(productDTO, file1, file2, file3, detailFile);
@@ -82,7 +84,7 @@ public class AdminProductService {
             }
         }
 
-// img_1 저장
+        // img_1 저장
         if (img1 != null && !img1.isEmpty()) {
             String savedName = saveFileToDirectory(img1, path);
             productDTO.setImg_1("/images/product/" + savedName);
