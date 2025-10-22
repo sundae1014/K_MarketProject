@@ -57,7 +57,7 @@ public class OrderDTO {
     private String ordHp;           // 주문자 연락처 (MEMBER.HP)
     private List<AdminOrderDetailDTO> details;
     private String deliveryCompany;
-    private Integer trackingNumber;
+    private String trackingNumber;
 
     private List<ProductDTO> products;
     private Integer savePoint;      // 적립 포인트 합계

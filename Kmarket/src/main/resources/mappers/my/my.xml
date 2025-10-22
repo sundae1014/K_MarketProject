@@ -420,7 +420,7 @@
 
     <select id="selectCouponCountByCustNumber" resultType="int">
         SELECT COUNT(*) FROM COUPON
-        WHERE STATUS = '정상'
+        WHERE STATUS = '사용가능'
     </select>
 
     <select id="selectCouponsListPage" resultMap="CouponResultMap">
@@ -440,7 +440,7 @@
         STATUS,
         ROW_NUMBER() OVER (ORDER BY ISSUE_DATE DESC) AS rn
         FROM COUPON
-        WHERE STATUS = '정상' )
+        WHERE STATUS = '사용가능' )
         WHERE rn BETWEEN #{start} + 1 AND #{start} + #{limit}
         ORDER BY rn ASC
     </select>
@@ -506,7 +506,7 @@
         SELECT
             COUNT(*)
         FROM COUPON
-        WHERE STATUS = '정상'
+        WHERE STATUS = '사용가능'
     </select>
 
     <update id="updateMemberInfo">
